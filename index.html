@@ -534,7 +534,7 @@ function renderLuecke() {
   var ch="";
   for(var i=0;i<choices.length;i++){
     var ans=choices[i].answer;
-    ch+='<button class="lc" onclick="checkLuecke(this,\''+ans+'\',\''+q.answer+'\',\''+q.gr+'\'">'+ans+'</button>';
+    ch+='<button class="lc" onclick="checkLuecke(this,\''+ans+'\',\''+q.answer+'\',\''+q.gr+'\')">'+ans+'</button>';
   }
   document.getElementById("luecke-area").innerHTML=
     '<div class="luecke-card">'+
