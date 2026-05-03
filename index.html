@@ -120,6 +120,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .lc.wrong{background:#FAECE7;border-color:#D85A30;color:#993C1D}
 .lc:disabled{cursor:default}
 .ln-btn{margin-top:1rem;padding:9px 22px;background:#1D9E75;color:white;border:none;border-radius:18px;font-size:13px;cursor:pointer;font-family:Georgia,serif;display:none}
+.gr-satz-box{background:#E1F5EE;border:1px solid #5DCAA5;border-radius:10px;padding:10px 14px;margin-top:1rem;}
 
 /* QUIZ */
 .quiz-prog{display:flex;gap:6px;margin-bottom:1.2rem;justify-content:center}
@@ -533,32 +534,50 @@ function renderLuecke() {
   var sent=q.de.replace("_____",'<span class="gap" id="gap-span">_____</span>');
   var ch="";
   for(var i=0;i<choices.length;i++){
-    var ans=choices[i].answer;
-    ch+='<button class="lc" onclick="checkLuecke(this,\''+ans+'\',\''+q.answer+'\',\''+q.gr+'\')">'+ans+'</button>';
+    var cGr=choices[i].gr;
+    var cDe=choices[i].answer;
+    var cPr=choices[i].pr;
+    ch+='<button class="lc" onclick="checkLuecke(this,\''+cDe+'\',\''+q.answer+'\',\''+q.gr+'\',\''+q.pr+'\')">';
+    ch+='<span style="font-size:15px;font-weight:bold;color:#0F6E56">'+cGr+'</span>';
+    ch+='<span style="font-size:11px;color:#1D9E75;font-style:italic;display:block">'+cPr+'</span>';
+    ch+='</button>';
   }
   document.getElementById("luecke-area").innerHTML=
     '<div class="luecke-card">'+
     '<div class="luecke-img">'+imgTag(imgKey,"lg")+'</div>'+
-    '<div class="luecke-hint">Welches Wort fehlt im Satz?</div>'+
+    '<div class="luecke-hint">Welches griechische Wort fehlt im Satz?</div>'+
     '<div class="luecke-sent">'+sent+'</div>'+
     '<div class="lchoices">'+ch+'</div>'+
+    '<div class="gr-satz-box" id="gr-satz-box" style="display:none"></div>'+
     '<button class="ln-btn" id="ln-btn" onclick="nextLuecke()">Weiter →</button>'+
     '</div>';
 }
 
-function checkLuecke(btn,chosen,correct,gr) {
+function checkLuecke(btn,chosen,correct,gr,pr) {
   if(lAnswered) return; lAnswered=true;
   var btns=document.querySelectorAll(".lc");
   for(var i=0;i<btns.length;i++) btns[i].disabled=true;
   var gap=document.getElementById("gap-span");
+  var q=lQueue[lIdx];
   if(chosen===correct){
     btn.classList.add("correct");
-    if(gap){gap.textContent=correct+" ("+gr+")";gap.classList.add("correct");}
+    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+gr+'</span>';gap.classList.add("correct");}
     lCorrect++; markLearned(gr);
   } else {
     btn.classList.add("wrong");
-    if(gap){gap.textContent=correct+" ("+gr+")";gap.classList.add("correct");}
-    for(var i=0;i<btns.length;i++){if(btns[i].textContent===correct) btns[i].classList.add("correct");}
+    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+q.gr+'</span>';gap.classList.add("correct");}
+    var allBtns=document.querySelectorAll(".lc");
+    for(var i=0;i<allBtns.length;i++){
+      if(allBtns[i].textContent.indexOf(q.gr)!==-1) allBtns[i].classList.add("correct");
+    }
+  }
+  var box=document.getElementById("gr-satz-box");
+  if(box && q.grSatz){
+    box.innerHTML=
+      '<div style="font-size:11px;color:#aaa;margin-bottom:4px">Auf Griechisch:</div>'+
+      '<div style="font-size:16px;font-weight:bold;color:#0F6E56">'+q.grSatz+'</div>'+
+      '<div style="font-size:12px;color:#1D9E75;font-style:italic;margin-top:3px">'+q.gr+' = '+correct+' · '+q.pr+'</div>';
+    box.style.display="block";
   }
   document.getElementById("ln-btn").style.display="inline-block";
 }
