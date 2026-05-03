@@ -137,7 +137,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .qc.correct{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56;font-weight:bold}
 .qc.wrong{background:#FAECE7;border-color:#D85A30;color:#993C1D}
 .qc:disabled{cursor:default}
-.qc .qc-img{width:36px;height:36px;flex-shrink:0}
 .quiz-result{text-align:center;padding:2rem;background:white;border-radius:14px;border:1.5px solid #ddd}
 .qrscore{font-size:44px;font-weight:bold;color:#1D9E75}
 .qrmsg{font-size:15px;color:#888;margin-top:6px}
@@ -595,9 +594,7 @@ function renderQuiz() {
   for(var i=0;i<choices.length;i++){
     var de=choices[i].de.replace(/'/g,"\\'");
     var qde=q.de.replace(/'/g,"\\'");
-    ch+='<button class="qc" onclick="checkQuiz(this,\''+de+'\',\''+qde+'\',\''+grEsc+'\')">';
-    ch+='<span class="qc-img">'+getSvg(choices[i].de.toLowerCase(),choices[i].emoji)+'</span>';
-    ch+=choices[i].de+'</button>';
+    ch+='<button class="qc" onclick="checkQuiz(this,\''+de+'\',\''+qde+'\',\''+grEsc+'\')">'+choices[i].de+'</button>';
   }
   document.getElementById("quiz-area").innerHTML=
     '<div class="quiz-prog">'+dots+'</div>'+
