@@ -43,7 +43,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .word-popup{display:none;background:#E1F5EE;border:1px solid #5DCAA5;border-radius:10px;padding:7px 12px;margin:3px 0 6px;font-size:13px}
 .word-popup .greek{font-size:17px;font-weight:bold;color:#0F6E56}
 .word-popup .pronounce{color:#1D9E75;font-style:italic;margin-top:1px}
-.speak-btn{background:#1D9E75;color:white;border:none;border-radius:8px;padding:3px 8px;font-size:11px;cursor:pointer;margin-left:6px;font-family:Georgia,serif}
 
 /* VOCAB */
 .cat-filters{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
@@ -58,8 +57,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .vc .vpr{font-size:11px;color:#1D9E75;font-style:italic;margin-top:2px}
 .vc .vsub{font-size:10px;color:#aaa;margin-top:2px}
 .vc .vsub2{font-size:11px;color:#888;margin-top:2px}
-.vc .spk{position:absolute;top:5px;right:5px;background:#1D9E75;color:white;border:none;border-radius:6px;padding:2px 5px;font-size:10px;cursor:pointer;display:none}
-.vc:hover .spk,.vc.flipped .spk{display:block}
 .vc .lbadge{position:absolute;top:5px;left:5px;width:12px;height:12px;background:#1D9E75;border-radius:50%;display:none}
 .vc.learned .lbadge{display:block}
 
@@ -83,7 +80,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .bwrap.R .bubble .bpr{color:rgba(255,255,255,0.8)}
 .bde{font-size:11px;color:#aaa;margin-top:1px}
 .bwrap.R .bubble .bde{color:rgba(255,255,255,0.7)}
-.bspeak{background:none;border:none;cursor:pointer;font-size:12px;margin-left:4px;vertical-align:middle}
 .tip{background:white;border:1px solid #ddd;border-left:4px solid #1D9E75;border-radius:10px;padding:9px 13px;font-size:13px;color:#555;line-height:1.6}
 
 /* MEMORY */
@@ -193,7 +189,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   </div>
 
   <div class="screen" id="vocab">
-    <p class="section-title">Karte antippen zum Umdrehen · 🔊 = Aussprache anhören</p>
     <div class="cat-filters" id="cat-filters"></div>
     <div class="vocab-grid" id="vocab-grid"></div>
   </div>
@@ -266,15 +261,6 @@ function resetProgress() {
   if (confirm("Wirklich alles zuruecksetzen?")) { state={learned:{},stars:0,quizHighscore:0}; saveState(); renderProgress(); }
 }
 
-// ── TTS ───────────────────────────────────────────────────
-function speak(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  var u = new SpeechSynthesisUtterance(text);
-  u.lang="el-GR"; u.rate=0.85;
-  window.speechSynthesis.speak(u);
-}
-
 // ── SCREENS ───────────────────────────────────────────────
 function showScreen(id) {
   var all=document.querySelectorAll(".screen");
@@ -330,7 +316,6 @@ function openStory(idx) {
       html+='<span class="word" onclick="toggleStoryPopup(\''+pid+'\',\''+grEsc+'\')">'+t.de+'</span>';
       html+='<div class="word-popup" id="'+pid+'">';
       html+='<span class="greek">'+t.gr+'</span>';
-      html+='<button class="speak-btn" onclick="speak(\''+grEsc+'\')">🔊</button>';
       html+='<div class="pronounce">Aussprache: '+t.pr+'</div></div>';
     } else { html+=t.de; }
   }
@@ -378,7 +363,6 @@ function renderVocab() {
     var grEsc=v.gr.replace(/'/g,"\\'").replace(/"/g,"&quot;");
     html+='<div class="vc'+lnd+'" id="vc'+i+'" onclick="flipVc('+i+')">';
     html+='<div class="lbadge"></div>';
-    html+='<button class="spk" onclick="event.stopPropagation();speak(\''+grEsc+'\')">🔊</button>';
     html+='<div id="vf'+i+'" style="display:flex;flex-direction:column;align-items:center">';
     html+=imgTag(v.de.toLowerCase(),"");
     html+='<div class="vde">'+v.de+'</div>';
@@ -435,7 +419,6 @@ function renderConvo(idx) {
     html+='<div class="bspk2">'+m.speaker+'</div>';
     html+='<div class="bubble">';
     html+='<span class="bgr">'+m.gr+'</span>';
-    html+='<button class="bspeak" onclick="speak(\''+grEsc+'\')">🔊</button>';
     html+='<div class="bpr">'+m.pr+'</div>';
     html+='<div class="bde">'+m.de+'</div>';
     html+='</div></div>';
