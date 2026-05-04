@@ -126,7 +126,7 @@ var alphabet = [
     ]
   },
   {
-    name: "My", gross: "Μ", klein: "μ", img: "my",
+    name: "My", gross: "Μ", klein: "μ", img: "mu",
     aussprache: "m", deutsch: "wie deutsches M",
     beispiele: [
       {gr:"μαμά",     pr:"ma-ma",      de:"Mama"},
@@ -137,7 +137,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Ny", gross: "Ν", klein: "ν", img: "ny",
+    name: "Ny", gross: "Ν", klein: "ν", img: "nu",
     aussprache: "n", deutsch: "wie deutsches N",
     beispiele: [
       {gr:"νερό",     pr:"ne-ro",      de:"Wasser"},
@@ -159,7 +159,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Omikron", gross: "Ο", klein: "ο", img: "omikron",
+    name: "Omikron", gross: "Ο", klein: "ο", img: "omicron",
     aussprache: "o", deutsch: "wie deutsches O",
     beispiele: [
       {gr:"οικογένεια",pr:"i-ko-ghe-ni-a",de:"Familie"},
@@ -214,7 +214,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Ypsilon", gross: "Υ", klein: "υ", img: "ypsilon",
+    name: "Ypsilon", gross: "Υ", klein: "υ", img: "upsilon",
     aussprache: "i", deutsch: "wie deutsches I",
     beispiele: [
       {gr:"υπολογιστής",pr:"i-po-lo-ghis-tis",de:"Computer"},
