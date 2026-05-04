@@ -54,6 +54,22 @@ var stories = [
       {de:". Die Eule sagt: Lernen ist wie ein "},{de:"Geschenk",gr:"δώρο",pr:"do-ro",mark:true},{de:"!"}
     ]
   }
+  ,
+  {
+    title: "Perseus und Medusa",
+    emoji: "⚔️",
+    img: "story-hero_perseus_fighting_against_medusa",
+    text: [
+      {de:"Perseus ist ein tapferer "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},
+      {de:". Er lebt in "},{de:"Griechenland",gr:"Ελλάδα",pr:"E-la-da",mark:true},
+      {de:". Eines Tages nimmt er sein "},{de:"Schwert",gr:"σπαθί",pr:"spa-thi",mark:true},
+      {de:" und seinen "},{de:"Schild",gr:"ασπίδα",pr:"as-pi-da",mark:true},
+      {de:" und macht sich auf den Weg. Er muss die boese Medusa besiegen. Medusa hat Schlangenhaare und boese "},{de:"Augen",gr:"μάτια",pr:"ma-tia",mark:true},
+      {de:". Perseus ist sehr "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},
+      {de:". Er schaut in seinen Schild wie in einen "},{de:"Spiegel",gr:"καθρέφτης",pr:"kath-ref-tis",mark:true},
+      {de:" und besiegt Medusa. Er ist ein "},{de:"Sieger",gr:"νικητής",pr:"ni-ki-tis",mark:true},{de:"!"}
+    ]
+  }
 ];
 
 var convos = [
