@@ -25,6 +25,31 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .screen.active{display:block}
 
 
+
+/* BUCHSTABEN-QUIZ */
+.bquiz-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:2rem;text-align:center;margin-bottom:1rem}
+.bquiz-letter{font-size:80px;font-weight:bold;color:#0F6E56;line-height:1}
+.bquiz-question{font-size:13px;color:#aaa;font-style:italic;margin-top:8px}
+.bquiz-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.bqc{padding:16px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:32px;cursor:pointer;transition:all 0.15s;color:#2c2c2a;font-weight:bold}
+.bqc:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
+.bqc.correct{background:#E1F5EE;border-color:#1D9E75}
+.bqc.wrong{background:#FAECE7;border-color:#D85A30}
+.bqc:disabled{cursor:default}
+.bquiz-prog{display:flex;gap:6px;margin-bottom:1.2rem;justify-content:center;flex-wrap:wrap}
+.bquiz-result{text-align:center;padding:2rem;background:white;border-radius:14px;border:1.5px solid #ddd}
+
+/* BUCHSTABEN-MEMORY */
+.bmem-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.bmem-stats{font-size:13px;color:#888}
+.bmem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bmcard{height:90px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:36px;font-weight:bold;color:#0F6E56}
+.bmcard.facedown{background:#1D9E75;color:#1D9E75}
+.bmcard.facedown::after{content:"?";color:white;font-size:28px;font-weight:bold}
+.bmcard.flipped{background:#E1F5EE;border-color:#5DCAA5}
+.bmcard.matched{background:#E1F5EE;border-color:#1D9E75;opacity:0.55;cursor:default}
+.bmcard-klein{font-size:36px;font-weight:bold;color:#1D9E75}
+
 /* ALPHABET */
 .alpha-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
 .alpha-card{background:white;border:1.5px solid #ddd;border-radius:12px;padding:0.8rem;cursor:pointer;text-align:center;transition:border-color 0.15s}
@@ -206,6 +231,8 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <button onclick="showScreen('luecke')">📝 Lückentext</button>
     <button onclick="showScreen('quiz')">⭐ Quiz</button>
     <button onclick="showScreen('alphabet')">🔤 Alphabet</button>
+    <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
+    <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
     <button onclick="showScreen('progress')">📊 Fortschritt</button>
   </div>
 
@@ -249,6 +276,14 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <p class="section-title">Das griechische Alphabet — Buchstabe anklicken für Beispielwörter!</p>
     <div id="alpha-grid"></div>
     <div id="alpha-detail" style="display:none"></div>
+  </div>
+
+  <div class="screen" id="buchstaben-quiz">
+    <div id="bquiz-area"></div>
+  </div>
+
+  <div class="screen" id="buchstaben-memory">
+    <div id="bmem-area"></div>
   </div>
 
   <div class="screen" id="quiz">
@@ -301,7 +336,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","alphabet","quiz","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","alphabet","buchstaben-quiz","buchstaben-memory","quiz","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -311,6 +346,8 @@ function showScreen(id) {
   if(id==="quiz")     startQuiz();
   if(id==="progress") renderProgress();
   if(id==="alphabet") renderAlphaGrid();
+  if(id==="buchstaben-quiz") startBQuiz();
+  if(id==="buchstaben-memory") startBMemory();
 }
 
 // ── SVG HELPER ────────────────────────────────────────────
@@ -711,6 +748,135 @@ function renderProgress() {
   updateHeaderStats();
 }
 
+
+
+// ── BUCHSTABEN-QUIZ ───────────────────────────────────────
+var bqData=[], bqIdx=0, bqScore=0;
+
+function startBQuiz() {
+  bqData = alphabet.slice().sort(function(){ return Math.random()-0.5; });
+  bqIdx=0; bqScore=0;
+  renderBQuiz();
+}
+
+function renderBQuiz() {
+  if(bqIdx>=bqData.length){
+    var pct=Math.round(bqScore/bqData.length*100);
+    state.stars+=bqScore; saveState();
+    document.getElementById("bquiz-area").innerHTML=
+      '<div class="bquiz-result">'+
+      '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+bqScore+'/'+bqData.length+'</div>'+
+      '<div style="font-size:15px;color:#888;margin-top:6px">'+(pct>=75?"Super gemacht! 🎉":pct>=50?"Gut! Weiter üben!":"Nochmal versuchen!")+'</div>'+
+      '<button class="qrbtn" onclick="startBQuiz()">Nochmal</button></div>';
+    return;
+  }
+  var q=bqData[bqIdx];
+  // Pick 3 wrong small letters
+  var wrong=alphabet.filter(function(a){ return a.klein!==q.klein; })
+    .sort(function(){ return Math.random()-0.5; }).slice(0,3);
+  var choices=wrong.concat([q]).sort(function(){ return Math.random()-0.5; });
+  var dots="";
+  for(var i=0;i<bqData.length;i++)
+    dots+='<div class="qdot'+(i<bqIdx?" done":i===bqIdx?" cur":"")+'"></div>';
+  var ch="";
+  for(var i=0;i<choices.length;i++){
+    ch+='<button class="bqc" data-val="'+choices[i].klein+'" data-correct="'+q.klein+'" onclick="checkBQuiz(this)">'+choices[i].klein+'</button>';
+  }
+  document.getElementById("bquiz-area").innerHTML=
+    '<div class="bquiz-prog">'+dots+'</div>'+
+    '<div class="bquiz-card">'+
+    '<div class="bquiz-letter">'+q.gross+'</div>'+
+    '<div class="bquiz-question">Welcher ist der passende Kleinbuchstabe?</div>'+
+    '</div>'+
+    '<div class="bquiz-choices">'+ch+'</div>';
+}
+
+function checkBQuiz(btn) {
+  var chosen = btn.getAttribute("data-val");
+  var correct = btn.getAttribute("data-correct");
+  var btns=document.querySelectorAll(".bqc");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); bqScore++; }
+  else {
+    btn.classList.add("wrong");
+    for(var i=0;i<btns.length;i++){
+      if(btns[i].textContent===correct) btns[i].classList.add("correct");
+    }
+  }
+  setTimeout(function(){ bqIdx++; renderBQuiz(); }, 1200);
+}
+
+// ── BUCHSTABEN-MEMORY ─────────────────────────────────────
+var bmCards=[], bmFlipped=[], bmMatched=0, bmMoves=0, bmLock=false;
+
+function startBMemory() {
+  var pick=alphabet.slice().sort(function(){ return Math.random()-0.5; }).slice(0,8);
+  bmCards=[];
+  for(var i=0;i<pick.length;i++){
+    bmCards.push({type:"gross", letter:pick[i], id:"bm_"+i+"_g"});
+    bmCards.push({type:"klein", letter:pick[i], id:"bm_"+i+"_k"});
+  }
+  bmCards=bmCards.sort(function(){ return Math.random()-0.5; });
+  bmFlipped=[]; bmMatched=0; bmMoves=0; bmLock=false;
+  renderBMemory();
+}
+
+function renderBMemory() {
+  document.getElementById("bmem-area").innerHTML=
+    '<div class="bmem-header">'+
+    '<div style="font-size:14px;font-weight:bold;color:#2c2c2a">🃏 Buchstaben-Memory</div>'+
+    '<div class="bmem-stats" id="bmem-stats">Paare: 0/8 · Versuche: 0</div>'+
+    '</div>'+
+    '<p class="section-title">Finde den passenden Großbuchstaben zum Kleinbuchstaben!</p>'+
+    '<div class="bmem-grid" id="bmem-grid"></div>';
+  var html="";
+  for(var i=0;i<bmCards.length;i++){
+    html+='<div class="bmcard facedown" id="'+bmCards[i].id+'" onclick="flipBMCard('+i+')"></div>';
+  }
+  document.getElementById("bmem-grid").innerHTML=html;
+}
+
+function flipBMCard(idx) {
+  if(bmLock) return;
+  var c=bmCards[idx];
+  var el=document.getElementById(c.id);
+  if(!el||el.classList.contains("matched")||el.classList.contains("flipped")) return;
+  el.classList.remove("facedown");
+  el.classList.add("flipped");
+  el.textContent = c.type==="gross" ? c.letter.gross : c.letter.klein;
+  el.style.color = c.type==="gross" ? "#0F6E56" : "#1D9E75";
+  bmFlipped.push(idx);
+  if(bmFlipped.length===2){
+    bmMoves++;
+    bmLock=true;
+    var a=bmCards[bmFlipped[0]], b=bmCards[bmFlipped[1]];
+    if(a.letter.name===b.letter.name && a.type!==b.type){
+      var ea=document.getElementById(a.id), eb=document.getElementById(b.id);
+      ea.classList.add("matched"); eb.classList.add("matched");
+      bmMatched++; bmFlipped=[]; bmLock=false;
+      document.getElementById("bmem-stats").textContent="Paare: "+bmMatched+"/8 · Versuche: "+bmMoves;
+      if(bmMatched===8){
+        state.stars+=3; saveState();
+        setTimeout(showBMemWin, 400);
+      }
+    } else {
+      setTimeout(function(){
+        var ea2=document.getElementById(bmCards[bmFlipped[0]].id);
+        var eb2=document.getElementById(bmCards[bmFlipped[1]].id);
+        if(ea2){ea2.textContent="";ea2.classList.remove("flipped");ea2.classList.add("facedown");}
+        if(eb2){eb2.textContent="";eb2.classList.remove("flipped");eb2.classList.add("facedown");}
+        bmFlipped=[]; bmLock=false;
+      }, 900);
+    }
+  }
+}
+
+function showBMemWin() {
+  document.getElementById("bmem-area").innerHTML=
+    '<div class="win-box"><div class="win-score">🎉</div>'+
+    '<div class="win-msg">Alle Paare in '+bmMoves+' Versuchen! +3 Sterne</div>'+
+    '<button class="restart-btn" onclick="startBMemory()">Nochmal</button></div>';
+}
 
 // ── ALPHABET ─────────────────────────────────────────────
 var currentAlpha = 0;
