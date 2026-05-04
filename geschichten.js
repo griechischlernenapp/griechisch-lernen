@@ -59,6 +59,23 @@ var stories = [
     ]
   },
   {
+    title: "Theseus und der Minotaurus",
+    emoji: "🐂",
+    img: "story-hero_theseus_fighting_against_minotaur",
+    grText: "Ο Θησέας είναι ένας γενναίος ήρωας. Πηγαίνει σε ένα μεγάλο λαβύρινθο. Μέσα στον λαβύρινθο ζει ο Μινώταυρος. Ο Μινώταυρος είναι μισός άνθρωπος και μισός ταύρος. Ο Θησέας έχει ένα σπαθί και μια ασπίδα. Είναι πολύ γενναίος. Νικά τον Μινώταυρο και βρίσκει τον δρόμο έξω με ένα κουβάρι νήμα. Όλοι τον αγαπούν!",
+    text: [
+      {de:"Theseus ist ein tapferer "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},
+      {de:". Er betritt ein grosses "},{de:"Labyrinth",gr:"λαβύρινθος",pr:"la-vi-rin-thos",mark:true},
+      {de:". Im Labyrinth lebt der "},{de:"Minotaurus",gr:"Μινώταυρος",pr:"Mi-no-tav-ros",mark:true},
+      {de:". Der Minotaurus ist halb "},{de:"Mensch",gr:"άνθρωπος",pr:"an-thro-pos",mark:true},
+      {de:" und halb "},{de:"Stier",gr:"ταύρος",pr:"tav-ros",mark:true},
+      {de:". Theseus hat ein "},{de:"Schwert",gr:"σπαθί",pr:"spa-thi",mark:true},
+      {de:" und ist sehr "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},
+      {de:". Er besiegt den Minotaurus und findet den "},{de:"Weg",gr:"δρόμος",pr:"dhro-mos",mark:true},
+      {de:" hinaus mit einem "},{de:"Faden",gr:"νήμα",pr:"ni-ma",mark:true},{de:". Alle lieben ihn!"}
+    ]
+  },
+  {
     title: "Perseus und Medusa",
     emoji: "⚔️",
     img: "story-hero_perseus_fighting_against_medusa",
@@ -72,6 +89,23 @@ var stories = [
       {de:". Perseus ist sehr "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},
       {de:". Er schaut in seinen Schild wie in einen "},{de:"Spiegel",gr:"καθρέφτης",pr:"kath-ref-tis",mark:true},
       {de:" und besiegt Medusa. Er ist ein "},{de:"Sieger",gr:"νικητής",pr:"ni-ki-tis",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Theseus und der Minotaurus",
+    emoji: "🐂",
+    img: "story-hero_theseus_fighting_against_minotaur",
+    grText: "Ο Θησέας είναι ένας γενναίος ήρωας. Πηγαίνει σε ένα μεγάλο λαβύρινθο. Μέσα στον λαβύρινθο ζει ο Μινώταυρος. Ο Μινώταυρος είναι μισός άνθρωπος και μισός ταύρος. Ο Θησέας έχει ένα σπαθί και μια ασπίδα. Είναι πολύ γενναίος. Νικά τον Μινώταυρο και βρίσκει τον δρόμο έξω με ένα κουβάρι νήμα. Όλοι τον αγαπούν!",
+    text: [
+      {de:"Theseus ist ein tapferer "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},
+      {de:". Er betritt ein grosses "},{de:"Labyrinth",gr:"λαβύρινθος",pr:"la-vi-rin-thos",mark:true},
+      {de:". Im Labyrinth lebt der "},{de:"Minotaurus",gr:"Μινώταυρος",pr:"Mi-no-tav-ros",mark:true},
+      {de:". Der Minotaurus ist halb "},{de:"Mensch",gr:"άνθρωπος",pr:"an-thro-pos",mark:true},
+      {de:" und halb "},{de:"Stier",gr:"ταύρος",pr:"tav-ros",mark:true},
+      {de:". Theseus hat ein "},{de:"Schwert",gr:"σπαθί",pr:"spa-thi",mark:true},
+      {de:" und ist sehr "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},
+      {de:". Er besiegt den Minotaurus und findet den "},{de:"Weg",gr:"δρόμος",pr:"dhro-mos",mark:true},
+      {de:" hinaus mit einem "},{de:"Faden",gr:"νήμα",pr:"ni-ma",mark:true},{de:". Alle lieben ihn!"}
     ]
   }
 ];
