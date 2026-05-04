@@ -563,11 +563,11 @@ function checkLuecke(btn,chosen,correct,gr,pr) {
   var q=lQueue[lIdx];
   if(chosen===correct){
     btn.classList.add("correct");
-    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+gr+'</span>';gap.classList.add("correct");}
+    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+chosen+'</span>';gap.classList.add("correct");}
     lCorrect++; markLearned(gr);
   } else {
     btn.classList.add("wrong");
-    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+q.gr+'</span>';gap.classList.add("correct");}
+    if(gap){gap.innerHTML='<span style="color:#0F6E56;font-weight:bold">'+correct+'</span>';gap.classList.add("correct");}
     var allBtns=document.querySelectorAll(".lc");
     for(var i=0;i<allBtns.length;i++){
       if(allBtns[i].textContent.indexOf(q.gr)!==-1) allBtns[i].classList.add("correct");
