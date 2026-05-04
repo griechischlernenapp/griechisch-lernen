@@ -87,15 +87,15 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .mem-sel{padding:6px 10px;border-radius:10px;border:1px solid #ccc;font-size:13px;font-family:Georgia,serif;background:white}
 .mem-stats{font-size:13px;color:#888}
 .mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.mcard{height:72px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:4px;position:relative}
+.mcard{height:110px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:6px;position:relative;overflow:hidden}
 .mcard.facedown{background:#1D9E75;cursor:pointer}
 .mcard.facedown::after{content:"?";color:white;font-size:24px;font-weight:bold}
 .mcard.flipped{background:#E1F5EE;border-color:#5DCAA5}
 .mcard.matched{background:#E1F5EE;border-color:#1D9E75;opacity:0.55;cursor:default}
-.mcard-inner{display:flex;flex-direction:column;align-items:center;gap:1px;width:100%}
-.mcard-gr{font-size:11px;font-weight:bold;color:#0F6E56}
-.mcard-pr{font-size:9px;color:#1D9E75;font-style:italic}
-.mcard-de{font-size:11px;font-weight:bold;color:#2c2c2a}
+.mcard-inner{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;overflow:hidden}
+.mcard-gr{font-size:12px;font-weight:bold;color:#0F6E56;word-break:break-word;width:100%;text-align:center}
+.mcard-pr{font-size:9px;color:#1D9E75;font-style:italic;word-break:break-word;width:100%;text-align:center}
+.mcard-de{font-size:12px;font-weight:bold;color:#2c2c2a;word-break:break-word;width:100%;text-align:center}
 .win-box{text-align:center;padding:2rem;background:white;border-radius:14px;border:1.5px solid #ddd}
 .win-score{font-size:40px;font-weight:bold;color:#1D9E75}
 .win-msg{font-size:15px;color:#888;margin-top:6px}
@@ -471,9 +471,9 @@ function flipMemCard(idx) {
   if(!el||el.classList.contains("matched")||el.classList.contains("flipped")) return;
   el.classList.remove("facedown"); el.classList.add("flipped");
   if(c.type==="gr"){
-    el.innerHTML='<div class="mcard-inner">'+imgTag(c.word.de.toLowerCase(),"sm")+'<span class="mcard-gr">'+c.word.gr+'</span><span class="mcard-pr">'+c.word.pr+'</span></div>';
+    el.innerHTML='<div class="mcard-inner"><img src="bilder/'+c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png" style="width:44px;height:44px;object-fit:contain" alt=""><span class="mcard-gr">'+c.word.gr+'</span><span class="mcard-pr">'+c.word.pr+'</span></div>';
   } else {
-    el.innerHTML='<div class="mcard-inner">'+imgTag(c.word.de.toLowerCase(),"sm")+'<span class="mcard-de">'+c.word.de+'</span></div>';
+    el.innerHTML='<div class="mcard-inner"><img src="bilder/'+c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png" style="width:44px;height:44px;object-fit:contain" alt=""><span class="mcard-de">'+c.word.de+'</span></div>';
   }
   memFlipped.push(idx);
   if(memFlipped.length===2){
