@@ -23,10 +23,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .screen{display:none}
 .screen.active{display:block}
 
-/* SVG IMAGE */
-.svg-img{width:90px;height:90px;display:block}
-.svg-img-lg{width:130px;height:130px;display:block;margin:0 auto 1rem}
-.svg-img-sm{width:56px;height:56px;display:block}
+/* BILDER */
+.svg-img{width:90px;height:90px;display:block;object-fit:contain;border-radius:8px}
+.svg-img-lg{width:130px;height:130px;display:block;margin:0 auto 1rem;object-fit:contain;border-radius:10px}
+.svg-img-sm{width:56px;height:56px;display:block;object-fit:contain;border-radius:6px}
 
 /* STORIES */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
@@ -279,9 +279,11 @@ function showScreen(id) {
 
 // ── SVG HELPER ────────────────────────────────────────────
 function imgTag(key, size) {
-  var svg = getSvg(key, "");
   var cls = size==="lg"?"svg-img-lg":size==="sm"?"svg-img-sm":"svg-img";
-  return '<span class="'+cls+'" style="display:inline-block">'+svg+'</span>';
+  var filename = key.toLowerCase()
+    .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u")
+    .replace(/ß/g,"ss").replace(/\s+/g,"_");
+  return '<img src="bilder/'+filename+'.png" class="'+cls+'" alt="'+key+'">';
 }
 
 // ── STORIES ───────────────────────────────────────────────
