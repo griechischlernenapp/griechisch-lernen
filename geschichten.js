@@ -107,6 +107,24 @@ var stories = [
       {de:". Er besiegt den Minotaurus und findet den "},{de:"Weg",gr:"δρόμος",pr:"dhro-mos",mark:true},
       {de:" hinaus mit einem "},{de:"Faden",gr:"νήμα",pr:"ni-ma",mark:true},{de:". Alle lieben ihn!"}
     ]
+  },
+  {
+    title: "Omas Trachanas",
+    emoji: "🍲",
+    img: "story-old_greek_grandmother_cooking_greek_trachanas",
+    grText: "Η γιαγιά μαγειρεύει τραχανά στην κουζίνα. Τα εγγόνια της έρχονται και την βοηθούν. Ο τραχανάς είναι μια παραδοσιακή ελληνική σούπα. Μυρίζει πολύ ωραία! Η γιαγιά ανακατεύει με μια μεγάλη κουτάλα. Τα παιδιά κοιτάνε και χαμογελούν. Η κουζίνα είναι ζεστή και η οικογένεια είναι μαζί. Αυτό είναι αγάπη!",
+    text: [
+      {de:"Die "},{de:"Oma",gr:"γιαγιά",pr:"ja-ja",mark:true},
+      {de:" kocht "},{de:"Trachanas",gr:"τραχανάς",pr:"tra-cha-nas",mark:true},
+      {de:" in der "},{de:"Küche",gr:"κουζίνα",pr:"ku-zi-na",mark:true},
+      {de:". Die "},{de:"Enkelkinder",gr:"εγγόνια",pr:"en-go-nia",mark:true},
+      {de:" kommen und helfen ihr. Trachanas ist eine traditionelle griechische "},{de:"Suppe",gr:"σούπα",pr:"su-pa",mark:true},
+      {de:". Es riecht sehr "},{de:"lecker",gr:"νόστιμο",pr:"nos-ti-mo",mark:true},
+      {de:"! Die Oma rührt mit einem grossen "},{de:"Löffel",gr:"κουτάλι",pr:"ku-ta-li",mark:true},
+      {de:". Die Kinder schauen und "},{de:"lächeln",gr:"χαμογελούν",pr:"cha-mo-ghe-lun",mark:true},
+      {de:". Die Küche ist warm und die "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},
+      {de:" ist zusammen. Das ist "},{de:"Liebe",gr:"αγάπη",pr:"a-ga-pi",mark:true},{de:"!"}
+    ]
   }
 ];
 
