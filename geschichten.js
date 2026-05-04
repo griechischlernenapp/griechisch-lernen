@@ -8,6 +8,7 @@ var stories = [
     title: "Die Katze und das Meer",
     emoji: "🐱",
     img: "katze",
+    grText: "Μια μικρή γάτα μένει στην Ελλάδα. Κάθε πρωί τρέχει στη θάλασσα. Η θάλασσα είναι μπλε και ζεστή. Η γάτα πίνει νερό από μια βρύση. Είναι πολύ χαρούμενη.",
     text: [
       {de:"Eine kleine "},{de:"Katze",gr:"γάτα",pr:"gha-ta",mark:true},
       {de:" wohnt in "},{de:"Griechenland",gr:"Ελλάδα",pr:"E-la-da",mark:true},
@@ -21,6 +22,7 @@ var stories = [
     title: "Auf dem Markt",
     emoji: "🍎",
     img: "apfel",
+    grText: "Η Μαρία πηγαίνει στην αγορά. Αγοράζει μήλα και ψωμί. Ο πωλητής λέει: Καλημέρα! Η Μαρία απαντά: Ευχαριστώ!",
     text: [
       {de:"Maria geht auf den "},{de:"Markt",gr:"αγορά",pr:"a-go-ra",mark:true},
       {de:". Sie kauft "},{de:"Aepfel",gr:"μήλα",pr:"mi-la",mark:true},
@@ -33,6 +35,7 @@ var stories = [
     title: "Ein Tag am Strand",
     emoji: "🌊",
     img: "meer",
+    grText: "Η οικογένεια πηγαίνει στην παραλία. Ο ήλιος λάμπει πολύ. Τα παιδιά χτίζουν κάστρο στην άμμο. Ο μπαμπάς κολυμπάει στο νερό. Η μαμά διαβάζει ένα βιβλίο. Το βράδυ τρώνε παγωτό. Τι ωραία μέρα!",
     text: [
       {de:"Die Familie faehrt zum "},{de:"Strand",gr:"παραλία",pr:"pa-ra-li-a",mark:true},
       {de:". Die "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
@@ -46,6 +49,7 @@ var stories = [
     title: "Die weise Eule",
     emoji: "🦉",
     img: "baum",
+    grText: "Μια κουκουβάγια ζει σε ένα παλιό δέντρο. Τα παιδιά έρχονται κάθε μέρα κοντά της. Μαθαίνουν: φίλος, σχολείο, αγάπη. Η κουκουβάγια λέει: Η μάθηση είναι σαν δώρο!",
     text: [
       {de:"Eine Eule lebt in einem alten "},{de:"Baum",gr:"δέντρο",pr:"den-dro",mark:true},
       {de:". Die Kinder kommen jeden Tag zu ihr. Sie lernen: "},{de:"Freund",gr:"φίλος",pr:"fi-los",mark:true},
@@ -53,12 +57,12 @@ var stories = [
       {de:", "},{de:"Liebe",gr:"αγάπη",pr:"a-ga-pi",mark:true},
       {de:". Die Eule sagt: Lernen ist wie ein "},{de:"Geschenk",gr:"δώρο",pr:"do-ro",mark:true},{de:"!"}
     ]
-  }
-  ,
+  },
   {
     title: "Perseus und Medusa",
     emoji: "⚔️",
     img: "story-hero_perseus_fighting_against_medusa",
+    grText: "Ο Περσέας είναι ένας γενναίος ήρωας. Ζει στην Ελλάδα. Μια μέρα παίρνει το σπαθί και την ασπίδα του και φεύγει. Πρέπει να νικήσει τη φοβερή Μέδουσα. Η Μέδουσα έχει φίδια στα μαλλιά της και κακά μάτια. Ο Περσέας είναι πολύ γενναίος. Κοιτάζει στην ασπίδα του σαν καθρέφτη και νικά τη Μέδουσα. Είναι νικητής!",
     text: [
       {de:"Perseus ist ein tapferer "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},
       {de:". Er lebt in "},{de:"Griechenland",gr:"Ελλάδα",pr:"E-la-da",mark:true},
