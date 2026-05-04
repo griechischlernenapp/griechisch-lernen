@@ -86,7 +86,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .mem-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
 .mem-sel{padding:6px 10px;border-radius:10px;border:1px solid #ccc;font-size:13px;font-family:Georgia,serif;background:white}
 .mem-stats{font-size:13px;color:#888}
-.mem-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .mcard{height:72px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:4px;position:relative}
 .mcard.facedown{background:#1D9E75;cursor:pointer}
 .mcard.facedown::after{content:"?";color:white;font-size:24px;font-weight:bold}
@@ -203,7 +203,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   <div class="screen" id="memory">
     <div class="mem-header">
       <select class="mem-sel" id="mem-cat" onchange="startMemory()"></select>
-      <div class="mem-stats" id="mem-stats">Paare: 0/10 · Versuche: 0</div>
+      <div class="mem-stats" id="mem-stats">Paare: 0/8 · Versuche: 0</div>
     </div>
     <div id="memory-area"></div>
   </div>
@@ -443,7 +443,7 @@ function buildSel(id) {
 function startMemory() {
   var cat=document.getElementById("mem-cat").value;
   var pool=vocab.filter(function(v){return cat==="all"||v.cat===cat;});
-  var pick=pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,10);
+  var pick=pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,8);
   memCards=[];
   for(var i=0;i<pick.length;i++){
     memCards.push({type:"gr",word:pick[i],id:"mc_"+i+"_gr"});
@@ -455,7 +455,7 @@ function startMemory() {
 }
 
 function renderMemory() {
-  document.getElementById("mem-stats").textContent="Paare: "+memMatched+"/10 · Versuche: "+memMoves;
+  document.getElementById("mem-stats").textContent="Paare: "+memMatched+"/8 · Versuche: "+memMoves;
   var html='<div class="mem-grid">';
   for(var i=0;i<memCards.length;i++){
     var c=memCards[i];
@@ -484,9 +484,9 @@ function flipMemCard(idx) {
       var ea=document.getElementById(a.id),eb=document.getElementById(b.id);
       ea.classList.add("matched"); eb.classList.add("matched");
       memMatched++; memFlipped=[]; memLock=false;
-      document.getElementById("mem-stats").textContent="Paare: "+memMatched+"/10 · Versuche: "+memMoves;
+      document.getElementById("mem-stats").textContent="Paare: "+memMatched+"/8 · Versuche: "+memMoves;
       markLearned(a.word.gr);
-      if(memMatched===10){state.stars+=3;saveState();setTimeout(showMemWin,400);}
+      if(memMatched===8){state.stars+=3;saveState();setTimeout(showMemWin,400);}
     } else {
       setTimeout(function(){
         var ea2=document.getElementById(memCards[memFlipped[0]].id);
