@@ -194,6 +194,24 @@ var stories = [
       {de:" hütet die "},{de:"Flamme",gr:"φλόγα",pr:"flo-gha",mark:true},
       {de:" des Hauses. Alle zusammen beschützen die Menschen!"}
     ]
+  },
+  {
+    title: "Herkules und die Hydra",
+    emoji: "🐉",
+    img: "story-hero_hercules_fighting_against_lernaea_hydra",
+    grText: "Ο Ηρακλής είναι ο πιο δυνατός ήρωας της Ελλάδας. Μια μέρα πρέπει να νικήσει τη Λερναία Ύδρα. Η Ύδρα είναι ένα τεράστιο τέρας με εννέα κεφάλια. Ζει σε ένα βάλτο κοντά στη λίμνη. Ο Ηρακλής πηγαίνει στο βάλτο με το ξίφος του. Κόβει ένα κεφάλι αλλά φυτρώνουν δύο καινούρια! Ο ανιψιός του Ιόλαος τον βοηθά. Μετά από κάθε κόψιμο καίει τη πληγή με φωτιά. Έτσι η Ύδρα δεν μπορεί να μεγαλώσει καινούρια κεφάλια. Τελικά ο Ηρακλής νικά το τέρας. Όλοι τον αγαπούν και τον θαυμάζουν!",
+    text: [
+      {de:"Herkules ist der stärkste "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},
+      {de:" Griechenlands. Eines Tages muss er die Hydra besiegen. Die Hydra ist ein riesiges "},{de:"Ungeheuer",gr:"τέρας",pr:"te-ras",mark:true},
+      {de:" mit neun "},{de:"Köpfen",gr:"κεφάλια",pr:"ke-fa-lia",mark:true},
+      {de:". Es lebt in einem "},{de:"Sumpf",gr:"βάλτος",pr:"val-tos",mark:true},
+      {de:" nahe dem See. Herkules geht mit seinem "},{de:"Schwert",gr:"ξίφος",pr:"ksi-fos",mark:true},
+      {de:" in den Sumpf. Er schlägt einen Kopf ab — aber es wachsen zwei neue! Sein Neffe Iolaos "},{de:"hilft",gr:"βοηθά",pr:"vo-i-tha",mark:true},
+      {de:" ihm. Nach jedem Schnitt verbrennen sie die Wunde mit "},{de:"Feuer",gr:"φωτιά",pr:"fo-tia",mark:true},
+      {de:". So kann die Hydra keine neuen Köpfe mehr wachsen lassen. Am Ende "},{de:"besiegt",gr:"νικά",pr:"ni-ka",mark:true},
+      {de:" Herkules das Ungeheuer. Alle "},{de:"bewundern",gr:"θαυμάζουν",pr:"thav-ma-zun",mark:true},
+      {de:" ihn!"}
+    ]
   }
 ];
 
