@@ -370,7 +370,7 @@ function markLearned(gr) {
   if (!state.learned[gr]) { state.learned[gr]=true; state.stars+=1; saveState(); }
 }
 function resetProgress() {
-  if (confirm("Wirklich alles zuruecksetzen?")) { state={learned:{},stars:0,quizHighscore:0}; saveState(); renderProgress(); }
+  if (confirm("Wirklich alles zurücksetzen?")) { state={learned:{},stars:0,quizHighscore:0}; saveState(); renderProgress(); }
 }
 
 // ── SCREENS ───────────────────────────────────────────────
