@@ -5,60 +5,6 @@
 
 var stories = [
   {
-    title: "Die Katze und das Meer",
-    emoji: "🐱",
-    img: "katze",
-    grText: "Μια μικρή γάτα μένει στην Ελλάδα. Κάθε πρωί τρέχει στη θάλασσα. Η θάλασσα είναι μπλε και ζεστή. Η γάτα πίνει νερό από μια βρύση. Είναι πολύ χαρούμενη.",
-    text: [
-      {de:"Eine kleine "},{de:"Katze",gr:"γάτα",pr:"gha-ta",mark:true},
-      {de:" wohnt in "},{de:"Griechenland",gr:"Ελλάδα",pr:"E-la-da",mark:true},
-      {de:". Jeden Morgen laeuft sie zum "},{de:"Meer",gr:"θάλασσα",pr:"tha-la-sa",mark:true},
-      {de:". Das Meer ist "},{de:"blau",gr:"μπλε",pr:"ble",mark:true},
-      {de:" und warm. Die Katze trinkt "},{de:"Wasser",gr:"νερό",pr:"ne-ro",mark:true},
-      {de:" aus einem Brunnen. Sie ist sehr "},{de:"gluecklich",gr:"χαρούμενη",pr:"cha-ru-me-ni",mark:true},{de:"."}
-    ]
-  },
-  {
-    title: "Auf dem Markt",
-    emoji: "🍎",
-    img: "apfel",
-    grText: "Η Μαρία πηγαίνει στην αγορά. Αγοράζει μήλα και ψωμί. Ο πωλητής λέει: Καλημέρα! Η Μαρία απαντά: Ευχαριστώ!",
-    text: [
-      {de:"Maria geht auf den "},{de:"Markt",gr:"αγορά",pr:"a-go-ra",mark:true},
-      {de:". Sie kauft "},{de:"Aepfel",gr:"μήλα",pr:"mi-la",mark:true},
-      {de:" und "},{de:"Brot",gr:"ψωμί",pr:"pso-mi",mark:true},
-      {de:". Der Verkaeufer sagt: Kalimera! "},{de:"Guten Morgen",gr:"Καλημέρα",pr:"Ka-li-me-ra",mark:true},
-      {de:"! Maria antwortet: "},{de:"Danke schoen",gr:"Ευχαριστώ",pr:"Ef-cha-ri-sto",mark:true},{de:"!"}
-    ]
-  },
-  {
-    title: "Ein Tag am Strand",
-    emoji: "🌊",
-    img: "meer",
-    grText: "Η οικογένεια πηγαίνει στην παραλία. Ο ήλιος λάμπει πολύ. Τα παιδιά χτίζουν κάστρο στην άμμο. Ο μπαμπάς κολυμπάει στο νερό. Η μαμά διαβάζει ένα βιβλίο. Το βράδυ τρώνε παγωτό. Τι ωραία μέρα!",
-    text: [
-      {de:"Die Familie faehrt zum "},{de:"Strand",gr:"παραλία",pr:"pa-ra-li-a",mark:true},
-      {de:". Die "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
-      {de:" scheint hell. Die Kinder bauen eine Sandburg. Papa schwimmt im "},{de:"Wasser",gr:"νερό",pr:"ne-ro",mark:true},
-      {de:". Mama liest ein "},{de:"Buch",gr:"βιβλίο",pr:"vi-vli-o",mark:true},
-      {de:". Am Abend essen sie "},{de:"Eis",gr:"παγωτό",pr:"pa-go-to",mark:true},
-      {de:". Ein schoener "},{de:"Tag",gr:"μέρα",pr:"me-ra",mark:true},{de:"!"}
-    ]
-  },
-  {
-    title: "Die weise Eule",
-    emoji: "🦉",
-    img: "baum",
-    grText: "Μια κουκουβάγια ζει σε ένα παλιό δέντρο. Τα παιδιά έρχονται κάθε μέρα κοντά της. Μαθαίνουν: φίλος, σχολείο, αγάπη. Η κουκουβάγια λέει: Η μάθηση είναι σαν δώρο!",
-    text: [
-      {de:"Eine Eule lebt in einem alten "},{de:"Baum",gr:"δέντρο",pr:"den-dro",mark:true},
-      {de:". Die Kinder kommen jeden Tag zu ihr. Sie lernen: "},{de:"Freund",gr:"φίλος",pr:"fi-los",mark:true},
-      {de:", "},{de:"Schule",gr:"σχολείο",pr:"scho-li-o",mark:true},
-      {de:", "},{de:"Liebe",gr:"αγάπη",pr:"a-ga-pi",mark:true},
-      {de:". Die Eule sagt: Lernen ist wie ein "},{de:"Geschenk",gr:"δώρο",pr:"do-ro",mark:true},{de:"!"}
-    ]
-  },
-  {
     title: "Perseus und Medusa",
     emoji: "⚔️",
     img: "story-hero_perseus_fighting_against_medusa",
@@ -211,6 +157,46 @@ var stories = [
       {de:". So kann die Hydra keine neuen Köpfe mehr wachsen lassen. Am Ende "},{de:"besiegt",gr:"νικά",pr:"ni-ka",mark:true},
       {de:" Herkules das Ungeheuer. Alle "},{de:"bewundern",gr:"θαυμάζουν",pr:"thav-ma-zun",mark:true},
       {de:" ihn!"}
+    ]
+  },
+  {
+    title: "Herkules und der Nemeische Löwe",
+    emoji: "🦁",
+    img: "story-hero_hercules_fighting_against_nemean_lion",
+    grText: "Ο Ηρακλής έχει δώδεκα άθλους να κάνει. Ο πρώτος άθλος είναι να νικήσει τον Νεμεαίο Λέοντα. Αυτό το λιοντάρι είναι τεράστιο και πολύ επικίνδυνο. Ζει στα βουνά κοντά στη Νεμέα. Κανένα όπλο δεν μπορεί να τον πληγώσει! Ο Ηρακλής είναι πολύ δυνατός και γενναίος. Πηγαίνει στο βουνό μόνος του. Παλεύει με το λιοντάρι με τα γυμνά του χέρια. Το σφίγγει δυνατά και το νικά! Μετά φοράει το δέρμα του λιονταριού σαν πανοπλία. Όλοι τον αποκαλούν ήρωα!",
+    text: [
+      {de:"Herkules muss zwölf "},{de:"Aufgaben",gr:"άθλοι",pr:"ath-li",mark:true},
+      {de:" erfüllen. Die erste Aufgabe ist der Nemeische "},{de:"Löwe",gr:"λιοντάρι",pr:"li-on-ta-ri",mark:true},
+      {de:". Dieses Tier ist riesig und sehr "},{de:"gefährlich",gr:"επικίνδυνο",pr:"e-pi-kin-dhi-no",mark:true},
+      {de:". Es lebt in den "},{de:"Bergen",gr:"βουνά",pr:"vu-na",mark:true},
+      {de:" nahe Nemea. Kein "},{de:"Schwert",gr:"ξίφος",pr:"ksi-fos",mark:true},
+      {de:" kann es verletzen! Herkules ist sehr "},{de:"stark",gr:"δυνατός",pr:"dhi-na-tos",mark:true},
+      {de:" und mutig. Er geht alleine auf den Berg. Er "},{de:"kämpft",gr:"παλεύει",pr:"pa-le-vi",mark:true},
+      {de:" mit dem Löwen mit bloßen "},{de:"Händen",gr:"χέρια",pr:"che-ria",mark:true},
+      {de:". Er drückt ihn fest und "},{de:"besiegt",gr:"νικά",pr:"ni-ka",mark:true},
+      {de:" ihn! Danach trägt er das "},{de:"Fell",gr:"δέρμα",pr:"dher-ma",mark:true},
+      {de:" des Löwen wie eine Rüstung. Alle nennen ihn "},{de:"Held",gr:"ήρωας",pr:"i-ro-as",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Ikarus und Daidalus",
+    emoji: "🪶",
+    img: "story-icarus_and_daedalus_and_the_sun",
+    grText: "Ο Δαίδαλος είναι ένας έξυπνος τεχνίτης. Μαζί με τον γιο του τον Ίκαρο είναι φυλακισμένοι σε ένα νησί. Ο Δαίδαλος έχει μια ιδέα! Μαζεύει πολλά φτερά και τα κολλά με κερί. Φτιάχνει δύο ζευγάρια φτερούγες. Μια για τον Ίκαρο και μια για τον εαυτό του. Πριν φύγουν ο Δαίδαλος λέει: Μην πετάς πολύ ψηλά! Ο ήλιος θα λιώσει το κερί! Ο Ίκαρος υπόσχεται. Αλλά στον αέρα ο Ίκαρος ξεχνά. Πετά όλο και πιο ψηλά προς τον ήλιο. Το κερί λιώνει και τα φτερά πέφτουν. Ο Ίκαρος πέφτει στη θάλασσα. Ο Δαίδαλος είναι πολύ λυπημένος. Από τότε λέμε: Μην πετάς πολύ ψηλά!",
+    text: [
+      {de:"Daidalus ist ein kluger "},{de:"Handwerker",gr:"τεχνίτης",pr:"tech-ni-tis",mark:true},
+      {de:". Er und sein "},{de:"Sohn",gr:"γιος",pr:"jios",mark:true},
+      {de:" Ikarus sind auf einer "},{de:"Insel",gr:"νησί",pr:"ni-si",mark:true},
+      {de:" gefangen. Daidalus hat eine "},{de:"Idee",gr:"ιδέα",pr:"i-dhe-a",mark:true},
+      {de:"! Er sammelt viele "},{de:"Federn",gr:"φτερά",pr:"fte-ra",mark:true},
+      {de:" und klebt sie mit "},{de:"Wachs",gr:"κερί",pr:"ke-ri",mark:true},
+      {de:" zusammen. Er baut zwei Paar "},{de:"Flügel",gr:"φτερούγες",pr:"fte-ru-ghes",mark:true},
+      {de:". Bevor sie fliegen sagt Daidalus: Flieg nicht zu nah an die "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
+      {de:"! Das Wachs schmilzt! Aber in der "},{de:"Luft",gr:"αέρας",pr:"a-e-ras",mark:true},
+      {de:" vergisst Ikarus. Er fliegt immer höher. Das Wachs "},{de:"schmilzt",gr:"λιώνει",pr:"lio-ni",mark:true},
+      {de:" und die Federn fallen. Ikarus fällt ins "},{de:"Meer",gr:"θάλασσα",pr:"tha-la-sa",mark:true},
+      {de:". Daidalus ist sehr "},{de:"traurig",gr:"λυπημένος",pr:"li-pi-me-nos",mark:true},
+      {de:". Seitdem sagen wir: Flieg nicht zu hoch!"}
     ]
   }
 ];
