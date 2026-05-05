@@ -140,6 +140,60 @@ var stories = [
       {de:" Die Musen "},{de:"inspirieren",gr:"εμπνέουν",pr:"em-pne-un",mark:true},
       {de:" alle Menschen!"}
     ]
+  },
+  {
+    title: "Der Hirte und seine Schafe",
+    emoji: "🐑",
+    img: "story-greek_shepherd_with_his_sheeps_grazin",
+    grText: "Ο Γιώργης είναι ένας γέρος βοσκός. Κάθε πρωί πηγαίνει στο βουνό με τα πρόβατά του. Τα πρόβατα τρώνε φρέσκο χορτάρι. Ο ήλιος λάμπει και ο ουρανός είναι γαλάζιος. Στην κοιλάδα βλέπει μια μικρή εκκλησία και ένα χωριό. Υπάρχουν ελιές και πολύχρωμα λουλούδια παντού. Ο Γιώργης τραγουδά ένα παλιό τραγούδι. Τα πρόβατα τον ακούνε και είναι ήρεμα. Στο τέλος της μέρας γυρνούν όλοι σπίτι μαζί.",
+    text: [
+      {de:"Giorgis ist ein alter "},{de:"Hirte",gr:"βοσκός",pr:"vos-kos",mark:true},
+      {de:". Jeden Morgen geht er auf den "},{de:"Berg",gr:"βουνό",pr:"vu-no",mark:true},
+      {de:" mit seinen "},{de:"Schafen",gr:"πρόβατα",pr:"pro-va-ta",mark:true},
+      {de:". Die Schafe fressen frisches "},{de:"Gras",gr:"χορτάρι",pr:"chor-ta-ri",mark:true},
+      {de:". Die "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
+      {de:" scheint und der Himmel ist blau. Im Tal sieht er eine kleine "},{de:"Kirche",gr:"εκκλησία",pr:"e-kli-si-a",mark:true},
+      {de:" und ein "},{de:"Dorf",gr:"χωριό",pr:"cho-rio",mark:true},
+      {de:". Es gibt "},{de:"Olivenbäume",gr:"ελιές",pr:"e-lies",mark:true},
+      {de:" und bunte "},{de:"Blumen",gr:"λουλούδια",pr:"lu-lu-dhia",mark:true},
+      {de:" überall. Giorgis singt ein altes "},{de:"Lied",gr:"τραγούδι",pr:"tra-gu-dhi",mark:true},
+      {de:". Die Schafe hören ihm zu und sind "},{de:"ruhig",gr:"ήρεμα",pr:"i-re-ma",mark:true},
+      {de:". Am Ende des Tages gehen alle zusammen nach "},{de:"Hause",gr:"σπίτι",pr:"spi-ti",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Die zwölf Götter des Olymp",
+    emoji: "⚡",
+    img: "story-12_greek_gods_with_names_greek_mythology",
+    grText: "Στον Όλυμπο ζουν οι δώδεκα θεοί. Ο Δίας είναι ο βασιλιάς των θεών και κρατά τον κεραυνό. Η Ήρα είναι η βασίλισσα και προστατεύει την οικογένεια. Ο Ποσειδών κυβερνά τη θάλασσα με την τρίαινά του. Η Δήμητρα φροντίζει τη γη και τα λουλούδια. Η Αθηνά είναι η θεά της σοφίας και της δικαιοσύνης. Ο Απόλλων είναι ο θεός του ήλιου και της μουσικής. Η Άρτεμις κυνηγά στο δάσος και αγαπά τα ζώα. Ο Άρης είναι ο θεός του πολέμου και είναι δυνατός. Η Αφροδίτη είναι η θεά της αγάπης και της ομορφιάς. Ο Ήφαιστος φτιάχνει όπλα στη φωτιά του. Ο Ερμής είναι ο αγγελιαφόρος των θεών και πετά γρήγορα. Η Εστία φυλάει τη φλόγα του σπιτιού. Όλοι μαζί προστατεύουν τους ανθρώπους!",
+    text: [
+      {de:"Auf dem "},{de:"Olymp",gr:"Όλυμπος",pr:"O-lim-pos",mark:true},
+      {de:" leben die zwölf "},{de:"Götter",gr:"θεοί",pr:"the-i",mark:true},
+      {de:". "},{de:"Zeus",gr:"Δίας",pr:"Dhi-as",mark:true},
+      {de:" ist der "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},
+      {de:" der Götter und hält den Blitz. "},{de:"Hera",gr:"Ήρα",pr:"I-ra",mark:true},
+      {de:" ist die Königin und beschützt die Familie. "},{de:"Poseidon",gr:"Ποσειδών",pr:"Po-si-dhon",mark:true},
+      {de:" regiert das "},{de:"Meer",gr:"θάλασσα",pr:"tha-la-sa",mark:true},
+      {de:" mit seinem Dreizack. "},{de:"Demeter",gr:"Δήμητρα",pr:"Dhi-mi-tra",mark:true},
+      {de:" kümmert sich um die "},{de:"Erde",gr:"γη",pr:"ji",mark:true},
+      {de:" und die Blumen. "},{de:"Athena",gr:"Αθηνά",pr:"A-thi-na",mark:true},
+      {de:" ist die Göttin der "},{de:"Weisheit",gr:"σοφία",pr:"so-fi-a",mark:true},
+      {de:". "},{de:"Apollon",gr:"Απόλλων",pr:"A-po-lon",mark:true},
+      {de:" ist der Gott der "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
+      {de:" und der Musik. "},{de:"Artemis",gr:"Άρτεμις",pr:"Ar-te-mis",mark:true},
+      {de:" jagt im "},{de:"Wald",gr:"δάσος",pr:"dha-sos",mark:true},
+      {de:" und liebt die Tiere. "},{de:"Ares",gr:"Άρης",pr:"A-ris",mark:true},
+      {de:" ist der Gott des "},{de:"Krieges",gr:"πόλεμος",pr:"po-le-mos",mark:true},
+      {de:". "},{de:"Aphrodite",gr:"Αφροδίτη",pr:"A-fro-dhi-ti",mark:true},
+      {de:" ist die Göttin der "},{de:"Liebe",gr:"αγάπη",pr:"a-ga-pi",mark:true},
+      {de:". "},{de:"Hephaistos",gr:"Ήφαιστος",pr:"I-fes-tos",mark:true},
+      {de:" schmiedet "},{de:"Waffen",gr:"όπλα",pr:"o-pla",mark:true},
+      {de:" im Feuer. "},{de:"Hermes",gr:"Ερμής",pr:"Er-mis",mark:true},
+      {de:" ist der schnelle "},{de:"Bote",gr:"αγγελιαφόρος",pr:"an-ge-lia-fo-ros",mark:true},
+      {de:" der Götter. "},{de:"Hestia",gr:"Εστία",pr:"Es-ti-a",mark:true},
+      {de:" hütet die "},{de:"Flamme",gr:"φλόγα",pr:"flo-gha",mark:true},
+      {de:" des Hauses. Alle zusammen beschützen die Menschen!"}
+    ]
   }
 ];
 
