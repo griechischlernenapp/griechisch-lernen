@@ -819,36 +819,31 @@ function openPrint(idx, mode) {
   var body = '';
 
   if(mode === 'de') {
-    // Deutscher Satz — Lücke zeigt deutschen Text als Hilfe
+    // Deutscher Satz — Lücke mit deutschem Hinweis unter der Linie
     var txt = '';
     for(var i=0;i<s.text.length;i++){
       var t=s.text[i];
       if(t.mark){
-        txt += ' <span class="ps-gap-wrap">';
-        txt += '<span class="ps-gap-label">'+t.de+'</span>';
-        txt += '</span> ';
+        txt += '<span class="gap-wrap"><span class="gap-line"></span><span class="gap-hint">'+t.de+'</span></span>';
       } else {
         txt += t.de;
       }
     }
-    body += '<p class="ps-hint">Schreibe das griechische Wort in die Lücke. Der deutsche Text steht als Hilfe darin.</p>';
+    body += '<p class="ps-hint">Schreibe das griechische Wort in die Lücke. Der deutsche Text steht darunter als Hilfe.</p>';
     body += '<div class="ps-text">'+txt+'</div>';
 
   } else {
-    // Griechischer Satz mit Lücken
+    // Griechischer Satz — Lücke mit deutschem Hinweis unter der Linie
     var grGap = s.grText || '';
     for(var i=0;i<words.length;i++){
       grGap = grGap.replace(words[i].gr, '|||'+i+'|||');
     }
     for(var i=0;i<words.length;i++){
       grGap = grGap.replace('|||'+i+'|||',
-        ' <span class="ps-gap-wrap"><span class="ps-gap-label">'+words[i].de+'</span></span> ');
+        '<span class="gap-wrap"><span class="gap-line"></span><span class="gap-hint">'+words[i].de+'</span></span>');
     }
-    var deSatz = '';
-    for(var i=0;i<s.text.length;i++) deSatz += s.text[i].de;
-    body += '<p class="ps-hint">Schreibe das griechische Wort in die Lücke. Die deutsche Bedeutung steht als Hilfe darin.</p>';
+    body += '<p class="ps-hint">Schreibe das griechische Wort in die Lücke. Die deutsche Bedeutung steht darunter als Hilfe.</p>';
     body += '<div class="ps-text">'+grGap+'</div>';
-    body += '<div class="ps-de-box"><b>Deutsche Bedeutung:</b> '+deSatz+'</div>';
   }
 
   body += '<div class="ps-worterkasten">';
@@ -862,27 +857,28 @@ function openPrint(idx, mode) {
     'h2{font-size:22px;color:#0F6E56;text-align:center;margin-bottom:14px}',
     '.ps-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:16px;display:block}',
     '.ps-hint{font-size:12px;color:#888;font-style:italic;margin-bottom:14px}',
-    '.ps-text{font-size:18px;line-height:4;color:#2c2c2a;margin-bottom:20px}',
-    '.ps-gap-wrap{display:inline-block;vertical-align:bottom;text-align:center;min-width:120px;margin:0 2px}',
-    '.ps-gap-label{display:block;border-bottom:2px solid #0F6E56;font-size:11px;color:#1D9E75;padding:0 4px;min-width:100px;text-align:center}',
-    '.ps-de-box{background:#f7f5f0;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#555;font-style:italic;line-height:1.7}',
-    '.ps-worterkasten{border:2px solid #0F6E56;border-radius:8px;padding:12px 16px;margin-top:8px}',
+    '.ps-text{font-size:18px;line-height:4;color:#2c2c2a;margin-bottom:20px;word-spacing:2px}',
+    '.gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top;margin:0 3px;min-width:90px}',
+    '.gap-line{display:block;width:100%;border-bottom:2px solid #0F6E56;height:24px}',
+    '.gap-hint{display:block;font-size:10px;color:#1D9E75;text-align:center;margin-top:2px;font-style:italic}',
+    '.ps-worterkasten{border:2px solid #0F6E56;border-radius:8px;padding:12px 16px;margin-top:8px;page-break-inside:avoid}',
     '.ps-worterkasten h3{font-size:14px;color:#0F6E56;margin-bottom:10px}',
     '.ps-wort{display:inline-block;margin:4px 8px;font-size:15px;font-weight:bold;color:#0F6E56;background:#E1F5EE;padding:4px 10px;border-radius:6px}',
     '.ps-wort small{display:block;font-size:11px;color:#888;font-weight:normal;text-align:center}',
     '.ps-footer{font-size:11px;color:#bbb;text-align:center;margin-top:16px}'
   ].join('');
 
+  var baseUrl = window.location.href.replace(/[^/]*$/, '');
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
   fullHtml += '<title>'+s.title+'</title>';
   fullHtml += '<style>'+css+'</style></head><body>';
   fullHtml += '<h2>'+s.emoji+' '+s.title+'</h2>';
-  fullHtml += '<img src="'+window.location.href.replace(/[^/]*$/, '')+'bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
+  fullHtml += '<img src="'+baseUrl+'bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
   fullHtml += body;
   fullHtml += '</body></html>';
 
   var pw = window.open('', '_blank');
-  if(!pw){ alert('Bitte Popup-Blocker deaktivieren und nochmal versuchen!'); return; }
+  if(!pw){ alert('Bitte Popup-Blocker deaktivieren!'); return; }
   pw.document.open();
   pw.document.write(fullHtml);
   pw.document.close();
