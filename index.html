@@ -89,7 +89,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .print-overlay.show { display:flex; }
 .print-sheet { background:white; width:210mm; max-height:90vh; overflow-y:auto; padding:15mm; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
 .print-sheet h2 { font-size:22px; color:#0F6E56; text-align:center; margin-bottom:12px; font-family:Arial,sans-serif; }
-.print-sheet .ps-img { width:100%; max-height:200px; object-fit:cover; border-radius:8px; margin-bottom:16px; }
+.print-sheet .ps-img { width:100%; object-fit:contain; border-radius:8px; margin-bottom:16px; }
 .print-sheet .ps-hint { font-size:12px; color:#888; margin-bottom:8px; font-style:italic; }
 .print-sheet .ps-text { font-size:18px; line-height:2.8; color:#2c2c2a; font-family:Arial,sans-serif; margin-bottom:16px; }
 .print-sheet .ps-gap { display:inline-block; width:100px; border-bottom:2px solid #0F6E56; margin:0 4px; vertical-align:bottom; }
@@ -428,7 +428,7 @@ function openStory(idx) {
   html+='</div>';
   html+='<div class="card">';
   html+='<div style="font-size:20px;font-weight:bold;margin-bottom:1rem;text-align:center">'+s.emoji+' '+s.title+'</div>';
-  html+='<img src="bilder/'+s.img+'.png" style="width:100%;max-height:260px;object-fit:cover;border-radius:10px;margin-bottom:1rem" alt="'+s.title+'">';
+  html+='<img src="bilder/'+s.img+'.png" style="width:100%;object-fit:contain;border-radius:10px;margin-bottom:1rem;display:block" alt="'+s.title+'">';
   html+='<p class="section-title">Grüne Wörter antippen = Griechisch lernen!</p>';
   html+='<div class="story-text">';
   for(var i=0;i<s.text.length;i++){
@@ -855,7 +855,7 @@ function openPrint(idx, mode) {
   var css = [
     'body{font-family:Arial,sans-serif;padding:20mm 15mm;max-width:210mm;margin:0 auto;color:#2c2c2a}',
     'h2{font-size:22px;color:#0F6E56;text-align:center;margin-bottom:14px}',
-    '.ps-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:16px;display:block}',
+    '.ps-img{width:100%;object-fit:contain;border-radius:8px;margin-bottom:16px;display:block}',
     '.ps-hint{font-size:12px;color:#888;font-style:italic;margin-bottom:14px}',
     '.ps-text{font-size:18px;line-height:4;color:#2c2c2a;margin-bottom:20px;word-spacing:2px}',
     '.gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:top;margin:0 4px}',
@@ -898,7 +898,7 @@ function doPrint() {
   printWindow.document.write('<style>');
   printWindow.document.write('body{font-family:Arial,sans-serif;padding:15mm;max-width:210mm;margin:0 auto}');
   printWindow.document.write('h2{font-size:22px;color:#0F6E56;text-align:center;margin-bottom:12px}');
-  printWindow.document.write('.ps-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:16px}');
+  printWindow.document.write('.ps-img{width:100%;object-fit:contain;border-radius:8px;margin-bottom:16px}');
   printWindow.document.write('.ps-hint{font-size:12px;color:#888;margin-bottom:10px;font-style:italic}');
   printWindow.document.write('.ps-text{font-size:18px;line-height:3.5;color:#2c2c2a;margin-bottom:16px}');
   printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
