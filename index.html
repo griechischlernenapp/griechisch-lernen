@@ -114,10 +114,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 /* STORIES */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
-.story-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1rem;cursor:pointer;transition:border-color 0.15s;display:flex;flex-direction:column;align-items:center;text-align:center}
+.story-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:0;cursor:pointer;transition:border-color 0.15s;overflow:hidden;display:flex;flex-direction:column}
 .story-card:hover{border-color:#1D9E75}
-.story-title{font-size:14px;font-weight:bold;color:#2c2c2a;margin:8px 0 5px}
-.story-level{font-size:11px;color:#1D9E75;background:#E1F5EE;padding:2px 8px;border-radius:8px;display:inline-block}
+.story-title{font-size:14px;font-weight:bold;color:#2c2c2a;margin:8px 8px 4px;text-align:center}
+.story-level{font-size:11px;color:#1D9E75;background:#E1F5EE;padding:2px 8px;border-radius:8px;display:inline-block;margin-bottom:10px}
 .card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
 .back-btn{font-size:13px;color:#888;cursor:pointer;background:none;border:none;padding:0 0 0.8rem;font-family:Georgia,serif;display:block}
 .back-btn:hover{color:#1D9E75}
@@ -409,9 +409,11 @@ function buildStoryGrid() {
   for(var i=0;i<stories.length;i++){
     var s=stories[i];
     html+='<div class="story-card" onclick="openStory('+i+')">';
-    html+=imgTag(s.img,"sm");
+    html+='<img src="bilder/'+s.img+'.png" style="width:100%;height:140px;object-fit:cover;display:block" alt="'+s.title+'">';
+    html+='<div style="padding:0 8px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">';
     html+='<div class="story-title">'+s.title+'</div>';
-    html+='<span class="story-level">Anfänger</span></div>';
+    html+='<span class="story-level">'+s.emoji+'</span>';
+    html+='</div></div>';
   }
   document.getElementById("story-grid").innerHTML=html;
 }
