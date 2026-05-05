@@ -7,6 +7,7 @@
 <script src="vokabeln.js"></script>
 <script src="geschichten.js"></script>
 <script src="alphabet.js"></script>
+<script src="grammatik.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh}
@@ -25,6 +26,25 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .screen.active{display:block}
 
 
+
+
+/* GRAMMATIK */
+.gram-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.gram-tab{padding:6px 14px;border-radius:14px;border:1px solid #ccc;font-size:12px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif}
+.gram-tab.active{background:#1D9E75;color:white;border-color:#1D9E75}
+.gram-section{margin-bottom:1.5rem}
+.gram-section h3{font-size:15px;font-weight:bold;color:#0F6E56;margin-bottom:0.8rem;padding-bottom:4px;border-bottom:1px solid #e0e0e0}
+.gram-table{width:100%;border-collapse:collapse;background:white;border-radius:12px;overflow:hidden;border:1.5px solid #ddd;margin-bottom:1rem}
+.gram-table th{background:#1D9E75;color:white;padding:8px 12px;font-size:12px;text-align:left;font-weight:bold}
+.gram-table td{padding:8px 12px;font-size:13px;border-bottom:1px solid #f0f0ec;vertical-align:middle}
+.gram-table tr:last-child td{border-bottom:none}
+.gram-table tr:hover td{background:#f7faf9}
+.gram-gr{font-size:15px;font-weight:bold;color:#0F6E56}
+.gram-pr{font-size:11px;color:#1D9E75;font-style:italic;display:block;margin-top:1px}
+.gram-de{font-size:13px;color:#2c2c2a}
+.gram-emoji{font-size:20px;margin-right:6px}
+.gram-verb-title{display:flex;align-items:center;gap:8px;background:#E1F5EE;border-radius:10px;padding:8px 12px;margin-bottom:6px;font-size:15px;font-weight:bold;color:#0F6E56}
+.gram-person{font-size:12px;color:#888;font-style:italic}
 
 /* BUCHSTABEN-QUIZ */
 .bquiz-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:2rem;text-align:center;margin-bottom:1rem}
@@ -264,6 +284,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <button class="active" onclick="showScreen('alphabet')">🔤 Alphabet</button>
     <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
     <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
+    <button onclick="showScreen('grammatik')">📐 Grammatik</button>
     <button onclick="showScreen('progress')">📊 Fortschritt</button>
   </div>
 
@@ -315,6 +336,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="buchstaben-memory">
     <div id="bmem-area"></div>
+  </div>
+
+  <div class="screen" id="grammatik">
+    <div id="grammatik-area"></div>
   </div>
 
   <div class="screen" id="quiz">
@@ -378,7 +403,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -387,6 +412,7 @@ function showScreen(id) {
   if(id==="luecke")  {buildSel("luecke-cat"); startLuecke();}
   if(id==="quiz")     startQuiz();
   if(id==="progress") renderProgress();
+  if(id==="grammatik") renderGrammatik();
   if(id==="alphabet") renderAlphaGrid();
   if(id==="stories") buildStoryGrid();
   if(id==="buchstaben-quiz") startBQuiz();
@@ -918,6 +944,72 @@ function doPrint() {
   printWindow.document.close();
   printWindow.focus();
   setTimeout(function(){ printWindow.print(); }, 500);
+}
+
+
+// ── GRAMMATIK ─────────────────────────────────────────────
+var currentGramKat = "tiere";
+
+function renderGrammatik() {
+  var tabs='<div class="gram-tabs">';
+  for(var i=0;i<grammatikKategorien.length;i++){
+    var k=grammatikKategorien[i];
+    var a=(k.id===currentGramKat)?' active':'';
+    tabs+='<button class="gram-tab'+a+'" id="gtab_'+i+'" onclick="switchGramKat(grammatikKategorien['+i+'].id,this)">'+k.label+'</button>';
+  }
+  tabs+='</div><div id="gram-content"></div>';
+  document.getElementById("grammatik-area").innerHTML=tabs;
+  renderGramContent();
+}
+
+function switchGramKat(kat, btn) {
+  var btns=document.querySelectorAll(".gram-tab");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  btn.classList.add("active");
+  currentGramKat=kat;
+  renderGramContent();
+}
+
+function renderGramContent() {
+  var html="";
+  if(currentGramKat==="verben") {
+    // Show verb conjugation tables
+    html+='<div class="gram-section"><h3>🔄 Verben — Konjugation</h3>';
+    for(var i=0;i<verben.length;i++){
+      var v=verben[i];
+      html+='<div class="gram-verb-title"><span>'+v.emoji+'</span><span>'+v.de+'</span><span style="font-size:13px;color:#1D9E75;font-weight:normal">'+v.gr+' · '+v.pr+'</span></div>';
+      html+='<table class="gram-table">';
+      html+='<tr><th>Person</th><th>Deutsch</th><th>Griechisch</th></tr>';
+      for(var j=0;j<v.formen.length;j++){
+        var f=v.formen[j];
+        html+='<tr>';
+        html+='<td class="gram-person">'+f.person+'</td>';
+        html+='<td class="gram-de">'+f.de+'</td>';
+        html+='<td><span class="gram-gr">'+f.gr+'</span><span class="gram-pr">'+f.pr+'</span></td>';
+        html+='</tr>';
+      }
+      html+='</table>';
+    }
+    html+='</div>';
+  } else {
+    // Show noun singular/plural table
+    var list=nomen.filter(function(n){ return n.cat===currentGramKat; });
+    html+='<div class="gram-section"><h3>📋 Einzahl & Mehrzahl</h3>';
+    html+='<table class="gram-table">';
+    html+='<tr><th></th><th>Einzahl (DE)</th><th>Einzahl (GR)</th><th>Mehrzahl (DE)</th><th>Mehrzahl (GR)</th></tr>';
+    for(var i=0;i<list.length;i++){
+      var n=list[i];
+      html+='<tr>';
+      html+='<td><span class="gram-emoji">'+n.emoji+'</span></td>';
+      html+='<td class="gram-de">'+n.de+'</td>';
+      html+='<td><span class="gram-gr">'+n.gr+'</span><span class="gram-pr">'+n.pr+'</span></td>';
+      html+='<td class="gram-de">'+n.dePl+'</td>';
+      html+='<td><span class="gram-gr">'+n.grPl+'</span><span class="gram-pr">'+n.prPl+'</span></td>';
+      html+='</tr>';
+    }
+    html+='</table></div>';
+  }
+  document.getElementById("gram-content").innerHTML=html;
 }
 
 // ── BUCHSTABEN-QUIZ ───────────────────────────────────────
