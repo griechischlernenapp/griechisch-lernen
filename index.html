@@ -421,7 +421,10 @@ function openStory(idx) {
   var s=stories[idx];
   var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem">';
   html+='<button class="back-btn" style="padding:0;margin:0" onclick="closeStory()">← Zurück</button>';
-  html+='<button onclick="openPrint('+idx+')" style="padding:7px 14px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif">📄 Arbeitsblatt drucken</button>';
+  html+='<div style="display:flex;gap:6px">';
+  html+='<button onclick="openPrint('+idx+',\'de\')" style="padding:7px 12px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Deutsch</button>';
+  html+='<button onclick="openPrint('+idx+',\'gr\')" style="padding:7px 12px;background:#0F6E56;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Griechisch</button>';
+  html+='</div>';
   html+='</div>';
   html+='<div class="card">';
   html+='<div style="font-size:20px;font-weight:bold;margin-bottom:1rem;text-align:center">'+s.emoji+' '+s.title+'</div>';
@@ -803,39 +806,55 @@ function renderProgress() {
 
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
-function openPrint(idx) {
+function openPrint(idx, mode) {
   var s = stories[idx];
   var words = s.text.filter(function(t){ return t.mark; });
 
-  // Build gap text
-  var txt = '';
-  for(var i=0;i<s.text.length;i++){
-    var t=s.text[i];
-    if(t.mark){
-      txt += '<span style="display:inline-block">';
-      txt += '<span class="ps-gap-wrap"><span class="ps-gap"></span><small class="ps-hint-de">('+t.de+')</small></span>';
-      txt += '</span>';
-    } else {
-      txt += t.de;
-    }
-  }
-
-  // Build Wörterkasten
+  // Wörterkasten (same for both)
   var wk = '';
   for(var i=0;i<words.length;i++){
     wk += '<span class="ps-wort">'+words[i].gr+'<small>'+words[i].pr+'</small></span>';
   }
 
-  var html = '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:8px">';
-  html += '<span>Name: ______________________________</span>';
-  html += '<span>Datum: _______________</span>';
-  html += '</div>';
-  html += '<h2>'+s.emoji+' '+s.title+'</h2>';
-  html += '<img src="bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
-  html += '<div class="ps-hint">Schreibe das fehlende griechische Wort in die Lücke. Die deutsche Bedeutung steht darunter als Hilfe.</div>';
-  html += '<div class="ps-text">'+txt+'</div>';
+  var header = '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:8px">';
+  header += '<span>Name: ______________________________</span>';
+  header += '<span>Datum: _______________</span></div>';
+  header += '<h2>'+s.emoji+' '+s.title+'</h2>';
+  header += '<img src="bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
+
+  var html = header;
+
+  if(mode === 'de') {
+    // VERSION 1: German text with Greek gaps
+    var txt = '';
+    for(var i=0;i<s.text.length;i++){
+      var t=s.text[i];
+      if(t.mark){
+        txt += '<span class="ps-gap-wrap"><span class="ps-gap"></span><small class="ps-hint-de">('+t.gr+' · '+t.pr+')</small></span>';
+      } else { txt += t.de; }
+    }
+    html += '<div class="ps-hint">Schreibe das fehlende griechische Wort in die Lücke. Im Wörterkasten findest du alle Wörter.</div>';
+    html += '<div class="ps-text">'+txt+'</div>';
+
+  } else {
+    // VERSION 2: Greek text with gaps + German translation below
+    var grGap = s.grText || '';
+    for(var i=0;i<words.length;i++){
+      grGap = grGap.replace(words[i].gr, '|||GAP_'+i+'|||');
+    }
+    for(var i=0;i<words.length;i++){
+      grGap = grGap.replace('|||GAP_'+i+'|||',
+        '<span class="ps-gap-wrap"><span class="ps-gap"></span><small class="ps-hint-de">('+words[i].de+')</small></span>');
+    }
+    var deSatz = '';
+    for(var i=0;i<s.text.length;i++) deSatz += s.text[i].de;
+    html += '<div class="ps-hint">Schreibe das fehlende griechische Wort in die Lücke. Die deutsche Bedeutung steht darunter als Hilfe.</div>';
+    html += '<div class="ps-text">'+grGap+'</div>';
+    html += '<div style="background:#f7f5f0;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#555;font-style:italic"><b>Deutsche Bedeutung:</b> '+deSatz+'</div>';
+  }
+
   html += '<div class="ps-worterkasten">';
-  html += '<h3>🔤 Wörterkasten — Griechische Wörter mit Aussprache:</h3>';
+  html += '<h3>&#128300; Wörterkasten — Griechische Wörter mit Aussprache:</h3>';
   html += wk;
   html += '</div>';
   html += '<div style="margin-top:12px;font-size:11px;color:#aaa;text-align:center">griechischlernenapp.github.io/griechisch-lernen</div>';
@@ -863,6 +882,8 @@ function doPrint() {
   printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
   
   printWindow.document.write('.ps-worterkasten{border:2px solid #0F6E56;border-radius:8px;padding:12px;margin-top:12px}');
+  printWindow.document.write('.de-box{background:#f7f5f0;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#555;font-style:italic}');
+  printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
   printWindow.document.write('.ps-worterkasten h3{font-size:14px;color:#0F6E56;margin-bottom:8px}');
   printWindow.document.write('.ps-wort{display:inline-block;margin:4px 8px;font-size:15px;font-weight:bold;color:#0F6E56;background:#E1F5EE;padding:3px 10px;border-radius:6px}');
   printWindow.document.write('.ps-wort small{display:block;font-size:11px;color:#888;font-weight:normal;text-align:center}');
