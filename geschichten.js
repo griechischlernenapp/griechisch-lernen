@@ -198,6 +198,26 @@ var stories = [
       {de:". Daidalus ist sehr "},{de:"traurig",gr:"λυπημένος",pr:"li-pi-me-nos",mark:true},
       {de:". Seitdem sagen wir: Flieg nicht zu hoch!"}
     ]
+  },
+  {
+    title: "Der alte Fischer",
+    emoji: "🎣",
+    img: "story-greek_fishermen_with_his_boat_fishing_net",
+    grText: "Ο Νικόλας είναι ένας γέρος ψαράς. Κάθε πρωί πριν ανατείλει ο ήλιος πηγαίνει στη θάλασσα με τη βάρκα του. Η βάρκα του λέγεται Άγιος Νικόλας. Ρίχνει τα δίχτυα του στο νερό και περιμένει. Τα ψάρια έρχονται σιγά σιγά μέσα στα δίχτυα. Ο Νικόλας τραγουδά παλιά τραγούδια ενώ ψαρεύει. Στο βάθος βλέπει το χωριό με την άσπρη εκκλησία και τον ανεμόμυλο. Στο τέλος γυρνά στο λιμάνι με πολλά ψάρια. Η γυναίκα του τον περιμένει στην αποβάθρα. Σήμερα θα φάνε φρέσκο ψάρι για μεσημεριανό!",
+    text: [
+      {de:"Nikolas ist ein alter "},{de:"Fischer",gr:"ψαράς",pr:"psa-ras",mark:true},
+      {de:". Jeden Morgen fährt er mit seinem "},{de:"Boot",gr:"βάρκα",pr:"var-ka",mark:true},
+      {de:" aufs "},{de:"Meer",gr:"θάλασσα",pr:"tha-la-sa",mark:true},
+      {de:". Er wirft seine "},{de:"Netze",gr:"δίχτυα",pr:"dhich-ti-a",mark:true},
+      {de:" ins Wasser und wartet. Die "},{de:"Fische",gr:"ψάρια",pr:"psa-ria",mark:true},
+      {de:" kommen langsam in die Netze. Nikolas singt alte "},{de:"Lieder",gr:"τραγούδια",pr:"tra-gu-dhia",mark:true},
+      {de:" beim Fischen. In der Ferne sieht er das "},{de:"Dorf",gr:"χωριό",pr:"cho-rio",mark:true},
+      {de:" mit der weißen "},{de:"Kirche",gr:"εκκλησία",pr:"e-kli-si-a",mark:true},
+      {de:" und der "},{de:"Windmühle",gr:"ανεμόμυλος",pr:"a-ne-mo-mi-los",mark:true},
+      {de:". Am Ende kehrt er mit vielen Fischen in den "},{de:"Hafen",gr:"λιμάνι",pr:"li-ma-ni",mark:true},
+      {de:" zurück. Heute essen sie frischen "},{de:"Fisch",gr:"ψάρι",pr:"psa-ri",mark:true},
+      {de:" zum Mittagessen!"}
+    ]
   }
 ];
 
