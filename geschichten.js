@@ -108,6 +108,25 @@ var stories = [
       {de:". Die Küche ist warm und die "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},
       {de:" ist zusammen. Das ist "},{de:"Liebe",gr:"αγάπη",pr:"a-ga-pi",mark:true},{de:"!"}
     ]
+  },
+  {
+    title: "Die neun Musen",
+    emoji: "🎭",
+    img: "story-9_muses_greek_mythology",
+    grText: "Στον Όλυμπο ζουν εννέα Μούσες. Είναι οι θεές της τέχνης και της μουσικής. Η Καλλιόπη αγαπά την ποίηση. Η Κλειώ γράφει την ιστορία. Η Μελπομένη αγαπά το θέατρο. Η Θάλεια κάνει τους ανθρώπους να γελούν. Η Ουρανία κοιτά τα άστρα. Η Ευτέρπη παίζει μουσική. Η Ερατώ τραγουδά για την αγάπη. Η Τερψιχόρη χορεύει όμορφα. Η Πολύμνια ψέλνει ύμνους. Οι Μούσες εμπνέουν όλους τους ανθρώπους!",
+    text: [
+      {de:"Auf dem "},{de:"Olymp",gr:"Όλυμπος",pr:"O-lim-pos",mark:true},
+      {de:" leben neun "},{de:"Musen",gr:"Μούσες",pr:"Mu-ses",mark:true},
+      {de:". Sie sind die Göttinnen der "},{de:"Kunst",gr:"τέχνη",pr:"tech-ni",mark:true},
+      {de:" und der "},{de:"Musik",gr:"μουσική",pr:"mu-si-ki",mark:true},
+      {de:". Kalliope liebt die "},{de:"Dichtung",gr:"ποίηση",pr:"pi-i-si",mark:true},
+      {de:". Klio schreibt die "},{de:"Geschichte",gr:"ιστορία",pr:"is-to-ri-a",mark:true},
+      {de:". Melpomene liebt das "},{de:"Theater",gr:"θέατρο",pr:"the-a-tro",mark:true},
+      {de:". Thaleia bringt die Menschen zum "},{de:"Lachen",gr:"γέλιο",pr:"ghe-li-o",mark:true},
+      {de:". Terpsichore "},{de:"tanzt",gr:"χορεύει",pr:"cho-re-vi",mark:true},
+      {de:" wunderschön. Die Musen "},{de:"inspirieren",gr:"εμπνέουν",pr:"em-pne-un",mark:true},
+      {de:" alle Menschen!"}
+    ]
   }
 ];
 
