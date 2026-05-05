@@ -813,8 +813,7 @@ function openPrint(idx) {
     var t=s.text[i];
     if(t.mark){
       txt += '<span style="display:inline-block">';
-      txt += '<span class="ps-gap"></span>';
-      txt += '<small class="ps-hint-de">('+t.de+')</small>';
+      txt += '<span class="ps-gap-wrap"><span class="ps-gap"></span><small class="ps-hint-de">('+t.de+')</small></span>';
       txt += '</span>';
     } else {
       txt += t.de;
@@ -827,7 +826,11 @@ function openPrint(idx) {
     wk += '<span class="ps-wort">'+words[i].gr+'<small>'+words[i].pr+'</small></span>';
   }
 
-  var html = '<h2>'+s.emoji+' '+s.title+'</h2>';
+  var html = '<div style="display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:8px">';
+  html += '<span>Name: ______________________________</span>';
+  html += '<span>Datum: _______________</span>';
+  html += '</div>';
+  html += '<h2>'+s.emoji+' '+s.title+'</h2>';
   html += '<img src="bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
   html += '<div class="ps-hint">Schreibe das fehlende griechische Wort in die Lücke. Die deutsche Bedeutung steht darunter als Hilfe.</div>';
   html += '<div class="ps-text">'+txt+'</div>';
@@ -850,15 +853,15 @@ function doPrint() {
   var original = document.body.innerHTML;
   var printContent = document.getElementById('print-content').innerHTML;
   var printWindow = window.open('','_blank');
-  printWindow.document.write('<html><head><title>Arbeitsblatt</title>');
+  printWindow.document.write('<html><head><title>Arbeitsblatt - '+s.title+'</title>');
   printWindow.document.write('<style>');
   printWindow.document.write('body{font-family:Arial,sans-serif;padding:15mm;max-width:210mm;margin:0 auto}');
   printWindow.document.write('h2{font-size:22px;color:#0F6E56;text-align:center;margin-bottom:12px}');
   printWindow.document.write('.ps-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:16px}');
   printWindow.document.write('.ps-hint{font-size:12px;color:#888;margin-bottom:10px;font-style:italic}');
-  printWindow.document.write('.ps-text{font-size:18px;line-height:3;color:#2c2c2a;margin-bottom:16px}');
-  printWindow.document.write('.ps-gap{display:inline-block;width:110px;border-bottom:2px solid #0F6E56;margin:0 4px;vertical-align:bottom}');
-  printWindow.document.write('.ps-hint-de{font-size:11px;color:#1D9E75;display:block;text-align:center}');
+  printWindow.document.write('.ps-text{font-size:18px;line-height:3.5;color:#2c2c2a;margin-bottom:16px}');
+  printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
+  
   printWindow.document.write('.ps-worterkasten{border:2px solid #0F6E56;border-radius:8px;padding:12px;margin-top:12px}');
   printWindow.document.write('.ps-worterkasten h3{font-size:14px;color:#0F6E56;margin-bottom:8px}');
   printWindow.document.write('.ps-wort{display:inline-block;margin:4px 8px;font-size:15px;font-weight:bold;color:#0F6E56;background:#E1F5EE;padding:3px 10px;border-radius:6px}');
