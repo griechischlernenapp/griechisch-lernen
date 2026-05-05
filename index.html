@@ -378,7 +378,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","alphabet","buchstaben-quiz","buchstaben-memory","quiz","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
