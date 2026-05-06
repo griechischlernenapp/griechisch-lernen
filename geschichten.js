@@ -218,6 +218,76 @@ var stories = [
       {de:" zurück. Heute essen sie frischen "},{de:"Fisch",gr:"ψάρι",pr:"psa-ri",mark:true},
       {de:" zum Mittagessen!"}
     ]
+  },
+  {
+    title: "Das Fußballspiel",
+    emoji: "⚽",
+    img: "story-a_soccer_field_scene_a_young_boy_scoring",
+    grText: "Ο Νίκος παίζει ποδόσφαιρο με την ομάδα του. Σήμερα έχουν έναν σημαντικό αγώνα. Η ομάδα του φοράει άσπρες φανέλες. Οι αντίπαλοι φοράνε κίτρινες φανέλες. Ο Νίκος τρέχει γρήγορα με τη μπάλα. Σουτάρει δυνατά προς το τέρμα. Ο τερματοφύλακας προσπαθεί να την πιάσει αλλά δεν μπορεί. ΓΚΟΛ! Όλοι πανηγυρίζουν! Η ομάδα του Νίκου κερδίζει τον αγώνα. Είναι πολύ χαρούμενος!",
+    text: [
+      {de:"Nikos spielt "},{de:"Fußball",gr:"ποδόσφαιρο",pr:"po-dhos-fe-ro",mark:true},
+      {de:" mit seiner "},{de:"Mannschaft",gr:"ομάδα",pr:"o-ma-dha",mark:true},
+      {de:". Heute haben sie ein wichtiges "},{de:"Spiel",gr:"αγώνας",pr:"a-gho-nas",mark:true},
+      {de:". Nikos rennt schnell mit dem "},{de:"Ball",gr:"μπάλα",pr:"ba-la",mark:true},
+      {de:" und schießt stark aufs "},{de:"Tor",gr:"τέρμα",pr:"ter-ma",mark:true},
+      {de:". Der "},{de:"Torwart",gr:"τερματοφύλακας",pr:"ter-ma-to-fi-la-kas",mark:true},
+      {de:" kann ihn nicht halten. "},{de:"TOR",gr:"ΓΚΟΛ",pr:"gkol",mark:true},
+      {de:"! Alle feiern! Die Mannschaft "},{de:"gewinnt",gr:"κερδίζει",pr:"ker-dhi-zi",mark:true},
+      {de:" das Spiel. Nikos ist sehr "},{de:"glücklich",gr:"χαρούμενος",pr:"cha-ru-me-nos",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Der Klempner",
+    emoji: "🔧",
+    img: "story-a_friendly_plumber_with_a_full_black_bear",
+    grText: "Ο Κώστας είναι υδραυλικός. Σήμερα πηγαίνει σε ένα σπίτι για να επισκευάσει τον νιπτήρα. Παίρνει την εργαλειοθήκη του με πολλά εργαλεία. Βάζει τη φόρμα του και γονατίζει κάτω από τον νιπτήρα. Βρίσκει τη βλάβη στον σωλήνα. Χρησιμοποιεί ένα γαλλικό κλειδί για να σφίξει τον σωλήνα. Μετά από λίγο το νερό δεν στάζει πλέον. Η δουλειά είναι έτοιμη! Ο Κώστας είναι περήφανος για τη δουλειά του.",
+    text: [
+      {de:"Kostas ist "},{de:"Klempner",gr:"υδραυλικός",pr:"i-dhrau-li-kos",mark:true},
+      {de:". Heute geht er in ein Haus um das "},{de:"Waschbecken",gr:"νιπτήρας",pr:"nip-ti-ras",mark:true},
+      {de:" zu reparieren. Er nimmt seinen "},{de:"Werkzeugkasten",gr:"εργαλειοθήκη",pr:"er-gha-li-o-thi-ki",mark:true},
+      {de:" mit vielen "},{de:"Werkzeugen",gr:"εργαλεία",pr:"er-gha-li-a",mark:true},
+      {de:" mit. Er findet den Schaden am "},{de:"Rohr",gr:"σωλήνας",pr:"so-li-nas",mark:true},
+      {de:" und benutzt einen "},{de:"Schraubenschlüssel",gr:"γαλλικό κλειδί",pr:"gha-li-ko kli-dhi",mark:true},
+      {de:" um ihn festzuziehen. Das "},{de:"Wasser",gr:"νερό",pr:"ne-ro",mark:true},
+      {de:" tropft nicht mehr. Die "},{de:"Arbeit",gr:"δουλειά",pr:"dhu-lia",mark:true},
+      {de:" ist fertig! Kostas ist sehr "},{de:"stolz",gr:"περήφανος",pr:"pe-ri-fa-nos",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Im Friseursalon",
+    emoji: "✂️",
+    img: "story-a_hair_salon_scene_a_mother_sitting_in_daughter_waiting",
+    grText: "Η Μαρία πηγαίνει με την κόρη της στο κομμωτήριο. Η κομμώτρια την καλωσορίζει με ένα χαμόγελο. Η Μαρία κάθεται στην καρέκλα. Η κομμώτρια χτενίζει τα μαλλιά της και τα βάφει με χρώματα. Η μικρή κόρη κάθεται και περιμένει υπομονετικά. Κοιτάζει τα χρωματιστά μπουκάλια στο ράφι. Μετά από λίγο τα μαλλιά της Μαρίας είναι τέλεια! Ο καθρέφτης δείχνει ένα όμορφο αποτέλεσμα. Η Μαρία και η κόρη της είναι πολύ χαρούμενες!",
+    text: [
+      {de:"Maria geht mit ihrer "},{de:"Tochter",gr:"κόρη",pr:"ko-ri",mark:true},
+      {de:" zum "},{de:"Friseursalon",gr:"κομμωτήριο",pr:"ko-mo-ti-ri-o",mark:true},
+      {de:". Die "},{de:"Friseurin",gr:"κομμώτρια",pr:"ko-mo-tria",mark:true},
+      {de:" begrüßt sie mit einem Lächeln. Maria setzt sich auf den "},{de:"Stuhl",gr:"καρέκλα",pr:"ka-re-kla",mark:true},
+      {de:". Die Friseurin kämmt ihr "},{de:"Haar",gr:"μαλλιά",pr:"ma-lia",mark:true},
+      {de:" und färbt es mit "},{de:"Farben",gr:"χρώματα",pr:"chro-ma-ta",mark:true},
+      {de:". Die kleine Tochter wartet "},{de:"geduldig",gr:"υπομονετικά",pr:"i-po-mo-ne-ti-ka",mark:true},
+      {de:" und schaut die bunten "},{de:"Flaschen",gr:"μπουκάλια",pr:"bu-ka-lia",mark:true},
+      {de:" im Regal an. Nach einer Weile ist das "},{de:"Ergebnis",gr:"αποτέλεσμα",pr:"a-po-te-les-ma",mark:true},
+      {de:" perfekt! Alle sind "},{de:"glücklich",gr:"χαρούμενες",pr:"cha-ru-me-nes",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Das Leichtathletikrennen",
+    emoji: "🏃",
+    img: "story-a_track_and_field_scene_a_young_girl_winning",
+    grText: "Η Σοφία αγαπά την αθλητική δρομή. Σήμερα έχει έναν σημαντικό αγώνα δρόμου στο στάδιο. Φοράει ένα μπλε αθλητικό μπλουζάκι και πορτοκαλί αθλητικά παπούτσια. Στην αρχή ακούει το σήμα εκκίνησης. Τρέχει όσο πιο γρήγορα μπορεί. Τα πόδια της είναι δυνατά. Οι φίλοι της την επευφημούν από τις κερκίδες. Περνά την κορδέλα πρώτη! Η Σοφία κερδίζει το χρυσό μετάλλιο. Είναι η πρωταθλήτρια!",
+    text: [
+      {de:"Sofia liebt die "},{de:"Leichtathletik",gr:"αθλητισμός",pr:"ath-li-tis-mos",mark:true},
+      {de:". Heute hat sie ein wichtiges "},{de:"Rennen",gr:"αγώνας δρόμου",pr:"a-gho-nas dhro-mu",mark:true},
+      {de:" im "},{de:"Stadion",gr:"στάδιο",pr:"sta-dhi-o",mark:true},
+      {de:". Sie trägt blaue "},{de:"Sportkleidung",gr:"αθλητικά ρούχα",pr:"ath-li-ti-ka ru-cha",mark:true},
+      {de:". Beim "},{de:"Startschuss",gr:"σήμα εκκίνησης",pr:"si-ma e-ki-ni-sis",mark:true},
+      {de:" rennt sie so schnell wie möglich. Ihre "},{de:"Beine",gr:"πόδια",pr:"po-dhia",mark:true},
+      {de:" sind stark. Ihre Freunde "},{de:"feuern sie an",gr:"την επευφημούν",pr:"tin e-pef-fi-mun",mark:true},
+      {de:" von den Rängen. Sie durchbricht das "},{de:"Zielband",gr:"κορδέλα",pr:"kor-dhe-la",mark:true},
+      {de:" als Erste! Sofia gewinnt die "},{de:"Goldmedaille",gr:"χρυσό μετάλλιο",pr:"chri-so me-ta-li-o",mark:true},
+      {de:". Sie ist die "},{de:"Siegerin",gr:"πρωταθλήτρια",pr:"pro-tath-li-tria",mark:true},{de:"!"}
+    ]
   }
 ];
 
