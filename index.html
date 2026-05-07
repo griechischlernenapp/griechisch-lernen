@@ -654,8 +654,8 @@ function buildStoryGrid() {
     html+='<div class="story-card" onclick="openStory('+i+')">';
     html+='<img src="bilder/'+s.img+'.png" style="width:100%;height:140px;object-fit:cover;display:block" alt="'+s.title+'">';
     html+='<div style="padding:0 8px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">';
-    html+='<div style="font-size:12px;color:#1D9E75;font-weight:bold;margin-top:6px">'+s.titleGr+'</div>';
-    html+='<div class="story-title">'+s.title+'</div>';
+    html+='<div style="font-size:13px;color:#1D9E75;font-weight:bold;margin-top:6px">'+s.title+'</div>';
+    html+='<div style="font-size:12px;color:#2c2c2a;margin-bottom:2px">'+(s.titleGr||'')+'</div>';
     html+='<span class="story-level">'+s.emoji+'</span>';
     html+='</div></div>';
   }
@@ -673,8 +673,8 @@ function openStory(idx) {
   html+='</div>';
   html+='</div>';
   html+='<div class="card">';
-  html+='<div style="font-size:14px;color:#1D9E75;font-weight:bold;text-align:center;margin-bottom:3px">'+s.titleGr+'</div>';
-  html+='<div style="font-size:20px;font-weight:bold;margin-bottom:1rem;text-align:center">'+s.emoji+' '+s.title+'</div>';
+  html+='<div style="font-size:18px;color:#1D9E75;font-weight:bold;text-align:center;margin-bottom:2px">'+s.emoji+' '+s.title+'</div>';
+  html+='<div style="font-size:15px;color:#2c2c2a;text-align:center;margin-bottom:1rem">'+(s.titleGr||'')+'</div>';
   html+='<img src="bilder/'+s.img+'.png" style="width:100%;object-fit:contain;border-radius:10px;margin-bottom:1rem;display:block" alt="'+s.title+'">';
   html+='<p class="section-title">Grüne Wörter antippen = Griechisch lernen!</p>';
   html+='<div class="story-text">';
@@ -1119,8 +1119,8 @@ function openPrint(idx, mode) {
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
   fullHtml += '<title>'+s.title+'</title>';
   fullHtml += '<style>'+css+'</style></head><body>';
-  fullHtml += '<div style="font-size:16px;color:#1D9E75;font-weight:bold;text-align:center;margin-bottom:4px">'+s.titleGr+'</div>';
-  fullHtml += '<h2>'+s.emoji+' '+s.title+'</h2>';
+  fullHtml += '<h2 style="color:#1D9E75">'+s.emoji+' '+s.title+'</h2>';
+  fullHtml += '<div style="font-size:15px;color:#2c2c2a;text-align:center;margin-bottom:12px">'+(s.titleGr||'')+'</div>';
   fullHtml += '<img src="'+baseUrl+'bilder/'+s.img+'.png" class="ps-img" alt="'+s.title+'">';
   fullHtml += body;
   fullHtml += '</body></html>';
