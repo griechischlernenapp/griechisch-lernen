@@ -669,6 +669,7 @@ function openStory(idx) {
   html+='<div style="display:flex;gap:6px">';
   html+='<button onclick="openPrint('+idx+',\'de\')" style="padding:7px 12px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Deutsch</button>';
   html+='<button onclick="openPrint('+idx+',\'gr\')" style="padding:7px 12px;background:#0F6E56;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Griechisch</button>';
+  html+='<button onclick="openColorPrint('+idx+')" style="padding:7px 12px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">🎨 Ausmalen</button>';
   html+='</div>';
   html+='</div>';
   html+='<div class="card">';
@@ -1050,6 +1051,43 @@ function renderProgress() {
 
 
 
+
+
+// ── AUSMALBILD DRUCKEN ───────────────────────────────────
+function openColorPrint(idx) {
+  var s = stories[idx];
+  var baseUrl = window.location.href.replace(/[^/]*$/, '');
+  var imgSrc = baseUrl + 'bilder/' + s.img + '_coloring.jpg';
+
+  var css = [
+    '@page { size: A4 landscape; margin: 0; }',
+    'body { margin: 0; padding: 0; width: 297mm; height: 210mm; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:Arial,sans-serif; }',
+    '.color-img { width: 100%; height: 185mm; object-fit: contain; display: block; }',
+    '.color-title { text-align:center; padding: 4mm 0 2mm; }',
+    '.color-title .gr { font-size: 16px; font-weight: bold; color: #2c2c2a; }',
+    '.color-title .de { font-size: 13px; color: #1D9E75; }',
+    '.color-footer { font-size: 9px; color: #bbb; text-align:center; }'
+  ].join('');
+
+  var body = '<div class="color-title">';
+  body += '<div class="gr">' + (s.titleGr||s.title) + '</div>';
+  body += '<div class="de">' + s.title + '</div>';
+  body += '</div>';
+  body += '<img src="' + imgSrc + '" class="color-img" alt="' + s.title + '">';
+  body += '<div class="color-footer">griechischlernenapp.github.io/griechisch-lernen</div>';
+
+  var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
+  fullHtml += '<title>Ausmalbild - ' + s.title + '</title>';
+  fullHtml += '<style>' + css + '</style></head><body>';
+  fullHtml += body + '</body></html>';
+
+  var pw = window.open('', '_blank');
+  if(!pw){ alert('Bitte Popup-Blocker deaktivieren!'); return; }
+  pw.document.open();
+  pw.document.write(fullHtml);
+  pw.document.close();
+  pw.onload = function(){ pw.focus(); pw.print(); };
+}
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
 function openPrint(idx, mode) {
