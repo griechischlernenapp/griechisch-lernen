@@ -288,6 +288,48 @@ var stories = [
       {de:" als Erste! Sofia gewinnt die "},{de:"Goldmedaille",gr:"χρυσό μετάλλιο",pr:"chri-so me-ta-li-o",mark:true},
       {de:". Sie ist die "},{de:"Siegerin",gr:"πρωταθλήτρια",pr:"pro-tath-li-tria",mark:true},{de:"!"}
     ]
+  },
+  {
+    title: "Die Familie am Strand",
+    emoji: "🏖️",
+    img: "story-a_happy_family_arrived_in_a_silver_car",
+    grText: "Η οικογένεια φτάνει στην παραλία με το αυτοκίνητο. Είναι σχολικές διακοπές και όλοι είναι χαρούμενοι! Βλέπουν μια πινακίδα που γράφει ΠΑΡΑΛΙΑ. Το νερό της θάλασσας είναι κρυστάλλινο και γαλάζιο. Ο ήλιος λάμπει και ο ουρανός είναι καταγάλανος. Τα παιδιά ανοίγουν την πόρτα και τρέχουν στην άμμο. Δεν μπορούν να περιμένουν να μπουν στο νερό! Ο μπαμπάς παρκάρει το αυτοκίνητο. Η μαμά βγάζει τις πετσέτες και τις ομπρέλες. Σήμερα θα είναι μια τέλεια μέρα στην παραλία!",
+    text: [
+      {de:"Die "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},
+      {de:" erreicht mit dem "},{de:"Auto",gr:"αυτοκίνητο",pr:"af-to-ki-ni-to",mark:true},
+      {de:" den "},{de:"Strand",gr:"παραλία",pr:"pa-ra-li-a",mark:true},
+      {de:". Es sind "},{de:"Schulferien",gr:"σχολικές διακοπές",pr:"scho-li-kes dhi-a-ko-pes",mark:true},
+      {de:" und alle freuen sich! Das "},{de:"Meerwasser",gr:"θαλασσινό νερό",pr:"tha-la-si-no ne-ro",mark:true},
+      {de:" ist "},{de:"glasklar",gr:"κρυστάλλινο",pr:"kris-ta-li-no",mark:true},
+      {de:" und blau. Die "},{de:"Sonne",gr:"ήλιος",pr:"i-li-os",mark:true},
+      {de:" scheint und das Wetter ist "},{de:"sonnig",gr:"ηλιόλουστο",pr:"i-li-o-lus-to",mark:true},
+      {de:". Die Kinder rennen in den "},{de:"Sand",gr:"άμμος",pr:"a-mos",mark:true},
+      {de:" und können es kaum erwarten ins "},{de:"Wasser",gr:"νερό",pr:"ne-ro",mark:true},
+      {de:" zu springen. Mama holt die "},{de:"Handtücher",gr:"πετσέτες",pr:"pe-tse-tes",mark:true},
+      {de:" und "},{de:"Sonnenschirme",gr:"ομπρέλες",pr:"om-bre-les",mark:true},
+      {de:" heraus. Ein "},{de:"perfekter Tag",gr:"τέλεια μέρα",pr:"te-li-a me-ra",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Im griechischen Restaurant",
+    emoji: "🍽️",
+    img: "story-a_happy_family_sitting_together_at_a_greek_restaurant",
+    grText: "Η οικογένεια πηγαίνει σε ένα ελληνικό εστιατόριο. Όλοι είναι πεινασμένοι και ανυπομονούν για το φαγητό. Το εστιατόριο έχει μπλε καρέκλες και λουλούδια παντού. Ο σερβιτόρος φέρνει τον κατάλογο. Παραγγέλνουν πολλές ελληνικές σπεσιαλιτέ. Φέρνουν τζατζίκι, σαλάτα, σουβλάκι και τυρόπιτα. Τα παιδιά πίνουν χυμό και οι γονείς πίνουν νερό. Το φαγητό είναι νόστιμο και φρέσκο. Όλοι τρώνε με όρεξη και γελούν μαζί. Τι ωραία βραδιά!",
+    text: [
+      {de:"Die Familie geht in ein griechisches "},{de:"Restaurant",gr:"εστιατόριο",pr:"es-ti-a-to-ri-o",mark:true},
+      {de:". Alle sind "},{de:"hungrig",gr:"πεινασμένοι",pr:"pi-nas-me-ni",mark:true},
+      {de:" und freuen sich auf das "},{de:"Essen",gr:"φαγητό",pr:"fa-ghi-to",mark:true},
+      {de:". Der "},{de:"Kellner",gr:"σερβιτόρος",pr:"ser-vi-to-ros",mark:true},
+      {de:" bringt die "},{de:"Speisekarte",gr:"κατάλογος",pr:"ka-ta-lo-ghos",mark:true},
+      {de:". Sie bestellen viele griechische "},{de:"Spezialitäten",gr:"σπεσιαλιτέ",pr:"spe-si-a-li-te",mark:true},
+      {de:": "},{de:"Tzatziki",gr:"τζατζίκι",pr:"tza-tzi-ki",mark:true},
+      {de:", "},{de:"Salat",gr:"σαλάτα",pr:"sa-la-ta",mark:true},
+      {de:", "},{de:"Souvlaki",gr:"σουβλάκι",pr:"suv-la-ki",mark:true},
+      {de:" und "},{de:"Käsepastete",gr:"τυρόπιτα",pr:"ti-ro-pi-ta",mark:true},
+      {de:". Das Essen ist "},{de:"lecker",gr:"νόστιμο",pr:"nos-ti-mo",mark:true},
+      {de:" und frisch. Alle essen mit "},{de:"Appetit",gr:"όρεξη",pr:"o-rek-si",mark:true},
+      {de:" und lachen zusammen. Was für ein schöner "},{de:"Abend",gr:"βραδιά",pr:"vra-dhia",mark:true},{de:"!"}
+    ]
   }
 ];
 

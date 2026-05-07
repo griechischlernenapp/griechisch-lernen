@@ -1371,7 +1371,7 @@ function renderAlphaGrid() {
     html+='<div class="alpha-card" onclick="openAlpha('+i+')">';
     html+='<img src="bilder/'+a.img+'.png" class="alpha-img" alt="'+a.name+'">';
     html+='<div class="alpha-letters">'+a.gross+' '+a.klein+'</div>';
-    html+='<div class="alpha-name">'+a.name+'</div>';
+    html+='<div class="alpha-name"><span style="color:#0F6E56;font-weight:bold">'+a.nameGr+'</span> · '+a.name+'</div>';
     html+='<div class="alpha-pr">'+a.aussprache+'</div>';
     html+='</div>';
   }
@@ -1396,7 +1396,7 @@ function openAlpha(idx) {
   html+='<img src="bilder/'+a.img+'.png" class="alpha-detail-img" alt="'+a.name+'">';
   html+='<div>';
   html+='<div class="alpha-detail-letters">'+a.gross+' '+a.klein+'</div>';
-  html+='<div class="alpha-detail-name">'+a.name+'</div>';
+  html+='<div class="alpha-detail-name"><span style="color:#0F6E56">'+a.nameGr+'</span> · '+a.name+'</div>';
   html+='<div class="alpha-detail-pr">Aussprache: '+a.aussprache+'</div>';
   html+='<div class="alpha-detail-de">'+a.deutsch+'</div>';
   html+='</div></div>';
