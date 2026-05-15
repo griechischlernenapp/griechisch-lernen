@@ -1274,22 +1274,22 @@ function doPrint() {
 // ── GEOGRAPHIE ────────────────────────────────────────────
 // Koordinaten in % relativ zum Bild (left%, top%)
 var geoOrte = [
-  {gr:"Αθήνα",      pr:"A-thi-na",       de:"Athen",          typ:"stadt", x:55.4, y:57.9},
-  {gr:"Θεσσαλονίκη",pr:"The-sa-lo-ni-ki",de:"Thessaloniki",   typ:"stadt", x:45.5, y:18.0},
-  {gr:"Πάτρα",      pr:"Pa-tra",         de:"Patras",          typ:"stadt", x:39.4, y:54.4},
-  {gr:"Ιωάννινα",   pr:"I-o-a-ni-na",    de:"Ioannina",        typ:"stadt", x:24.9, y:32.3},
-  {gr:"Λάρισα",     pr:"La-ri-sa",       de:"Larisa",          typ:"stadt", x:44.0, y:35.2},
-  {gr:"Κρήτη",      pr:"Kri-ti",         de:"Kreta",           typ:"insel", x:50.4, y:88.5},
-  {gr:"Σαντορίνη",  pr:"San-to-ri-ni",   de:"Santorini",       typ:"insel", x:54.0, y:76.8},
-  {gr:"Μύκονος",    pr:"Mi-ko-nos",      de:"Mykonos",         typ:"insel", x:61.8, y:61.2},
-  {gr:"Ρόδος",      pr:"Ro-dhos",        de:"Rhodos",          typ:"insel", x:79.5, y:74.9},
-  {gr:"Κέρκυρα",    pr:"Ker-ki-ra",      de:"Korfu",           typ:"insel", x:13.8, y:29.9},
-  {gr:"Κεφαλονιά",  pr:"Ke-fa-lo-nia",   de:"Kefalonia",       typ:"insel", x:17.8, y:50.1},
-  {gr:"Λέσβος",     pr:"Les-vos",        de:"Lesbos",          typ:"insel", x:71.7, y:27.1},
-  {gr:"Χίος",       pr:"Chi-os",         de:"Chios",           typ:"insel", x:68.9, y:41.7},
-  {gr:"Όλυμπος",    pr:"O-lim-pos",      de:"Olymp",           typ:"berg",  x:41.2, y:26.0},
-  {gr:"Αιγαίο",     pr:"E-ghe-o",        de:"Ägäis",           typ:"meer",  x:61.8, y:46.9},
-  {gr:"Ιόνιο",      pr:"I-o-ni-o",       de:"Ionisches Meer",  typ:"meer",  x:19.2, y:59.9},
+  {gr:"Αθήνα",      pr:"A-thi-na",       de:"Athen",          typ:"stadt", x:56.1, y:56.0},
+  {gr:"Θεσσαλονίκη",pr:"The-sa-lo-ni-ki",de:"Thessaloniki",   typ:"stadt", x:46.2, y:16.9},
+  {gr:"Πάτρα",      pr:"Pa-tra",         de:"Patras",          typ:"stadt", x:37.6, y:52.7},
+  {gr:"Ιωάννινα",   pr:"I-o-a-ni-na",    de:"Ioannina",        typ:"stadt", x:23.8, y:31.2},
+  {gr:"Λάρισα",     pr:"La-ri-sa",       de:"Larisa",          typ:"stadt", x:43.3, y:34.5},
+  {gr:"Κρήτη",      pr:"Kri-ti",         de:"Kreta",           typ:"insel", x:49.0, y:89.2},
+  {gr:"Σαντορίνη",  pr:"San-to-ri-ni",   de:"Santorini",       typ:"insel", x:51.8, y:76.8},
+  {gr:"Μύκονος",    pr:"Mi-ko-nos",      de:"Mykonos",         typ:"insel", x:59.7, y:59.2},
+  {gr:"Ρόδος",      pr:"Ro-dhos",        de:"Rhodos",          typ:"insel", x:83.5, y:72.9},
+  {gr:"Κέρκυρα",    pr:"Ker-ki-ra",      de:"Korfu",           typ:"insel", x:13.1, y:28.0},
+  {gr:"Κεφαλονιά",  pr:"Ke-fa-lo-nia",   de:"Kefalonia",       typ:"insel", x:16.7, y:48.8},
+  {gr:"Λέσβος",     pr:"Les-vos",        de:"Lesbos",          typ:"insel", x:73.2, y:25.4},
+  {gr:"Χίος",       pr:"Chi-os",         de:"Chios",           typ:"insel", x:70.0, y:40.1},
+  {gr:"Όλυμπος",    pr:"O-lim-pos",      de:"Olymp",           typ:"berg",  x:40.3, y:25.1},
+  {gr:"Αιγαίο",     pr:"E-ghe-o",        de:"Ägäis",           typ:"meer",  x:60.4, y:44.9},
+  {gr:"Ιόνιο",      pr:"I-o-ni-o",       de:"Ionisches Meer",  typ:"meer",  x:18.1, y:59.2},
 ];
 
 var geoMode = "name"; // "name" = Karte→Name, "map" = Name→Karte
@@ -1299,146 +1299,324 @@ var geoScore = 0;
 var geoAnswered = false;
 
 function renderGeo() {
-  var a1=(geoMode==="name")?" active":"";
-  var a2=(geoMode==="map")?" active":"";
-  var html='<div class="geo-tabs">';
-  html+='<button class="geo-tab'+a1+'" onclick="switchGeoMode(this.dataset.m)" data-m="name">🗺️ Karte → Name</button>';
-  html+='<button class="geo-tab'+a2+'" onclick="switchGeoMode(this.dataset.m)" data-m="map">📍 Name → Karte</button>';
+  var a1=(geoMode==="typ")?" active":"";
+  var a2=(geoMode==="meer")?" active":"";
+  var a3=(geoMode==="wf")?" active":"";
+  var a4=(geoMode==="haupt")?" active":"";
+  var a5=(geoMode==="gross")?" active":"";
+  var html='<div class="geo-tabs" style="flex-wrap:wrap">';
+  html+='<button class="geo-tab'+a1+'" onclick="switchGeoMode(this.dataset.m)" data-m="typ">🏷️ Insel · Stadt · Berg?</button>';
+  html+='<button class="geo-tab'+a2+'" onclick="switchGeoMode(this.dataset.m)" data-m="meer">🌊 Welches Meer?</button>';
+  html+='<button class="geo-tab'+a3+'" onclick="switchGeoMode(this.dataset.m)" data-m="wf">✅ Wahr oder Falsch?</button>';
+  html+='<button class="geo-tab'+a4+'" onclick="switchGeoMode(this.dataset.m)" data-m="haupt">🏛️ Hauptstadt Quiz</button>';
+  html+='<button class="geo-tab'+a5+'" onclick="switchGeoMode(this.dataset.m)" data-m="gross">📏 Größte Insel?</button>';
   html+='</div><div id="geo-content"></div>';
   document.getElementById("geo-area").innerHTML=html;
   startGeoQuiz();
 }
 
 function switchGeoMode(mode) {
-  geoMode = mode;
-  var tabs = document.querySelectorAll(".geo-tab");
-  tabs[0].classList.toggle("active", mode==="name");
-  tabs[1].classList.toggle("active", mode==="map");
-  startGeoQuiz();
+  geoMode=mode;
+  renderGeo();
 }
 
+// ── SPIEL 1: TYP ──────────────────────────────────────────
 function startGeoQuiz() {
-  geoData = geoOrte.slice().sort(function(){ return Math.random()-0.5; });
-  geoIdx = 0; geoScore = 0; geoAnswered = false;
-  renderGeoQuestion();
+  if(geoMode==="typ") startTypQuiz();
+  else if(geoMode==="meer") startMeerQuiz();
+  else if(geoMode==="wf") startWFQuiz();
+  else if(geoMode==="haupt") startHauptQuiz();
+  else if(geoMode==="gross") startGrossQuiz();
 }
 
-function renderGeoQuestion() {
-  if(geoIdx >= geoData.length) {
-    var pct = Math.round(geoScore/geoData.length*100);
-    state.stars += geoScore; saveState();
-    document.getElementById("geo-content").innerHTML =
-      '<div class="geo-result">'+
-      '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+geoScore+'/'+geoData.length+'</div>'+
-      '<div style="font-size:15px;color:#888;margin-top:8px">'+(pct>=75?"Ausgezeichnet! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
-      '<button class="qrbtn" style="margin-top:1rem" onclick="startGeoQuiz()">Nochmal</button>'+
-      '</div>';
+var typData=[], typIdx=0, typScore=0, typAnswered=false;
+
+function startTypQuiz() {
+  var orte = geoOrte.filter(function(o){ return o.typ==="stadt"||o.typ==="insel"||o.typ==="berg"; });
+  typData = orte.slice().sort(function(){ return Math.random()-0.5; });
+  typIdx=0; typScore=0; typAnswered=false;
+  renderTypQuestion();
+}
+
+function renderTypQuestion() {
+  if(typIdx>=typData.length){
+    showGeoResult(typScore, typData.length, function(){ startTypQuiz(); });
     return;
   }
-  geoAnswered = false;
-  var q = geoData[geoIdx];
-  var dots = "";
-  for(var i=0;i<geoData.length;i++)
-    dots += '<div class="geo-dot'+(i<geoIdx?" done":i===geoIdx?" cur":"")+'"></div>';
-
-  if(geoMode === "name") {
-    renderGeoNameMode(q, dots);
-  } else {
-    renderGeoMapMode(q, dots);
-  }
-}
-
-function renderGeoNameMode(q, dots) {
-  // Show map with marker, choose correct name
-  var wrong = geoOrte.filter(function(o){ return o.gr!==q.gr; })
-    .sort(function(){ return Math.random()-0.5; }).slice(0,3);
-  var choices = wrong.concat([q]).sort(function(){ return Math.random()-0.5; });
-
-  var ch = "";
+  typAnswered=false;
+  var q=typData[typIdx];
+  var dots=buildDots(typData.length, typIdx);
+  var choices=[
+    {label:"🏙️ Stadt · Πόλη", val:"stadt"},
+    {label:"🏝️ Insel · Νησί", val:"insel"},
+    {label:"⛰️ Berg · Βουνό",  val:"berg"}
+  ];
+  var ch="";
   for(var i=0;i<choices.length;i++){
-    var c = choices[i];
-    ch += '<button class="geo-choice" data-gr="'+c.gr+'" data-correct="'+q.gr+'" onclick="checkGeoName(this)">';
-    ch += '<span class="gr">'+c.gr+'</span>';
-    ch += '<span class="de">'+c.de+'</span>';
-    ch += '</button>';
+    ch+='<button class="geo-choice" data-val="'+choices[i].val+'" data-correct="'+q.typ+'" onclick="checkTyp(this)">';
+    ch+='<span class="gr" style="font-size:18px">'+choices[i].label+'</span>';
+    ch+='</button>';
   }
-
-  var html = '<div class="geo-prog">'+dots+'</div>';
-  html += '<div class="geo-card">';
-  html += '<div class="geo-question">Wie heißt dieser Ort? · Πώς λέγεται αυτό το μέρος;</div>';
-  html += '<div class="geo-map-wrap">';
-  html += '<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" id="geo-map-img">';
-  html += '<div class="geo-marker" style="left:'+q.x+'%;top:'+q.y+'%">?</div>';
-  html += '</div></div>';
-  html += '<div class="geo-choices">'+ch+'</div>';
-  document.getElementById("geo-content").innerHTML = html;
+  var html=dots+'<div class="geo-card">';
+  html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
+  html+='<div class="geo-question">Was ist <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
+  html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
+  document.getElementById("geo-content").innerHTML=html;
 }
 
-function checkGeoName(btn) {
-  var chosen=btn.getAttribute("data-gr");
-  var correct=btn.getAttribute("data-correct");
-  if(geoAnswered) return;
-  geoAnswered = true;
-  var btns = document.querySelectorAll(".geo-choice");
-  for(var i=0;i<btns.length;i++) btns[i].disabled = true;
-  if(chosen === correct){ btn.classList.add("correct"); geoScore++; }
-  else {
-    btn.classList.add("wrong");
-    for(var i=0;i<btns.length;i++){
-      if(btns[i].dataset.gr === correct) btns[i].classList.add("correct");
-    }
+function checkTyp(btn) {
+  if(typAnswered) return; typAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct;
+  var btns=document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); typScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  setTimeout(function(){ typIdx++; renderTypQuestion(); }, 1300);
+}
+
+// ── SPIEL 2: MEER ─────────────────────────────────────────
+var meerOrte = [
+  {gr:"Κέρκυρα",   de:"Korfu",      meer:"ionisch"},
+  {gr:"Κεφαλονιά", de:"Kefalonia",  meer:"ionisch"},
+  {gr:"Ιόνιο",     de:"Ion. Meer",  meer:"ionisch"},
+  {gr:"Λέσβος",    de:"Lesbos",     meer:"aegaeisch"},
+  {gr:"Χίος",      de:"Chios",      meer:"aegaeisch"},
+  {gr:"Μύκονος",   de:"Mykonos",    meer:"aegaeisch"},
+  {gr:"Ρόδος",     de:"Rhodos",     meer:"aegaeisch"},
+  {gr:"Σαντορίνη", de:"Santorini",  meer:"aegaeisch"},
+  {gr:"Αιγαίο",    de:"Ägäis",      meer:"aegaeisch"},
+  {gr:"Κρήτη",     de:"Kreta",      meer:"aegaeisch"},
+];
+var meerData=[], meerIdx=0, meerScore=0, meerAnswered=false;
+
+function startMeerQuiz() {
+  meerData=meerOrte.slice().sort(function(){ return Math.random()-0.5; });
+  meerIdx=0; meerScore=0; meerAnswered=false;
+  renderMeerQuestion();
+}
+
+function renderMeerQuestion() {
+  if(meerIdx>=meerData.length){
+    showGeoResult(meerScore, meerData.length, function(){ startMeerQuiz(); });
+    return;
   }
-  // Show name on marker
-  var marker = document.querySelector(".geo-marker");
-  if(marker){ marker.style.background="#1D9E75"; marker.textContent="✓"; }
-  setTimeout(function(){ geoIdx++; renderGeoQuestion(); }, 1400);
+  meerAnswered=false;
+  var q=meerData[meerIdx];
+  var dots=buildDots(meerData.length, meerIdx);
+  var ch="";
+  ch+='<button class="geo-choice" data-val="ionisch" data-correct="'+q.meer+'" onclick="checkMeer(this)">';
+  ch+='<span class="gr">🌊 Ionisches Meer</span><span class="de">Ιόνιο Πέλαγος</span></button>';
+  ch+='<button class="geo-choice" data-val="aegaeisch" data-correct="'+q.meer+'" onclick="checkMeer(this)">';
+  ch+='<span class="gr">🌊 Ägäisches Meer</span><span class="de">Αιγαίο Πέλαγος</span></button>';
+  var html=dots+'<div class="geo-card">';
+  html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
+  html+='<div class="geo-question">In welchem Meer liegt <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
+  html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
+  document.getElementById("geo-content").innerHTML=html;
 }
 
-function renderGeoMapMode(q, dots) {
-  // Show name, tap correct location on map
-  var html = '<div class="geo-prog">'+dots+'</div>';
-  html += '<div class="geo-card">';
-  html += '<div class="geo-question">Wo liegt <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
-  html += '<div style="font-size:13px;color:#aaa;margin-bottom:10px;font-style:italic">Tippe auf die richtige Stelle auf der Karte!</div>';
-  html += '<div class="geo-map-wrap" id="geo-map-wrap">';
-  html += '<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" id="geo-map-img2" onclick="checkGeoMap(event,'+q.x+','+q.y+')">';
-  html += '</div></div>';
-  document.getElementById("geo-content").innerHTML = html;
+function checkMeer(btn) {
+  if(meerAnswered) return; meerAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct;
+  var btns=document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); meerScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  setTimeout(function(){ meerIdx++; renderMeerQuestion(); }, 1300);
 }
 
-function checkGeoMap(event, correctX, correctY) {
-  if(geoAnswered) return;
-  geoAnswered = true;
-  var img = document.getElementById("geo-map-img2");
-  var rect = img.getBoundingClientRect();
-  var clickX = (event.clientX - rect.left) / rect.width * 100;
-  var clickY = (event.clientY - rect.top) / rect.height * 100;
-  var dist = Math.sqrt(Math.pow(clickX-correctX,2) + Math.pow(clickY-correctY,2));
-  var correct = dist < 10; // within 10% tolerance
-  if(correct) geoScore++;
+// ── SPIEL 3: WAHR ODER FALSCH ─────────────────────────────
+var wfFragen = [
+  {frage:"Liegt Thessaloniki südlich von Athen?",     frageGr:"Η Θεσσαλονίκη βρίσκεται νότια της Αθήνας;",   antwort:false, erkl:"Thessaloniki liegt nördlich von Athen."},
+  {frage:"Liegt Athen südlicher als Thessaloniki?",   frageGr:"Η Αθήνα βρίσκεται νοτιότερα από τη Θεσσαλονίκη;", antwort:true, erkl:"Ja! Athen ist weiter im Süden."},
+  {frage:"Ist Kreta im Ionischen Meer?",              frageGr:"Η Κρήτη βρίσκεται στο Ιόνιο Πέλαγος;",       antwort:false, erkl:"Kreta liegt im Ägäischen Meer."},
+  {frage:"Ist Korfu im Ionischen Meer?",              frageGr:"Η Κέρκυρα βρίσκεται στο Ιόνιο Πέλαγος;",     antwort:true,  erkl:"Ja! Korfu liegt im Ionischen Meer."},
+  {frage:"Ist der Olymp auf Kreta?",                  frageGr:"Ο Όλυμπος βρίσκεται στην Κρήτη;",            antwort:false, erkl:"Der Olymp liegt in Nordgriechenland."},
+  {frage:"Ist der Olymp der höchste Berg Griechenlands?", frageGr:"Ο Όλυμπος είναι το ψηλότερο βουνό της Ελλάδας;", antwort:true, erkl:"Ja! Der Olymp ist 2917 m hoch."},
+  {frage:"Liegt Rhodos westlich von Athen?",          frageGr:"Η Ρόδος βρίσκεται δυτικά της Αθήνας;",       antwort:false, erkl:"Rhodos liegt östlich von Athen."},
+  {frage:"Ist Santorini eine Insel?",                 frageGr:"Η Σαντορίνη είναι νησί;",                    antwort:true,  erkl:"Ja! Santorini ist eine Insel im Ägäischen Meer."},
+  {frage:"Liegt Ioannina im Osten Griechenlands?",    frageGr:"Τα Ιωάννινα βρίσκονται στα ανατολικά;",      antwort:false, erkl:"Ioannina liegt im Westen Griechenlands."},
+  {frage:"Ist Athen die Hauptstadt Griechenlands?",   frageGr:"Η Αθήνα είναι η πρωτεύουσα της Ελλάδας;",    antwort:true,  erkl:"Ja! Athen ist die Hauptstadt."},
+  {frage:"Ist Lesbos im Ionischen Meer?",             frageGr:"Η Λέσβος βρίσκεται στο Ιόνιο Πέλαγος;",     antwort:false, erkl:"Lesbos liegt im Ägäischen Meer."},
+  {frage:"Hat Griechenland viele Inseln?",            frageGr:"Η Ελλάδα έχει πολλά νησιά;",                 antwort:true,  erkl:"Ja! Griechenland hat über 6000 Inseln."},
+  {frage:"Liegt Patras nördlich von Athen?",          frageGr:"Η Πάτρα βρίσκεται βόρεια της Αθήνας;",       antwort:false, erkl:"Patras liegt westlich von Athen."},
+  {frage:"Ist Mykonos eine Insel?",                   frageGr:"Η Μύκονος είναι νησί;",                      antwort:true,  erkl:"Ja! Mykonos liegt im Ägäischen Meer."},
+  {frage:"Liegt Kefalonia im Ägäischen Meer?",        frageGr:"Η Κεφαλονιά βρίσκεται στο Αιγαίο Πέλαγος;", antwort:false, erkl:"Kefalonia liegt im Ionischen Meer."},
+];
+var wfData=[], wfIdx=0, wfScore=0, wfAnswered=false;
 
-  // Show both markers
-  var wrap = document.getElementById("geo-map-wrap");
-  var clickMarker = document.createElement("div");
-  clickMarker.className = "geo-marker";
-  clickMarker.style.left = clickX+"%";
-  clickMarker.style.top = clickY+"%";
-  clickMarker.style.background = correct ? "#1D9E75" : "#E84040";
-  clickMarker.textContent = correct ? "✓" : "✗";
-  wrap.appendChild(clickMarker);
+function startWFQuiz() {
+  wfData=wfFragen.slice().sort(function(){ return Math.random()-0.5; });
+  wfIdx=0; wfScore=0; wfAnswered=false;
+  renderWFQuestion();
+}
 
-  if(!correct){
-    var correctMarker = document.createElement("div");
-    correctMarker.className = "geo-marker";
-    correctMarker.style.left = correctX+"%";
-    correctMarker.style.top = correctY+"%";
-    correctMarker.style.background = "#1D9E75";
-    correctMarker.textContent = "✓";
-    wrap.appendChild(correctMarker);
+function renderWFQuestion() {
+  if(wfIdx>=wfData.length){
+    showGeoResult(wfScore, wfData.length, function(){ startWFQuiz(); });
+    return;
   }
-
-  setTimeout(function(){ geoIdx++; renderGeoQuestion(); }, 1600);
+  wfAnswered=false;
+  var q=wfData[wfIdx];
+  var dots=buildDots(wfData.length, wfIdx);
+  var ch="";
+  ch+='<button class="geo-choice" data-val="true" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkWF(this)">';
+  ch+='<span class="gr" style="font-size:20px">✅ Wahr · Αλήθεια</span></button>';
+  ch+='<button class="geo-choice" data-val="false" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkWF(this)">';
+  ch+='<span class="gr" style="font-size:20px">❌ Falsch · Λάθος</span></button>';
+  var html=dots+'<div class="geo-card">';
+  html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
+  html+='<div class="geo-question">'+q.frage+'</div>';
+  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:6px">'+q.frageGr+'</div>';
+  html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
+  html+='<div id="erkl-box"></div>';
+  document.getElementById("geo-content").innerHTML=html;
 }
+
+function checkWF(btn) {
+  if(wfAnswered) return; wfAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct, erkl=btn.dataset.erkl;
+  var btns=document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  var isCorrect=(chosen===correct.toString());
+  if(isCorrect){ btn.classList.add("correct"); wfScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct.toString()) btns[i].classList.add("correct"); } }
+  var box=document.getElementById("erkl-box");
+  if(box) box.innerHTML='<div style="background:#E1F5EE;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;color:#0F6E56">💡 '+erkl+'</div>';
+  setTimeout(function(){ wfIdx++; renderWFQuestion(); }, 2000);
+}
+
+
+// ── SPIEL 4: HAUPTSTADT QUIZ ──────────────────────────────
+var hauptFragen = [
+  {frage:"Was ist die Hauptstadt von Griechenland?",          frageGr:"Ποια είναι η πρωτεύουσα της Ελλάδας;",
+   antwort:"Αθήνα · Athen", falsch:["Θεσσαλονίκη · Thessaloniki","Πάτρα · Patras","Ηράκλειο · Heraklion"]},
+  {frage:"Welche Stadt ist die zweitgrößte in Griechenland?", frageGr:"Ποια είναι η δεύτερη μεγαλύτερη πόλη;",
+   antwort:"Θεσσαλονίκη · Thessaloniki", falsch:["Αθήνα · Athen","Πάτρα · Patras","Λάρισα · Larisa"]},
+  {frage:"Was ist die Hauptstadt der Insel Kreta?",           frageGr:"Ποια είναι η πρωτεύουσα της Κρήτης;",
+   antwort:"Ηράκλειο · Heraklion", falsch:["Χανιά · Chania","Ρέθυμνο · Rethymno","Αθήνα · Athen"]},
+  {frage:"In welcher Stadt steht die Akropolis?",             frageGr:"Σε ποια πόλη βρίσκεται η Ακρόπολη;",
+   antwort:"Αθήνα · Athen", falsch:["Θεσσαλονίκη · Thessaloniki","Πάτρα · Patras","Λάρισα · Larisa"]},
+  {frage:"Welche Stadt liegt am Ionischen Meer im Westen?",   frageGr:"Ποια πόλη βρίσκεται στο δυτικό Ιόνιο;",
+   antwort:"Ιωάννινα · Ioannina", falsch:["Αθήνα · Athen","Λάρισα · Larisa","Θεσσαλονίκη · Thessaloniki"]},
+  {frage:"Welche Stadt liegt in Nordgriechenland am Meer?",   frageGr:"Ποια πόλη βρίσκεται στη βόρεια Ελλάδα δίπλα στη θάλασσα;",
+   antwort:"Θεσσαλονίκη · Thessaloniki", falsch:["Λάρισα · Larisa","Ιωάννινα · Ioannina","Πάτρα · Patras"]},
+  {frage:"Welche Stadt liegt auf der Insel Rhodos?",          frageGr:"Ποια πόλη βρίσκεται στη Ρόδο;",
+   antwort:"Ρόδος · Rhodos-Stadt", falsch:["Αθήνα · Athen","Χανιά · Chania","Πάτρα · Patras"]},
+  {frage:"In welcher Stadt liegt der größte Hafen Griechenlands?", frageGr:"Σε ποια πόλη βρίσκεται το μεγαλύτερο λιμάνι;",
+   antwort:"Πειραιάς · Piräus", falsch:["Θεσσαλονίκη · Thessaloniki","Πάτρα · Patras","Ηράκλειο · Heraklion"]},
+];
+var hauptData=[], hauptIdx=0, hauptScore=0, hauptAnswered=false;
+
+function startHauptQuiz() {
+  hauptData=hauptFragen.slice().sort(function(){ return Math.random()-0.5; });
+  hauptIdx=0; hauptScore=0; hauptAnswered=false;
+  renderHauptQuestion();
+}
+
+function renderHauptQuestion() {
+  if(hauptIdx>=hauptData.length){ showGeoResult(hauptScore,hauptData.length,startHauptQuiz); return; }
+  hauptAnswered=false;
+  var q=hauptData[hauptIdx];
+  var dots=buildDots(hauptData.length,hauptIdx);
+  var choices=[q.antwort,q.falsch[0],q.falsch[1],q.falsch[2]].sort(function(){ return Math.random()-0.5; });
+  var ch="";
+  for(var i=0;i<choices.length;i++){
+    ch+='<button class="geo-choice" data-val="'+choices[i]+'" data-correct="'+q.antwort+'" onclick="checkHaupt(this)">';
+    ch+='<span class="gr">'+choices[i]+'</span></button>';
+  }
+  var html=dots+'<div class="geo-card">';
+  html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
+  html+='<div class="geo-question">'+q.frage+'</div>';
+  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:4px">'+q.frageGr+'</div>';
+  html+='</div><div class="geo-choices">'+ch+'</div>';
+  document.getElementById("geo-content").innerHTML=html;
+}
+
+function checkHaupt(btn) {
+  if(hauptAnswered) return; hauptAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct;
+  var btns=document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); hauptScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  setTimeout(function(){ hauptIdx++; renderHauptQuestion(); }, 1400);
+}
+
+// ── SPIEL 5: GRÖSSTE INSEL ────────────────────────────────
+var grossFragen = [
+  {frage:"Welche ist die größte Insel Griechenlands?",        frageGr:"Ποιο είναι το μεγαλύτερο νησί της Ελλάδας;",
+   antwort:"Κρήτη · Kreta", falsch:["Ρόδος · Rhodos","Κέρκυρα · Korfu","Λέσβος · Lesbos"]},
+  {frage:"Welche Insel ist bekannt für ihre weißen Häuser?",  frageGr:"Ποιο νησί είναι γνωστό για τα άσπρα σπίτια;",
+   antwort:"Σαντορίνη · Santorini", falsch:["Μύκονος · Mykonos","Ρόδος · Rhodos","Κρήτη · Kreta"]},
+  {frage:"Welche Insel liegt am weitesten östlich?",          frageGr:"Ποιο νησί βρίσκεται πιο ανατολικά;",
+   antwort:"Ρόδος · Rhodos", falsch:["Κρήτη · Kreta","Λέσβος · Lesbos","Χίος · Chios"]},
+  {frage:"Welche Insel liegt am weitesten westlich?",         frageGr:"Ποιο νησί βρίσκεται πιο δυτικά;",
+   antwort:"Κέρκυρα · Korfu", falsch:["Κεφαλονιά · Kefalonia","Ζάκυνθος · Zakynthos","Κρήτη · Kreta"]},
+  {frage:"Welche Insel liegt am weitesten nördlich?",         frageGr:"Ποιο νησί βρίσκεται πιο βόρεια;",
+   antwort:"Λέσβος · Lesbos", falsch:["Χίος · Chios","Μύκονος · Mykonos","Σαντορίνη · Santorini"]},
+  {frage:"Welche Insel liegt am weitesten südlich?",          frageGr:"Ποιο νησί βρίσκεται πιο νότια;",
+   antwort:"Κρήτη · Kreta", falsch:["Σαντορίνη · Santorini","Ρόδος · Rhodos","Κέρκυρα · Korfu"]},
+  {frage:"Auf welcher Insel wurde Zeus geboren?",             frageGr:"Σε ποιο νησί γεννήθηκε ο Δίας;",
+   antwort:"Κρήτη · Kreta", falsch:["Ρόδος · Rhodos","Λέσβος · Lesbos","Σαντορίνη · Santorini"]},
+  {frage:"Welche Insel gehört zu den Kykladen?",              frageGr:"Ποιο νησί ανήκει στις Κυκλάδες;",
+   antwort:"Μύκονος · Mykonos", falsch:["Κρήτη · Kreta","Κέρκυρα · Korfu","Λέσβος · Lesbos"]},
+];
+var grossData=[], grossIdx=0, grossScore=0, grossAnswered=false;
+
+function startGrossQuiz() {
+  grossData=grossFragen.slice().sort(function(){ return Math.random()-0.5; });
+  grossIdx=0; grossScore=0; grossAnswered=false;
+  renderGrossQuestion();
+}
+
+function renderGrossQuestion() {
+  if(grossIdx>=grossData.length){ showGeoResult(grossScore,grossData.length,startGrossQuiz); return; }
+  grossAnswered=false;
+  var q=grossData[grossIdx];
+  var dots=buildDots(grossData.length,grossIdx);
+  var choices=[q.antwort,q.falsch[0],q.falsch[1],q.falsch[2]].sort(function(){ return Math.random()-0.5; });
+  var ch="";
+  for(var i=0;i<choices.length;i++){
+    ch+='<button class="geo-choice" data-val="'+choices[i]+'" data-correct="'+q.antwort+'" onclick="checkGross(this)">';
+    ch+='<span class="gr">'+choices[i]+'</span></button>';
+  }
+  var html=dots+'<div class="geo-card">';
+  html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
+  html+='<div class="geo-question">'+q.frage+'</div>';
+  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:4px">'+q.frageGr+'</div>';
+  html+='</div><div class="geo-choices">'+ch+'</div>';
+  document.getElementById("geo-content").innerHTML=html;
+}
+
+function checkGross(btn) {
+  if(grossAnswered) return; grossAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct;
+  var btns=document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); grossScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  setTimeout(function(){ grossIdx++; renderGrossQuestion(); }, 1400);
+}
+
+// ── HILFSFUNKTIONEN ───────────────────────────────────────
+function buildDots(total, current) {
+  var d='<div class="geo-prog">';
+  for(var i=0;i<total;i++) d+='<div class="geo-dot'+(i<current?" done":i===current?" cur":"")+'"></div>';
+  return d+'</div>';
+}
+
+function showGeoResult(score, total, cb) {
+  var pct=Math.round(score/total*100);
+  state.stars+=score; saveState();
+  document.getElementById("geo-content").innerHTML=
+    '<div class="geo-result">'+
+    '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+score+'/'+total+'</div>'+
+    '<div style="font-size:15px;color:#888;margin-top:8px">'+(pct>=75?"Ausgezeichnet! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
+    '<button class="qrbtn" style="margin-top:1rem" onclick="startGeoQuiz()">Nochmal</button>'+
+    '</div>';
+}
+
 
 // ── GRAMMATIK ─────────────────────────────────────────────
 var currentGramKat = "tiere";
