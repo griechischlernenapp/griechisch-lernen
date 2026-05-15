@@ -330,6 +330,28 @@ var stories = [
       {de:" und frisch. Alle essen mit "},{de:"Appetit",gr:"όρεξη",pr:"o-rek-si",mark:true},
       {de:" und lachen zusammen. Was für ein schöner "},{de:"Abend",gr:"βραδιά",pr:"vra-dhia",mark:true},{de:"!"}
     ]
+  },
+  {
+    title: "Entdecke Griechenland",
+    titleGr: "Ανακάλυψε την Ελλάδα",
+    emoji: "🗺️",
+    img: "story-map_of_greece_01",
+    grText: "Η Ελλάδα είναι μια όμορφη χώρα στη νότια Ευρώπη. Η πρωτεύουσα είναι η Αθήνα. Στη Αθήνα βρίσκεται η Ακρόπολη. Η Θεσσαλονίκη είναι η δεύτερη μεγάλη πόλη. Ο Όλυμπος είναι το ψηλότερο βουνό της Ελλάδας. Εκεί ζούσαν οι αρχαίοι θεοί! Η Ελλάδα έχει πολλά νησιά. Η Κρήτη είναι το μεγαλύτερο νησί. Η Σαντορίνη είναι διάσημη για τα άσπρα σπίτια και τη θάλασσα. Η Μύκονος και η Ρόδος είναι επίσης πολύ όμορφες. Στα δυτικά βρίσκεται το Ιόνιο Πέλαγος και στα ανατολικά το Αιγαίο Πέλαγος. Η Ελλάδα είναι μια μαγική χώρα!",
+    text: [
+      {de:"Griechenland ist ein schönes "},{de:"Land",gr:"χώρα",pr:"cho-ra",mark:true},
+      {de:" im Süden Europas. Die "},{de:"Hauptstadt",gr:"πρωτεύουσα",pr:"pro-tev-u-sa",mark:true},
+      {de:" ist "},{de:"Athen",gr:"Αθήνα",pr:"A-thi-na",mark:true},
+      {de:". Dort steht die "},{de:"Akropolis",gr:"Ακρόπολη",pr:"A-kro-po-li",mark:true},
+      {de:". "},{de:"Thessaloniki",gr:"Θεσσαλονίκη",pr:"The-sa-lo-ni-ki",mark:true},
+      {de:" ist die zweitgrößte Stadt. Der "},{de:"Olymp",gr:"Όλυμπος",pr:"O-lim-pos",mark:true},
+      {de:" ist der höchste "},{de:"Berg",gr:"βουνό",pr:"vu-no",mark:true},
+      {de:" — dort lebten die alten Götter! Griechenland hat viele "},{de:"Inseln",gr:"νησιά",pr:"ni-sia",mark:true},
+      {de:". "},{de:"Kreta",gr:"Κρήτη",pr:"Kri-ti",mark:true},
+      {de:" ist die größte Insel. "},{de:"Santorini",gr:"Σαντορίνη",pr:"San-to-ri-ni",mark:true},
+      {de:" ist bekannt für seine weißen Häuser. Im Westen liegt das "},{de:"Ionische Meer",gr:"Ιόνιο Πέλαγος",pr:"I-o-ni-o Pe-la-ghos",mark:true},
+      {de:" und im Osten die "},{de:"Ägäis",gr:"Αιγαίο Πέλαγος",pr:"E-ghe-o Pe-la-ghos",mark:true},
+      {de:". Griechenland ist ein "},{de:"magisches Land",gr:"μαγική χώρα",pr:"ma-gi-ki cho-ra",mark:true},{de:"!"}
+    ]
   }
 ];
 
