@@ -27,6 +27,32 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 
+
+/* GEOGRAPHIE */
+.geo-tabs{display:flex;gap:8px;margin-bottom:1rem;justify-content:center}
+.geo-tab{padding:9px 20px;border-radius:20px;border:1.5px solid #ccc;font-size:13px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif;transition:all 0.15s}
+.geo-tab.active{background:#1D9E75;color:white;border-color:#1D9E75}
+.geo-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.5rem;text-align:center;margin-bottom:1rem}
+.geo-map-img{width:100%;border-radius:10px;margin-bottom:1rem;position:relative;display:block}
+.geo-question{font-size:16px;color:#2c2c2a;margin-bottom:1rem;font-weight:bold}
+.geo-marker{position:absolute;width:28px;height:28px;background:#E84040;border:3px solid white;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,0.3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:white}
+.geo-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.geo-choice{padding:12px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:all 0.15s;text-align:center}
+.geo-choice:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
+.geo-choice.correct{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56;font-weight:bold}
+.geo-choice.wrong{background:#FAECE7;border-color:#D85A30;color:#993C1D}
+.geo-choice:disabled{cursor:default}
+.geo-choice .gr{font-size:15px;font-weight:bold;color:#0F6E56;display:block}
+.geo-choice .de{font-size:11px;color:#888;display:block;margin-top:2px}
+.geo-choice.correct .de,.geo-choice.correct .gr{color:#0F6E56}
+.geo-choice.wrong .de,.geo-choice.wrong .gr{color:#993C1D}
+.geo-prog{display:flex;gap:5px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.geo-dot{width:10px;height:10px;border-radius:50%;background:#ddd}
+.geo-dot.done{background:#1D9E75}
+.geo-dot.cur{background:#5DCAA5;border:2px solid #1D9E75}
+.geo-result{text-align:center;padding:2rem;background:white;border-radius:14px;border:1.5px solid #ddd}
+.geo-map-wrap{position:relative;display:inline-block;width:100%}
+
 /* GRAMMATIK */
 .gram-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
 .gram-tab{padding:6px 14px;border-radius:14px;border:1px solid #ccc;font-size:12px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif}
@@ -284,6 +310,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
     <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
     <button onclick="showScreen('grammatik')">📐 Grammatik</button>
+    <button onclick="showScreen('geo')">🗺️ Geographie</button>
     <button onclick="showScreen('progress')">📊 Fortschritt</button>
   </div>
 
@@ -342,6 +369,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="grammatik">
     <div id="grammatik-area"></div>
+  </div>
+
+  <div class="screen" id="geo">
+    <div id="geo-area"></div>
   </div>
 
   <div class="screen" id="quiz">
@@ -622,7 +653,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","geo","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -631,6 +662,7 @@ function showScreen(id) {
   if(id==="luecke")  {buildSel("luecke-cat"); startLuecke();}
   if(id==="quiz")     startQuiz();
   if(id==="progress") renderProgress();
+  if(id==="geo") renderGeo();
   if(id==="grammatik") renderGrammatik();
   if(id==="alphabet") renderAlphaGrid();
   if(id==="stories") buildStoryGrid();
@@ -1237,6 +1269,176 @@ function doPrint() {
   setTimeout(function(){ printWindow.print(); }, 500);
 }
 
+
+
+// ── GEOGRAPHIE ────────────────────────────────────────────
+// Koordinaten in % relativ zum Bild (left%, top%)
+var geoOrte = [
+  {gr:"Αθήνα",      pr:"A-thi-na",      de:"Athen",         typ:"stadt", x:57, y:58},
+  {gr:"Θεσσαλονίκη",pr:"The-sa-lo-ni-ki",de:"Thessaloniki",  typ:"stadt", x:54, y:18},
+  {gr:"Πάτρα",      pr:"Pa-tra",        de:"Patras",         typ:"stadt", x:44, y:55},
+  {gr:"Ιωάννινα",   pr:"I-o-a-ni-na",   de:"Ioannina",       typ:"stadt", x:28, y:32},
+  {gr:"Λάρισα",     pr:"La-ri-sa",      de:"Larisa",         typ:"stadt", x:50, y:35},
+  {gr:"Κρήτη",      pr:"Kri-ti",        de:"Kreta",          typ:"insel", x:57, y:88},
+  {gr:"Σαντορίνη",  pr:"San-to-ri-ni",  de:"Santorini",      typ:"insel", x:63, y:78},
+  {gr:"Μύκονος",    pr:"Mi-ko-nos",     de:"Mykonos",        typ:"insel", x:70, y:62},
+  {gr:"Ρόδος",      pr:"Ro-dhos",       de:"Rhodos",         typ:"insel", x:88, y:76},
+  {gr:"Κέρκυρα",    pr:"Ker-ki-ra",     de:"Korfu",          typ:"insel", x:18, y:30},
+  {gr:"Κεφαλονιά",  pr:"Ke-fa-lo-nia",  de:"Kefalonia",      typ:"insel", x:22, y:50},
+  {gr:"Λέσβος",     pr:"Les-vos",       de:"Lesbos",         typ:"insel", x:80, y:28},
+  {gr:"Χίος",       pr:"Chi-os",        de:"Chios",          typ:"insel", x:78, y:42},
+  {gr:"Όλυμπος",    pr:"O-lim-pos",     de:"Olymp",          typ:"berg",  x:48, y:26},
+  {gr:"Αιγαίο",     pr:"E-ghe-o",       de:"Ägäis",          typ:"meer",  x:72, y:48},
+  {gr:"Ιόνιο",      pr:"I-o-ni-o",      de:"Ionisches Meer", typ:"meer",  x:22, y:60},
+];
+
+var geoMode = "name"; // "name" = Karte→Name, "map" = Name→Karte
+var geoData = [];
+var geoIdx = 0;
+var geoScore = 0;
+var geoAnswered = false;
+
+function renderGeo() {
+  var a1=(geoMode==="name")?" active":"";
+  var a2=(geoMode==="map")?" active":"";
+  var html='<div class="geo-tabs">';
+  html+='<button class="geo-tab'+a1+'" onclick="switchGeoMode(this.dataset.m)" data-m="name">🗺️ Karte → Name</button>';
+  html+='<button class="geo-tab'+a2+'" onclick="switchGeoMode(this.dataset.m)" data-m="map">📍 Name → Karte</button>';
+  html+='</div><div id="geo-content"></div>';
+  document.getElementById("geo-area").innerHTML=html;
+  startGeoQuiz();
+}
+
+function switchGeoMode(mode) {
+  geoMode = mode;
+  var tabs = document.querySelectorAll(".geo-tab");
+  tabs[0].classList.toggle("active", mode==="name");
+  tabs[1].classList.toggle("active", mode==="map");
+  startGeoQuiz();
+}
+
+function startGeoQuiz() {
+  geoData = geoOrte.slice().sort(function(){ return Math.random()-0.5; });
+  geoIdx = 0; geoScore = 0; geoAnswered = false;
+  renderGeoQuestion();
+}
+
+function renderGeoQuestion() {
+  if(geoIdx >= geoData.length) {
+    var pct = Math.round(geoScore/geoData.length*100);
+    state.stars += geoScore; saveState();
+    document.getElementById("geo-content").innerHTML =
+      '<div class="geo-result">'+
+      '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+geoScore+'/'+geoData.length+'</div>'+
+      '<div style="font-size:15px;color:#888;margin-top:8px">'+(pct>=75?"Ausgezeichnet! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
+      '<button class="qrbtn" style="margin-top:1rem" onclick="startGeoQuiz()">Nochmal</button>'+
+      '</div>';
+    return;
+  }
+  geoAnswered = false;
+  var q = geoData[geoIdx];
+  var dots = "";
+  for(var i=0;i<geoData.length;i++)
+    dots += '<div class="geo-dot'+(i<geoIdx?" done":i===geoIdx?" cur":"")+'"></div>';
+
+  if(geoMode === "name") {
+    renderGeoNameMode(q, dots);
+  } else {
+    renderGeoMapMode(q, dots);
+  }
+}
+
+function renderGeoNameMode(q, dots) {
+  // Show map with marker, choose correct name
+  var wrong = geoOrte.filter(function(o){ return o.gr!==q.gr; })
+    .sort(function(){ return Math.random()-0.5; }).slice(0,3);
+  var choices = wrong.concat([q]).sort(function(){ return Math.random()-0.5; });
+
+  var ch = "";
+  for(var i=0;i<choices.length;i++){
+    var c = choices[i];
+    ch += '<button class="geo-choice" data-gr="'+c.gr+'" data-correct="'+q.gr+'" onclick="checkGeoName(this)">';
+    ch += '<span class="gr">'+c.gr+'</span>';
+    ch += '<span class="de">'+c.de+'</span>';
+    ch += '</button>';
+  }
+
+  var html = '<div class="geo-prog">'+dots+'</div>';
+  html += '<div class="geo-card">';
+  html += '<div class="geo-question">Wie heißt dieser Ort? · Πώς λέγεται αυτό το μέρος;</div>';
+  html += '<div class="geo-map-wrap">';
+  html += '<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" id="geo-map-img">';
+  html += '<div class="geo-marker" style="left:'+q.x+'%;top:'+q.y+'%">?</div>';
+  html += '</div></div>';
+  html += '<div class="geo-choices">'+ch+'</div>';
+  document.getElementById("geo-content").innerHTML = html;
+}
+
+function checkGeoName(btn) {
+  var chosen=btn.getAttribute("data-gr");
+  var correct=btn.getAttribute("data-correct");
+  if(geoAnswered) return;
+  geoAnswered = true;
+  var btns = document.querySelectorAll(".geo-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled = true;
+  if(chosen === correct){ btn.classList.add("correct"); geoScore++; }
+  else {
+    btn.classList.add("wrong");
+    for(var i=0;i<btns.length;i++){
+      if(btns[i].dataset.gr === correct) btns[i].classList.add("correct");
+    }
+  }
+  // Show name on marker
+  var marker = document.querySelector(".geo-marker");
+  if(marker){ marker.style.background="#1D9E75"; marker.textContent="✓"; }
+  setTimeout(function(){ geoIdx++; renderGeoQuestion(); }, 1400);
+}
+
+function renderGeoMapMode(q, dots) {
+  // Show name, tap correct location on map
+  var html = '<div class="geo-prog">'+dots+'</div>';
+  html += '<div class="geo-card">';
+  html += '<div class="geo-question">Wo liegt <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
+  html += '<div style="font-size:13px;color:#aaa;margin-bottom:10px;font-style:italic">Tippe auf die richtige Stelle auf der Karte!</div>';
+  html += '<div class="geo-map-wrap" id="geo-map-wrap">';
+  html += '<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" id="geo-map-img2" onclick="checkGeoMap(event,'+q.x+','+q.y+')">';
+  html += '</div></div>';
+  document.getElementById("geo-content").innerHTML = html;
+}
+
+function checkGeoMap(event, correctX, correctY) {
+  if(geoAnswered) return;
+  geoAnswered = true;
+  var img = document.getElementById("geo-map-img2");
+  var rect = img.getBoundingClientRect();
+  var clickX = (event.clientX - rect.left) / rect.width * 100;
+  var clickY = (event.clientY - rect.top) / rect.height * 100;
+  var dist = Math.sqrt(Math.pow(clickX-correctX,2) + Math.pow(clickY-correctY,2));
+  var correct = dist < 10; // within 10% tolerance
+  if(correct) geoScore++;
+
+  // Show both markers
+  var wrap = document.getElementById("geo-map-wrap");
+  var clickMarker = document.createElement("div");
+  clickMarker.className = "geo-marker";
+  clickMarker.style.left = clickX+"%";
+  clickMarker.style.top = clickY+"%";
+  clickMarker.style.background = correct ? "#1D9E75" : "#E84040";
+  clickMarker.textContent = correct ? "✓" : "✗";
+  wrap.appendChild(clickMarker);
+
+  if(!correct){
+    var correctMarker = document.createElement("div");
+    correctMarker.className = "geo-marker";
+    correctMarker.style.left = correctX+"%";
+    correctMarker.style.top = correctY+"%";
+    correctMarker.style.background = "#1D9E75";
+    correctMarker.textContent = "✓";
+    wrap.appendChild(correctMarker);
+  }
+
+  setTimeout(function(){ geoIdx++; renderGeoQuestion(); }, 1600);
+}
 
 // ── GRAMMATIK ─────────────────────────────────────────────
 var currentGramKat = "tiere";
