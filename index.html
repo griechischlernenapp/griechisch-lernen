@@ -1347,9 +1347,9 @@ function renderTypQuestion() {
   var q=typData[typIdx];
   var dots=buildDots(typData.length, typIdx);
   var choices=[
-    {label:"🏙️ Stadt · Πόλη", val:"stadt"},
-    {label:"🏝️ Insel · Νησί", val:"insel"},
-    {label:"⛰️ Berg · Βουνό",  val:"berg"}
+    {label:"🏙️ Πόλη · Stadt", val:"stadt"},
+    {label:"🏝️ Νησί · Insel", val:"insel"},
+    {label:"⛰️ Βουνό · Berg",  val:"berg"}
   ];
   var ch="";
   for(var i=0;i<choices.length;i++){
@@ -1359,7 +1359,7 @@ function renderTypQuestion() {
   }
   var html=dots+'<div class="geo-card">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question">Was ist <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
+  html+='<div class="geo-question"><span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> <span style="font-size:13px;color:#888">· '+q.de+'</span><br>Νησί, Πόλη ή Βουνό; · Insel, Stadt oder Berg?</div>';
   html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
   document.getElementById("geo-content").innerHTML=html;
 }
@@ -1405,12 +1405,12 @@ function renderMeerQuestion() {
   var dots=buildDots(meerData.length, meerIdx);
   var ch="";
   ch+='<button class="geo-choice" data-val="ionisch" data-correct="'+q.meer+'" onclick="checkMeer(this)">';
-  ch+='<span class="gr">🌊 Ionisches Meer</span><span class="de">Ιόνιο Πέλαγος</span></button>';
+  ch+='<span class="gr">🌊 Ιόνιο Πέλαγος</span><span class="de">Ionisches Meer</span></button>';
   ch+='<button class="geo-choice" data-val="aegaeisch" data-correct="'+q.meer+'" onclick="checkMeer(this)">';
-  ch+='<span class="gr">🌊 Ägäisches Meer</span><span class="de">Αιγαίο Πέλαγος</span></button>';
+  ch+='<span class="gr">🌊 Αιγαίο Πέλαγος</span><span class="de">Ägäisches Meer</span></button>';
   var html=dots+'<div class="geo-card">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question">In welchem Meer liegt <span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> · '+q.de+'?</div>';
+  html+='<div class="geo-question"><span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> <span style="font-size:13px;color:#888">· '+q.de+'</span><br>Σε ποιο πέλαγος; · In welchem Meer?</div>';
   html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
   document.getElementById("geo-content").innerHTML=html;
 }
@@ -1461,13 +1461,13 @@ function renderWFQuestion() {
   var dots=buildDots(wfData.length, wfIdx);
   var ch="";
   ch+='<button class="geo-choice" data-val="true" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkWF(this)">';
-  ch+='<span class="gr" style="font-size:20px">✅ Wahr · Αλήθεια</span></button>';
+  ch+='<span class="gr" style="font-size:20px">✅ Αλήθεια · Wahr</span></button>';
   ch+='<button class="geo-choice" data-val="false" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkWF(this)">';
-  ch+='<span class="gr" style="font-size:20px">❌ Falsch · Λάθος</span></button>';
+  ch+='<span class="gr" style="font-size:20px">❌ Λάθος · Falsch</span></button>';
   var html=dots+'<div class="geo-card">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question">'+q.frage+'</div>';
-  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:6px">'+q.frageGr+'</div>';
+  html+='<div class="geo-question" style="color:#1D9E75">'+q.frageGr+'</div>';
+  html+='<div style="font-size:13px;color:#888;font-style:italic;margin-top:4px">'+q.frage+'</div>';
   html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
   html+='<div id="erkl-box"></div>';
   document.getElementById("geo-content").innerHTML=html;
@@ -1527,8 +1527,8 @@ function renderHauptQuestion() {
   }
   var html=dots+'<div class="geo-card">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question">'+q.frage+'</div>';
-  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:4px">'+q.frageGr+'</div>';
+  html+='<div class="geo-question" style="color:#1D9E75">'+q.frageGr+'</div>';
+  html+='<div style="font-size:13px;color:#888;font-style:italic;margin-top:4px">'+q.frage+'</div>';
   html+='</div><div class="geo-choices">'+ch+'</div>';
   document.getElementById("geo-content").innerHTML=html;
 }
@@ -1583,8 +1583,8 @@ function renderGrossQuestion() {
   }
   var html=dots+'<div class="geo-card">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question">'+q.frage+'</div>';
-  html+='<div style="font-size:13px;color:#1D9E75;font-style:italic;margin-top:4px">'+q.frageGr+'</div>';
+  html+='<div class="geo-question" style="color:#1D9E75">'+q.frageGr+'</div>';
+  html+='<div style="font-size:13px;color:#888;font-style:italic;margin-top:4px">'+q.frage+'</div>';
   html+='</div><div class="geo-choices">'+ch+'</div>';
   document.getElementById("geo-content").innerHTML=html;
 }
