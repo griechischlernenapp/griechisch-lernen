@@ -28,6 +28,29 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 
+
+/* WORTBAU */
+.wb-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem}
+.wb-img{width:120px;height:120px;object-fit:contain;margin:0 auto 0.8rem;display:block}
+.wb-hint-de{font-size:18px;color:#888;margin-bottom:0.5rem;font-style:italic}
+.wb-pr{font-size:13px;color:#1D9E75;font-style:italic;margin-bottom:1rem}
+.wb-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:52px;margin-bottom:1rem;padding:10px;background:#f0f0ec;border-radius:10px;border:2px dashed #ccc}
+.wb-slots.correct{border-color:#1D9E75;background:#E1F5EE}
+.wb-slots.wrong{border-color:#D85A30;background:#FAECE7}
+.wb-slot{width:44px;height:44px;border-radius:8px;background:white;border:1.5px solid #1D9E75;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:bold;color:#0F6E56}
+.wb-letters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:1rem}
+.wb-letter{width:44px;height:44px;border-radius:8px;background:#1D9E75;color:white;font-size:18px;font-weight:bold;cursor:grab;display:flex;align-items:center;justify-content:center;border:none;font-family:Georgia,serif;transition:transform 0.1s;user-select:none}
+.wb-letter:active{transform:scale(1.15);cursor:grabbing}
+.wb-letter.used{background:#ddd;color:#aaa;cursor:default}
+.wb-letter.dragging{opacity:0.5}
+.wb-check-btn{padding:10px 24px;background:#1D9E75;color:white;border:none;border-radius:20px;font-size:14px;cursor:pointer;font-family:Georgia,serif;margin-top:0.5rem}
+.wb-check-btn:disabled{background:#ddd;color:#aaa;cursor:default}
+.wb-next-btn{padding:10px 24px;background:#0F6E56;color:white;border:none;border-radius:20px;font-size:14px;cursor:pointer;font-family:Georgia,serif;margin-top:0.5rem;display:none}
+.wb-msg{font-size:15px;font-weight:bold;margin-top:0.8rem;min-height:24px}
+.wb-cat-filters{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.wb-cat-btn{padding:5px 12px;border-radius:14px;border:1px solid #ccc;font-size:12px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif}
+.wb-cat-btn.active{background:#5DCAA5;color:white;border-color:#5DCAA5}
+
 /* GEOGRAPHIE */
 .geo-tabs{display:flex;gap:8px;margin-bottom:1rem;justify-content:center}
 .geo-tab{padding:9px 20px;border-radius:20px;border:1.5px solid #ccc;font-size:13px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif;transition:all 0.15s}
@@ -310,6 +333,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
     <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
     <button onclick="showScreen('grammatik')">📐 Grammatik</button>
+    <button onclick="showScreen('wortbau')">🔀 Wortbau</button>
     <button onclick="showScreen('geo')">🗺️ Geographie</button>
     <button onclick="showScreen('progress')">📊 Fortschritt</button>
   </div>
@@ -369,6 +393,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="grammatik">
     <div id="grammatik-area"></div>
+  </div>
+
+  <div class="screen" id="wortbau">
+    <div id="wortbau-area"></div>
   </div>
 
   <div class="screen" id="geo">
@@ -653,7 +681,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","geo","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","wortbau","geo","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -663,6 +691,7 @@ function showScreen(id) {
   if(id==="quiz")     startQuiz();
   if(id==="progress") renderProgress();
   if(id==="geo") renderGeo();
+  if(id==="wortbau") startWortbau();
   if(id==="grammatik") renderGrammatik();
   if(id==="alphabet") renderAlphaGrid();
   if(id==="stories") buildStoryGrid();
@@ -1270,6 +1299,191 @@ function doPrint() {
 }
 
 
+
+
+// ── WORTBAU ───────────────────────────────────────────────
+var wbWords = [];
+var wbIdx = 0;
+var wbScore = 0;
+var wbCat = "all";
+var wbSlots = [];
+var wbLetters = [];
+var wbDragLetter = null;
+
+function buildWbWords() {
+  // Combine vocab + story words
+  var pool = vocab.slice();
+  // Add story marked words
+  for(var i=0;i<stories.length;i++){
+    for(var j=0;j<stories[i].text.length;j++){
+      var t=stories[i].text[j];
+      if(t.mark && t.gr && t.gr.length>=3 && t.gr.length<=12){
+        var found=false;
+        for(var k=0;k<pool.length;k++){ if(pool[k].gr===t.gr){found=true;break;} }
+        if(!found) pool.push({de:t.de, gr:t.gr, pr:t.pr, emoji:"📖", cat:"geschichten"});
+      }
+    }
+  }
+  // Filter by cat and word length
+  if(wbCat!=="all") pool=pool.filter(function(w){ return w.cat===wbCat; });
+  pool=pool.filter(function(w){ return w.gr && w.gr.length>=3 && w.gr.length<=12 && w.gr.indexOf(" ")===-1; });
+  return pool.sort(function(){ return Math.random()-0.5; });
+}
+
+function startWortbau() {
+  // Build cat filter
+  var cats = [{id:"all",label:"Alle"}].concat(categories).concat([{id:"geschichten",label:"📖 Geschichten"}]);
+  var filterHtml = '<div class="wb-cat-filters">';
+  for(var i=0;i<cats.length;i++){
+    var a=(cats[i].id===wbCat)?" active":"";
+    filterHtml+='<button class="wb-cat-btn'+a+'" data-cat="'+cats[i].id+'" onclick="setWbCat(this)">'+cats[i].label+'</button>';
+  }
+  filterHtml+='</div>';
+  filterHtml+='<div class="wb-prog" style="display:flex;gap:5px;justify-content:center;margin-bottom:1rem" id="wb-prog"></div>';
+  filterHtml+='<div id="wb-content"></div>';
+  document.getElementById("wortbau-area").innerHTML=filterHtml;
+  wbWords=buildWbWords();
+  wbIdx=0; wbScore=0;
+  renderWbQuestion();
+}
+
+function setWbCat(btn) {
+  var btns=document.querySelectorAll(".wb-cat-btn");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  btn.classList.add("active");
+  wbCat=btn.dataset.cat;
+  wbWords=buildWbWords();
+  wbIdx=0; wbScore=0;
+  renderWbQuestion();
+}
+
+function renderWbQuestion() {
+  var prog=document.getElementById("wb-prog");
+  if(prog){
+    var d="";
+    var total=Math.min(wbWords.length,10);
+    for(var i=0;i<total;i++) d+='<div class="qdot'+(i<wbIdx?" done":i===wbIdx?" cur":"")+'"></div>';
+    prog.innerHTML=d;
+  }
+  if(wbIdx>=Math.min(wbWords.length,10)||wbWords.length===0){
+    state.stars+=wbScore; saveState();
+    var pct=wbWords.length>0?Math.round(wbScore/Math.min(wbWords.length,10)*100):0;
+    document.getElementById("wb-content").innerHTML=
+      '<div class="quiz-result">'+
+      '<div class="qrscore">'+wbScore+'/'+Math.min(wbWords.length,10)+'</div>'+
+      '<div class="qrmsg">'+(pct>=75?"Super! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
+      '<button class="qrbtn" onclick="startWortbau()">Nochmal</button></div>';
+    return;
+  }
+  var w=wbWords[wbIdx];
+  wbSlots=[];
+  // Shuffle letters
+  var letters=w.gr.split("").sort(function(){ return Math.random()-0.5; });
+  // Make sure shuffled
+  var attempts=0;
+  while(letters.join("")===w.gr && attempts<10){ letters=w.gr.split("").sort(function(){ return Math.random()-0.5; }); attempts++; }
+  wbLetters=letters;
+
+  var imgSrc='bilder/'+w.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png';
+
+  var html='<div class="wb-card">';
+  html+='<img src="'+imgSrc+'" class="wb-img" id="wb-img" alt="'+w.de+'">';
+  html+='<div class="wb-hint-de">'+w.de+'</div>';
+  html+='<div class="wb-pr">'+w.pr+'</div>';
+  html+='<div class="wb-slots" id="wb-slots" ondragover="event.preventDefault()" ondrop="dropOnSlots(event)"></div>';
+  html+='<div class="wb-letters" id="wb-letters">';
+  for(var i=0;i<letters.length;i++){
+    html+='<button class="wb-letter" id="wbl_'+i+'" draggable="true" ';
+    html+='ondragstart="dragStart(event,'+i+')" ondragend="dragEnd(event)" ';
+    html+='onclick="clickLetter('+i+')">'+letters[i]+'</button>';
+  }
+  html+='</div>';
+  html+='<div id="wb-msg" class="wb-msg"></div>';
+  html+='<button class="wb-check-btn" id="wb-check" onclick="checkWortbau()" disabled>Prüfen</button>';
+  html+='<button class="wb-next-btn" id="wb-next" onclick="nextWortbau()">Weiter →</button>';
+  html+='</div>';
+  document.getElementById("wb-content").innerHTML=html;
+}
+
+function dragStart(event, idx) {
+  var btn=document.getElementById("wbl_"+idx);
+  if(btn.classList.contains("used")) { event.preventDefault(); return; }
+  wbDragLetter={idx:idx, letter:wbLetters[idx]};
+  btn.classList.add("dragging");
+  event.dataTransfer.effectAllowed="move";
+}
+
+function dragEnd(event) {
+  event.target.classList.remove("dragging");
+}
+
+function dropOnSlots(event) {
+  event.preventDefault();
+  if(!wbDragLetter) return;
+  var btn=document.getElementById("wbl_"+wbDragLetter.idx);
+  if(btn && !btn.classList.contains("used")){
+    btn.classList.add("used");
+    wbSlots.push({idx:wbDragLetter.idx, letter:wbDragLetter.letter});
+    renderSlots();
+  }
+  wbDragLetter=null;
+}
+
+function clickLetter(idx) {
+  var btn=document.getElementById("wbl_"+idx);
+  if(btn.classList.contains("used")) return;
+  btn.classList.add("used");
+  wbSlots.push({idx:idx, letter:wbLetters[idx]});
+  renderSlots();
+}
+
+function renderSlots() {
+  var slotsDiv=document.getElementById("wb-slots");
+  var w=wbWords[wbIdx];
+  var html="";
+  for(var i=0;i<wbSlots.length;i++){
+    html+='<div class="wb-slot" onclick="removeSlot('+i+')" title="Klicken zum Entfernen">'+wbSlots[i].letter+'</div>';
+  }
+  slotsDiv.innerHTML=html;
+  var checkBtn=document.getElementById("wb-check");
+  if(checkBtn) checkBtn.disabled=(wbSlots.length!==w.gr.length);
+}
+
+function removeSlot(idx) {
+  var slot=wbSlots[idx];
+  var btn=document.getElementById("wbl_"+slot.idx);
+  if(btn) btn.classList.remove("used");
+  wbSlots.splice(idx,1);
+  renderSlots();
+}
+
+function checkWortbau() {
+  var w=wbWords[wbIdx];
+  var built=wbSlots.map(function(s){ return s.letter; }).join("");
+  var slotsDiv=document.getElementById("wb-slots");
+  var msg=document.getElementById("wb-msg");
+  var checkBtn=document.getElementById("wb-check");
+  var nextBtn=document.getElementById("wb-next");
+  checkBtn.disabled=true;
+  if(built===w.gr){
+    slotsDiv.classList.add("correct");
+    msg.innerHTML='<span style="color:#1D9E75">✅ Richtig! '+w.gr+' = '+w.de+'</span>';
+    wbScore++;
+    state.stars++; saveState();
+  } else {
+    slotsDiv.classList.add("wrong");
+    msg.innerHTML='<span style="color:#D85A30">❌ Nicht ganz! Das Wort ist: <b style="color:#0F6E56">'+w.gr+'</b></span>';
+  }
+  if(nextBtn) nextBtn.style.display="inline-block";
+  // Disable all letter buttons
+  var btns=document.querySelectorAll(".wb-letter");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+}
+
+function nextWortbau() {
+  wbIdx++;
+  renderWbQuestion();
+}
 
 // ── GEOGRAPHIE ────────────────────────────────────────────
 // Koordinaten in % relativ zum Bild (left%, top%)
