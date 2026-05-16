@@ -1386,6 +1386,8 @@ function renderWbQuestion() {
 
   var imgSrc='bilder/'+w.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png';
 
+  wbSlots=[];
+  window.wbAttempts=0;
   var html='<div class="wb-card">';
   html+='<img src="'+imgSrc+'" class="wb-img" id="wb-img" alt="'+w.de+'">';
   html+='<div class="wb-hint-de">'+w.de+'</div>';
@@ -1399,7 +1401,7 @@ function renderWbQuestion() {
   }
   html+='</div>';
   html+='<div id="wb-msg" class="wb-msg"></div>';
-  html+='<button class="wb-check-btn" id="wb-check" onclick="checkWortbau()" disabled>Prüfen</button>';
+  
   html+='<button class="wb-next-btn" id="wb-next" onclick="nextWortbau()">Weiter →</button>';
   html+='</div>';
   document.getElementById("wb-content").innerHTML=html;
@@ -1442,17 +1444,27 @@ function renderSlots() {
   var w=wbWords[wbIdx];
   var html="";
   for(var i=0;i<wbSlots.length;i++){
-    html+='<div class="wb-slot" onclick="removeSlot('+i+')" title="Klicken zum Entfernen">'+wbSlots[i].letter+'</div>';
+    var correct=w.gr[i]===wbSlots[i].letter;
+    var color=correct?"#1D9E75":"#D85A30";
+    var bg=correct?"#E1F5EE":"#FAECE7";
+    html+='<div class="wb-slot" onclick="removeSlot('+i+')" style="border-color:'+color+';background:'+bg+';color:'+color+'" title="Klicken zum Entfernen">'+wbSlots[i].letter+'</div>';
+  }
+  // Empty remaining slots
+  for(var i=wbSlots.length;i<w.gr.length;i++){
+    html+='<div class="wb-slot" style="border-color:#ddd;background:white;color:#ddd">_</div>';
   }
   slotsDiv.innerHTML=html;
-  var checkBtn=document.getElementById("wb-check");
-  if(checkBtn) checkBtn.disabled=(wbSlots.length!==w.gr.length);
+
+  // Check if all slots filled
+  if(wbSlots.length===w.gr.length){
+    checkWortbau();
+  }
 }
 
 function removeSlot(idx) {
   var slot=wbSlots[idx];
   var btn=document.getElementById("wbl_"+slot.idx);
-  if(btn) btn.classList.remove("used");
+  if(btn){ btn.classList.remove("used"); btn.disabled=false; }
   wbSlots.splice(idx,1);
   renderSlots();
 }
@@ -1460,27 +1472,39 @@ function removeSlot(idx) {
 function checkWortbau() {
   var w=wbWords[wbIdx];
   var built=wbSlots.map(function(s){ return s.letter; }).join("");
-  var slotsDiv=document.getElementById("wb-slots");
   var msg=document.getElementById("wb-msg");
-  var checkBtn=document.getElementById("wb-check");
   var nextBtn=document.getElementById("wb-next");
-  checkBtn.disabled=true;
+  var checkBtn=document.getElementById("wb-check");
+  if(checkBtn) checkBtn.style.display="none";
+
   if(built===w.gr){
-    slotsDiv.classList.add("correct");
-    msg.innerHTML='<span style="color:#1D9E75">✅ Richtig! '+w.gr+' = '+w.de+'</span>';
-    wbScore++;
-    state.stars++; saveState();
+    if(msg) msg.innerHTML='<span style="color:#1D9E75;font-size:22px">✅ Richtig! · Σωστά!</span>';
+    wbScore++; state.stars++; saveState();
+    if(nextBtn) nextBtn.style.display="inline-block";
+    // Disable letters
+    var btns=document.querySelectorAll(".wb-letter");
+    for(var i=0;i<btns.length;i++) btns[i].disabled=true;
   } else {
-    slotsDiv.classList.add("wrong");
-    msg.innerHTML='<span style="color:#D85A30">❌ Nicht ganz! Das Wort ist: <b style="color:#0F6E56">'+w.gr+'</b></span>';
+    // Show per-letter feedback but allow correction
+    var allWrong=true;
+    for(var i=0;i<wbSlots.length;i++){
+      if(w.gr[i]===wbSlots[i].letter) allWrong=false;
+    }
+    if(msg) msg.innerHTML='<span style="color:#D85A30">❌ Nicht ganz! · Όχι σωστά! <br><small style="color:#888">Grüne Buchstaben stimmen, rote nicht.</small></span>';
+    // Show next only after 3 wrong attempts - track attempts
+    if(!window.wbAttempts) window.wbAttempts=0;
+    window.wbAttempts++;
+    if(window.wbAttempts>=2){
+      if(msg) msg.innerHTML+='<br><span style="color:#0F6E56;font-size:13px">Das Wort ist: <b>'+w.gr+'</b></span>';
+      if(nextBtn) nextBtn.style.display="inline-block";
+      var btns=document.querySelectorAll(".wb-letter");
+      for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+    }
   }
-  if(nextBtn) nextBtn.style.display="inline-block";
-  // Disable all letter buttons
-  var btns=document.querySelectorAll(".wb-letter");
-  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
 }
 
 function nextWortbau() {
+  window.wbAttempts=0;
   wbIdx++;
   renderWbQuestion();
 }
