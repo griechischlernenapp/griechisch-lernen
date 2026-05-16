@@ -352,6 +352,275 @@ var stories = [
       {de:" und im Osten die "},{de:"Ägäis",gr:"Αιγαίο Πέλαγος",pr:"E-ghe-o Pe-la-ghos",mark:true},
       {de:". Griechenland ist ein "},{de:"magisches Land",gr:"μαγική χώρα",pr:"ma-gi-ki cho-ra",mark:true},{de:"!"}
     ]
+  },
+  {
+    title: "Odysseus — Abfahrt aus Troja",
+    titleGr: "Οδυσσέας — Αναχώρηση από την Τροία",
+    emoji: "⚓",
+    img: "odysseus_01_departure_troy",
+    grText: "Μετά τον μακρύ πόλεμο στην Τροία, ο Οδυσσέας και οι άντρες του ξεκινούν το ταξίδι της επιστροφής για την Ιθάκη. Κανείς δεν ξέρει ότι το ταξίδι θα διαρκέσει πολλά χρόνια!",
+    text: [
+      {de:"Nach dem langen "},{de:"Krieg",gr:"πόλεμος",pr:"po-le-mos",mark:true},
+      {de:" in "},{de:"Troja",gr:"Τροία",pr:"Tro-ia",mark:true},
+      {de:" macht sich "},{de:"Odysseus",gr:"Οδυσσέας",pr:"O-dhis-se-as",mark:true},
+      {de:" mit seinen "},{de:"Männern",gr:"άντρες",pr:"an-dres",mark:true},
+      {de:" und vielen "},{de:"Schiffen",gr:"πλοία",pr:"pli-a",mark:true},
+      {de:" auf den Heimweg nach "},{de:"Ithaka",gr:"Ιθάκη",pr:"I-tha-ki",mark:true},
+      {de:". Niemand ahnt, dass die "},{de:"Reise",gr:"ταξίδι",pr:"tak-si-dhi",mark:true},
+      {de:" noch viele "},{de:"Jahre",gr:"χρόνια",pr:"chro-nia",mark:true},{de:" dauern wird!"}
+    ]
+  },
+  {
+    title: "Das Land der Lotophagen",
+    titleGr: "Η Χώρα των Λωτοφάγων",
+    emoji: "🌸",
+    img: "odysseus_02_lotus_eaters",
+    grText: "Μετά την αναχώρηση από την Τροία ο Οδυσσέας και οι άντρες του φτάνουν στη χώρα των Λωτοφάγων. Οι κάτοικοι τους δίνουν λωτούς να φάνε. Όποιος τρώει αυτά τα μαγικά φρούτα ξεχνά αμέσως την πατρίδα του και δεν θέλει να φύγει ποτέ!",
+    text: [
+      {de:"Odysseus landet im "},{de:"Land",gr:"χώρα",pr:"cho-ra",mark:true},
+      {de:" der "},{de:"Lotophagen",gr:"Λωτοφάγοι",pr:"Lo-to-fa-gi",mark:true},
+      {de:". Die Bewohner geben ihnen "},{de:"Lotosfrüchte",gr:"λωτοί",pr:"lo-ti",mark:true},
+      {de:" zu essen. Wer diese "},{de:"magischen",gr:"μαγικά",pr:"ma-gi-ka",mark:true},
+      {de:" Früchte isst, "},{de:"vergisst",gr:"ξεχνά",pr:"kse-chna",mark:true},
+      {de:" sofort seine "},{de:"Heimat",gr:"πατρίδα",pr:"pa-tri-dha",mark:true},
+      {de:"! Odysseus muss seine Männer schnell zurück zum "},{de:"Schiff",gr:"πλοίο",pr:"pli-o",mark:true},
+      {de:" ziehen, bevor alle "},{de:"vergessen",gr:"ξεχνούν",pr:"kse-chnun",mark:true},{de:" wohin sie wollen."}
+    ]
+  },
+  {
+    title: "Die Zyklopen-Höhle",
+    titleGr: "Η Σπηλιά των Κυκλώπων",
+    emoji: "👁️",
+    img: "odysseus_03_cyclops_polyphemus",
+    grText: "Ο Οδυσσέας και οι άντρες του φτάνουν σε ένα νησί και ανακαλύπτουν μια τεράστια σπηλιά. Εκεί ζει ο μονόφθαλμος γίγαντας Πολύφημος! Ο γίγαντας είναι τόσο μεγάλος που οι άντρες μοιάζουν πολύ μικροί δίπλα του.",
+    text: [
+      {de:"Odysseus entdeckt eine riesige "},{de:"Höhle",gr:"σπηλιά",pr:"spi-lia",mark:true},
+      {de:". Dort wohnt der einäugige "},{de:"Riese",gr:"γίγαντας",pr:"gi-ghan-das",mark:true},
+      {de:" "},{de:"Polyphem",gr:"Πολύφημος",pr:"Po-li-fi-mos",mark:true},
+      {de:"! Der Riese hat nur ein einziges "},{de:"Auge",gr:"μάτι",pr:"ma-ti",mark:true},
+      {de:" mitten auf der "},{de:"Stirn",gr:"μέτωπο",pr:"me-to-po",mark:true},
+      {de:". Er ist ein "},{de:"Zyklop",gr:"Κύκλωπας",pr:"Ki-klo-pas",mark:true},
+      {de:" — riesig und "},{de:"gefährlich",gr:"επικίνδυνος",pr:"e-pi-kin-dhi-nos",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Die Insel der Winde",
+    titleGr: "Το Νησί των Ανέμων",
+    emoji: "💨",
+    img: "odysseus_04_island_of_winds",
+    grText: "Ο Οδυσσέας επισκέπτεται τον Αίολο, τον βασιλιά των ανέμων. Σαν δώρο παίρνει έναν μεγάλο ασκό δέρματος όπου είναι φυλακισμένοι όλοι οι άνεμοι. Μόνο ο καλός άνεμος της επιστροφής επιτρέπεται να φυσά!",
+    text: [
+      {de:"Odysseus besucht "},{de:"Äolus",gr:"Αίολος",pr:"E-o-los",mark:true},
+      {de:", den "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},
+      {de:" der "},{de:"Winde",gr:"άνεμοι",pr:"a-ne-mi",mark:true},
+      {de:". Als "},{de:"Geschenk",gr:"δώρο",pr:"dho-ro",mark:true},
+      {de:" bekommt er einen großen "},{de:"Ledersack",gr:"ασκός",pr:"as-kos",mark:true},
+      {de:" mit allen "},{de:"Winden",gr:"ανέμους",pr:"a-ne-mus",mark:true},
+      {de:" darin. Nur der "},{de:"Heimwind",gr:"άνεμος επιστροφής",pr:"a-ne-mos e-pis-tro-fis",mark:true},
+      {de:" darf "},{de:"wehen",gr:"φυσά",pr:"fi-sa",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Die Zauberin Kirke",
+    titleGr: "Η Μάγισσα Κίρκη",
+    emoji: "🪄",
+    img: "odysseus_05_sorceress_circe",
+    grText: "Στο νησί Αιαία ζει η μάγισσα Κίρκη. Με το μαγικό της ραβδί μετατρέπει τους άντρες του Οδυσσέα σε γουρούνια! Αλλά ο Οδυσσέας είναι έξυπνος και γενναίος — αντιστέκεται στη μαγεία και σώζει τους άντρες του.",
+    text: [
+      {de:"Auf der Insel Aiaia lebt die "},{de:"Zauberin",gr:"μάγισσα",pr:"ma-gi-sa",mark:true},
+      {de:" "},{de:"Kirke",gr:"Κίρκη",pr:"Kir-ki",mark:true},
+      {de:". Mit ihrem "},{de:"Zauberstab",gr:"μαγικό ραβδί",pr:"ma-gi-ko rav-dhi",mark:true},
+      {de:" verwandelt sie die Männer in "},{de:"Schweine",gr:"γουρούνια",pr:"ghu-ru-nia",mark:true},
+      {de:"! Aber Odysseus ist "},{de:"schlau",gr:"έξυπνος",pr:"ek-si-pnos",mark:true},
+      {de:" und "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},
+      {de:" — er widersteht dem "},{de:"Zauber",gr:"μαγεία",pr:"ma-gi-a",mark:true},
+      {de:" und "},{de:"rettet",gr:"σώζει",pr:"so-zi",mark:true},{de:" seine Männer!"}
+    ]
+  },
+  {
+    title: "Die Reise in die Unterwelt",
+    titleGr: "Το Ταξίδι στον Άδη",
+    emoji: "💀",
+    img: "odysseus_06_underworld",
+    grText: "Ο Οδυσσέας τολμά να κατεβεί στον Άδη — τη βασιλεία των νεκρών. Εκεί συναντά τα πνεύματα των νεκρών ανθρώπων. Ο ποταμός Στύγας ρέει ήρεμα μέσα στον σκοτεινό κόσμο.",
+    text: [
+      {de:"Odysseus wagt sich in die "},{de:"Unterwelt",gr:"Άδης",pr:"A-dhis",mark:true},
+      {de:" — das "},{de:"Reich",gr:"βασιλεία",pr:"va-si-li-a",mark:true},
+      {de:" der "},{de:"Toten",gr:"νεκροί",pr:"ne-kri",mark:true},
+      {de:". Dort trifft er die "},{de:"Geister",gr:"πνεύματα",pr:"pnev-ma-ta",mark:true},
+      {de:" verstorbener Menschen. Der "},{de:"Fluss",gr:"ποταμός",pr:"po-ta-mos",mark:true},
+      {de:" "},{de:"Styx",gr:"Στύγας",pr:"Sti-ghas",mark:true},
+      {de:" fließt durch die "},{de:"dunkle",gr:"σκοτεινή",pr:"sko-ti-ni",mark:true},
+      {de:" Welt. Odysseus ist "},{de:"mutig",gr:"γενναίος",pr:"ghen-ne-os",mark:true},{de:" und hat keine Angst!"}
+    ]
+  },
+  {
+    title: "Die Sirenen",
+    titleGr: "Οι Σειρήνες",
+    emoji: "🎵",
+    img: "odysseus_07_sirens",
+    grText: "Οι Σειρήνες είναι όμορφα πλάσματα που τραγουδούν τόσο γλυκά που όλοι οι ναύτες θέλουν να κολυμπήσουν προς αυτές. Ο Οδυσσέας είναι έξυπνος — αφήνεται δεμένος στο κατάρτι και βουλώνει τα αυτιά των αντρών του με κερί.",
+    text: [
+      {de:"Die "},{de:"Sirenen",gr:"Σειρήνες",pr:"Si-ri-nes",mark:true},
+      {de:" singen so "},{de:"betörend",gr:"γλυκά",pr:"ghli-ka",mark:true},
+      {de:" dass alle "},{de:"Seeleute",gr:"ναύτες",pr:"naf-tes",mark:true},
+      {de:" zu ihnen schwimmen wollen. Odysseus lässt sich am "},{de:"Mast",gr:"κατάρτι",pr:"ka-tar-ti",mark:true},
+      {de:" "},{de:"festbinden",gr:"δένουν",pr:"dhe-nun",mark:true},
+      {de:". Seinen Männern werden die "},{de:"Ohren",gr:"αυτιά",pr:"af-tia",mark:true},
+      {de:" mit "},{de:"Wachs",gr:"κερί",pr:"ke-ri",mark:true},
+      {de:" verstopft. So ist er "},{de:"sicher",gr:"ασφαλής",pr:"as-fa-lis",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Skylla und Charybdis",
+    titleGr: "Σκύλλα και Χάρυβδη",
+    emoji: "🌀",
+    img: "odysseus_08_scylla_charybdis",
+    grText: "Ο Οδυσσέας πρέπει να περάσει από ένα στενό πέρασμα ανάμεσα σε δύο τρομερούς κινδύνους! Από τη μία πλευρά παραμονεύει η Σκύλλα — ένα τέρας με έξι κεφάλια. Από την άλλη πλευρά στροβιλίζεται η Χάρυβδη — μια τεράστια επικίνδυνη δίνη.",
+    text: [
+      {de:"Odysseus muss durch eine enge "},{de:"Meerenge",gr:"στενό πέρασμα",pr:"ste-no pe-ras-ma",mark:true},
+      {de:" hindurch. Auf einer Seite lauert "},{de:"Skylla",gr:"Σκύλλα",pr:"Ski-la",mark:true},
+      {de:" — ein "},{de:"Monster",gr:"τέρας",pr:"te-ras",mark:true},
+      {de:" mit sechs "},{de:"Köpfen",gr:"κεφάλια",pr:"ke-fa-lia",mark:true},
+      {de:". Auf der anderen Seite dreht sich "},{de:"Charybdis",gr:"Χάρυβδη",pr:"Cha-riv-dhi",mark:true},
+      {de:" — ein riesiger "},{de:"Strudel",gr:"δίνη",pr:"dhi-ni",mark:true},
+      {de:". Odysseus steuert "},{de:"mutig",gr:"γενναία",pr:"ghen-ne-a",mark:true},{de:" hindurch!"}
+    ]
+  },
+  {
+    title: "Die Rinder des Helios",
+    titleGr: "Τα Βόδια του Ήλιου",
+    emoji: "🐄",
+    img: "odysseus_09_cattle_helios",
+    grText: "Στο νησί του θεού Ήλιου βόσκουν υπέροχα ιερά βόδια. Ο Οδυσσέας προειδοποιεί τους άντρες του — κανείς δεν πρέπει να αγγίξει αυτά τα ζώα! Αλλά οι πεινασμένοι ναύτες δεν τον ακούνε και κάνουν ένα μεγάλο λάθος.",
+    text: [
+      {de:"Auf der Insel des "},{de:"Sonnengottes",gr:"θεός Ήλιος",pr:"the-os I-li-os",mark:true},
+      {de:" grasen "},{de:"heilige Rinder",gr:"ιερά βόδια",pr:"ie-ra vo-dhia",mark:true},
+      {de:". Odysseus "},{de:"warnt",gr:"προειδοποιεί",pr:"pro-i-dho-pi-i",mark:true},
+      {de:" seine Männer — niemand darf diese "},{de:"Tiere",gr:"ζώα",pr:"zo-a",mark:true},
+      {de:" "},{de:"anfassen",gr:"αγγίξει",pr:"an-gi-ksi",mark:true},
+      {de:"! Aber die "},{de:"hungrigen",gr:"πεινασμένοι",pr:"pi-nas-me-ni",mark:true},
+      {de:" Männer hören nicht und machen einen großen "},{de:"Fehler",gr:"λάθος",pr:"la-thos",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Schiffbruch im Sturm",
+    titleGr: "Ναυάγιο στην Καταιγίδα",
+    emoji: "⚡",
+    img: "odysseus_10_shipwreck_storm",
+    grText: "Ο Δίας ο βασιλιάς των θεών είναι πολύ θυμωμένος. Στέλνει μια τρομερή καταιγίδα και εκτοξεύει έναν κεραυνό στο πλοίο! Το πλοίο σπάει στα τεράστια κύματα. Μόνο ο Οδυσσέας επιβιώνει.",
+    text: [
+      {de:"Zeus, der "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},
+      {de:" der "},{de:"Götter",gr:"θεοί",pr:"the-i",mark:true},
+      {de:", ist sehr "},{de:"wütend",gr:"θυμωμένος",pr:"thi-mo-me-nos",mark:true},
+      {de:". Er schickt einen gewaltigen "},{de:"Sturm",gr:"καταιγίδα",pr:"ka-te-gi-dha",mark:true},
+      {de:" und einen "},{de:"Blitz",gr:"κεραυνός",pr:"ke-rav-nos",mark:true},
+      {de:" aufs "},{de:"Schiff",gr:"πλοίο",pr:"pli-o",mark:true},
+      {de:"! Das Schiff "},{de:"zerbricht",gr:"σπάει",pr:"spa-i",mark:true},
+      {de:" in den riesigen "},{de:"Wellen",gr:"κύματα",pr:"ki-ma-ta",mark:true},{de:". Nur Odysseus überlebt!"}
+    ]
+  },
+  {
+    title: "Die Insel der Kalypso",
+    titleGr: "Το Νησί της Καλυψώς",
+    emoji: "🏝️",
+    img: "odysseus_11_island_calypso",
+    grText: "Μετά το ναυάγιο ο Οδυσσέας φτάνει στο όμορφο νησί της νύμφης Καλυψώς. Το νησί είναι αληθινός παράδεισος — αλλά ο Οδυσσέας είναι λυπημένος. Του λείπει η πατρίδα του η Ιθάκη και η οικογένειά του.",
+    text: [
+      {de:"Nach dem Schiffbruch landet Odysseus auf der Insel der "},{de:"Nymphe",gr:"νύμφη",pr:"nim-fi",mark:true},
+      {de:" "},{de:"Kalypso",gr:"Καλυψώ",pr:"Ka-lip-so",mark:true},
+      {de:". Die Insel ist ein wahres "},{de:"Paradies",gr:"παράδεισος",pr:"pa-ra-dhe-sos",mark:true},
+      {de:" — aber Odysseus ist "},{de:"traurig",gr:"λυπημένος",pr:"li-pi-me-nos",mark:true},
+      {de:". Er vermisst seine "},{de:"Heimat",gr:"πατρίδα",pr:"pa-tri-dha",mark:true},
+      {de:" "},{de:"Ithaka",gr:"Ιθάκη",pr:"I-tha-ki",mark:true},
+      {de:" und seine "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},
+      {de:". Sieben lange "},{de:"Jahre",gr:"χρόνια",pr:"chro-nia",mark:true},{de:" muss er bleiben!"}
+    ]
+  },
+  {
+    title: "Bei den Phäaken",
+    titleGr: "Στους Φαίακες",
+    emoji: "👸",
+    img: "odysseus_12_phaeacians",
+    grText: "Μετά από επτά χρόνια ο Οδυσσέας επιτέλους μπορεί να συνεχίσει το ταξίδι του. Η φιλική πριγκίπισσα Ναυσικά τον βρίσκει στην παραλία και τον φέρνει στον βασιλιά. Οι Φαίακες ακούνε όλη του την ιστορία και τον βοηθούν να επιστρέψει στο σπίτι!",
+    text: [
+      {de:"Ein neuer "},{de:"Sturm",gr:"καταιγίδα",pr:"ka-te-gi-dha",mark:true},
+      {de:" wirft Odysseus ans "},{de:"Ufer",gr:"ακτή",pr:"ak-ti",mark:true},
+      {de:" der Insel der "},{de:"Phäaken",gr:"Φαίακες",pr:"Fe-a-kes",mark:true},
+      {de:". Die freundliche "},{de:"Prinzessin",gr:"πριγκίπισσα",pr:"prin-ki-pi-sa",mark:true},
+      {de:" Nausikaa findet ihn am "},{de:"Strand",gr:"παραλία",pr:"pa-ra-li-a",mark:true},
+      {de:" und bringt ihn zum "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},
+      {de:". Die Phäaken "},{de:"helfen",gr:"βοηθούν",pr:"vo-i-thun",mark:true},
+      {de:" ihm nach "},{de:"Hause",gr:"σπίτι",pr:"spi-ti",mark:true},{de:" zu kommen!"}
+    ]
+  },
+  {
+    title: "Athene hilft Odysseus",
+    titleGr: "Η Αθηνά Βοηθά τον Οδυσσέα",
+    emoji: "🦉",
+    img: "odysseus_13_athena",
+    grText: "Η θεά Αθηνά είναι η προστάτιδα θεά του έξυπνου Οδυσσέα. Κάθε φορά που βρίσκεται σε μεγάλη ανάγκη του εμφανίζεται και του δίνει σοφές συμβουλές. Με την Αθηνά στο πλευρό του ο Οδυσσέας δεν χάνει ποτέ την ελπίδα!",
+    text: [
+      {de:"Die "},{de:"Göttin",gr:"θεά",pr:"the-a",mark:true},
+      {de:" "},{de:"Athene",gr:"Αθηνά",pr:"A-thi-na",mark:true},
+      {de:" ist die "},{de:"Schutzgöttin",gr:"προστάτιδα",pr:"pros-ta-ti-dha",mark:true},
+      {de:" des klugen Odysseus. Immer wenn er in "},{de:"Not",gr:"ανάγκη",pr:"a-nan-gi",mark:true},
+      {de:" ist, gibt sie ihm weise "},{de:"Ratschläge",gr:"συμβουλές",pr:"sim-vu-les",mark:true},
+      {de:". Sie bewundert seinen "},{de:"Mut",gr:"θάρρος",pr:"tha-ros",mark:true},
+      {de:" und seine "},{de:"Klugheit",gr:"εξυπνάδα",pr:"ek-si-pna-dha",mark:true},
+      {de:". Mit ihr verliert Odysseus nie die "},{de:"Hoffnung",gr:"ελπίδα",pr:"el-pi-dha",mark:true},{de:"!"}
+    ]
+  },
+  {
+    title: "Heimkehr nach Ithaka",
+    titleGr: "Επιστροφή στην Ιθάκη",
+    emoji: "🏠",
+    img: "odysseus_14_return_ithaca",
+    grText: "Μετά από δέκα μακρά χρόνια στη θάλασσα ο Οδυσσέας επιτέλους φτάνει σπίτι! Ο πιστός σκύλος του ο Άργος τον αναγνωρίζει αμέσως. Η γυναίκα του η Πηνελόπη τον περίμενε όλα αυτά τα χρόνια. Τι χαρά!",
+    text: [
+      {de:"Nach zehn langen "},{de:"Jahren",gr:"χρόνια",pr:"chro-nia",mark:true},
+      {de:" kommt Odysseus endlich nach "},{de:"Hause",gr:"σπίτι",pr:"spi-ti",mark:true},
+      {de:"! Sein treuer "},{de:"Hund",gr:"σκύλος",pr:"ski-los",mark:true},
+      {de:" "},{de:"Argos",gr:"Άργος",pr:"Ar-ghos",mark:true},
+      {de:" erkennt ihn sofort. Seine "},{de:"Frau",gr:"γυναίκα",pr:"ghi-ne-ka",mark:true},
+      {de:" "},{de:"Penelope",gr:"Πηνελόπη",pr:"Pi-ne-lo-pi",mark:true},
+      {de:" hat all die Jahre auf ihn "},{de:"gewartet",gr:"περίμενε",pr:"pe-ri-me-ne",mark:true},
+      {de:". Die ganze "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},{de:" ist wieder vereint!"}
+    ]
+  },
+  {
+    title: "Der Bogen des Odysseus",
+    titleGr: "Το Τόξο του Οδυσσέα",
+    emoji: "🏹",
+    img: "odysseus_15_bow_odysseus",
+    grText: "Ο Οδυσσέας επιστρέφει μεταμφιεσμένος ως φτωχός ζητιάνος στο παλάτι του. Η Πηνελόπη έχει ανακοινώσει έναν διαγωνισμό. Όλοι οι μνηστήρες προσπαθούν και αποτυγχάνουν. Τότε ο Οδυσσέας παίρνει το τόξο — και το τεντώνει αβίαστα!",
+    text: [
+      {de:"Odysseus kehrt "},{de:"verkleidet",gr:"μεταμφιεσμένος",pr:"me-tam-fi-es-me-nos",mark:true},
+      {de:" als armer "},{de:"Bettler",gr:"ζητιάνος",pr:"zi-tia-nos",mark:true},
+      {de:" in seinen "},{de:"Palast",gr:"παλάτι",pr:"pa-la-ti",mark:true},
+      {de:" zurück. Penelope hat einen "},{de:"Wettkampf",gr:"διαγωνισμός",pr:"dhia-gho-nis-mos",mark:true},
+      {de:" ausgerufen. Wer den riesigen "},{de:"Bogen",gr:"τόξο",pr:"tok-so",mark:true},
+      {de:" "},{de:"spannen",gr:"τεντώνει",pr:"ten-to-ni",mark:true},
+      {de:" kann, darf Penelope "},{de:"heiraten",gr:"παντρευτεί",pr:"pan-drev-ti",mark:true},
+      {de:". Alle "},{de:"scheitern",gr:"αποτυγχάνουν",pr:"a-po-ting-cha-nun",mark:true},{de:" — außer Odysseus!"}
+    ]
+  },
+  {
+    title: "Odysseus auf dem Thron",
+    titleGr: "Ο Οδυσσέας στον Θρόνο",
+    emoji: "👑",
+    img: "odysseus_16_family_throne",
+    grText: "Μετά από όλα τα μακρά χρόνια και τις αμέτρητες περιπέτειες ο Οδυσσέας κάθεται επιτέλους πάλι στον θρόνο του στην Ιθάκη! Η οικογένεια είναι ξανά ενωμένη και το βασίλειο της Ιθάκης έχει πάλι τον νόμιμο βασιλιά του.",
+    text: [
+      {de:"Nach all den langen Jahren sitzt Odysseus wieder auf seinem "},{de:"Thron",gr:"θρόνος",pr:"thro-nos",mark:true},
+      {de:" in "},{de:"Ithaka",gr:"Ιθάκη",pr:"I-tha-ki",mark:true},
+      {de:"! Neben ihm sitzt seine treue "},{de:"Frau",gr:"γυναίκα",pr:"ghi-ne-ka",mark:true},
+      {de:" Penelope und sein tapferer "},{de:"Sohn",gr:"γιος",pr:"jios",mark:true},
+      {de:" Telemachos. Die "},{de:"Familie",gr:"οικογένεια",pr:"i-ko-ghe-ni-a",mark:true},
+      {de:" ist wieder "},{de:"vereint",gr:"ενωμένη",pr:"e-no-me-ni",mark:true},
+      {de:". Das "},{de:"Königreich",gr:"βασίλειο",pr:"va-si-li-o",mark:true},
+      {de:" hat wieder seinen rechtmäßigen "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},{de:"!"}
+    ]
   }
 ];
 
