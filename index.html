@@ -29,6 +29,26 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 
+
+/* MYTHOLOGIE QUIZ */
+.myth-header{text-align:center;margin-bottom:1rem}
+.myth-header h2{font-size:18px;color:#0F6E56;margin-bottom:4px}
+.myth-header p{font-size:12px;color:#aaa;font-style:italic}
+.myth-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+.myth-img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:1rem;display:block}
+.myth-type{font-size:11px;color:#aaa;text-align:center;margin-bottom:6px;font-style:italic}
+.myth-question{font-size:16px;font-weight:bold;color:#0F6E56;text-align:center;margin-bottom:4px;line-height:1.5}
+.myth-question-de{font-size:13px;color:#888;text-align:center;font-style:italic;margin-bottom:1rem}
+.myth-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.myth-choice{padding:12px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:14px;cursor:pointer;font-family:Georgia,serif;text-align:center;transition:all 0.15s}
+.myth-choice:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
+.myth-choice.correct{background:#E1F5EE;border-color:#1D9E75;font-weight:bold}
+.myth-choice.wrong{background:#FAECE7;border-color:#D85A30}
+.myth-choice:disabled{cursor:default}
+.myth-wf{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.myth-erkl{background:#E1F5EE;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13px;color:#0F6E56;display:none}
+.myth-prog{display:flex;gap:5px;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+
 /* WORTBAU */
 .wb-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;text-align:center;margin-bottom:1rem}
 .wb-img{width:120px;height:120px;object-fit:contain;margin:0 auto 0.8rem;display:block}
@@ -333,6 +353,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
     <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
     <button onclick="showScreen('grammatik')">📐 Grammatik</button>
+    <button onclick="showScreen('mythos')">🏛️ Mythologie</button>
     <button onclick="showScreen('wortbau')">🔀 Wortbau</button>
     <button onclick="showScreen('geo')">🗺️ Geographie</button>
     <button onclick="showScreen('progress')">📊 Fortschritt</button>
@@ -393,6 +414,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="grammatik">
     <div id="grammatik-area"></div>
+  </div>
+
+  <div class="screen" id="mythos">
+    <div id="mythos-area"></div>
   </div>
 
   <div class="screen" id="wortbau">
@@ -681,7 +706,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","wortbau","geo","progress"];
+  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -691,6 +716,7 @@ function showScreen(id) {
   if(id==="quiz")     startQuiz();
   if(id==="progress") renderProgress();
   if(id==="geo") renderGeo();
+  if(id==="mythos") startMythosQuiz();
   if(id==="wortbau") startWortbau();
   if(id==="grammatik") renderGrammatik();
   if(id==="alphabet") renderAlphaGrid();
@@ -1300,6 +1326,164 @@ function doPrint() {
 
 
 
+
+
+// ── MYTHOLOGIE QUIZ ───────────────────────────────────────
+var mythFragen = [
+  // Multiple Choice
+  {typ:"mc", img:"story-hero_perseus_fighting_against_medusa",
+   gr:"Ποιος σκότωσε τη Μέδουσα;", de:"Wer besiegte die Medusa?",
+   antwort:"Περσέας · Perseus", falsch:["Ηρακλής · Herkules","Θησέας · Theseus","Οδυσσέας · Odysseus"]},
+  {typ:"mc", img:"story-hero_theseus_fighting_against_minotaur",
+   gr:"Σε ποιο λαβύρινθο ζούσε ο Μινώταυρος;", de:"In welchem Labyrinth lebte der Minotaurus?",
+   antwort:"Κρήτη · Kreta", falsch:["Ιθάκη · Ithaka","Αθήνα · Athen","Τροία · Troja"]},
+  {typ:"mc", img:"story-hero_hercules_fighting_against_lernaea_hydra",
+   gr:"Πόσα κεφάλια είχε η Λερναία Ύδρα;", de:"Wie viele Köpfe hatte die Lernäische Hydra?",
+   antwort:"9 · Neun", falsch:["3 · Drei","6 · Sechs","12 · Zwölf"]},
+  {typ:"mc", img:"story-hero_hercules_fighting_against_nemean_lion",
+   gr:"Πόσους άθλους έπρεπε να κάνει ο Ηρακλής;", de:"Wie viele Aufgaben musste Herkules erfüllen?",
+   antwort:"12 · Zwölf", falsch:["7 · Sieben","9 · Neun","10 · Zehn"]},
+  {typ:"mc", img:"story-icarus_and_daedalus_and_the_sun",
+   gr:"Γιατί έπεσε ο Ίκαρος στη θάλασσα;", de:"Warum fiel Ikarus ins Meer?",
+   antwort:"Το κερί έλιωσε · Das Wachs schmolz", falsch:["Έχασε τα φτερά · Er verlor die Federn","Τον χτύπησε αέρας · Ein Wind traf ihn","Κοιμήθηκε · Er schlief ein"]},
+  {typ:"mc", img:"odysseus_07_sirens",
+   gr:"Τι έβαλε ο Οδυσσέας στα αυτιά των αντρών του;", de:"Was steckte Odysseus seinen Männern in die Ohren?",
+   antwort:"Κερί · Wachs", falsch:["Βαμβάκι · Watte","Λάσπη · Schlamm","Πέτρες · Steine"]},
+  {typ:"mc", img:"odysseus_03_cyclops_polyphemus",
+   gr:"Πόσα μάτια είχε ο Κύκλωπας;", de:"Wie viele Augen hatte der Zyklop?",
+   antwort:"1 · Eines", falsch:["2 · Zwei","3 · Drei","4 · Vier"]},
+  {typ:"mc", img:"odysseus_05_sorceress_circe",
+   gr:"Σε τι μετέτρεψε η Κίρκη τους άντρες του Οδυσσέα;", de:"Worin verwandelte Kirke die Männer des Odysseus?",
+   antwort:"Γουρούνια · Schweine", falsch:["Σκύλους · Hunde","Πέτρες · Steine","Ψάρια · Fische"]},
+  {typ:"mc", img:"story-9_muses_greek_mythology",
+   gr:"Πόσες Μούσες ζούσαν στον Όλυμπο;", de:"Wie viele Musen lebten auf dem Olymp?",
+   antwort:"9 · Neun", falsch:["7 · Sieben","12 · Zwölf","3 · Drei"]},
+  {typ:"mc", img:"story-12_greek_gods_with_names_greek_mythology",
+   gr:"Ποιος ήταν ο βασιλιάς των θεών;", de:"Wer war der König der Götter?",
+   antwort:"Δίας · Zeus", falsch:["Ποσειδών · Poseidon","Άρης · Ares","Απόλλων · Apollon"]},
+  {typ:"mc", img:"story-12_greek_gods_with_names_greek_mythology",
+   gr:"Ποιος θεός κυβερνούσε τη θάλασσα;", de:"Welcher Gott herrschte über das Meer?",
+   antwort:"Ποσειδών · Poseidon", falsch:["Δίας · Zeus","Άρης · Ares","Ερμής · Hermes"]},
+  {typ:"mc", img:"odysseus_11_island_calypso",
+   gr:"Πόσα χρόνια έμεινε ο Οδυσσέας στο νησί της Καλυψώς;", de:"Wie viele Jahre blieb Odysseus auf Kalypsos Insel?",
+   antwort:"7 · Sieben", falsch:["3 · Drei","10 · Zehn","1 · Eines"]},
+  {typ:"mc", img:"odysseus_14_return_ithaca",
+   gr:"Πώς λεγόταν ο πιστός σκύλος του Οδυσσέα;", de:"Wie hieß der treue Hund des Odysseus?",
+   antwort:"Άργος · Argos", falsch:["Λύκος · Lykos","Κέρβερος · Kerberos","Πέτρος · Petros"]},
+  // Wahr oder Falsch
+  {typ:"wf", img:"story-hero_perseus_fighting_against_medusa",
+   gr:"Ο Περσέας χρησιμοποίησε την ασπίδα του σαν καθρέφτη.", de:"Perseus benutzte seinen Schild wie einen Spiegel.",
+   antwort:true, erkl:"Richtig! Er schaute in den Schild um die Medusa nicht direkt anzusehen."},
+  {typ:"wf", img:"story-hero_theseus_fighting_against_minotaur",
+   gr:"Ο Θησέας βρήκε τον δρόμο έξω από τον λαβύρινθο με ένα σπαθί.", de:"Theseus fand den Weg aus dem Labyrinth mit einem Schwert.",
+   antwort:false, erkl:"Falsch! Er benutzte einen Faden (νήμα) um den Weg zurückzufinden."},
+  {typ:"wf", img:"story-icarus_and_daedalus_and_the_sun",
+   gr:"Ο Δαίδαλος ήταν ο πατέρας του Ίκαρου.", de:"Daidalus war der Vater des Ikarus.",
+   antwort:true, erkl:"Richtig! Daidalus baute die Flügel aus Federn und Wachs für sich und seinen Sohn."},
+  {typ:"wf", img:"odysseus_08_scylla_charybdis",
+   gr:"Η Σκύλλα είχε δώδεκα κεφάλια.", de:"Skylla hatte zwölf Köpfe.",
+   antwort:false, erkl:"Falsch! Skylla hatte sechs (έξι) Köpfe."},
+  {typ:"wf", img:"story-9_muses_greek_mythology",
+   gr:"Η Καλλιόπη ήταν η Μούσα της ποίησης.", de:"Kalliope war die Muse der Dichtung.",
+   antwort:true, erkl:"Richtig! Kalliope war die Muse der Epik und Dichtung."},
+  {typ:"wf", img:"story-12_greek_gods_with_names_greek_mythology",
+   gr:"Η Αφροδίτη ήταν η θεά της σοφίας.", de:"Aphrodite war die Göttin der Weisheit.",
+   antwort:false, erkl:"Falsch! Aphrodite war die Göttin der Liebe (αγάπη). Athena war die Göttin der Weisheit."},
+  {typ:"wf", img:"odysseus_01_departure_troy",
+   gr:"Ο Οδυσσέας ταξίδεψε για 10 χρόνια πριν φτάσει σπίτι.", de:"Odysseus reiste 10 Jahre bevor er nach Hause kam.",
+   antwort:true, erkl:"Richtig! Der Trojanische Krieg dauerte 10 Jahre und die Heimreise ebenfalls 10 Jahre."},
+  {typ:"wf", img:"story-hero_hercules_fighting_against_nemean_lion",
+   gr:"Ο Ηρακλής σκότωσε το λιοντάρι με ένα σπαθί.", de:"Herkules tötete den Löwen mit einem Schwert.",
+   antwort:false, erkl:"Falsch! Herkules kämpfte mit bloßen Händen (χέρια) gegen den Nemeischen Löwen."},
+  {typ:"wf", img:"odysseus_09_cattle_helios",
+   gr:"Ο Ήλιος ήταν ο θεός του ήλιου.", de:"Helios war der Gott der Sonne.",
+   antwort:true, erkl:"Richtig! Helios war der Sonnengott und seine heiligen Rinder durfte niemand anfassen."},
+];
+
+var mythData=[], mythIdx=0, mythScore=0, mythAnswered=false;
+
+function startMythosQuiz() {
+  mythData=mythFragen.slice().sort(function(){ return Math.random()-0.5; });
+  mythIdx=0; mythScore=0; mythAnswered=false;
+  var html='<div class="myth-header">';
+  html+='<h2>🏛️ Mythologie-Quiz</h2>';
+  html+='<p>Multiple Choice und Wahr/Falsch gemischt</p>';
+  html+='</div>';
+  html+='<div class="myth-prog" id="myth-prog"></div>';
+  html+='<div id="myth-content"></div>';
+  document.getElementById("mythos-area").innerHTML=html;
+  renderMythQuestion();
+}
+
+function renderMythQuestion() {
+  var prog=document.getElementById("myth-prog");
+  if(prog){
+    var d="";
+    for(var i=0;i<mythData.length;i++)
+      d+='<div class="geo-dot'+(i<mythIdx?" done":i===mythIdx?" cur":"")+'"></div>';
+    prog.innerHTML=d;
+  }
+  if(mythIdx>=mythData.length){
+    state.stars+=mythScore; saveState();
+    var pct=Math.round(mythScore/mythData.length*100);
+    document.getElementById("myth-content").innerHTML=
+      '<div class="geo-result">'+
+      '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+mythScore+'/'+mythData.length+'</div>'+
+      '<div style="font-size:15px;color:#888;margin-top:8px">'+(pct>=75?"Ausgezeichnet! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
+      '<button class="qrbtn" style="margin-top:1rem" onclick="startMythosQuiz()">Nochmal</button>'+
+      '</div>';
+    return;
+  }
+  mythAnswered=false;
+  var q=mythData[mythIdx];
+  var html='<div class="myth-card">';
+  html+='<img src="bilder/'+q.img+'.png" class="myth-img" alt="">';
+  if(q.typ==="mc"){
+    html+='<div class="myth-type">Multiple Choice</div>';
+    html+='<div class="myth-question">'+q.gr+'</div>';
+    html+='<div class="myth-question-de">'+q.de+'</div>';
+    var choices=[q.antwort,q.falsch[0],q.falsch[1],q.falsch[2]].sort(function(){ return Math.random()-0.5; });
+    html+='<div class="myth-choices">';
+    for(var i=0;i<choices.length;i++){
+      html+='<button class="myth-choice" data-val="'+choices[i]+'" data-correct="'+q.antwort+'" onclick="checkMythMC(this)">'+choices[i]+'</button>';
+    }
+    html+='</div>';
+  } else {
+    html+='<div class="myth-type">Wahr oder Falsch · Αλήθεια ή Λάθος</div>';
+    html+='<div class="myth-question">'+q.gr+'</div>';
+    html+='<div class="myth-question-de">'+q.de+'</div>';
+    html+='<div class="myth-wf">';
+    html+='<button class="myth-choice" data-val="true" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkMythWF(this)">✅ Αλήθεια · Wahr</button>';
+    html+='<button class="myth-choice" data-val="false" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkMythWF(this)">❌ Λάθος · Falsch</button>';
+    html+='</div>';
+    html+='<div class="myth-erkl" id="myth-erkl"></div>';
+  }
+  html+='</div>';
+  document.getElementById("myth-content").innerHTML=html;
+}
+
+function checkMythMC(btn) {
+  if(mythAnswered) return; mythAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct;
+  var btns=document.querySelectorAll(".myth-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  if(chosen===correct){ btn.classList.add("correct"); mythScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  setTimeout(function(){ mythIdx++; renderMythQuestion(); }, 1400);
+}
+
+function checkMythWF(btn) {
+  if(mythAnswered) return; mythAnswered=true;
+  var chosen=btn.dataset.val, correct=btn.dataset.correct, erkl=btn.dataset.erkl;
+  var btns=document.querySelectorAll(".myth-choice");
+  for(var i=0;i<btns.length;i++) btns[i].disabled=true;
+  var isCorrect=(chosen===correct.toString());
+  if(isCorrect){ btn.classList.add("correct"); mythScore++; }
+  else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct.toString()) btns[i].classList.add("correct"); } }
+  var erkBox=document.getElementById("myth-erkl");
+  if(erkBox){ erkBox.style.display="block"; erkBox.innerHTML='💡 '+erkl; }
+  setTimeout(function(){ mythIdx++; renderMythQuestion(); }, 2200);
+}
 
 // ── WORTBAU ───────────────────────────────────────────────
 var wbWords = [];
