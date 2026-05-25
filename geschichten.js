@@ -621,6 +621,26 @@ var stories = [
       {de:". Das "},{de:"Königreich",gr:"βασίλειο",pr:"va-si-li-o",mark:true},
       {de:" hat wieder seinen rechtmäßigen "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},{de:"!"}
     ]
+  },
+  {
+    title: "Pythagoras und sein Satz",
+    titleGr: "Ο Πυθαγόρας και το Θεώρημά του",
+    emoji: "📐",
+    img: "pythagoras-drawing",
+    grText: "Ο Πυθαγόρας ήταν ένας σπουδαίος αρχαίος Έλληνας μαθηματικός και φιλόσοφος. Γεννήθηκε στη Σάμο γύρω στο 570 π.Χ. Μαζεύει τους μαθητές του κάτω από τους κίονες του ναού. Ζωγραφίζει ένα τρίγωνο στο χώμα και εξηγεί το μεγάλο μυστικό: Σε ένα ορθογώνιο τρίγωνο, το τετράγωνο της υποτείνουσας ισούται με το άθροισμα των τετραγώνων των δύο άλλων πλευρών! Α² + Β² = Γ². Οι μαθητές ακούνε με μεγάλη προσοχή. Ο Πυθαγόρας πίστευε ότι τα μαθηματικά κρύβουν το μυστικό του σύμπαντος. Σήμερα τα παιδιά σε όλο τον κόσμο μαθαίνουν ακόμα τον Πυθαγόρειο θεωρητισμό!",
+    text: [
+      {de:"Pythagoras war ein großer "},{de:"Mathematiker",gr:"μαθηματικός",pr:"ma-the-ma-ti-kos",mark:true},
+      {de:" und "},{de:"Philosoph",gr:"φιλόσοφος",pr:"fi-lo-so-fos",mark:true},
+      {de:" im alten "},{de:"Griechenland",gr:"Ελλάδα",pr:"E-la-dha",mark:true},
+      {de:". Er wurde auf der Insel "},{de:"Samos",gr:"Σάμος",pr:"Sa-mos",mark:true},
+      {de:" geboren. Er versammelt seine "},{de:"Schüler",gr:"μαθητές",pr:"ma-thi-tes",mark:true},
+      {de:" und zeichnet ein "},{de:"Dreieck",gr:"τρίγωνο",pr:"tri-gho-no",mark:true},
+      {de:" in den Boden. Er erklärt: In einem rechtwinkligen Dreieck gilt: Die "},{de:"Hypotenuse",gr:"υποτείνουσα",pr:"i-po-ti-nu-sa",mark:true},
+      {de:" im Quadrat gleicht der Summe der anderen zwei "},{de:"Seiten",gr:"πλευρές",pr:"plev-res",mark:true},
+      {de:" im Quadrat! "},{de:"Α² + Β² = Γ²",gr:"Α² + Β² = Γ²",pr:"a-dhia-meso + vi-dhia-meso = gha-miso",mark:true},
+      {de:". Pythagoras glaubte dass die "},{de:"Mathematik",gr:"μαθηματικά",pr:"ma-the-ma-ti-ka",mark:true},
+      {de:" das Geheimnis des "},{de:"Universums",gr:"σύμπαν",pr:"sim-pan",mark:true},{de:" birgt!"}
+    ]
   }
 ];
 
