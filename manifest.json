@@ -1,0 +1,26 @@
+{
+  "name": "Griechisch Lernen",
+  "short_name": "Griechisch",
+  "description": "Griechisch lernen für Kinder — Geschichten, Wörter und Spiele",
+  "start_url": "/griechisch-lernen/",
+  "scope": "/griechisch-lernen/",
+  "display": "standalone",
+  "background_color": "#F5F4EF",
+  "theme_color": "#1D9E75",
+  "orientation": "portrait",
+  "lang": "de",
+  "icons": [
+    {
+      "src": "bilder/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "bilder/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
