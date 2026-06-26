@@ -2,6 +2,14 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="bilder/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="bilder/icon-192.png">
+  <meta name="theme-color" content="#1D9E75">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Griechisch Lernen">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Griechisch Lernen</title>
 <script src="vokabeln.js"></script>
@@ -2300,5 +2308,15 @@ buildSel("mem-cat");
 buildSel("luecke-cat");
 updateHeaderStats();
 </script>
+
+  <script>
+    if('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(function(reg) { console.log('SW registriert:', reg.scope); })
+          .catch(function(err) { console.log('SW Fehler:', err); });
+      });
+    }
+  </script>
 </body>
 </html>
