@@ -171,6 +171,8 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .alpha-nav{display:flex;justify-content:space-between;margin-top:0.8rem;gap:6px}
 .alpha-nav-btn{padding:8px 10px;background:#1D9E75;color:white;border:none;border-radius:14px;font-size:12px;cursor:pointer;font-family:Georgia,serif;flex:1;text-align:center}
 .alpha-nav-btn:disabled{background:#ddd;color:#aaa;cursor:default}
+.ab-print-btn{padding:7px 14px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif}
+.ab-print-btn:disabled{background:#e6e4df;color:#aaa;cursor:default}
 
 
 /* DRUCK / PDF */
@@ -409,7 +411,8 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen active" id="alphabet">
     <p class="section-title">Das griechische Alphabet — Buchstabe anklicken für Beispielwörter!</p>
-    <div style="text-align:right;margin-bottom:0.8rem">
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:0.8rem;flex-wrap:wrap">
+      <button id="ab-btn" class="ab-print-btn" disabled onclick="abBauen(currentAlpha)">📝 Arbeitsblatt drucken</button>
       <button onclick="printAlphabetColoring()" style="padding:7px 14px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif">🎨 Alphabet ausmalen</button>
     </div>
     <div id="alpha-grid"></div>
@@ -2266,6 +2269,7 @@ function renderAlphaGrid() {
   }
   html+='</div>';
   document.getElementById("alpha-grid").innerHTML=html;
+  abBtnUpdate(null);
 }
 
 function openAlpha(idx) {
@@ -2291,9 +2295,6 @@ function openAlpha(idx) {
   html+='</div></div>';
   html+='<div class="beispiele-title">5 Beispielwörter mit '+a.name+':</div>';
   html+=bsp;
-  html+='<div class="print-btns" style="margin:14px 0 4px">';
-  html+='<button class="print-btn green" style="padding:8px 16px;font-size:13px" onclick="abBauen('+idx+')">📝 Arbeitsblatt drucken</button>';
-  html+='</div>';
   html+='<div class="alpha-nav">';
   html+='<button class="alpha-nav-btn" onclick="openAlpha('+(idx-1)+')" '+(idx===0?'disabled':'')+'>← Vorheriger</button>';
   html+='<button class="alpha-nav-btn" onclick="renderAlphaGrid()">Alle Buchstaben</button>';
@@ -2302,6 +2303,7 @@ function openAlpha(idx) {
   document.getElementById("alpha-detail").innerHTML=html;
   document.getElementById("alpha-detail").style.display="block";
   document.getElementById("alpha-grid").innerHTML="";
+  abBtnUpdate(idx);
 }
 
 
@@ -2452,15 +2454,16 @@ function abDrucken(idx, woerter, bilder) {
 
   var sil = "", s = abSilben(a);
   for(i=0;i<s.length;i++) {
+    // Die Kombination schreibt das Kind selbst – nur die Vorgabe steht da
     sil += '<div class="ab-sil"><span class="ab-plus">'+s[i].vor+'</span>'
-        +  '<span class="ab-res">'+s[i].gr+' , '+s[i].kl+'</span></div>';
+        +  '<span class="ab-res"></span></div>';
   }
 
   var kasten = "";
   for(i=0;i<woerter.length;i++) kasten += '<span>'+woerter[i].gr+'</span>';
 
-  var geist1 = "", geist2 = "";
-  for(i=0;i<8;i++) { geist1 += a.gross+" "; geist2 += kl+" "; }
+  // Nur ein Muster-Buchstabe je Zeile – den Rest schreibt das Kind selbst
+  var geist1 = a.gross, geist2 = kl;
 
   var css = ''
    + '@page{size:A4 portrait;margin:10mm}'
@@ -2482,13 +2485,13 @@ function abDrucken(idx, woerter, bilder) {
    + '.ab-lines{flex:1;border:1.2px solid #111;border-radius:3px;padding:2mm 3mm}'
    + '.ab-rule{height:11mm;border-bottom:1px solid #111;position:relative}'
    + '.ab-rule::after{content:"";position:absolute;left:0;right:0;top:5.5mm;border-top:1px dotted #bbb}'
-   + '.ab-ghost{font-size:29px;color:#ddd;padding-left:1mm;line-height:11mm}'
+   + '.ab-ghost{font-size:29px;color:#c8c8c8;padding-left:2mm;line-height:11mm}'
    + '.ab-silben{display:flex;gap:5mm;align-items:center}'
    + '.ab-start{flex:0 0 22mm;border:1.2px solid #111;border-radius:3px;text-align:center;padding:3mm 0;font-size:26px}'
    + '.ab-grid2{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:2mm 4mm}'
    + '.ab-sil{display:flex;align-items:baseline;gap:2mm;border-bottom:1px solid #111;padding-bottom:1mm}'
    + '.ab-plus{font-size:12px;color:#555;flex:0 0 12mm}'
-   + '.ab-res{font-size:15px;color:#ccc}'
+   + '.ab-res{flex:1;height:7mm}'
    + '.ab-kasten{border:1.2px dashed #111;border-radius:3px;padding:2.5mm 3mm;display:flex;'
    +   'flex-wrap:wrap;gap:1.5mm 5mm;font-size:14px}'
    + '.ab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}'
@@ -2539,6 +2542,22 @@ function abDrucken(idx, woerter, bilder) {
     + '<title>Arbeitsblatt '+a.name+'</title><style>'+css+'</style></head><body>'+body+'</body></html>');
   pw.document.close();
   pw.onload = function() { pw.focus(); pw.print(); };
+}
+
+// Beschriftung des Arbeitsblatt-Buttons oben im Alphabet-Screen
+function abBtnUpdate(idx) {
+  var b = document.getElementById("ab-btn");
+  if(!b) return;
+  if(idx === null) {
+    b.disabled = true;
+    b.textContent = "📝 Arbeitsblatt drucken";
+    b.title = "Erst einen Buchstaben anklicken";
+  } else {
+    var a = alphabet[idx];
+    b.disabled = false;
+    b.textContent = "📝 Arbeitsblatt " + a.gross + " " + a.klein.split("/")[0];
+    b.title = "Arbeitsblatt zum Buchstaben " + a.name + " drucken";
+  }
 }
 
 // ── INIT ──────────────────────────────────────────────────
