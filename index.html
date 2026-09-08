@@ -2291,6 +2291,9 @@ function openAlpha(idx) {
   html+='</div></div>';
   html+='<div class="beispiele-title">5 Beispielwörter mit '+a.name+':</div>';
   html+=bsp;
+  html+='<div class="print-btns" style="margin:14px 0 4px">';
+  html+='<button class="print-btn green" style="padding:8px 16px;font-size:13px" onclick="abBauen('+idx+')">📝 Arbeitsblatt drucken</button>';
+  html+='</div>';
   html+='<div class="alpha-nav">';
   html+='<button class="alpha-nav-btn" onclick="openAlpha('+(idx-1)+')" '+(idx===0?'disabled':'')+'>← Vorheriger</button>';
   html+='<button class="alpha-nav-btn" onclick="renderAlphaGrid()">Alle Buchstaben</button>';
@@ -2299,6 +2302,243 @@ function openAlpha(idx) {
   document.getElementById("alpha-detail").innerHTML=html;
   document.getElementById("alpha-detail").style.display="block";
   document.getElementById("alpha-grid").innerHTML="";
+}
+
+
+// ── ARBEITSBLATT ZUM BUCHSTABEN ───────────────────────────
+// Baut aus vocab[] ein druckbares A4-Blatt: Buchstabe nachfahren,
+// Silben bauen, Wörterkasten, Bilder beschriften.
+// Die Farbbilder werden dabei im Browser in Strichzeichnungen
+// umgerechnet (Canvas) – es werden keine extra Dateien gebraucht.
+
+var AB_ENDUNGEN     = ["α","ε","η","ι","ο","ου","υ","ω"];
+var AB_KONSONANTEN  = ["μ","ν","π","τ","κ","λ","σ","ρ"];
+var AB_VOKALE       = "αεηιουω";
+var AB_MAX          = 6;
+
+function abNorm(s) {
+  if(s.normalize) s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  return s.toLowerCase().replace(/ς/g,"σ");
+}
+
+function abDatei(de) {
+  return "bilder/" + de.toLowerCase()
+    .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss") + ".png";
+}
+
+// Wörter zum Buchstaben: erst die mit dem Buchstaben am Anfang, dann die übrigen
+function abWoerter(idx) {
+  var a = alphabet[idx], ls = a.klein.split("/"), anlaut = [], innen = [];
+  for(var i=0;i<ls.length;i++) ls[i] = abNorm(ls[i]);
+  for(var i=0;i<vocab.length;i++) {
+    var v = vocab[i], g = abNorm(v.gr), drin = false, start = false;
+    for(var j=0;j<ls.length;j++) {
+      if(g.indexOf(ls[j]) >= 0) drin = true;
+      if(g.charAt(0) === ls[j]) start = true;
+    }
+    if(drin) (start ? anlaut : innen).push(v);
+  }
+  return anlaut.concat(innen).slice(0, AB_MAX);
+}
+
+// Farbbild -> Strichzeichnung. Vergleicht jedes Pixel mit seiner
+// weichgezeichneten Umgebung, damit auch farbige Konturen erkannt werden.
+function abLineArt(img) {
+  var w = img.naturalWidth, h = img.naturalHeight;
+  if(!w || !h) return null;
+  var sc = Math.min(1, 520/w);
+  w = Math.round(w*sc); h = Math.round(h*sc);
+
+  var c1 = document.createElement("canvas"); c1.width = w; c1.height = h;
+  var x1 = c1.getContext("2d");
+  x1.fillStyle = "#fff"; x1.fillRect(0,0,w,h); x1.drawImage(img,0,0,w,h);
+
+  var c2 = document.createElement("canvas"); c2.width = w; c2.height = h;
+  var x2 = c2.getContext("2d");
+  x2.fillStyle = "#fff"; x2.fillRect(0,0,w,h);
+  try { x2.filter = "blur(4px)"; } catch(e) {}
+  x2.drawImage(img,0,0,w,h);
+
+  var A, B;
+  try { A = x1.getImageData(0,0,w,h).data; B = x2.getImageData(0,0,w,h).data; }
+  catch(e) { return null; }   // z.B. lokal per file:// – dann bleibt das Farbbild
+
+  var n = w*h, ink = new Uint8Array(n), i, k, la, lb;
+  for(i=0;i<n;i++) {
+    k = i*4;
+    la = 0.299*A[k] + 0.587*A[k+1] + 0.114*A[k+2];
+    lb = 0.299*B[k] + 0.587*B[k+1] + 0.114*B[k+2];
+    if(la < lb-16 || la < 90) ink[i] = 1;
+  }
+  // Linien etwas verdicken, sonst reissen sie beim Drucken auf
+  var out = new Uint8Array(n), x, y, dx, dy, hit;
+  for(y=0;y<h;y++) for(x=0;x<w;x++) {
+    i = y*w+x;
+    if(ink[i]) { out[i] = 1; continue; }
+    hit = 0;
+    for(dy=-1;dy<=1 && !hit;dy++) for(dx=-1;dx<=1;dx++) {
+      var yy = y+dy, xx = x+dx;
+      if(yy<0||yy>=h||xx<0||xx>=w) continue;
+      if(ink[yy*w+xx]) { hit = 1; break; }
+    }
+    out[i] = hit;
+  }
+  var res = x1.createImageData(w,h);
+  for(i=0;i<n;i++) {
+    var val = out[i] ? 0 : 255; k = i*4;
+    res.data[k] = res.data[k+1] = res.data[k+2] = val; res.data[k+3] = 255;
+  }
+  x1.putImageData(res,0,0);
+  try { return c1.toDataURL("image/png"); } catch(e) { return null; }
+}
+
+function abSilben(a) {
+  var kl = a.klein.split("/")[0], out = [], i;
+  if(AB_VOKALE.indexOf(kl) >= 0) {
+    for(i=0;i<AB_KONSONANTEN.length;i++) {
+      var k = AB_KONSONANTEN[i];
+      out.push({vor: k+" +", gr: k.toUpperCase()+kl, kl: k+kl});
+    }
+  } else {
+    for(i=0;i<AB_ENDUNGEN.length;i++) {
+      var e = AB_ENDUNGEN[i];
+      out.push({vor: "+ "+e, gr: a.gross+e, kl: kl+e});
+    }
+  }
+  return out;
+}
+
+function abKaestchen(wort) {
+  var s = "";
+  for(var i=0;i<wort.length;i++) {
+    s += (wort.charAt(i) === " ") ? '<span class="ab-space"></span>' : '<span class="ab-slot"></span>';
+  }
+  return s;
+}
+
+// Bilder laden, umrechnen, dann drucken
+function abBauen(idx) {
+  var woerter = abWoerter(idx);
+  if(!woerter.length) {
+    alert("Zu diesem Buchstaben gibt es noch keine Wörter mit Bild.");
+    return;
+  }
+  var bilder = {}, offen = woerter.length;
+  function fertig() { if(--offen === 0) abDrucken(idx, woerter, bilder); }
+  for(var i=0;i<woerter.length;i++) {
+    (function(v) {
+      var im = new Image();
+      im.onload  = function() { bilder[v.de] = abLineArt(im) || im.src; fertig(); };
+      im.onerror = function() { bilder[v.de] = ""; fertig(); };
+      im.src = abDatei(v.de);
+    })(woerter[i]);
+  }
+}
+
+function abDrucken(idx, woerter, bilder) {
+  var a = alphabet[idx], kl = a.klein.split("/")[0], i;
+
+  var zellen = "";
+  for(i=0;i<woerter.length;i++) {
+    var v = woerter[i];
+    zellen += '<div class="ab-cell">';
+    zellen += bilder[v.de] ? '<img src="'+bilder[v.de]+'" alt="'+v.de+'">' : '<div class="ab-noimg"></div>';
+    zellen += '<div class="ab-wr">';
+    if(v.art) zellen += '<span class="ab-art">'+v.art+'</span>';
+    zellen += '<span class="ab-slots">'+abKaestchen(v.gr)+'</span></div>';
+    zellen += '<div class="ab-hint">'+v.de+'</div>';
+    zellen += '</div>';
+  }
+
+  var sil = "", s = abSilben(a);
+  for(i=0;i<s.length;i++) {
+    sil += '<div class="ab-sil"><span class="ab-plus">'+s[i].vor+'</span>'
+        +  '<span class="ab-res">'+s[i].gr+' , '+s[i].kl+'</span></div>';
+  }
+
+  var kasten = "";
+  for(i=0;i<woerter.length;i++) kasten += '<span>'+woerter[i].gr+'</span>';
+
+  var geist1 = "", geist2 = "";
+  for(i=0;i<8;i++) { geist1 += a.gross+" "; geist2 += kl+" "; }
+
+  var css = ''
+   + '@page{size:A4 portrait;margin:10mm}'
+   + '*{box-sizing:border-box;margin:0;padding:0}'
+   + 'body{font-family:Georgia,"Times New Roman",serif;color:#111;background:#fff}'
+   + '.ab{width:190mm;margin:0 auto}'
+   + '.ab-top{border-bottom:1.5px solid #111;padding-bottom:3mm;margin-bottom:5mm}'
+   + '.ab-top h1{font-size:20px;letter-spacing:.5px}'
+   + '.ab-top .sub{font-size:11px;color:#555;font-style:italic;margin-top:2px}'
+   + 'h2{font-size:12.5px;margin:0 0 2.5mm;font-weight:bold}'
+   + 'h2 .n{display:inline-block;width:15px;height:15px;border:1.2px solid #111;border-radius:50%;'
+   +   'text-align:center;font-size:10px;line-height:14px;margin-right:5px}'
+   + 'section{margin-bottom:5.5mm}'
+   + '.ab-trace{display:flex;gap:6mm;align-items:stretch}'
+   + '.ab-box{flex:0 0 62mm;border:1.2px solid #111;border-radius:3px;display:flex;align-items:center;'
+   +   'justify-content:center;gap:4mm;padding:2mm 0;background:repeating-linear-gradient(to bottom,'
+   +   'transparent 0,transparent 11mm,#e6e6e6 11mm,#e6e6e6 11.4mm)}'
+   + '.ab-big{font-size:74px;line-height:.95;color:#fff;-webkit-text-stroke:1.6px #111;paint-order:stroke}'
+   + '.ab-lines{flex:1;border:1.2px solid #111;border-radius:3px;padding:2mm 3mm}'
+   + '.ab-rule{height:11mm;border-bottom:1px solid #111;position:relative}'
+   + '.ab-rule::after{content:"";position:absolute;left:0;right:0;top:5.5mm;border-top:1px dotted #bbb}'
+   + '.ab-ghost{font-size:29px;color:#ddd;padding-left:1mm;line-height:11mm}'
+   + '.ab-silben{display:flex;gap:5mm;align-items:center}'
+   + '.ab-start{flex:0 0 22mm;border:1.2px solid #111;border-radius:3px;text-align:center;padding:3mm 0;font-size:26px}'
+   + '.ab-grid2{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:2mm 4mm}'
+   + '.ab-sil{display:flex;align-items:baseline;gap:2mm;border-bottom:1px solid #111;padding-bottom:1mm}'
+   + '.ab-plus{font-size:12px;color:#555;flex:0 0 12mm}'
+   + '.ab-res{font-size:15px;color:#ccc}'
+   + '.ab-kasten{border:1.2px dashed #111;border-radius:3px;padding:2.5mm 3mm;display:flex;'
+   +   'flex-wrap:wrap;gap:1.5mm 5mm;font-size:14px}'
+   + '.ab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}'
+   + '.ab-cell{border:1.2px solid #111;border-radius:3px;padding:2.5mm 2mm 2mm;display:flex;'
+   +   'flex-direction:column;align-items:center}'
+   + '.ab-cell img{height:25mm;width:auto;max-width:100%;object-fit:contain;display:block;margin-bottom:2mm}'
+   + '.ab-noimg{height:25mm;margin-bottom:2mm}'
+   + '.ab-wr{display:flex;align-items:flex-end;gap:1.5mm;width:100%;justify-content:center}'
+   + '.ab-art{font-size:13px;line-height:1}'
+   + '.ab-slots{display:flex;gap:1.2mm}'
+   + '.ab-slot{display:block;width:5.2mm;height:6.5mm;border-bottom:1.1px solid #111}'
+   + '.ab-space{display:block;width:3mm;height:6.5mm}'
+   + '.ab-hint{font-size:8px;color:#999;font-style:italic;margin-top:1.5mm;align-self:flex-start}'
+   + 'footer{margin-top:4mm;border-top:1px solid #ccc;padding-top:2mm;font-size:8.5px;color:#999;'
+   +   'display:flex;justify-content:space-between}';
+
+  var body = ''
+   + '<div class="ab">'
+   + '<div class="ab-top"><h1>Το γράμμα &nbsp;'+a.gross+' '+kl+'</h1>'
+   +   '<div class="sub">'+a.name+' · '+a.deutsch+'</div></div>'
+
+   + '<section><h2><span class="n">1</span>Γράφω το γράμμα · Ich schreibe den Buchstaben</h2>'
+   + '<div class="ab-trace"><div class="ab-box">'
+   +   '<span class="ab-big">'+a.gross+'</span><span class="ab-big">'+kl+'</span></div>'
+   + '<div class="ab-lines">'
+   +   '<div class="ab-rule"><span class="ab-ghost">'+geist1+'</span></div>'
+   +   '<div class="ab-rule" style="border-bottom:none"><span class="ab-ghost">'+geist2+'</span></div>'
+   + '</div></div></section>'
+
+   + '<section><h2><span class="n">2</span>Φτιάχνω τις συλλαβές · Ich baue Silben</h2>'
+   + '<div class="ab-silben"><div class="ab-start">'+a.gross+' , '+kl+'</div>'
+   + '<div class="ab-grid2">'+sil+'</div></div></section>'
+
+   + '<section><h2><span class="n">3</span>Οι λέξεις μου · Mein Wörterkasten</h2>'
+   + '<div class="ab-kasten">'+kasten+'</div></section>'
+
+   + '<section><h2><span class="n">4</span>Συμπληρώνω τις λέξεις των εικόνων · Ich schreibe die Wörter</h2>'
+   + '<div class="ab-grid">'+zellen+'</div></section>'
+
+   + '<footer><span>Griechisch Lernen · Arbeitsblatt '+a.gross+' '+kl+'</span>'
+   +   '<span>griechischlernenapp.github.io/griechisch-lernen</span></footer>'
+   + '</div>';
+
+  var pw = window.open("","_blank");
+  if(!pw) { alert("Bitte Popup-Blocker deaktivieren!"); return; }
+  pw.document.open();
+  pw.document.write('<!DOCTYPE html><html lang="el"><head><meta charset="UTF-8">'
+    + '<title>Arbeitsblatt '+a.name+'</title><style>'+css+'</style></head><body>'+body+'</body></html>');
+  pw.document.close();
+  pw.onload = function() { pw.focus(); pw.print(); };
 }
 
 // ── INIT ──────────────────────────────────────────────────
