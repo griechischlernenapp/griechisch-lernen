@@ -8,8 +8,8 @@ var alphabet = [
     name: "Alpha", nameGr: "Άλφα", gross: "Α", klein: "α", img: "alpha",
     aussprache: "a", deutsch: "wie deutsches A",
     beispiele: [
-      {gr:"αγάπη",    pr:"a-ga-pi",    de:"Liebe"},
-      {gr:"αδελφός",  pr:"a-del-fos",  de:"Bruder"},
+      {gr:"αγάπη",    pr:"a-gha-pi",   de:"Liebe"},
+      {gr:"αδελφός",  pr:"a-dhel-fos", de:"Bruder"},
       {gr:"αέρας",    pr:"a-e-ras",    de:"Wind / Luft"},
       {gr:"αλεπού",   pr:"a-le-pu",    de:"Fuchs"},
       {gr:"άνθρωπος", pr:"an-thro-pos",de:"Mensch"}
@@ -55,7 +55,7 @@ var alphabet = [
       {gr:"εκκλησία", pr:"e-kli-si-a", de:"Kirche"},
       {gr:"ελιά",     pr:"e-lia",      de:"Olive"},
       {gr:"εστιατόριο",pr:"es-ti-a-to-ri-o",de:"Restaurant"},
-      {gr:"εικόνα",   pr:"e-ko-na",    de:"Bild"},
+      {gr:"εικόνα",   pr:"i-ko-na",    de:"Bild"},
       {gr:"εφημερίδα",pr:"e-fi-me-ri-dha",de:"Zeitung"}
     ]
   },

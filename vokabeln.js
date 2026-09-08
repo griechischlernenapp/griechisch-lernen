@@ -16,7 +16,14 @@ var categories = [
   {id:"verkehr",    label:"🚗 Verkehr"},
   {id:"gefuehle",   label:"😊 Gefühle"},
   {id:"wetter",     label:"🌤️ Wetter"},
-  {id:"wochentage", label:"📅 Wochentage"}
+  {id:"wochentage", label:"📅 Wochentage"},
+  // Neue Kategorien für die Wörter aus vocabGeplant.
+  // Erst einkommentieren, wenn das erste Wort dieser Kategorie
+  // in vocab[] steht – sonst zeigt der Filter eine leere Liste.
+  // {id:"familie",    label:"👨‍👩‍👧 Familie"},
+  // {id:"stadt",      label:"🏛️ Stadt"},
+  // {id:"alltag",     label:"🧩 Alltag"},
+  // {id:"maerchen",   label:"🐉 Märchen & Helden"}
 ];
 
 // SVG-Illustrationen – kindgerecht, bunt, inline
@@ -779,95 +786,211 @@ function getSvg(de, emoji) {
 
 var vocab = [
   // Tiere
-  {de:"Katze",  gr:"γάτα",      pr:"gha-ta",          emoji:"🐱", cat:"tiere"},
-  {de:"Hund",   gr:"σκύλος",    pr:"ski-los",          emoji:"🐶", cat:"tiere"},
-  {de:"Vogel",  gr:"πουλί",     pr:"pu-li",            emoji:"🐦", cat:"tiere"},
-  {de:"Fisch",  gr:"ψάρι",      pr:"psa-ri",           emoji:"🐟", cat:"tiere"},
-  {de:"Pferd",  gr:"άλογο",     pr:"a-lo-gho",         emoji:"🐴", cat:"tiere"},
-  {de:"Schaf",  gr:"πρόβατο",   pr:"pro-va-to",        emoji:"🐑", cat:"tiere"},
+  {de:"Katze",         gr:"γάτα",             art:"η",    pr:"gha-ta",                emoji:"🐱", cat:"tiere"},
+  {de:"Hund",          gr:"σκύλος",           art:"ο",    pr:"ski-los",               emoji:"🐶", cat:"tiere"},
+  {de:"Vogel",         gr:"πουλί",            art:"το",   pr:"pu-li",                 emoji:"🐦", cat:"tiere"},
+  {de:"Fisch",         gr:"ψάρι",             art:"το",   pr:"psa-ri",                emoji:"🐟", cat:"tiere"},
+  {de:"Pferd",         gr:"άλογο",            art:"το",   pr:"a-lo-gho",              emoji:"🐴", cat:"tiere"},
+  {de:"Schaf",         gr:"πρόβατο",          art:"το",   pr:"pro-wa-to",             emoji:"🐑", cat:"tiere"},
   // Essen
-  {de:"Apfel",  gr:"μήλο",      pr:"mi-lo",            emoji:"🍎", cat:"essen"},
-  {de:"Brot",   gr:"ψωμί",      pr:"pso-mi",           emoji:"🍞", cat:"essen"},
-  {de:"Wasser", gr:"νερό",      pr:"ne-ro",            emoji:"💧", cat:"essen"},
-  {de:"Eis",    gr:"παγωτό",    pr:"pa-go-to",         emoji:"🍦", cat:"essen"},
-  {de:"Milch",  gr:"γάλα",      pr:"gha-la",           emoji:"🥛", cat:"essen"},
-  {de:"Käse",   gr:"τυρί",      pr:"ti-ri",            emoji:"🧀", cat:"essen"},
+  {de:"Apfel",         gr:"μήλο",             art:"το",   pr:"mi-lo",                 emoji:"🍎", cat:"essen"},
+  {de:"Brot",          gr:"ψωμί",             art:"το",   pr:"pso-mi",                emoji:"🍞", cat:"essen"},
+  {de:"Wasser",        gr:"νερό",             art:"το",   pr:"ne-ro",                 emoji:"💧", cat:"essen"},
+  {de:"Eis",           gr:"παγωτό",           art:"το",   pr:"pa-gho-to",              emoji:"🍦", cat:"essen"},
+  {de:"Milch",         gr:"γάλα",             art:"το",   pr:"gha-la",                emoji:"🥛", cat:"essen"},
+  {de:"Käse",          gr:"τυρί",             art:"το",   pr:"ti-ri",                 emoji:"🧀", cat:"essen"},
   // Farben
-  {de:"Blau",   gr:"μπλε",      pr:"ble",              emoji:"🔵", cat:"farben"},
-  {de:"Rot",    gr:"κόκκινο",   pr:"ko-ki-no",         emoji:"🔴", cat:"farben"},
-  {de:"Grün",   gr:"πράσινο",   pr:"pra-si-no",        emoji:"🟢", cat:"farben"},
-  {de:"Gelb",   gr:"κίτρινο",   pr:"ki-tri-no",        emoji:"🟡", cat:"farben"},
-  {de:"Weiß",   gr:"άσπρο",     pr:"a-spro",           emoji:"⬜", cat:"farben"},
-  {de:"Schwarz",gr:"μαύρο",     pr:"mav-ro",           emoji:"⬛", cat:"farben"},
+  {de:"Blau",          gr:"μπλε",             art:"",     pr:"ble",                   emoji:"🔵", cat:"farben"},
+  {de:"Rot",           gr:"κόκκινο",          art:"",     pr:"ko-ki-no",              emoji:"🔴", cat:"farben"},
+  {de:"Grün",          gr:"πράσινο",          art:"",     pr:"pra-si-no",             emoji:"🟢", cat:"farben"},
+  {de:"Gelb",          gr:"κίτρινο",          art:"",     pr:"ki-tri-no",             emoji:"🟡", cat:"farben"},
+  {de:"Weiß",          gr:"άσπρο",            art:"",     pr:"a-spro",                emoji:"⬜", cat:"farben"},
+  {de:"Schwarz",       gr:"μαύρο",            art:"",     pr:"mav-ro",                emoji:"⬛", cat:"farben"},
   // Zahlen
-  {de:"Eins",   gr:"ένα",       pr:"e-na",             emoji:"1️⃣", cat:"zahlen"},
-  {de:"Zwei",   gr:"δύο",       pr:"di-o",             emoji:"2️⃣", cat:"zahlen"},
-  {de:"Drei",   gr:"τρία",      pr:"tri-a",            emoji:"3️⃣", cat:"zahlen"},
-  {de:"Vier",   gr:"τέσσερα",   pr:"te-se-ra",         emoji:"4️⃣", cat:"zahlen"},
-  {de:"Fünf",   gr:"πέντε",     pr:"pen-de",           emoji:"5️⃣", cat:"zahlen"},
-  {de:"Zehn",   gr:"δέκα",      pr:"de-ka",            emoji:"🔟", cat:"zahlen"},
+  {de:"Eins",          gr:"ένα",              art:"",     pr:"e-na",                  emoji:"1️⃣", cat:"zahlen"},
+  {de:"Zwei",          gr:"δύο",              art:"",     pr:"dhi-o",                  emoji:"2️⃣", cat:"zahlen"},
+  {de:"Drei",          gr:"τρία",             art:"",     pr:"tri-a",                 emoji:"3️⃣", cat:"zahlen"},
+  {de:"Vier",          gr:"τέσσερα",          art:"",     pr:"te-se-ra",              emoji:"4️⃣", cat:"zahlen"},
+  {de:"Fünf",          gr:"πέντε",            art:"",     pr:"pen-de",                emoji:"5️⃣", cat:"zahlen"},
+  {de:"Zehn",          gr:"δέκα",             art:"",     pr:"dhe-ka",                 emoji:"🔟", cat:"zahlen"},
   // Körper
-  {de:"Kopf",   gr:"κεφάλι",    pr:"ke-fa-li",         emoji:"🗣️", cat:"koerper"},
-  {de:"Hand",   gr:"χέρι",      pr:"che-ri",           emoji:"✋", cat:"koerper"},
-  {de:"Auge",   gr:"μάτι",      pr:"ma-ti",            emoji:"👁️", cat:"koerper"},
-  {de:"Nase",   gr:"μύτη",      pr:"mi-ti",            emoji:"👃", cat:"koerper"},
-  {de:"Mund",   gr:"στόμα",     pr:"sto-ma",           emoji:"👄", cat:"koerper"},
-  {de:"Ohr",    gr:"αυτί",      pr:"af-ti",            emoji:"👂", cat:"koerper"},
+  {de:"Kopf",          gr:"κεφάλι",           art:"το",   pr:"ke-fa-li",              emoji:"🗣️", cat:"koerper"},
+  {de:"Hand",          gr:"χέρι",             art:"το",   pr:"che-ri",                emoji:"✋", cat:"koerper"},
+  {de:"Auge",          gr:"μάτι",             art:"το",   pr:"ma-ti",                 emoji:"👁️", cat:"koerper"},
+  {de:"Nase",          gr:"μύτη",             art:"η",    pr:"mi-ti",                 emoji:"👃", cat:"koerper"},
+  {de:"Mund",          gr:"στόμα",            art:"το",   pr:"sto-ma",                emoji:"👄", cat:"koerper"},
+  {de:"Ohr",           gr:"αυτί",             art:"το",   pr:"af-ti",                 emoji:"👂", cat:"koerper"},
   // Kleidung
-  {de:"Hemd",   gr:"πουκάμισο", pr:"pu-ka-mi-so",      emoji:"👕", cat:"kleidung"},
-  {de:"Hose",   gr:"παντελόνι", pr:"pan-de-lo-ni",     emoji:"👖", cat:"kleidung"},
-  {de:"Schuhe", gr:"παπούτσια", pr:"pa-pu-tsi-a",      emoji:"👟", cat:"kleidung"},
-  {de:"Mütze",  gr:"σκούφος",   pr:"sku-fos",          emoji:"🧢", cat:"kleidung"},
-  {de:"Jacke",  gr:"μπουφάν",   pr:"bu-fan",           emoji:"🧥", cat:"kleidung"},
-  {de:"Kleid",  gr:"φόρεμα",    pr:"fo-re-ma",         emoji:"👗", cat:"kleidung"},
+  {de:"Hemd",          gr:"πουκάμισο",        art:"το",   pr:"pu-ka-mi-so",           emoji:"👕", cat:"kleidung"},
+  {de:"Hose",          gr:"παντελόνι",        art:"το",   pr:"pan-de-lo-ni",          emoji:"👖", cat:"kleidung"},
+  {de:"Schuhe",        gr:"παπούτσια",        art:"τα",   pr:"pa-pu-tsi-a",           emoji:"👟", cat:"kleidung"},
+  {de:"Mütze",         gr:"σκούφος",          art:"ο",    pr:"sku-fos",               emoji:"🧢", cat:"kleidung"},
+  {de:"Jacke",         gr:"μπουφάν",          art:"το",   pr:"bu-fan",                emoji:"🧥", cat:"kleidung"},
+  {de:"Kleid",         gr:"φόρεμα",           art:"το",   pr:"fo-re-ma",              emoji:"👗", cat:"kleidung"},
   // Zuhause
-  {de:"Haus",   gr:"σπίτι",     pr:"spi-ti",           emoji:"🏠", cat:"zuhause"},
-  {de:"Tür",    gr:"πόρτα",     pr:"por-ta",           emoji:"🚪", cat:"zuhause"},
-  {de:"Fenster",gr:"παράθυρο",  pr:"pa-ra-thi-ro",     emoji:"🪟", cat:"zuhause"},
-  {de:"Bett",   gr:"κρεβάτι",   pr:"kre-va-ti",        emoji:"🛏️", cat:"zuhause"},
-  {de:"Stuhl",  gr:"καρέκλα",   pr:"ka-re-kla",        emoji:"🪑", cat:"zuhause"},
-  {de:"Tisch",  gr:"τραπέζι",   pr:"tra-pe-zi",        emoji:"🪵", cat:"zuhause"},
+  {de:"Haus",          gr:"σπίτι",            art:"το",   pr:"spi-ti",                emoji:"🏠", cat:"zuhause"},
+  {de:"Tür",           gr:"πόρτα",            art:"η",    pr:"por-ta",                emoji:"🚪", cat:"zuhause"},
+  {de:"Fenster",       gr:"παράθυρο",         art:"το",   pr:"pa-ra-thi-ro",          emoji:"🪟", cat:"zuhause"},
+  {de:"Bett",          gr:"κρεβάτι",          art:"το",   pr:"kre-wa-ti",             emoji:"🛏️", cat:"zuhause"},
+  {de:"Stuhl",         gr:"καρέκλα",          art:"η",    pr:"ka-re-kla",             emoji:"🪑", cat:"zuhause"},
+  {de:"Tisch",         gr:"τραπέζι",          art:"το",   pr:"tra-pe-zi",             emoji:"🪵", cat:"zuhause"},
   // Natur
-  {de:"Baum",   gr:"δέντρο",    pr:"den-dro",          emoji:"🌳", cat:"natur"},
-  {de:"Blume",  gr:"λουλούδι",  pr:"lu-lu-di",         emoji:"🌸", cat:"natur"},
-  {de:"Meer",   gr:"θάλασσα",   pr:"tha-la-sa",        emoji:"🌊", cat:"natur"},
-  {de:"Berg",   gr:"βουνό",     pr:"vu-no",            emoji:"⛰️", cat:"natur"},
-  {de:"Sonne",  gr:"ήλιος",     pr:"i-li-os",          emoji:"☀️", cat:"natur"},
-  {de:"Mond",   gr:"φεγγάρι",   pr:"fen-gha-ri",       emoji:"🌙", cat:"natur"},
+  {de:"Baum",          gr:"δέντρο",           art:"το",   pr:"dhen-dro",               emoji:"🌳", cat:"natur"},
+  {de:"Blume",         gr:"λουλούδι",         art:"το",   pr:"lu-lu-dhi",              emoji:"🌸", cat:"natur"},
+  {de:"Meer",          gr:"θάλασσα",          art:"η",    pr:"tha-la-sa",             emoji:"🌊", cat:"natur"},
+  {de:"Berg",          gr:"βουνό",            art:"το",   pr:"wu-no",                 emoji:"⛰️", cat:"natur"},
+  {de:"Sonne",         gr:"ήλιος",            art:"ο",    pr:"i-li-os",               emoji:"☀️", cat:"natur"},
+  {de:"Mond",          gr:"φεγγάρι",          art:"το",   pr:"fen-gha-ri",            emoji:"🌙", cat:"natur"},
   // Schule
-  {de:"Buch",       gr:"βιβλίο",          pr:"vi-vli-o",         emoji:"📚", cat:"schule"},
-  {de:"Stift",      gr:"μολύβι",          pr:"mo-li-vi",         emoji:"✏️", cat:"schule"},
-  {de:"Tafel",      gr:"πίνακας",         pr:"pi-na-kas",        emoji:"🖊️", cat:"schule"},
-  {de:"Schultasche",gr:"σχολική τσάντα",  pr:"scho-li-ki tsan-da",emoji:"🎒",cat:"schule"},
-  {de:"Lehrer",     gr:"δάσκαλος",        pr:"das-ka-los",       emoji:"👨‍🏫",cat:"schule"},
-  {de:"Klasse",     gr:"τάξη",            pr:"tak-si",           emoji:"🏫", cat:"schule"},
+  {de:"Buch",          gr:"βιβλίο",           art:"το",   pr:"wi-wli-o",              emoji:"📚", cat:"schule"},
+  {de:"Stift",         gr:"μολύβι",           art:"το",   pr:"mo-li-wi",              emoji:"✏️", cat:"schule"},
+  {de:"Tafel",         gr:"πίνακας",          art:"ο",    pr:"pi-na-kas",             emoji:"🖊️", cat:"schule"},
+  {de:"Schultasche",   gr:"σχολική τσάντα",   art:"η",    pr:"scho-li-ki tsan-da",    emoji:"🎒", cat:"schule"},
+  {de:"Lehrer",        gr:"δάσκαλος",         art:"ο",    pr:"dhas-ka-los",            emoji:"👨‍🏫", cat:"schule"},
+  {de:"Klasse",        gr:"τάξη",             art:"η",    pr:"tak-si",                emoji:"🏫", cat:"schule"},
   // Verkehr
-  {de:"Auto",     gr:"αυτοκίνητο",  pr:"af-to-ki-ni-to",  emoji:"🚗", cat:"verkehr"},
-  {de:"Bus",      gr:"λεωφορείο",   pr:"le-o-fo-ri-o",    emoji:"🚌", cat:"verkehr"},
-  {de:"Fahrrad",  gr:"ποδήλατο",    pr:"po-di-la-to",     emoji:"🚲", cat:"verkehr"},
-  {de:"Flugzeug", gr:"αεροπλάνο",   pr:"a-e-ro-pla-no",   emoji:"✈️", cat:"verkehr"},
-  {de:"Schiff",   gr:"πλοίο",       pr:"pli-o",           emoji:"🚢", cat:"verkehr"},
-  {de:"Zug",      gr:"τρένο",       pr:"tre-no",          emoji:"🚆", cat:"verkehr"},
+  {de:"Auto",          gr:"αυτοκίνητο",       art:"το",   pr:"af-to-ki-ni-to",        emoji:"🚗", cat:"verkehr"},
+  {de:"Bus",           gr:"λεωφορείο",        art:"το",   pr:"le-o-fo-ri-o",          emoji:"🚌", cat:"verkehr"},
+  {de:"Fahrrad",       gr:"ποδήλατο",         art:"το",   pr:"po-dhi-la-to",           emoji:"🚲", cat:"verkehr"},
+  {de:"Flugzeug",      gr:"αεροπλάνο",        art:"το",   pr:"a-e-ro-pla-no",         emoji:"✈️", cat:"verkehr"},
+  {de:"Schiff",        gr:"πλοίο",            art:"το",   pr:"pli-o",                 emoji:"🚢", cat:"verkehr"},
+  {de:"Zug",           gr:"τρένο",            art:"το",   pr:"tre-no",                emoji:"🚆", cat:"verkehr"},
   // Gefühle
-  {de:"Glücklich",  gr:"χαρούμενος",       pr:"cha-ru-me-nos",       emoji:"😊", cat:"gefuehle"},
-  {de:"Traurig",    gr:"λυπημένος",        pr:"li-pi-me-nos",        emoji:"😢", cat:"gefuehle"},
-  {de:"Müde",       gr:"κουρασμένος",      pr:"ku-ras-me-nos",       emoji:"😴", cat:"gefuehle"},
-  {de:"Hungrig",    gr:"πεινασμένος",      pr:"pi-nas-me-nos",       emoji:"😋", cat:"gefuehle"},
-  {de:"Ängstlich",  gr:"φοβισμένος",       pr:"fo-vis-me-nos",       emoji:"😨", cat:"gefuehle"},
-  {de:"Aufgeregt",  gr:"ενθουσιασμένος",   pr:"en-thu-si-as-me-nos", emoji:"🤩", cat:"gefuehle"},
+  {de:"Glücklich",     gr:"χαρούμενος",       art:"",     pr:"cha-ru-me-nos",         emoji:"😊", cat:"gefuehle"},
+  {de:"Traurig",       gr:"λυπημένος",        art:"",     pr:"li-pi-me-nos",          emoji:"😢", cat:"gefuehle"},
+  {de:"Müde",          gr:"κουρασμένος",      art:"",     pr:"ku-ras-me-nos",         emoji:"😴", cat:"gefuehle"},
+  {de:"Hungrig",       gr:"πεινασμένος",      art:"",     pr:"pi-nas-me-nos",         emoji:"😋", cat:"gefuehle"},
+  {de:"Ängstlich",     gr:"φοβισμένος",       art:"",     pr:"fo-wis-me-nos",         emoji:"😨", cat:"gefuehle"},
+  {de:"Aufgeregt",     gr:"ενθουσιασμένος",   art:"",     pr:"en-thu-si-as-me-nos",   emoji:"🤩", cat:"gefuehle"},
   // Wetter
-  {de:"Regen",      gr:"βροχή",        pr:"vro-chi",      emoji:"🌧️", cat:"wetter"},
-  {de:"Schnee",     gr:"χιόνι",        pr:"chi-o-ni",     emoji:"❄️", cat:"wetter"},
-  {de:"Wind",       gr:"αέρας",        pr:"a-e-ras",      emoji:"💨", cat:"wetter"},
-  {de:"Gewitter",   gr:"καταιγίδα",    pr:"ka-te-gi-da",  emoji:"⛈️", cat:"wetter"},
-  {de:"Wolke",      gr:"σύννεφο",      pr:"si-ne-fo",     emoji:"☁️", cat:"wetter"},
-  {de:"Regenbogen", gr:"ουράνιο τόξο", pr:"u-ra-ni-o tok-so", emoji:"🌈", cat:"wetter"},
+  {de:"Regen",         gr:"βροχή",            art:"η",    pr:"wro-chi",               emoji:"🌧️", cat:"wetter"},
+  {de:"Schnee",        gr:"χιόνι",            art:"το",   pr:"chi-o-ni",              emoji:"❄️", cat:"wetter"},
+  {de:"Wind",          gr:"αέρας",            art:"ο",    pr:"a-e-ras",               emoji:"💨", cat:"wetter"},
+  {de:"Gewitter",      gr:"καταιγίδα",        art:"η",    pr:"ka-te-ghi-dha",           emoji:"⛈️", cat:"wetter"},
+  {de:"Wolke",         gr:"σύννεφο",          art:"το",   pr:"si-ne-fo",              emoji:"☁️", cat:"wetter"},
+  {de:"Regenbogen",    gr:"ουράνιο τόξο",     art:"το",   pr:"u-ra-ni-o tok-so",      emoji:"🌈", cat:"wetter"},
   // Wochentage
-  {de:"Montag",     gr:"Δευτέρα",    pr:"Def-te-ra",    emoji:"📅", cat:"wochentage"},
-  {de:"Dienstag",   gr:"Τρίτη",      pr:"Tri-ti",       emoji:"📅", cat:"wochentage"},
-  {de:"Mittwoch",   gr:"Τετάρτη",    pr:"Te-tar-ti",    emoji:"📅", cat:"wochentage"},
-  {de:"Donnerstag", gr:"Πέμπτη",     pr:"Pemp-ti",      emoji:"📅", cat:"wochentage"},
-  {de:"Freitag",    gr:"Παρασκευή",  pr:"Pa-ras-ke-vi", emoji:"📅", cat:"wochentage"},
-  {de:"Samstag",    gr:"Σάββατο",    pr:"Sa-va-to",     emoji:"📅", cat:"wochentage"},
-  {de:"Sonntag",    gr:"Κυριακή",    pr:"Ki-ri-a-ki",   emoji:"📅", cat:"wochentage"}
+  {de:"Montag",        gr:"Δευτέρα",          art:"η",    pr:"Dhef-te-ra",             emoji:"📅", cat:"wochentage"},
+  {de:"Dienstag",      gr:"Τρίτη",            art:"η",    pr:"Tri-ti",                emoji:"📅", cat:"wochentage"},
+  {de:"Mittwoch",      gr:"Τετάρτη",          art:"η",    pr:"Te-tar-ti",             emoji:"📅", cat:"wochentage"},
+  {de:"Donnerstag",    gr:"Πέμπτη",           art:"η",    pr:"Pemp-ti",               emoji:"📅", cat:"wochentage"},
+  {de:"Freitag",       gr:"Παρασκευή",        art:"η",    pr:"Pa-ras-ke-vi",          emoji:"📅", cat:"wochentage"},
+  {de:"Samstag",       gr:"Σάββατο",          art:"το",   pr:"Sa-wa-to",              emoji:"📅", cat:"wochentage"},
+  {de:"Sonntag",       gr:"Κυριακή",          art:"η",    pr:"Ki-ri-a-ki",            emoji:"📅", cat:"wochentage"}
+];
+
+
+// ============================================================
+//  NOCH OHNE BILD  –  vocabGeplant
+//  Diese Wörter sind fertig vorbereitet, aber das passende Bild
+//  in bilder/ fehlt noch. Solange ein Wort hier steht, taucht es
+//  in der App NICHT auf – so entstehen keine kaputten Bilder.
+//
+//  Workflow: Bild in Firefly erzeugen (siehe firefly_bilderliste.xlsx),
+//  als bilder/<dateiname>.png ablegen, dann die Zeile von hier
+//  nach oben in vocab[] verschieben. Fertig.
+//
+//  Dateiname = deutsches Wort, klein, ohne Umlaute
+//  (Beispiel: "Schildkröte" -> schildkrote.png)
+// ============================================================
+
+var vocabGeplant = [
+  // Β β   (Priorität 2)
+  {de:"Boot",           gr:"βάρκα",           art:"η",    pr:"war-ka",             emoji:"🚣", cat:"verkehr"},
+  {de:"Frosch",         gr:"βάτραχος",        art:"ο",    pr:"wa-tra-chos",        emoji:"🐸", cat:"tiere"},
+  {de:"Vase",           gr:"βάζο",            art:"το",   pr:"wa-zo",              emoji:"🏺", cat:"zuhause"},
+  {de:"Butter",         gr:"βούτυρο",         art:"το",   pr:"wu-ti-ro",           emoji:"🧈", cat:"essen"},
+  // Γ γ   (Priorität 2)
+  {de:"Oma",            gr:"γιαγιά",          art:"η",    pr:"ja-ja",              emoji:"👵", cat:"familie"},
+  {de:"Schwein",        gr:"γουρούνι",        art:"το",   pr:"ghu-ru-ni",          emoji:"🐷", cat:"tiere"},
+  {de:"Brücke",         gr:"γέφυρα",          art:"η",    pr:"ghe-fi-ra",          emoji:"🌉", cat:"natur"},
+  {de:"Brille",         gr:"γυαλιά",          art:"τα",   pr:"ja-lia",             emoji:"👓", cat:"alltag"},
+  // Δ δ   (Priorität 3)
+  {de:"Delfin",         gr:"δελφίνι",         art:"το",   pr:"dhel-fi-ni",          emoji:"🐬", cat:"tiere"},
+  {de:"Finger",         gr:"δάχτυλο",         art:"το",   pr:"dhach-ti-lo",         emoji:"☝️", cat:"koerper"},
+  // Ε ε   (Priorität 2)
+  {de:"Olive",          gr:"ελιά",            art:"η",    pr:"e-lia",              emoji:"🫒", cat:"essen"},
+  {de:"Kirche",         gr:"εκκλησία",        art:"η",    pr:"e-kli-si-a",         emoji:"⛪", cat:"stadt"},
+  {de:"Elefant",        gr:"ελέφαντας",       art:"ο",    pr:"e-le-fan-das",       emoji:"🐘", cat:"tiere"},
+  {de:"Zeitung",        gr:"εφημερίδα",       art:"η",    pr:"e-fi-me-ri-dha",      emoji:"📰", cat:"alltag"},
+  // Ζ ζ   (Priorität 1)
+  {de:"Zebra",          gr:"ζέβρα",           art:"η",    pr:"ze-wra",             emoji:"🦓", cat:"tiere"},
+  {de:"Zucker",         gr:"ζάχαρη",          art:"η",    pr:"za-cha-ri",          emoji:"🍬", cat:"essen"},
+  {de:"Gürtel",         gr:"ζώνη",            art:"η",    pr:"zo-ni",              emoji:"🎀", cat:"kleidung"},
+  {de:"Nudeln",         gr:"ζυμαρικά",        art:"τα",   pr:"zi-ma-ri-ka",        emoji:"🍝", cat:"essen"},
+  {de:"Zeichnung",      gr:"ζωγραφιά",        art:"η",    pr:"zo-ghra-fia",        emoji:"🎨", cat:"schule"},
+  {de:"Schinken",       gr:"ζαμπόν",          art:"το",   pr:"zam-bon",            emoji:"🍖", cat:"essen"},
+  // Η η   (Priorität 1)
+  {de:"Vulkan",         gr:"ηφαίστειο",       art:"το",   pr:"i-fes-ti-o",         emoji:"🌋", cat:"natur"},
+  {de:"Held",           gr:"ήρωας",           art:"ο",    pr:"i-ro-as",            emoji:"🦸", cat:"maerchen"},
+  {de:"Kalender",       gr:"ημερολόγιο",      art:"το",   pr:"i-me-ro-lo-ghi-o",   emoji:"📅", cat:"schule"},
+  // Θ θ   (Priorität 1)
+  {de:"Theater",        gr:"θέατρο",          art:"το",   pr:"the-a-tro",          emoji:"🎭", cat:"stadt"},
+  {de:"Schatz",         gr:"θησαυρός",        art:"ο",    pr:"thi-sav-ros",        emoji:"💰", cat:"maerchen"},
+  {de:"Schulbank",      gr:"θρανίο",          art:"το",   pr:"thra-ni-o",          emoji:"🪑", cat:"schule"},
+  {de:"Thermometer",    gr:"θερμόμετρο",      art:"το",   pr:"ther-mo-me-tro",     emoji:"🌡️", cat:"wetter"},
+  {de:"Thron",          gr:"θρόνος",          art:"ο",    pr:"thro-nos",           emoji:"👑", cat:"maerchen"},
+  // Ι ι   (Priorität 1)
+  {de:"Ritter",         gr:"ιππότης",         art:"ο",    pr:"i-po-tis",           emoji:"🛡️", cat:"maerchen"},
+  {de:"Seepferdchen",   gr:"ιππόκαμπος",      art:"ο",    pr:"i-po-kam-bos",       emoji:"🐠", cat:"tiere"},
+  {de:"Arzt",           gr:"ιατρός",          art:"ο",    pr:"i-a-tros",           emoji:"🩺", cat:"alltag"},
+  {de:"Iglu",           gr:"ιγκλού",          art:"το",   pr:"i-glu",              emoji:"🏔️", cat:"natur"},
+  {de:"Segelboot",      gr:"ιστιοφόρο",       art:"το",   pr:"is-ti-o-fo-ro",      emoji:"⛵", cat:"verkehr"},
+  {de:"Weide",          gr:"ιτιά",            art:"η",    pr:"i-tia",              emoji:"🌳", cat:"natur"},
+  // Λ λ   (Priorität 2)
+  {de:"Zitrone",        gr:"λεμόνι",          art:"το",   pr:"le-mo-ni",           emoji:"🍋", cat:"essen"},
+  {de:"Wolf",           gr:"λύκος",           art:"ο",    pr:"li-kos",             emoji:"🐺", cat:"tiere"},
+  {de:"Löwe",           gr:"λιοντάρι",        art:"το",   pr:"lion-da-ri",         emoji:"🦁", cat:"tiere"},
+  {de:"Lampe",          gr:"λάμπα",           art:"η",    pr:"lam-ba",             emoji:"💡", cat:"zuhause"},
+  // Ν ν   (Priorität 1)
+  {de:"Insel",          gr:"νησί",            art:"το",   pr:"ni-si",              emoji:"🏝️", cat:"natur"},
+  {de:"Nacht",          gr:"νύχτα",           art:"η",    pr:"nich-ta",            emoji:"🌙", cat:"natur"},
+  {de:"Münze",          gr:"νόμισμα",         art:"το",   pr:"no-mi-zma",          emoji:"🪙", cat:"alltag"},
+  {de:"Fee",            gr:"νεράιδα",         art:"η",    pr:"ne-re-dha",           emoji:"🧚", cat:"maerchen"},
+  {de:"Krankenhaus",    gr:"νοσοκομείο",      art:"το",   pr:"no-so-ko-mi-o",      emoji:"🏥", cat:"stadt"},
+  // Ξ ξ   (Priorität 1)
+  {de:"Holz",           gr:"ξύλο",            art:"το",   pr:"ksi-lo",             emoji:"🪵", cat:"natur"},
+  {de:"Schwert",        gr:"ξίφος",           art:"το",   pr:"ksi-fos",            emoji:"⚔️", cat:"maerchen"},
+  {de:"Wecker",         gr:"ξυπνητήρι",       art:"το",   pr:"ksip-ni-ti-ri",      emoji:"⏰", cat:"zuhause"},
+  {de:"Hotel",          gr:"ξενοδοχείο",      art:"το",   pr:"kse-no-dho-chi-o",    emoji:"🏨", cat:"stadt"},
+  {de:"Schwertfisch",   gr:"ξιφίας",          art:"ο",    pr:"ksi-fi-as",          emoji:"🐟", cat:"tiere"},
+  {de:"Kobold",         gr:"ξωτικό",          art:"το",   pr:"kso-ti-ko",          emoji:"🧝", cat:"maerchen"},
+  // Ο ο   (Priorität 1)
+  {de:"Familie",        gr:"οικογένεια",      art:"η",    pr:"i-ko-ghe-ni-a",      emoji:"👨‍👩‍👧", cat:"familie"},
+  {de:"Himmel",         gr:"ουρανός",         art:"ο",    pr:"u-ra-nos",           emoji:"☁️", cat:"natur"},
+  {de:"Regenschirm",    gr:"ομπρέλα",         art:"η",    pr:"om-bre-la",          emoji:"☂️", cat:"wetter"},
+  {de:"Zahnbürste",     gr:"οδοντόβουρτσα",   art:"η",    pr:"o-dhon-do-wur-tsa",   emoji:"🪥", cat:"alltag"},
+  {de:"Acht",           gr:"οκτώ",            art:"",     pr:"ok-to",              emoji:"8️⃣", cat:"zahlen"},
+  // Ρ ρ   (Priorität 1)
+  {de:"Uhr",            gr:"ρολόι",           art:"το",   pr:"ro-lo-i",            emoji:"⏰", cat:"alltag"},
+  {de:"Rose",           gr:"ρόδο",            art:"το",   pr:"ro-dho",              emoji:"🌹", cat:"natur"},
+  {de:"Reis",           gr:"ρύζι",            art:"το",   pr:"ri-zi",              emoji:"🍚", cat:"essen"},
+  {de:"Nashorn",        gr:"ρινόκερος",       art:"ο",    pr:"ri-no-ke-ros",       emoji:"🦏", cat:"tiere"},
+  {de:"Radio",          gr:"ραδιόφωνο",       art:"το",   pr:"ra-dhi-o-fo-no",      emoji:"📻", cat:"zuhause"},
+  {de:"Roboter",        gr:"ρομπότ",          art:"το",   pr:"ro-bot",             emoji:"🤖", cat:"alltag"},
+  // Υ υ   (Priorität 1)
+  {de:"Computer",       gr:"υπολογιστής",     art:"ο",    pr:"i-po-lo-ghis-tis",   emoji:"💻", cat:"schule"},
+  {de:"U-Boot",         gr:"υποβρύχιο",       art:"το",   pr:"i-po-wri-chi-o",     emoji:"🚢", cat:"verkehr"},
+  {de:"Globus",         gr:"υδρόγειος",       art:"η",    pr:"i-dhro-ghi-os",       emoji:"🌍", cat:"schule"},
+  {de:"Hyäne",          gr:"ύαινα",           art:"η",    pr:"i-e-na",             emoji:"🐆", cat:"tiere"},
+  {de:"Schlaf",         gr:"ύπνος",           art:"ο",    pr:"ip-nos",             emoji:"😴", cat:"gefuehle"},
+  // Φ φ   (Priorität 2)
+  {de:"Schlange",       gr:"φίδι",            art:"το",   pr:"fi-dhi",              emoji:"🐍", cat:"tiere"},
+  {de:"Feuer",          gr:"φωτιά",           art:"η",    pr:"fo-tia",             emoji:"🔥", cat:"natur"},
+  {de:"Erdbeere",       gr:"φράουλα",         art:"η",    pr:"fra-u-la",           emoji:"🍓", cat:"essen"},
+  {de:"Leuchtturm",     gr:"φάρος",           art:"ο",    pr:"fa-ros",             emoji:"🗼", cat:"natur"},
+  // Χ χ   (Priorität 2)
+  {de:"Schildkröte",    gr:"χελώνα",          art:"η",    pr:"che-lo-na",          emoji:"🐢", cat:"tiere"},
+  {de:"Krake",          gr:"χταπόδι",         art:"το",   pr:"chta-po-dhi",         emoji:"🐙", cat:"tiere"},
+  {de:"Papier",         gr:"χαρτί",           art:"το",   pr:"char-ti",            emoji:"📄", cat:"schule"},
+  {de:"Landkarte",      gr:"χάρτης",          art:"ο",    pr:"char-tis",           emoji:"🗺️", cat:"schule"},
+  // Ψ ψ   (Priorität 2)
+  {de:"Kühlschrank",    gr:"ψυγείο",          art:"το",   pr:"psi-ghi-o",          emoji:"🧊", cat:"zuhause"},
+  {de:"Schere",         gr:"ψαλίδι",          art:"το",   pr:"psa-li-dhi",          emoji:"✂️", cat:"schule"},
+  {de:"Fischer",        gr:"ψαράς",           art:"ο",    pr:"psa-ras",            emoji:"🎣", cat:"alltag"},
+  // Ω ω   (Priorität 1)
+  {de:"Ozean",          gr:"ωκεανός",         art:"ο",    pr:"o-ke-a-nos",         emoji:"🌊", cat:"natur"},
+  {de:"Schulter",       gr:"ώμος",            art:"ο",    pr:"o-mos",              emoji:"💪", cat:"koerper"},
+  {de:"Uhrzeit",        gr:"ώρα",             art:"η",    pr:"o-ra",               emoji:"🕐", cat:"alltag"},
+  {de:"Geschenk",       gr:"δώρο",            art:"το",   pr:"dho-ro",              emoji:"🎁", cat:"alltag"}
 ];
