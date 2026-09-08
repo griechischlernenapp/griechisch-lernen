@@ -2394,6 +2394,17 @@ function abLineArt(img) {
   try { return c1.toDataURL("image/png"); } catch(e) { return null; }
 }
 
+// Buchstabe als Umriss zum Ausmalen. Bewusst SVG statt -webkit-text-stroke:
+// das wird ausserhalb von Chrome und beim Drucken oft ignoriert – dann kaeme
+// ein ausgefuellter schwarzer Buchstabe heraus.
+function abHohl(ch) {
+  return '<svg class="ab-hohl" viewBox="0 0 120 130" preserveAspectRatio="xMidYMid meet">'
+       + '<text x="60" y="98" text-anchor="middle" font-size="112"'
+       + ' font-family="Georgia, \'Times New Roman\', serif"'
+       + ' fill="none" stroke="#111" stroke-width="1.6" stroke-linejoin="round">'
+       + ch + '</text></svg>';
+}
+
 function abSilben(a) {
   var kl = a.klein.split("/")[0], out = [], i;
   if(AB_VOKALE.indexOf(kl) >= 0) {
@@ -2481,7 +2492,7 @@ function abDrucken(idx, woerter, bilder) {
    + '.ab-box{flex:0 0 62mm;border:1.2px solid #111;border-radius:3px;display:flex;align-items:center;'
    +   'justify-content:center;gap:4mm;padding:2mm 0;background:repeating-linear-gradient(to bottom,'
    +   'transparent 0,transparent 11mm,#e6e6e6 11mm,#e6e6e6 11.4mm)}'
-   + '.ab-big{font-size:74px;line-height:.95;color:#fff;-webkit-text-stroke:1.6px #111;paint-order:stroke}'
+   + '.ab-hohl{width:26mm;height:30mm;display:block;overflow:visible}'
    + '.ab-lines{flex:1;border:1.2px solid #111;border-radius:3px;padding:2mm 3mm}'
    + '.ab-rule{height:11mm;border-bottom:1px solid #111;position:relative}'
    + '.ab-rule::after{content:"";position:absolute;left:0;right:0;top:5.5mm;border-top:1px dotted #bbb}'
@@ -2515,7 +2526,7 @@ function abDrucken(idx, woerter, bilder) {
 
    + '<section><h2><span class="n">1</span>Γράφω το γράμμα · Ich schreibe den Buchstaben</h2>'
    + '<div class="ab-trace"><div class="ab-box">'
-   +   '<span class="ab-big">'+a.gross+'</span><span class="ab-big">'+kl+'</span></div>'
+   +   abHohl(a.gross) + abHohl(kl) + '</div>'
    + '<div class="ab-lines">'
    +   '<div class="ab-rule"><span class="ab-ghost">'+geist1+'</span></div>'
    +   '<div class="ab-rule" style="border-bottom:none"><span class="ab-ghost">'+geist2+'</span></div>'
