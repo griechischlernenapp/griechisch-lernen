@@ -15,6 +15,7 @@
 <script src="vokabeln.js"></script>
 <script src="geschichten.js"></script>
 <script src="alphabet.js"></script>
+<script src="comics.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh}
@@ -37,6 +38,27 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 
+
+/* BILDGESCHICHTEN */
+.comic-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.comic-card{background:white;border:1.5px solid #ddd;border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.comic-card:hover{border-color:#1D9E75}
+.comic-card img{width:100%;height:110px;object-fit:cover;display:block}
+.comic-card .t{padding:8px;text-align:center}
+.comic-ort{font-size:11px;color:#1D9E75;font-style:italic}
+.comic-szene{position:relative;border:1.5px solid #ddd;border-radius:12px;overflow:hidden;background:white}
+.comic-szene img{width:100%;display:block}
+.comic-blase{position:absolute;background:white;border:2px solid #2c2c2a;border-radius:14px;padding:6px 9px;font-size:12px;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.comic-wer{display:block;font-size:9px;color:#888;font-style:italic;line-height:1.3;margin-bottom:1px}
+.comic-zipfel-o{position:absolute;bottom:-12px;margin-left:-9px;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:12px solid #2c2c2a}
+.comic-zipfel-i{position:absolute;bottom:-8px;margin-left:-6px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid white}
+.comic-luecke{display:inline-block;min-width:58px;padding:0 6px;text-align:center;border-bottom:2px solid #1D9E75;background:#E1F5EE;border-radius:5px 5px 0 0;color:#1D9E75;font-weight:bold;cursor:pointer}
+.comic-luecke.ok{color:#0F6E56;cursor:default}
+.comic-luecke.no{background:#FAECE7;border-color:#D85A30;color:#D85A30}
+.comic-wahl{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:10px 8px 0}
+.comic-wahl button{padding:7px 12px;border:1.5px solid #ddd;background:white;border-radius:12px;font-size:13px;cursor:pointer;font-family:Georgia,serif}
+.comic-wahl button:hover{border-color:#1D9E75;background:#E1F5EE}
+.comic-de{font-size:11.5px;color:#0F6E56;font-style:italic;text-align:center;padding:8px 8px 0}
 
 /* MYTHOLOGIE QUIZ */
 .myth-header{text-align:center;margin-bottom:1rem}
@@ -358,6 +380,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="nav">
     <button onclick="showScreen('stories')">📖 Geschichten</button>
+    <button onclick="showScreen('comics')">💬 Bildgeschichten</button>
     <button onclick="showScreen('vocab')">🔤 Wörter</button>
     <button onclick="showScreen('convo')">💬 Gespräche</button>
     <button onclick="showScreen('memory')">🃏 Memory</button>
@@ -379,6 +402,14 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
       <div class="story-grid" id="story-grid"></div>
     </div>
     <div id="story-detail" style="display:none"></div>
+  </div>
+
+  <div class="screen" id="comics">
+    <div id="comic-list">
+      <p class="section-title">Lies die Bildgeschichte und setze die fehlenden Wörter ein!</p>
+      <div class="comic-grid" id="comic-grid"></div>
+    </div>
+    <div id="comic-detail" style="display:none"></div>
   </div>
 
   <div class="screen" id="vocab">
@@ -721,7 +752,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
+  var ids=["stories","comics","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -736,6 +767,7 @@ function showScreen(id) {
   if(id==="grammatik") renderGrammatik();
   if(id==="alphabet") renderAlphaGrid();
   if(id==="stories") buildStoryGrid();
+  if(id==="comics") renderComicList();
   if(id==="buchstaben-quiz") startBQuiz();
   if(id==="buchstaben-memory") startBMemory();
 }
@@ -2385,6 +2417,12 @@ function abLineArt(img) {
     }
     out[i] = hit;
   }
+  // Zu dichte Vorlagen (detailreiche Szenen) werden beim Schwellwert schwarz –
+  // dann lieber gar keine Strichzeichnung liefern als eine unbrauchbare.
+  var anteil = 0;
+  for(i=0;i<n;i++) anteil += out[i];
+  if(anteil/n > 0.30) return null;
+
   var res = x1.createImageData(w,h);
   for(i=0;i<n;i++) {
     var val = out[i] ? 0 : 255; k = i*4;
@@ -2555,6 +2593,219 @@ function abDrucken(idx, woerter, bilder) {
   pw.onload = function() { pw.focus(); pw.print(); };
 }
 
+// ── BILDGESCHICHTEN MIT SPRECHBLASEN ──────────────────────
+// Die Bilder sind ganz normale Szenenbilder ohne Text; die Blasen
+// zeichnet die App als Overlay darüber (Position in Prozent, wie bei
+// der Geographie-Karte). Dadurch bleibt der Text änderbar und die
+// Lücke funktioniert – und fürs Ausmalblatt wird dasselbe Bild
+// einfach durch abLineArt() geschickt.
+
+var comicIdx = 0;
+
+function renderComicList() {
+  var html = "";
+  for(var i=0;i<comics.length;i++) {
+    var c = comics[i];
+    html += '<div class="comic-card" onclick="openComic('+i+')">';
+    html += '<img src="bilder/'+c.szenen[0].img+'.png" alt="'+c.titel+'">';
+    html += '<div class="t"><div style="font-size:14px;font-weight:bold;color:#2c2c2a">'+c.titelGr+'</div>';
+    html += '<div style="font-size:12px;color:#1D9E75">'+c.emoji+' '+c.titel+'</div>';
+    html += '<div style="font-size:11px;color:#aaa;margin-top:3px">'+c.szenen.length+' Bilder · '
+         +  comicAnzahlLuecken(c)+' Lücken</div></div></div>';
+  }
+  document.getElementById("comic-grid").innerHTML = html;
+  document.getElementById("comic-list").style.display = "block";
+  document.getElementById("comic-detail").style.display = "none";
+}
+
+function comicAnzahlLuecken(c) {
+  var n = 0;
+  for(var i=0;i<c.szenen.length;i++) n += c.szenen[i].blasen.length;
+  return n;
+}
+
+function openComic(ci) {
+  comicIdx = ci;
+  var c = comics[ci], html = "";
+
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+  html += '<button class="back-btn" onclick="renderComicList()">← Alle Bildgeschichten</button>';
+  html += '<button class="print-btn green" style="padding:7px 14px;font-size:12px" onclick="comicDrucken('+ci+')">📝 Zum Ausmalen drucken</button>';
+  html += '</div>';
+  html += '<div style="text-align:center;margin-bottom:12px">';
+  html += '<div style="font-size:18px;font-weight:bold;color:#0F6E56">'+c.titelGr+'</div>';
+  html += '<div style="font-size:13px;color:#888;font-style:italic">'+c.emoji+' '+c.titel+'</div></div>';
+
+  for(var si=0;si<c.szenen.length;si++) {
+    var s = c.szenen[si];
+    html += '<div style="margin-bottom:18px">';
+    html += '<div class="comic-ort">'+(si+1)+'. '+s.ortGr+' · '+s.ort+'</div>';
+    html += '<div class="comic-szene" style="margin-top:6px">';
+    html += '<img src="bilder/'+s.img+'.png" alt="'+s.ort+'">';
+    for(var bi=0;bi<s.blasen.length;bi++) {
+      var b = s.blasen[bi], id = ci+"_"+si+"_"+bi;
+      html += '<div class="comic-blase" style="left:'+b.x+'%;top:'+b.y+'%;width:'+b.w+'%">';
+      html += '<span class="comic-wer">'+b.wer+'</span>';
+      html += b.vor;
+      html += '<span class="comic-luecke" id="cl_'+id+'" onclick="comicWahl(\''+id+'\')">?</span>';
+      html += b.nach;
+      html += '<span class="comic-zipfel-o" style="left:'+b.tail+'%"></span>';
+      html += '<span class="comic-zipfel-i" style="left:'+b.tail+'%"></span>';
+      html += '</div>';
+    }
+    html += '</div>';
+    html += '<div class="comic-wahl" id="cw_'+ci+'_'+si+'"></div>';
+    html += '<div class="comic-de" id="cd_'+ci+'_'+si+'"></div>';
+    html += '</div>';
+  }
+
+  document.getElementById("comic-detail").innerHTML = html;
+  document.getElementById("comic-detail").style.display = "block";
+  document.getElementById("comic-list").style.display = "none";
+  window.scrollTo(0,0);
+}
+
+// Auswahlwörter unter die Szene legen
+function comicWahl(id) {
+  var t = id.split("_"), ci = +t[0], si = +t[1], bi = +t[2];
+  var b = comics[ci].szenen[si].blasen[bi];
+  var el = document.getElementById("cl_"+id);
+  if(el.className.indexOf("ok") >= 0) return;   // schon richtig gelöst
+
+  // drei falsche Wörter aus dem Wortschatz dazu
+  var falsch = vocab.filter(function(v){ return v.gr !== b.loesung; })
+                    .sort(function(){ return Math.random()-0.5; }).slice(0,3);
+  var auswahl = falsch.map(function(v){ return v.gr; }).concat([b.loesung])
+                      .sort(function(){ return Math.random()-0.5; });
+
+  var html = '<div style="width:100%;text-align:center;font-size:11px;color:#aaa;font-style:italic;margin-bottom:4px">'
+           + 'Welches Wort fehlt bei <b>'+b.wer+'</b>?</div>';
+  for(var i=0;i<auswahl.length;i++) {
+    html += '<button onclick="comicSetze(\''+id+'\',\''+auswahl[i]+'\',this)">'+auswahl[i]+'</button>';
+  }
+  document.getElementById("cw_"+ci+"_"+si).innerHTML = html;
+  document.getElementById("cd_"+ci+"_"+si).innerHTML = "";
+}
+
+function comicSetze(id, wort, btn) {
+  var t = id.split("_"), ci = +t[0], si = +t[1], bi = +t[2];
+  var b = comics[ci].szenen[si].blasen[bi];
+  var el = document.getElementById("cl_"+id);
+  if(wort === b.loesung) {
+    el.textContent = wort;
+    el.className = "comic-luecke ok";
+    markLearned(b.loesung);
+    document.getElementById("cw_"+ci+"_"+si).innerHTML = "";
+    document.getElementById("cd_"+ci+"_"+si).innerHTML = "✓ " + b.de;
+  } else {
+    btn.style.background = "#FAECE7";
+    btn.style.borderColor = "#D85A30";
+    el.className = "comic-luecke no";
+    setTimeout(function(){ el.className = "comic-luecke"; }, 700);
+  }
+}
+
+// ── BILDGESCHICHTE ZUM AUSMALEN DRUCKEN ───────────────────
+function comicDrucken(ci) {
+  var c = comics[ci], noch = c.szenen.length, bilder = {};
+  var basis = window.location.href.replace(/[^/]*$/, "");
+  function fertig() { if(--noch === 0) comicDruckSeite(ci, bilder); }
+  for(var si=0;si<c.szenen.length;si++) {
+    (function(s) {
+      // 1. Wahl: das fertige Ausmalbild, das es zu den Szenen schon gibt
+      var mal = new Image();
+      mal.onload  = function() { bilder[s.img] = basis+"bilder/"+s.img+"_coloring.jpg"; fertig(); };
+      mal.onerror = function() {
+        // 2. Wahl: das Farbbild selbst umrechnen. Klappt bei einfachen Motiven;
+        // bei sehr detailreichen Szenen gibt abLineArt() null zurück, dann
+        // wird das Farbbild gedruckt (besser als eine schwarze Fläche).
+        var im = new Image();
+        im.onload  = function() { var d = abLineArt(im); bilder[s.img] = d || im.src; fertig(); };
+        im.onerror = function() { bilder[s.img] = ""; fertig(); };
+        im.src = basis + "bilder/" + s.img + ".png";
+      };
+      mal.src = basis + "bilder/" + s.img + "_coloring.jpg";
+    })(c.szenen[si]);
+  }
+}
+
+function comicDruckSeite(ci, bilder) {
+  var c = comics[ci], i, si, bi;
+
+  var szenen = "", woerter = [];
+  for(si=0;si<c.szenen.length;si++) {
+    var s = c.szenen[si];
+    szenen += '<div class="cs">';
+    szenen += '<div class="cs-ort">'+(si+1)+'. '+s.ortGr+' · '+s.ort+'</div>';
+    szenen += '<div class="cs-bild">';
+    szenen += bilder[s.img] ? '<img src="'+bilder[s.img]+'" alt="">' : '<div class="cs-leer"></div>';
+    for(bi=0;bi<s.blasen.length;bi++) {
+      var b = s.blasen[bi];
+      woerter.push(b.loesung);
+      var slots = "";
+      for(i=0;i<b.loesung.length;i++) slots += '<span class="cs-slot"></span>';
+      szenen += '<div class="cs-blase" style="left:'+b.x+'%;top:'+b.y+'%;width:'+b.w+'%">';
+      szenen += '<span class="cs-wer">'+b.wer+'</span>';
+      szenen += b.vor + '<span class="cs-slots">'+slots+'</span>' + b.nach;
+      szenen += '<span class="cs-zo" style="left:'+b.tail+'%"></span>';
+      szenen += '<span class="cs-zi" style="left:'+b.tail+'%"></span>';
+      szenen += '</div>';
+    }
+    szenen += '</div></div>';
+  }
+
+  woerter.sort();
+  var kasten = "";
+  for(i=0;i<woerter.length;i++) kasten += '<span>'+woerter[i]+'</span>';
+
+  var css = ''
+   + '@page{size:A4 portrait;margin:9mm}'
+   + '*{box-sizing:border-box;margin:0;padding:0}'
+   + 'body{font-family:Georgia,"Times New Roman",serif;color:#111;background:#fff}'
+   + '.cw{width:192mm;margin:0 auto}'
+   + '.ct{border-bottom:1.5px solid #111;padding-bottom:2.5mm;margin-bottom:3mm}'
+   + '.ct h1{font-size:18px}'
+   + '.ct .sub{font-size:10.5px;color:#555;font-style:italic;margin-top:1px}'
+   + '.ct .auf{font-size:10px;color:#333;margin-top:1.5mm}'
+   + '.cs{margin-bottom:2.5mm}'
+   + '.cs-ort{font-size:9.5px;color:#555;font-style:italic;margin-bottom:1mm}'
+   + '.cs-bild{position:relative;width:133mm;margin:0 auto;border:1.2px solid #111;border-radius:3px;overflow:hidden}'
+   + '.cs-bild img{width:100%;display:block}'
+   + '.cs-leer{height:72mm}'
+   + '.cs-blase{position:absolute;background:#fff;border:1.5px solid #111;border-radius:10px;'
+   +   'padding:1.2mm 1.6mm;font-size:8px;line-height:2}'
+   + '.cs-wer{display:block;font-size:7px;color:#777;font-style:italic;line-height:1.4;margin-bottom:.3mm}'
+   + '.cs-slots{display:inline-flex;gap:.7mm;vertical-align:baseline;margin:0 .6mm}'
+   + '.cs-slot{display:block;width:2.7mm;height:3.2mm;border-bottom:1px solid #111}'
+   + '.cs-zo{position:absolute;bottom:-9px;margin-left:-7px;width:0;height:0;'
+   +   'border-left:7px solid transparent;border-right:7px solid transparent;border-top:10px solid #111}'
+   + '.cs-zi{position:absolute;bottom:-6px;margin-left:-5px;width:0;height:0;'
+   +   'border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid #fff}'
+   + '.ck{border:1.2px dashed #111;border-radius:3px;padding:2mm 3mm;display:flex;'
+   +   'flex-wrap:wrap;gap:1mm 5mm;font-size:12px;margin-top:1mm}'
+   + '.ck-t{font-size:9.5px;color:#555;font-style:italic;margin-bottom:1mm}'
+   + 'footer{margin-top:2.5mm;border-top:1px solid #ccc;padding-top:1.5mm;font-size:8px;color:#999;'
+   +   'display:flex;justify-content:space-between}';
+
+  var body = '<div class="cw">'
+   + '<div class="ct"><h1>'+c.titelGr+'</h1>'
+   +   '<div class="sub">'+c.titel+'</div>'
+   +   '<div class="auf">Schreibe die fehlenden Wörter in die Sprechblasen. Danach kannst du die Bilder ausmalen.</div></div>'
+   + szenen
+   + '<div class="ck-t">Diese Wörter helfen dir:</div><div class="ck">'+kasten+'</div>'
+   + '<footer><span>Griechisch Lernen · '+c.titel+'</span>'
+   +   '<span>griechischlernenapp.github.io/griechisch-lernen</span></footer>'
+   + '</div>';
+
+  var pw = window.open("","_blank");
+  if(!pw) { alert("Bitte Popup-Blocker deaktivieren!"); return; }
+  pw.document.open();
+  pw.document.write('<!DOCTYPE html><html lang="el"><head><meta charset="UTF-8"><title>'
+    + c.titel + '</title><style>'+css+'</style></head><body>'+body+'</body></html>');
+  pw.document.close();
+  pw.onload = function() { pw.focus(); pw.print(); };
+}
+
 // Beschriftung des Arbeitsblatt-Buttons oben im Alphabet-Screen
 function abBtnUpdate(idx) {
   var b = document.getElementById("ab-btn");
@@ -2574,6 +2825,7 @@ function abBtnUpdate(idx) {
 // ── INIT ──────────────────────────────────────────────────
 loadState();
 buildStoryGrid();
+renderComicList();
 renderAlphaGrid();
 buildCatFilters();
 renderVocab();
