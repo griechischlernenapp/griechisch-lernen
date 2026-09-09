@@ -12,103 +12,144 @@
     "titel": "Die Abfahrt aus Troja · Η αναχώρηση από την Τροία",
     "bild": "odysseus_01_departure_troy",
     "de": "odyssee/kap01_de.mp3",
-    "gr": "odyssee/kap01_gr.mp3"
+    "gr": "odyssee/kap01_gr.mp3",
+    "dekb": 2126,
+    "grkb": 1451
    },
    {
     "nr": 2,
     "titel": "Das Land der Lotophagen · Η Χώρα των Λωτοφάγων",
     "bild": "odysseus_02_lotus_eaters",
     "de": "odyssee/kap02_de.mp3",
-    "gr": "odyssee/kap02_gr.mp3"
+    "gr": "odyssee/kap02_gr.mp3",
+    "dekb": 2227,
+    "grkb": 1616
    },
    {
     "nr": 3,
     "titel": "Die Höhle des Zyklopen · Η Σπηλιά του Κύκλωπα",
     "bild": "odysseus_03_cyclops_polyphemus",
     "de": "odyssee/kap03_de.mp3",
-    "gr": "odyssee/kap03_gr.mp3"
+    "gr": "odyssee/kap03_gr.mp3",
+    "dekb": 2875,
+    "grkb": 2384
    },
    {
     "nr": 4,
     "titel": "Die Insel der Winde · Το Νησί των Ανέμων",
     "bild": "odysseus_04_island_of_winds",
     "de": "odyssee/kap04_de.mp3",
-    "gr": "odyssee/kap04_gr.mp3"
+    "gr": "odyssee/kap04_gr.mp3",
+    "dekb": 2244,
+    "grkb": 1962
    },
    {
     "nr": 5,
     "titel": "Die Zauberin Kirke · Η Μάγισσα Κίρκη",
     "bild": "odysseus_05_sorceress_circe",
     "de": "odyssee/kap05_de.mp3",
-    "gr": "odyssee/kap05_gr.mp3"
+    "gr": "odyssee/kap05_gr.mp3",
+    "dekb": 2675,
+    "grkb": 2071
    },
    {
     "nr": 6,
     "titel": "Am Rand der Welt · Στην Άκρη του Κόσμου",
     "bild": "odysseus_06_underworld",
     "de": "odyssee/kap06_de.mp3",
-    "gr": "odyssee/kap06_gr.mp3"
+    "gr": "odyssee/kap06_gr.mp3",
+    "dekb": 2633,
+    "grkb": 2105
    },
    {
     "nr": 7,
     "titel": "Der Gesang der Sirenen · Το Τραγούδι των Σειρήνων",
     "bild": "odysseus_07_sirens",
     "de": "odyssee/kap07_de.mp3",
-    "gr": "odyssee/kap07_gr.mp3"
+    "gr": "odyssee/kap07_gr.mp3",
+    "dekb": 2471,
+    "grkb": 1874
    },
    {
     "nr": 8,
     "titel": "Die Enge zwischen den Felsen · Το Στενό ανάμεσα στους Βράχους",
     "bild": "odysseus_08_scylla_charybdis",
     "de": "odyssee/kap08_de.mp3",
-    "gr": "odyssee/kap08_gr.mp3"
+    "gr": "odyssee/kap08_gr.mp3",
+    "dekb": 2167,
+    "grkb": 1782
    },
    {
     "nr": 9,
     "titel": "Die Rinder des Sonnengottes · Τα Βόδια του Ήλιου",
     "bild": "odysseus_09_cattle_helios",
     "de": "odyssee/kap09_de.mp3",
-    "gr": "odyssee/kap09_gr.mp3"
+    "gr": "odyssee/kap09_gr.mp3",
+    "dekb": 2529,
+    "grkb": 1940
    },
    {
     "nr": 10,
     "titel": "Der Zorn des Meeresgottes · Ο Θυμός του Θεού της Θάλασσας",
     "bild": "odysseus_10_shipwreck_storm",
     "de": "odyssee/kap10_de.mp3",
-    "gr": "odyssee/kap10_gr.mp3"
+    "gr": "odyssee/kap10_gr.mp3",
+    "dekb": 2189,
+    "grkb": 1909
    },
    {
     "nr": 11,
     "titel": "Sieben Jahre bei Kalypso · Εφτά Χρόνια στην Καλυψώ",
     "bild": "odysseus_11_island_calypso",
     "de": "odyssee/kap11_de.mp3",
-    "gr": "odyssee/kap11_gr.mp3"
+    "gr": "odyssee/kap11_gr.mp3",
+    "dekb": 2422,
+    "grkb": 2077
    },
    {
     "nr": 12,
     "titel": "Das Mädchen am Fluss · Το Κορίτσι στο Ποτάμι",
-    "bild": "odysseus_12_phaeacians"
+    "bild": "odysseus_12_phaeacians",
+    "de": "odyssee/kap12_de.mp3",
+    "dekb": 2893,
+    "gr": "odyssee/kap12_gr.mp3",
+    "grkb": 2565
    },
    {
     "nr": 13,
     "titel": "Athene und der Plan · Η Αθηνά και το Σχέδιο",
     "bild": "odysseus_13_athena",
-    "gr": "odyssee/kap13_gr.mp3"
+    "gr": "odyssee/kap13_gr.mp3",
+    "de": "odyssee/kap13_de.mp3",
+    "dekb": 2663,
+    "grkb": 2094
    },
    {
     "nr": 14,
     "titel": "Der Hund, der zwanzig Jahre wartete · Ο Σκύλος που Περίμενε Είκοσι Χρόνια",
-    "bild": "odysseus_14_return_ithaca"
+    "bild": "odysseus_14_return_ithaca",
+    "de": "odyssee/kap14_de.mp3",
+    "dekb": 2819,
+    "gr": "odyssee/kap14_gr.mp3",
+    "grkb": 2682
    },
    {
     "nr": 15,
     "titel": "Der Bogen · Το Τόξο",
-    "bild": "odysseus_15_bow_odysseus"
+    "bild": "odysseus_15_bow_odysseus",
+    "de": "odyssee/kap15_de.mp3",
+    "dekb": 3205,
+    "gr": "odyssee/kap15_gr.mp3",
+    "grkb": 2853
    },
    {
     "nr": 16,
     "titel": "Das Bett aus dem Olivenbaum · Το Κρεβάτι από την Ελιά",
-    "bild": "odysseus_16_family_throne"
+    "bild": "odysseus_16_family_throne",
+    "de": "odyssee/kap16_de.mp3",
+    "dekb": 3435,
+    "gr": "odyssee/kap16_gr.mp3",
+    "grkb": 2816
    }
   ]
  }
