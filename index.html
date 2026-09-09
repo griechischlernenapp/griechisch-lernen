@@ -60,6 +60,47 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   background:#f4f1eb;border:1.5px dashed #ddd;border-radius:14px;font-size:52px;line-height:1;
   color:#bbb;user-select:none}
 
+/* HOERBUCH */
+.hb-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hb-card{background:white;border:1.5px solid #ddd;border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.hb-card:hover{border-color:#1D9E75}
+.hb-card img{width:100%;height:120px;object-fit:cover;display:block}
+.hb-card .t{padding:9px;text-align:center}
+.hb-kap{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid #ddd;border-radius:12px;padding:9px 11px;margin-bottom:8px;cursor:pointer;transition:border-color .15s}
+.hb-kap:hover{border-color:#1D9E75}
+.hb-kap.aktiv{border-color:#1D9E75;background:#F2FBF7}
+.hb-kap img{width:56px;height:44px;object-fit:cover;border-radius:8px;flex:none}
+.hb-nr{font-size:11px;color:#aaa;font-weight:bold;flex:none;width:22px;text-align:right}
+.hb-player{background:#F7F6F2;border:1.5px solid #1D9E75;border-radius:16px;padding:14px;margin-bottom:16px;text-align:center}
+.hb-player img{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto 10px}
+.hb-player audio{width:100%;max-width:420px;margin-top:10px}
+.hb-tabs{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.hb-tab{padding:7px 16px;border:1.5px solid #1D9E75;background:white;color:#1D9E75;border-radius:14px;font-size:13px;cursor:pointer;font-family:Georgia,serif}
+.hb-tab.on{background:#1D9E75;color:white}
+.hb-tab:disabled{border-color:#ddd;color:#ccc;cursor:default;background:white}
+.hb-hinweis{background:#FFF8E7;border:1.5px dashed #E0C77A;border-radius:14px;padding:16px;font-size:13px;color:#7a6a3a;line-height:1.7}
+.hb-offline{background:white;border:1.5px solid #ddd;border-radius:14px;padding:11px 13px;margin-bottom:14px;font-size:12px;color:#666;text-align:center;line-height:1.7}
+.hb-offline.da{border-color:#1D9E75;background:#F2FBF7}
+.hb-btn{padding:7px 15px;border:1.5px solid #1D9E75;background:#1D9E75;color:white;border-radius:14px;font-size:12px;cursor:pointer;font-family:Georgia,serif}
+.hb-btn.leer{background:white;color:#1D9E75}
+.hb-btn.grau{border-color:#ccc;color:#999;background:white}
+.hb-balken{height:8px;background:#e8e6e0;border-radius:4px;overflow:hidden;margin:6px 0}
+.hb-balken i{display:block;height:100%;background:#1D9E75;transition:width .2s}
+.hb-lesen{background:white;border:1.5px solid #ddd;border-radius:14px;padding:14px 16px;margin-bottom:14px;font-size:14px;line-height:1.9;color:#2c2c2a;text-align:left}
+.hb-lesen p{margin:0 0 12px}
+.hb-gr{color:#0F6E56;font-weight:bold}
+.hb-gr.kann{cursor:pointer;border-bottom:1.5px dotted #1D9E75}
+.hb-gr.kann:hover,.hb-gr.wach{background:#DFF3EA;border-radius:4px}
+.hb-wortinfo{position:sticky;bottom:6px;background:#0F6E56;color:white;border-radius:12px;padding:9px 13px;font-size:13px;text-align:center;margin-top:10px;line-height:1.8}
+.hb-wortinfo .ton-btn{background:white;color:#0F6E56;vertical-align:middle}
+.hb-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.hb-chip{background:white;border:1.5px solid #ddd;border-radius:12px;padding:5px 9px;font-size:12px;line-height:1.6}
+.hb-chip b{color:#0F6E56}
+.hb-chip span{color:#999;font-size:11px}
+.hb-schalter{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:12px;font-size:12px;color:#777}
+.hb-schalter label{cursor:pointer;user-select:none}
+@media(max-width:420px){.hb-grid{grid-template-columns:1fr}}
+
 /* BILDGESCHICHTEN */
 .comic-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .comic-card{background:white;border:1.5px solid #ddd;border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s}
@@ -402,6 +443,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   <div class="nav">
     <button onclick="showScreen('stories')">📖 Geschichten</button>
     <button onclick="showScreen('comics')">💬 Bildgeschichten</button>
+    <button onclick="showScreen('hoerbuch')">🎧 Hörbuch</button>
     <button onclick="showScreen('vocab')">🔤 Wörter</button>
     <button onclick="showScreen('convo')">💬 Gespräche</button>
     <button onclick="showScreen('memory')">🃏 Memory</button>
@@ -431,6 +473,14 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
       <div class="comic-grid" id="comic-grid"></div>
     </div>
     <div id="comic-detail" style="display:none"></div>
+  </div>
+
+  <div class="screen" id="hoerbuch">
+    <div id="hb-list">
+      <p class="section-title">Lehn dich zurück und hör zu — jede Geschichte gibt es auf Deutsch und auf Griechisch.</p>
+      <div class="hb-grid" id="hb-grid"></div>
+    </div>
+    <div id="hb-detail" style="display:none"></div>
   </div>
 
   <div class="screen" id="vocab">
@@ -773,7 +823,7 @@ function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","comics","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
+  var ids=["stories","comics","hoerbuch","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
   var btns=document.querySelectorAll(".nav button");
   for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
   if(id==="vocab")    renderVocab();
@@ -789,6 +839,7 @@ function showScreen(id) {
   if(id==="alphabet") renderAlphaGrid();
   if(id==="stories") buildStoryGrid();
   if(id==="comics") renderComicList();
+  if(id==="hoerbuch") hbListe();
   if(id==="buchstaben-quiz") startBQuiz();
   if(id==="buchstaben-memory") startBMemory();
 }
@@ -2728,6 +2779,436 @@ function abDrucken(idx, woerter, bilder) {
 // einfach durch abLineArt() geschickt.
 
 var comicIdx = 0;
+
+// ── HOERBUCH ──────────────────────────────────────────────
+// Die Hoerbuecher liegen als MP3 unter hoerbuch/<buch>/kapXX_de.mp3 bzw.
+// _gr.mp3. hoerbuch/index.json beschreibt Buecher und Kapitel,
+// hoerbuch/<buch>/text.json enthaelt zusaetzlich den Mitlese-Text und die
+// Wortliste je Kapitel. Beides schreibt hoerbuch_erzeugen.py. Fehlt der
+// Ordner, zeigt der Bildschirm einen freundlichen Hinweis – die App
+// laeuft unveraendert weiter.
+
+var HB_CACHE = "griechisch-hoerbuch";
+
+var hbIndex = null, hbGeladen = false;
+var hbTexte = {};                       // Buch-Id -> {"01": {de, gr, woerter}}
+var hbBuch = -1, hbKap = -1, hbSprache = "de";
+var hbAutoWeiter = true, hbMitlesen = true;
+
+// Kapiteltitel stehen als "Deutsch · Ελληνικά" in der Textdatei
+function hbTitel(t) {
+  var s = String(t || "").split(" · ");
+  return {de: s[0] || "", gr: s.length > 1 ? s.slice(1).join(" · ") : ""};
+}
+
+function hbEsc(t) {
+  return String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+function hbMerken() {
+  try {
+    localStorage.setItem("grApp_hb", JSON.stringify({
+      buch: hbBuch, kap: hbKap, sprache: hbSprache,
+      auto: hbAutoWeiter, lesen: hbMitlesen}));
+  } catch(e) {}
+}
+function hbHolen() {
+  try { return JSON.parse(localStorage.getItem("grApp_hb")) || {}; }
+  catch(e) { return {}; }
+}
+
+function hbLaden() {
+  if(hbGeladen) return;
+  hbGeladen = true;
+  var m = hbHolen();
+  if(m.auto  === false) hbAutoWeiter = false;
+  if(m.lesen === false) hbMitlesen   = false;
+  var r = new XMLHttpRequest();
+  r.open("GET", "hoerbuch/index.json", true);
+  r.onload = function() {
+    if(r.status >= 200 && r.status < 300) {
+      try { hbIndex = JSON.parse(r.responseText); } catch(e) { hbIndex = []; }
+    } else { hbIndex = []; }
+    hbListe();
+  };
+  r.onerror = function() { hbIndex = []; hbListe(); };
+  r.send();
+}
+
+function hbListe() {
+  var box = document.getElementById("hb-grid");
+  if(!box) return;
+  if(hbIndex === null) {
+    box.innerHTML = '<div style="color:#aaa;font-size:13px">Einen Moment …</div>';
+    hbLaden();
+    document.getElementById("hb-list").style.display = "block";
+    document.getElementById("hb-detail").style.display = "none";
+    return;
+  }
+  if(!hbIndex.length) {
+    box.innerHTML = '<div class="hb-hinweis" style="grid-column:1/-1">'
+      + '🎧 <b>Hier gibt es bald Hörbücher.</b><br>'
+      + 'Die Tondateien sind noch nicht hochgeladen.</div>';
+  } else {
+    var html = "";
+    for(var i=0;i<hbIndex.length;i++) {
+      var b = hbIndex[i], n = (b.kapitel||[]).length;
+      html += '<div class="hb-card" onclick="hbOeffne('+i+')">';
+      if(b.bild) html += '<img src="bilder/'+b.bild+'.png" alt="" data-emoji="'
+                       + (b.emoji||"🎧") + '" onerror="bildErsatz(this)">';
+      html += '<div class="t"><div style="font-size:14px;font-weight:bold;color:#2c2c2a">'
+           +  (b.titelGr||b.titel) + '</div>';
+      html += '<div style="font-size:12px;color:#1D9E75">'+(b.emoji||"🎧")+' '+b.titel+'</div>';
+      html += '<div style="font-size:11px;color:#aaa;margin-top:3px">'+n+' Kapitel</div>';
+      html += '</div></div>';
+    }
+    box.innerHTML = html;
+  }
+  document.getElementById("hb-list").style.display = "block";
+  document.getElementById("hb-detail").style.display = "none";
+}
+
+// ── Mitlese-Texte nachladen ───────────────────────────────
+function hbTextLaden(bid, danach) {
+  if(hbTexte[bid]) { danach(); return; }
+  var r = new XMLHttpRequest();
+  r.open("GET", "hoerbuch/"+bid+"/text.json", true);
+  r.onload = function() {
+    try { hbTexte[bid] = JSON.parse(r.responseText); } catch(e) { hbTexte[bid] = {}; }
+    danach();
+  };
+  r.onerror = function() { hbTexte[bid] = {}; danach(); };
+  r.send();
+}
+
+// ── Griechische Wörter im deutschen Text erkennen ─────────
+// Betonungszeichen weg, Schluss-Sigma vereinheitlichen –
+// dann lassen sich gebeugte Formen (σπηλιάς, γίγαντα) auf die
+// Grundform in der Wortliste zurückführen.
+function hbNorm(s) {
+  return String(s).toLowerCase()
+    .replace(/ά/g,"α").replace(/έ/g,"ε").replace(/ή/g,"η")
+    .replace(/[ίϊΐ]/g,"ι").replace(/ό/g,"ο")
+    .replace(/[ύϋΰ]/g,"υ").replace(/ώ/g,"ω").replace(/ς/g,"σ");
+}
+var HB_ARTIKEL = /^(των|την|τον|της|του|τα|το|τη|οι|ο|η)\s+/;
+
+function hbWortBau(ws) {
+  var karte = {};
+  for(var i=0;i<(ws||[]).length;i++) {
+    var w = ws[i], teile = String(w.gr||"").split("/");
+    for(var j=0;j<teile.length;j++) {
+      var roh = teile[j].trim().replace(HB_ARTIKEL, "");
+      var s = hbNorm(roh);
+      if(s.length >= 3 && !karte[s]) karte[s] = w;
+    }
+  }
+  return karte;
+}
+
+function hbFinde(wort, karte) {
+  var t = hbNorm(wort);
+  if(karte[t]) return karte[t];
+  for(var s in karte) {
+    if(s.length < 5) continue;
+    var n = Math.min(s.length, t.length) - 1;
+    if(n >= 4 && s.slice(0,n) === t.slice(0,n) && Math.abs(s.length - t.length) <= 3)
+      return karte[s];
+  }
+  return null;
+}
+
+// nurTreffer=true: nur die Wörter aus der Kapitelliste hervorheben.
+// Das braucht die griechische Fassung — dort ist ja alles griechisch,
+// und ein durchgehend grüner Text hilft niemandem.
+function hbMarkiere(text, karte, nurTreffer) {
+  var abs = hbEsc(text).split(/\n\s*\n/), out = "";
+  for(var i=0;i<abs.length;i++) {
+    var p = abs[i].replace(/\n/g, " ").trim();
+    if(!p) continue;
+    p = p.replace(/[Ͱ-Ͽἀ-῿]+/g, function(w) {
+      var t = hbFinde(w, karte);
+      if(!t) return nurTreffer ? w : '<span class="hb-gr">' + w + '</span>';
+      return '<span class="hb-gr kann" onclick="hbWort(this)"'
+           + ' data-gr="' + hbEsc(t.gr) + '" data-pr="' + hbEsc(t.pr)
+           + '" data-de="' + hbEsc(t.de) + '">' + w + '</span>';
+    });
+    out += "<p>" + p + "</p>";
+  }
+  return out;
+}
+
+// Lautsprecher, falls es zu diesem Wort eine Tondatei gibt –
+// erst mit Artikel probieren, dann ohne.
+function hbTonKnopf(gr) {
+  if(typeof tonKnopf !== "function") return "";
+  var v = [gr, String(gr).replace(HB_ARTIKEL, "")], k;
+  for(var i=0;i<v.length;i++) { k = tonKnopf(v[i], true); if(k) return k; }
+  return "";
+}
+
+function hbWort(el) {
+  var box = document.getElementById("hb-wortinfo");
+  if(!box) return;
+  var alt = document.querySelectorAll(".hb-gr.wach");
+  for(var i=0;i<alt.length;i++) alt[i].className = "hb-gr kann";
+  el.className = "hb-gr kann wach";
+  var gr = el.getAttribute("data-gr");
+  box.innerHTML = '<b>' + gr + '</b> ' + hbTonKnopf(gr)
+    + '<br><span style="opacity:.8">' + el.getAttribute("data-pr") + '</span>'
+    + ' &nbsp;·&nbsp; ' + el.getAttribute("data-de");
+  box.style.display = "block";
+}
+
+// ── Offline speichern ─────────────────────────────────────
+// nurNoetig=true liefert nur, was zum Hören wirklich gebraucht wird.
+// Die Kapitelbilder werden mitgespeichert, entscheiden aber nicht darüber,
+// ob ein Hörbuch als "gespeichert" gilt — ein fehlendes Bild macht die
+// Tondatei ja nicht unbrauchbar.
+function hbDateien(b, nurNoetig) {
+  var u = ["hoerbuch/" + b.id + "/text.json"], kap = b.kapitel || [], i;
+  for(i=0;i<kap.length;i++) {
+    if(kap[i].de) u.push("hoerbuch/" + kap[i].de);
+    if(kap[i].gr) u.push("hoerbuch/" + kap[i].gr);
+  }
+  if(!nurNoetig)
+    for(i=0;i<kap.length;i++)
+      if(kap[i].bild) u.push("bilder/" + kap[i].bild + ".png");
+  return u;
+}
+function hbGroesse(b) {          // in MB, 0 = unbekannt
+  var kb = 0, kap = b.kapitel || [];
+  for(var i=0;i<kap.length;i++) kb += (kap[i].dekb||0) + (kap[i].grkb||0);
+  return kb ? Math.round(kb/1024) : 0;
+}
+function hbBalken(fertig, ganz) {
+  return '<div class="hb-balken"><i style="width:'
+       + Math.round(fertig/ganz*100) + '%"></i></div>';
+}
+
+function hbOfflineMalen(bi, zustand, text) {
+  var box = document.getElementById("hb-offline");
+  if(!box || hbBuch !== bi) return;
+  var b = hbIndex[bi], mb = hbGroesse(b);
+  box.className = "hb-offline" + (zustand === "fertig" ? " da" : "");
+  if(zustand === "arbeitet") { box.innerHTML = text; return; }
+  if(zustand === "fertig") {
+    box.innerHTML = '✅ <b>Auf diesem Gerät gespeichert.</b> Das Hörbuch läuft jetzt auch ohne Internet.'
+      + '<br><button class="hb-btn grau" style="margin-top:8px" onclick="hbLoeschen('+bi+')">Wieder löschen</button>';
+    return;
+  }
+  if(!window.caches) {
+    box.innerHTML = 'Dieser Browser kann Hörbücher leider nicht für später speichern.';
+    return;
+  }
+  box.innerHTML = (zustand === "teil"
+      ? '📥 <b>Teilweise gespeichert.</b> Nochmal antippen, dann wird der Rest geholt.'
+      : '📥 <b>Für unterwegs speichern?</b><br>Dann läuft das Hörbuch auch im Auto und im Flugmodus.')
+    + '<br><button class="hb-btn" style="margin-top:8px" onclick="hbSpeichern('+bi+')">Speichern'
+    + (mb ? ' (' + mb + ' MB)' : '') + '</button>'
+    + (zustand === "teil"
+        ? ' <button class="hb-btn grau" onclick="hbLoeschen('+bi+')">Verwerfen</button>' : '');
+}
+
+function hbOfflinePruefen(bi) {
+  if(!window.caches) { hbOfflineMalen(bi, "nein"); return; }
+  var liste = hbDateien(hbIndex[bi], true);
+  caches.open(HB_CACHE).then(function(cache) {
+    var da = 0, n = 0;
+    function weiter() {
+      if(n >= liste.length) {
+        hbOfflineMalen(bi, da === 0 ? "nein" : (da >= liste.length ? "fertig" : "teil"));
+        return;
+      }
+      cache.match(liste[n]).then(function(t) { if(t) da++; n++; weiter(); });
+    }
+    weiter();
+  }).catch(function() { hbOfflineMalen(bi, "nein"); });
+}
+
+function hbSpeichern(bi) {
+  var liste = hbDateien(hbIndex[bi]), noetig = hbDateien(hbIndex[bi], true).length;
+  var i = 0, fehler = 0;
+  caches.open(HB_CACHE).then(function(cache) {
+    function naechste() {
+      if(i >= liste.length) {
+        // Nur fehlende Ton- oder Textdateien zaehlen; ein Bild, das nicht
+        // geladen werden konnte, stoert das Hoeren nicht.
+        hbOfflinePruefen(bi);
+        return;
+      }
+      hbOfflineMalen(bi, "arbeitet", hbBalken(i, liste.length)
+        + '<span style="font-size:11px;color:#888">Wird gespeichert … Teil '
+        + (i+1) + ' von ' + liste.length + '</span>');
+      cache.match(liste[i]).then(function(da) {
+        if(da) { i++; naechste(); return; }
+        cache.add(liste[i])
+          .catch(function() { if(i < noetig) fehler++; })
+          .then(function() { i++; naechste(); });
+      });
+    }
+    naechste();
+  });
+}
+
+function hbLoeschen(bi) {
+  var liste = hbDateien(hbIndex[bi]), i = 0;
+  caches.open(HB_CACHE).then(function(cache) {
+    function weiter() {
+      if(i >= liste.length) { hbOfflineMalen(bi, "nein"); return; }
+      cache.delete(liste[i]).then(function() { i++; weiter(); });
+    }
+    weiter();
+  });
+}
+
+// ── Der Spieler ───────────────────────────────────────────
+function hbSchalter(was, an) {
+  if(was === "auto")  hbAutoWeiter = an;
+  if(was === "lesen") { hbMitlesen = an; hbOeffne(hbBuch, hbKap); }
+  hbMerken();
+}
+
+function hbOeffne(bi, ki, gleichSpielen) {
+  hbBuch = bi;
+  var b = hbIndex[bi], kap = b.kapitel || [];
+  if(typeof ki !== "number") {
+    var m = hbHolen();
+    ki = (m.buch === bi && typeof m.kap === "number" && kap[m.kap]) ? m.kap : 0;
+    if(m.sprache === "de" || m.sprache === "gr") hbSprache = m.sprache;
+  }
+  hbKap = ki;
+  var k = kap[ki] || {}, kt = hbTitel(k.titel), html = "";
+
+  html += '<button class="back-btn" onclick="hbListe()">← Alle Hörbücher</button>';
+  html += '<div style="text-align:center;margin:10px 0 12px">';
+  html += '<div style="font-size:18px;font-weight:bold;color:#0F6E56">'+(b.titelGr||b.titel)+'</div>';
+  html += '<div style="font-size:13px;color:#888;font-style:italic">'+(b.emoji||"🎧")+' '+b.titel+'</div>';
+  if(b.beschreibung)
+    html += '<div style="font-size:12px;color:#999;margin-top:6px;line-height:1.6">'+b.beschreibung+'</div>';
+  html += '</div>';
+
+  html += '<div class="hb-offline" id="hb-offline">…</div>';
+
+  // Der Spieler
+  html += '<div class="hb-player">';
+  if(k.bild) html += '<img src="bilder/'+k.bild+'.png" alt="" data-emoji="🎧" onerror="bildErsatz(this)">';
+  html += '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px">KAPITEL '+(k.nr||ki+1)+'</div>';
+  html += '<div style="font-size:16px;font-weight:bold;color:#2c2c2a;margin-top:2px">'+kt.de+'</div>';
+  if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
+
+  html += '<div class="hb-tabs">';
+  html += '<button class="hb-tab'+(hbSprache==="de"?" on":"")+'"'
+       +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
+  html += '<button class="hb-tab'+(hbSprache==="gr"?" on":"")+'"'
+       +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
+  html += '</div>';
+
+  var quelle = k[hbSprache] || k.de || k.gr;
+  if(quelle) {
+    html += '<audio id="hb-audio" controls preload="none" src="hoerbuch/'+quelle+'"></audio>';
+    html += '<div style="font-size:11px;color:#aaa;margin-top:8px">'
+         +  (hbSprache==="gr"
+              ? 'Ganz auf Griechisch — hör einfach zu, du musst nicht alles verstehen.'
+              : 'Auf Deutsch, mit griechischen Wörtern mittendrin.')
+         +  '</div>';
+  } else {
+    html += '<div style="font-size:12px;color:#aaa;margin-top:10px">Für dieses Kapitel gibt es noch keinen Ton.</div>';
+  }
+
+  html += '<div class="hb-tabs" style="margin-top:12px">';
+  html += '<button class="hb-tab"'+(ki<=0?' disabled':'')+' onclick="hbOeffne('+bi+','+(ki-1)+')">← Davor</button>';
+  html += '<button class="hb-tab"'+(ki>=kap.length-1?' disabled':'')+' onclick="hbOeffne('+bi+','+(ki+1)+')">Weiter →</button>';
+  html += '</div>';
+
+  html += '<div class="hb-schalter">';
+  html += '<label><input type="checkbox"'+(hbAutoWeiter?' checked':'')
+       +  ' onchange="hbSchalter(\'auto\',this.checked)"> Automatisch weiter</label>';
+  html += '<label><input type="checkbox"'+(hbMitlesen?' checked':'')
+       +  ' onchange="hbSchalter(\'lesen\',this.checked)"> Mitlesen</label>';
+  html += '</div></div>';
+
+  // Wörter und Mitlese-Text kommen nach, sobald text.json da ist
+  html += '<div id="hb-chips"></div>';
+  if(hbMitlesen) html += '<div id="hb-lesen"></div>';
+
+  // Kapitelliste
+  html += '<p class="section-title" style="margin-top:4px">Alle Kapitel</p>';
+  for(var i=0;i<kap.length;i++) {
+    var kk = kap[i], t2 = hbTitel(kk.titel);
+    html += '<div class="hb-kap'+(i===ki?" aktiv":"")+'" onclick="hbOeffne('+bi+','+i+')">';
+    html += '<span class="hb-nr">'+(kk.nr||i+1)+'</span>';
+    if(kk.bild) html += '<img src="bilder/'+kk.bild+'.png" alt="" data-emoji="🎧" onerror="bildErsatz(this)">';
+    html += '<span style="flex:1;text-align:left;line-height:1.4">'
+         +  '<span style="font-size:13px;color:#2c2c2a">'+t2.de+'</span>'
+         +  (t2.gr ? '<br><span style="font-size:11px;color:#1D9E75;font-style:italic">'+t2.gr+'</span>' : '')
+         +  '</span>';
+    html += '<span style="font-size:10px;color:#aaa;flex:none">'
+         +  (kk.de?"DE":"") + (kk.de&&kk.gr?" · ":"") + (kk.gr?"GR":"") + '</span>';
+    html += '</div>';
+  }
+
+  document.getElementById("hb-detail").innerHTML = html;
+  document.getElementById("hb-detail").style.display = "block";
+  document.getElementById("hb-list").style.display = "none";
+  hbMerken();
+  hbOfflinePruefen(bi);
+  hbTextLaden(b.id, function() { hbInhaltFuellen(bi, ki); });
+
+  var a = document.getElementById("hb-audio");
+  if(a) {
+    a.onended = function() { if(hbAutoWeiter) hbWeiter(); };
+    if(gleichSpielen) {
+      var p = a.play();
+      if(p && p.catch) p.catch(function() {});   // manche Browser wollen erst einen Klick
+    }
+  }
+  if(typeof gleichSpielen === "undefined") window.scrollTo(0,0);
+}
+
+// Wortleiste und Mitlese-Text einsetzen
+function hbInhaltFuellen(bi, ki) {
+  if(hbBuch !== bi || hbKap !== ki) return;         // inzwischen weitergeblättert
+  var b = hbIndex[bi], k = (b.kapitel||[])[ki] || {};
+  var t = (hbTexte[b.id] || {})["" + (k.nr < 10 ? "0" : "") + k.nr] || {};
+  var ws = t.woerter || [], karte = hbWortBau(ws);
+
+  var chips = document.getElementById("hb-chips");
+  if(chips && ws.length) {
+    var h = '<p class="section-title" style="margin-bottom:8px">Wörter in diesem Kapitel</p><div class="hb-chips">';
+    for(var i=0;i<ws.length;i++) {
+      h += '<span class="hb-chip"><b>' + hbEsc(ws[i].gr) + '</b> ' + hbTonKnopf(ws[i].gr)
+         + '<br><span>' + hbEsc(ws[i].pr) + '</span> · ' + hbEsc(ws[i].de) + '</span>';
+    }
+    chips.innerHTML = h + '</div>';
+  }
+
+  var lese = document.getElementById("hb-lesen");
+  if(lese) {
+    var txt = t[hbSprache] || "";
+    if(!txt) { lese.innerHTML = ""; lese.className = ""; return; }
+    lese.className = "hb-lesen";
+    lese.innerHTML =
+        '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px;margin-bottom:10px">'
+      + (hbSprache === "de" ? "MITLESEN · tippe ein grünes Wort an"
+                            : "MITLESEN · der griechische Text")
+      + '</div>'
+      + hbMarkiere(txt, karte, hbSprache === "gr")
+      + '<div class="hb-wortinfo" id="hb-wortinfo" style="display:none"></div>';
+  }
+}
+
+function hbSprich(s) {
+  hbSprache = s;
+  hbOeffne(hbBuch, hbKap, true);
+}
+
+function hbWeiter() {
+  var kap = (hbIndex[hbBuch] || {}).kapitel || [];
+  if(hbKap < kap.length - 1) hbOeffne(hbBuch, hbKap + 1, true);
+}
 
 function renderComicList() {
   var html = "";
