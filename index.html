@@ -39,6 +39,21 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 
+/* AUSSPRACHE-KNOEPFE */
+.ton-btn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;
+  padding:1px 4px;opacity:.5;vertical-align:middle;transition:opacity .12s,transform .12s}
+.ton-btn:hover{opacity:1}
+.ton-btn.klein{font-size:12px;opacity:.4}
+.ton-btn.laeuft{opacity:1;transform:scale(1.25)}
+.ton-btn:focus-visible{outline:2px solid #1D9E75;outline-offset:2px;border-radius:4px}
+.ton-satz{display:inline}
+.ton-satz:hover{background:#E1F5EE;border-radius:4px}
+
+/* ERSATZ FÜR FEHLENDE BILDER */
+.bild-ersatz{display:flex!important;align-items:center;justify-content:center;
+  background:#f4f1eb;border:1.5px dashed #ddd;border-radius:14px;font-size:52px;line-height:1;
+  color:#bbb;user-select:none}
+
 /* BILDGESCHICHTEN */
 .comic-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .comic-card{background:white;border:1.5px solid #ddd;border-radius:14px;overflow:hidden;cursor:pointer;transition:border-color .15s}
@@ -778,7 +793,104 @@ function imgTag(key, size) {
   var filename = key.toLowerCase()
     .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u")
     .replace(/ß/g,"ss");
-  return '<img src="bilder/'+filename+'.png" class="'+cls+'" alt="'+key+'">';
+  return '<img src="bilder/'+filename+'.png" class="'+cls+'" alt="" data-emoji="🖼️" onerror="bildErsatz(this)">';
+}
+
+// ── AUSSPRACHE ANHOEREN ───────────────────────────────────
+// Die Sprachdateien liegen als MP3 in ton/, benannt nach einem Kurz-Hash
+// des griechischen Textes. ton/index.json ordnet Text -> Dateiname zu und
+// wird einmal beim Start geladen. Fehlt der Ordner, erscheinen einfach
+// keine Lautsprecher-Knoepfe – die App laeuft unveraendert weiter.
+
+var tonIndex = null, tonAudio = null, tonAktiv = null;
+
+function tonNorm(t) { return String(t).replace(/\s+/g, " ").trim(); }
+
+function tonDatei(text) {
+  if(!tonIndex) return null;
+  var h = tonIndex[tonNorm(text)];
+  return h ? "ton/" + h + ".mp3" : null;
+}
+
+// Knopf nur ausgeben, wenn es die Datei wirklich gibt
+function tonKnopf(text, klein) {
+  if(!tonDatei(text)) return "";
+  return '<button class="ton-btn' + (klein ? " klein" : "") + '"'
+       + ' data-ton="' + tonIndex[tonNorm(text)] + '" title="Anhoeren" aria-label="Anhoeren">🔊</button>';
+}
+
+function tonSpiel(hash, btn) {
+  if(tonAudio) { tonAudio.pause(); tonAudio = null; }
+  if(tonAktiv) { tonAktiv.className = tonAktiv.className.replace(" laeuft",""); }
+  if(tonAktiv === btn) { tonAktiv = null; return; }   // nochmal tippen = stoppen
+  tonAudio = new Audio("ton/" + hash + ".mp3");
+  btn.className += " laeuft"; tonAktiv = btn;
+  tonAudio.onended = tonAudio.onerror = function() {
+    btn.className = btn.className.replace(" laeuft","");
+    if(tonAktiv === btn) tonAktiv = null;
+  };
+  tonAudio.play();
+}
+
+// In der Erfassungsphase abfangen, damit ein Klick auf den Lautsprecher
+// nicht zusaetzlich die Karte umdreht oder die Geschichte oeffnet.
+document.addEventListener("click", function(e) {
+  var b = e.target && e.target.closest ? e.target.closest(".ton-btn") : null;
+  if(!b) return;
+  e.stopPropagation(); e.preventDefault();
+  tonSpiel(b.getAttribute("data-ton"), b);
+}, true);
+
+// Langen Text in anklickbare Saetze zerlegen (gleiche Regel wie im
+// Erzeugungsskript, damit die Hashes zusammenpassen)
+function tonSaetze(txt) {
+  var out = "", buf = "", c, i;
+  function span(s) {
+    var t = tonNorm(s);
+    if(!t) return "";
+    var k = tonKnopf(t, true);
+    return '<span class="ton-satz">' + t + (k ? " " + k : "") + "</span> ";
+  }
+  for(i = 0; i < txt.length; i++) {
+    c = txt.charAt(i); buf += c;
+    if(c === "." || c === "!" || c === ";" || c === "·") {
+      while(i + 1 < txt.length && txt.charAt(i + 1) === " ") i++;
+      out += span(buf); buf = "";
+    }
+  }
+  if(tonNorm(buf)) out += span(buf);
+  return out;
+}
+
+// index.json holen; danach den sichtbaren Bildschirm neu zeichnen,
+// damit die Knoepfe auch beim allerersten Aufbau erscheinen
+(function tonLaden() {
+  try {
+    var r = new XMLHttpRequest();
+    r.open("GET", "ton/index.json", true);
+    r.onload = function() {
+      if(r.status >= 200 && r.status < 300) {
+        try {
+          tonIndex = JSON.parse(r.responseText);
+          var s = document.querySelector(".screen.active");
+          if(s && typeof showScreen === "function") showScreen(s.id);
+        } catch(e) {}
+      }
+    };
+    r.send();
+  } catch(e) {}
+})();
+
+// Fehlt die Bilddatei, zeigt der Browser sonst ein zerbrochenes Bild samt Alt-Text
+// (daher stand der deutsche Begriff im Wortbau doppelt da). Stattdessen tritt an
+// die Stelle des Bildes das Emoji – gleiche Größe, gleiche Position.
+function bildErsatz(img) {
+  var e = img.getAttribute("data-emoji") || "📖";
+  var d = document.createElement("div");
+  d.className = "bild-ersatz " + (img.className || "");
+  if(img.getAttribute("style")) d.setAttribute("style", img.getAttribute("style"));
+  d.textContent = e;
+  if(img.parentNode) img.parentNode.replaceChild(d, img);
 }
 
 // ── STORIES ───────────────────────────────────────────────
@@ -789,7 +901,7 @@ function buildStoryGrid() {
   for(var i=0;i<stories.length;i++){
     var s=stories[i];
     html+='<div class="story-card" onclick="openStory('+i+')">';
-    html+='<img src="bilder/'+s.img+'.png" style="width:100%;height:140px;object-fit:cover;display:block" alt="'+s.title+'">';
+    html+='<img src="bilder/'+s.img+'.png" style="width:100%;height:140px;object-fit:cover;display:block" alt="" data-emoji="'+s.emoji+'" onerror="bildErsatz(this)">';
     html+='<div style="padding:0 8px;text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">';
     html+='<div style="font-size:14px;font-weight:bold;color:#2c2c2a;margin-top:6px">'+(s.titleGr||'')+'</div>';
     html+='<div style="font-size:12px;color:#1D9E75;margin-bottom:8px">'+s.title+'</div>';
@@ -812,7 +924,7 @@ function openStory(idx) {
   html+='<div class="card">';
   html+='<div style="font-size:18px;color:#1D9E75;font-weight:bold;text-align:center;margin-bottom:2px">'+s.emoji+' '+s.title+'</div>';
   html+='<div style="font-size:15px;color:#2c2c2a;text-align:center;margin-bottom:1rem">'+(s.titleGr||'')+'</div>';
-  html+='<img src="bilder/'+s.img+'.png" style="width:100%;object-fit:contain;border-radius:10px;margin-bottom:1rem;display:block" alt="'+s.title+'">';
+  html+='<img src="bilder/'+s.img+'.png" style="width:100%;object-fit:contain;border-radius:10px;margin-bottom:1rem;display:block" alt="" data-emoji="'+s.emoji+'" onerror="bildErsatz(this)">';
   html+='<p class="section-title">Grüne Wörter antippen = Griechisch lernen!</p>';
   html+='<div class="story-text">';
   for(var i=0;i<s.text.length;i++){
@@ -821,7 +933,7 @@ function openStory(idx) {
       var grEsc=t.gr.replace(/"/g,"&quot;");
       html+='<span class="word" onclick="toggleStoryPopup(\''+pid+'\',\''+grEsc+'\')">'+t.de+'</span>';
       html+='<div class="word-popup" id="'+pid+'">';
-      html+='<span class="greek">'+t.gr+'</span>';
+      html+='<span class="greek">'+t.gr+'</span>'+tonKnopf(t.gr);
       html+='<div class="pronounce">Aussprache: '+t.pr+'</div></div>';
     } else { html+=t.de; }
   }
@@ -829,7 +941,7 @@ function openStory(idx) {
   if(s.grText){
     html+='<div class="gr-story-box">';
     html+='<div class="gr-story-label">Die Geschichte auf Griechisch:</div>';
-    html+='<div class="gr-story-text">'+s.grText+'</div>';
+    html+='<div class="gr-story-text">'+tonSaetze(s.grText)+'</div>';
     html+='</div>';
   }
   html+='</div>';
@@ -882,7 +994,7 @@ function renderVocab() {
     html+='<div class="vsub">antippen →</div></div>';
     html+='<div id="vb'+i+'" style="display:none;flex-direction:column;align-items:center">';
     html+=imgTag(v.de.toLowerCase(),"");
-    html+='<div class="vgr">'+v.gr+'</div>';
+    html+='<div class="vgr">'+v.gr+tonKnopf(v.gr)+'</div>';
     html+='<div class="vpr">'+v.pr+'</div>';
     html+='<div class="vsub2">'+v.de+'</div></div>';
     html+='</div>';
@@ -931,7 +1043,7 @@ function renderConvo(idx) {
     html+='<div class="bwrap '+m.side+'">';
     html+='<div class="bspk2">'+m.speaker+'</div>';
     html+='<div class="bubble">';
-    html+='<span class="bgr">'+m.gr+'</span>';
+    html+='<span class="bgr">'+m.gr+'</span>'+tonKnopf(m.gr,true);
     html+='<div class="bpr">'+m.pr+'</div>';
     html+='<div class="bde">'+m.de+'</div>';
     html+='</div></div>';
@@ -1620,7 +1732,7 @@ function renderWbQuestion() {
   wbSlots=[];
   window.wbAttempts=0;
   var html='<div class="wb-card">';
-  html+='<img src="'+imgSrc+'" class="wb-img" id="wb-img" alt="'+w.de+'">';
+  html+='<img src="'+imgSrc+'" class="wb-img" id="wb-img" alt="" data-emoji="'+(w.emoji||"📖")+'" onerror="bildErsatz(this)">';
   html+='<div class="wb-hint-de">'+w.de+'</div>';
   html+='<div class="wb-pr">'+w.pr+'</div>';
   html+='<div class="wb-slots" id="wb-slots" ondragover="event.preventDefault()" ondrop="dropOnSlots(event)"></div>';
@@ -2293,7 +2405,7 @@ function renderAlphaGrid() {
   for(var i=0;i<alphabet.length;i++){
     var a=alphabet[i];
     html+='<div class="alpha-card" onclick="openAlpha('+i+')">';
-    html+='<img src="bilder/'+a.img+'.png" class="alpha-img" alt="'+a.name+'">';
+    html+='<img src="bilder/'+a.img+'.png" class="alpha-img" alt="" data-emoji="'+a.gross+'" onerror="bildErsatz(this)">';
     html+='<div class="alpha-letters">'+a.gross+' '+a.klein+'</div>';
     html+='<div class="alpha-name"><span style="color:#0F6E56;font-weight:bold">'+a.nameGr+'</span> · '+a.name+'</div>';
     html+='<div class="alpha-pr">'+a.aussprache+'</div>';
@@ -2311,17 +2423,17 @@ function openAlpha(idx) {
   for(var i=0;i<a.beispiele.length;i++){
     var b=a.beispiele[i];
     bsp+='<div class="beispiel-row">';
-    bsp+='<span class="bsp-gr">'+b.gr+'</span>';
+    bsp+='<span class="bsp-gr">'+b.gr+tonKnopf(b.gr,true)+'</span>';
     bsp+='<span class="bsp-pr">'+b.pr+'</span>';
     bsp+='<span class="bsp-de">'+b.de+'</span>';
     bsp+='</div>';
   }
   var html='<div class="alpha-detail-box">';
   html+='<div class="alpha-detail-top">';
-  html+='<img src="bilder/'+a.img+'.png" class="alpha-detail-img" alt="'+a.name+'">';
+  html+='<img src="bilder/'+a.img+'.png" class="alpha-detail-img" alt="" data-emoji="'+a.gross+'" onerror="bildErsatz(this)">';
   html+='<div>';
   html+='<div class="alpha-detail-letters">'+a.gross+' '+a.klein+'</div>';
-  html+='<div class="alpha-detail-name"><span style="color:#0F6E56">'+a.nameGr+'</span> · '+a.name+'</div>';
+  html+='<div class="alpha-detail-name"><span style="color:#0F6E56">'+a.nameGr+'</span>'+tonKnopf(a.nameGr,true)+' · '+a.name+'</div>';
   html+='<div class="alpha-detail-pr">Aussprache: '+a.aussprache+'</div>';
   html+='<div class="alpha-detail-de">'+a.deutsch+'</div>';
   html+='</div></div>';
@@ -2607,7 +2719,7 @@ function renderComicList() {
   for(var i=0;i<comics.length;i++) {
     var c = comics[i];
     html += '<div class="comic-card" onclick="openComic('+i+')">';
-    html += '<img src="bilder/'+c.szenen[0].img+'.png" alt="'+c.titel+'">';
+    html += '<img src="bilder/'+c.szenen[0].img+'.png" alt="" data-emoji="'+c.emoji+'" onerror="bildErsatz(this)">';
     html += '<div class="t"><div style="font-size:14px;font-weight:bold;color:#2c2c2a">'+c.titelGr+'</div>';
     html += '<div style="font-size:12px;color:#1D9E75">'+c.emoji+' '+c.titel+'</div>';
     html += '<div style="font-size:11px;color:#aaa;margin-top:3px">'+c.szenen.length+' Bilder · '
@@ -2641,7 +2753,7 @@ function openComic(ci) {
     html += '<div style="margin-bottom:18px">';
     html += '<div class="comic-ort">'+(si+1)+'. '+s.ortGr+' · '+s.ort+'</div>';
     html += '<div class="comic-szene" style="margin-top:6px">';
-    html += '<img src="bilder/'+s.img+'.png" alt="'+s.ort+'">';
+    html += '<img src="bilder/'+s.img+'.png" alt="" data-emoji="🖼️" onerror="bildErsatz(this)">';
     for(var bi=0;bi<s.blasen.length;bi++) {
       var b = s.blasen[bi], id = ci+"_"+si+"_"+bi;
       html += '<div class="comic-blase" style="left:'+b.x+'%;top:'+b.y+'%;width:'+b.w+'%">';
@@ -2696,7 +2808,8 @@ function comicSetze(id, wort, btn) {
     el.className = "comic-luecke ok";
     markLearned(b.loesung);
     document.getElementById("cw_"+ci+"_"+si).innerHTML = "";
-    document.getElementById("cd_"+ci+"_"+si).innerHTML = "✓ " + b.de;
+    var satz = b.vor + b.loesung + b.nach;
+    document.getElementById("cd_"+ci+"_"+si).innerHTML = "✓ " + b.de + tonKnopf(satz, true);
   } else {
     btn.style.background = "#FAECE7";
     btn.style.borderColor = "#D85A30";
