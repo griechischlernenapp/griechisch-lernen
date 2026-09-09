@@ -40,12 +40,18 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 
 /* AUSSPRACHE-KNOEPFE */
-.ton-btn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;
-  padding:1px 4px;opacity:.5;vertical-align:middle;transition:opacity .12s,transform .12s}
-.ton-btn:hover{opacity:1}
-.ton-btn.klein{font-size:12px;opacity:.4}
-.ton-btn.laeuft{opacity:1;transform:scale(1.25)}
-.ton-btn:focus-visible{outline:2px solid #1D9E75;outline-offset:2px;border-radius:4px}
+.ton-btn{display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;flex:0 0 auto;padding:0;margin:0 0 0 6px;
+  border:1.5px solid #1D9E75;border-radius:50%;background:#E1F5EE;color:#0F6E56;
+  cursor:pointer;vertical-align:middle;
+  transition:background .12s,color .12s,transform .12s}
+.ton-btn svg{width:15px;height:15px;display:block}
+.ton-btn:hover{background:#1D9E75;color:#fff}
+.ton-btn.laeuft{background:#1D9E75;color:#fff;transform:scale(1.12);
+  box-shadow:0 0 0 4px rgba(29,158,117,.22)}
+.ton-btn.klein{width:22px;height:22px;margin-left:4px}
+.ton-btn.klein svg{width:12px;height:12px}
+.ton-btn:focus-visible{outline:2px solid #0F6E56;outline-offset:2px}
 .ton-satz{display:inline}
 .ton-satz:hover{background:#E1F5EE;border-radius:4px}
 
@@ -813,10 +819,18 @@ function tonDatei(text) {
 }
 
 // Knopf nur ausgeben, wenn es die Datei wirklich gibt
+var TON_SYMBOL =
+  '<svg viewBox="0 0 24 24" aria-hidden="true">'
++ '<path d="M4 9.3v5.4h3.4L12 18.9V5.1L7.4 9.3H4z" fill="currentColor"/>'
++ '<path d="M15.3 8.7a4.6 4.6 0 0 1 0 6.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'
++ '<path d="M18 6a8.2 8.2 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>'
++ '</svg>';
+
 function tonKnopf(text, klein) {
   if(!tonDatei(text)) return "";
   return '<button class="ton-btn' + (klein ? " klein" : "") + '"'
-       + ' data-ton="' + tonIndex[tonNorm(text)] + '" title="Anhoeren" aria-label="Anhoeren">🔊</button>';
+       + ' data-ton="' + tonIndex[tonNorm(text)] + '"'
+       + ' title="Anhoeren" aria-label="Anhoeren">' + TON_SYMBOL + '</button>';
 }
 
 function tonSpiel(hash, btn) {
@@ -835,7 +849,7 @@ function tonSpiel(hash, btn) {
 // In der Erfassungsphase abfangen, damit ein Klick auf den Lautsprecher
 // nicht zusaetzlich die Karte umdreht oder die Geschichte oeffnet.
 document.addEventListener("click", function(e) {
-  var b = e.target && e.target.closest ? e.target.closest(".ton-btn") : null;
+  var b = e.target && e.target.closest ? e.target.closest(".ton-btn") : null;   // greift auch, wenn das SVG getroffen wurde
   if(!b) return;
   e.stopPropagation(); e.preventDefault();
   tonSpiel(b.getAttribute("data-ton"), b);
