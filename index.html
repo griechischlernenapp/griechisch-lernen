@@ -1214,7 +1214,7 @@ function checkLuecke(btn,chosen,correct,gr,pr) {
   if(box && q.grSatz){
     box.innerHTML=
       '<div style="font-size:11px;color:#aaa;margin-bottom:4px">Auf Griechisch:</div>'+
-      '<div style="font-size:16px;font-weight:bold;color:#0F6E56">'+q.grSatz+'</div>'+
+      '<div style="font-size:16px;font-weight:bold;color:#0F6E56">'+q.grSatz+tonKnopf(q.grSatz,true)+'</div>'+
       '<div style="font-size:12px;color:#1D9E75;font-style:italic;margin-top:3px">'+q.gr+' = '+correct+' · '+q.pr+'</div>';
     box.style.display="block";
   }
@@ -1259,7 +1259,7 @@ function renderQuiz() {
     '<div class="quiz-card">'+
     '<div class="qimg">'+imgTag(q.de.toLowerCase(),"")+'</div>'+
     '<div class="qq">Was bedeutet dieses Wort auf Deutsch?</div>'+
-    '<div class="qword">'+q.gr+'</div>'+
+    '<div class="qword">'+q.gr+tonKnopf(q.gr)+'</div>'+
     '<div class="qpr">'+q.pr+'</div></div>'+
     '<div class="qchoices">'+ch+'</div>';
 }
@@ -1613,7 +1613,7 @@ function renderMythQuestion() {
   html+='<img src="bilder/'+q.img+'.png" class="myth-img" alt="">';
   if(q.typ==="mc"){
     html+='<div class="myth-type">Multiple Choice</div>';
-    html+='<div class="myth-question">'+q.gr+'</div>';
+    html+='<div class="myth-question">'+q.gr+tonKnopf(q.gr,true)+'</div>';
     html+='<div class="myth-question-de">'+q.de+'</div>';
     var choices=[q.antwort,q.falsch[0],q.falsch[1],q.falsch[2]].sort(function(){ return Math.random()-0.5; });
     html+='<div class="myth-choices">';
@@ -1623,7 +1623,7 @@ function renderMythQuestion() {
     html+='</div>';
   } else {
     html+='<div class="myth-type">Wahr oder Falsch · Αλήθεια ή Λάθος</div>';
-    html+='<div class="myth-question">'+q.gr+'</div>';
+    html+='<div class="myth-question">'+q.gr+tonKnopf(q.gr,true)+'</div>';
     html+='<div class="myth-question-de">'+q.de+'</div>';
     html+='<div class="myth-wf">';
     html+='<button class="myth-choice" data-val="true" data-correct="'+q.antwort+'" data-erkl="'+q.erkl+'" onclick="checkMythWF(this)">✅ Αλήθεια · Wahr</button>';
@@ -1852,7 +1852,7 @@ function checkWortbau() {
     if(!window.wbAttempts) window.wbAttempts=0;
     window.wbAttempts++;
     if(window.wbAttempts>=2){
-      if(msg) msg.innerHTML+='<br><span style="color:#0F6E56;font-size:13px">Das Wort ist: <b>'+w.gr+'</b></span>';
+      if(msg) msg.innerHTML+='<br><span style="color:#0F6E56;font-size:13px">Das Wort ist: <b>'+w.gr+'</b>'+tonKnopf(w.gr,true)+'</span>';
       if(nextBtn) nextBtn.style.display="inline-block";
       var btns=document.querySelectorAll(".wb-letter");
       for(var i=0;i<btns.length;i++) btns[i].disabled=true;
@@ -1954,7 +1954,7 @@ function renderTypQuestion() {
   }
   var html=dots+'<div class="geo-card" style="padding:0 0 1rem">';
   html+='<img src="bilder/story-map_of_greece_01.png" class="geo-map-img" style="margin-bottom:1rem">';
-  html+='<div class="geo-question"><span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span> <span style="font-size:13px;color:#888">· '+q.de+'</span><br>Νησί, Πόλη ή Βουνό; · Insel, Stadt oder Berg?</div>';
+  html+='<div class="geo-question"><span style="color:#1D9E75;font-weight:bold">'+q.gr+'</span>'+tonKnopf(q.gr,true)+' <span style="font-size:13px;color:#888">· '+q.de+'</span><br>Νησί, Πόλη ή Βουνό; · Insel, Stadt oder Berg?</div>';
   html+='</div><div class="geo-choices" style="grid-template-columns:1fr">'+ch+'</div>';
   document.getElementById("geo-content").innerHTML=html;
 }
@@ -2243,7 +2243,7 @@ function renderGramContent() {
     html+='<div class="gram-section"><h3>🔄 Verben — Konjugation</h3>';
     for(var i=0;i<verben.length;i++){
       var v=verben[i];
-      html+='<div class="gram-verb-title"><span>'+v.emoji+'</span><span>'+v.de+'</span><span style="font-size:13px;color:#1D9E75;font-weight:normal">'+v.gr+' · '+v.pr+'</span></div>';
+      html+='<div class="gram-verb-title"><span>'+v.emoji+'</span><span>'+v.de+'</span><span style="font-size:13px;color:#1D9E75;font-weight:normal">'+v.gr+' · '+v.pr+'</span>'+tonKnopf(v.gr,true)+'</div>';
       html+='<table class="gram-table">';
       html+='<tr><th>Person</th><th>Deutsch</th><th>Griechisch</th></tr>';
       for(var j=0;j<v.formen.length;j++){
@@ -2251,7 +2251,7 @@ function renderGramContent() {
         html+='<tr>';
         html+='<td class="gram-person">'+f.person+'</td>';
         html+='<td class="gram-de">'+f.de+'</td>';
-        html+='<td><span class="gram-gr">'+f.gr+'</span><span class="gram-pr">'+f.pr+'</span></td>';
+        html+='<td><span class="gram-gr">'+f.gr+'</span>'+tonKnopf(f.gr,true)+'<span class="gram-pr">'+f.pr+'</span></td>';
         html+='</tr>';
       }
       html+='</table>';
@@ -2272,9 +2272,9 @@ function renderGramContent() {
       var artDePl=n.artDePl?'<span style="color:#1D9E75;font-style:italic;font-size:11px">'+n.artDePl+'</span> ':'';
       var artGrPl=n.artGrPl?'<span style="color:#1D9E75;font-style:italic;font-size:11px">'+n.artGrPl+'</span> ':'';
       html+='<td class="gram-de">'+artDe+n.de+'</td>';
-      html+='<td><span class="gram-gr">'+artGr+n.gr+'</span><span class="gram-pr">'+n.pr+'</span></td>';
+      html+='<td><span class="gram-gr">'+artGr+n.gr+'</span>'+tonKnopf(n.gr,true)+'<span class="gram-pr">'+n.pr+'</span></td>';
       html+='<td class="gram-de">'+artDePl+n.dePl+'</td>';
-      html+='<td><span class="gram-gr">'+artGrPl+n.grPl+'</span><span class="gram-pr">'+n.prPl+'</span></td>';
+      html+='<td><span class="gram-gr">'+artGrPl+n.grPl+'</span>'+tonKnopf(n.grPl,true)+'<span class="gram-pr">'+n.prPl+'</span></td>';
       html+='</tr>';
     }
     html+='</table></div>';
