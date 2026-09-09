@@ -939,7 +939,14 @@ function openStory(idx) {
   html+='<div style="font-size:18px;color:#1D9E75;font-weight:bold;text-align:center;margin-bottom:2px">'+s.emoji+' '+s.title+'</div>';
   html+='<div style="font-size:15px;color:#2c2c2a;text-align:center;margin-bottom:1rem">'+(s.titleGr||'')+'</div>';
   html+='<img src="bilder/'+s.img+'.png" style="width:100%;object-fit:contain;border-radius:10px;margin-bottom:1rem;display:block" alt="" data-emoji="'+s.emoji+'" onerror="bildErsatz(this)">';
-  html+='<p class="section-title">Grüne Wörter antippen = Griechisch lernen!</p>';
+  // Erst Griechisch, dann Deutsch – das Kind soll zuerst der Fremdsprache begegnen
+  if(s.grText){
+    html+='<div class="gr-story-box">';
+    html+='<div class="gr-story-label">Die Geschichte auf Griechisch — tippe einen Satz an zum Anhören:</div>';
+    html+='<div class="gr-story-text">'+tonSaetze(s.grText)+'</div>';
+    html+='</div>';
+  }
+  html+='<p class="section-title">Auf Deutsch — grüne Wörter antippen = Griechisch lernen!</p>';
   html+='<div class="story-text">';
   for(var i=0;i<s.text.length;i++){
     var t=s.text[i]; var pid="sp_"+idx+"_"+i;
@@ -952,12 +959,6 @@ function openStory(idx) {
     } else { html+=t.de; }
   }
   html+='</div>';
-  if(s.grText){
-    html+='<div class="gr-story-box">';
-    html+='<div class="gr-story-label">Die Geschichte auf Griechisch:</div>';
-    html+='<div class="gr-story-text">'+tonSaetze(s.grText)+'</div>';
-    html+='</div>';
-  }
   html+='</div>';
   var d=document.getElementById("story-detail");
   d.innerHTML=html; d.style.display="block";
