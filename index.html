@@ -2790,7 +2790,7 @@ var comicIdx = 0;
 
 var HB_CACHE = "griechisch-hoerbuch";
 
-var hbIndex = null, hbGeladen = false;
+var hbIndex = null, hbGeladen = false, hbGrund = "";
 var hbTexte = {};                       // Buch-Id -> {"01": {de, gr, woerter}}
 var hbBuch = -1, hbKap = -1, hbSprache = "de";
 var hbAutoWeiter = true, hbMitlesen = true;
@@ -2828,13 +2828,24 @@ function hbLaden() {
   var r = new XMLHttpRequest();
   r.open("GET", "hoerbuch/index.json", true);
   r.onload = function() {
-    if(r.status >= 200 && r.status < 300) {
-      try { hbIndex = JSON.parse(r.responseText); } catch(e) { hbIndex = []; }
-    } else { hbIndex = []; }
+    // status 0 kommt vor, wenn die Datei ohne Webserver geoeffnet wird
+    var gut = (r.status >= 200 && r.status < 300) || (r.status === 0 && r.responseText);
+    if(gut) {
+      try { hbIndex = JSON.parse(r.responseText); }
+      catch(e) { hbIndex = []; hbGrund = "kaputt"; }
+    } else {
+      hbIndex = [];
+      hbGrund = (r.status === 404) ? "fehlt" : "fehler" + r.status;
+    }
     hbListe();
   };
-  r.onerror = function() { hbIndex = []; hbListe(); };
+  r.onerror = function() { hbIndex = []; hbGrund = "blockiert"; hbListe(); };
   r.send();
+}
+
+function hbNochmal() {
+  hbIndex = null; hbGeladen = false; hbGrund = "";
+  hbListe();
 }
 
 function hbListe() {
@@ -2848,9 +2859,26 @@ function hbListe() {
     return;
   }
   if(!hbIndex.length) {
-    box.innerHTML = '<div class="hb-hinweis" style="grid-column:1/-1">'
-      + '🎧 <b>Hier gibt es bald Hörbücher.</b><br>'
-      + 'Die Tondateien sind noch nicht hochgeladen.</div>';
+    var t;
+    if(hbGrund === "blockiert")
+      t = '🔒 <b>Die Hörbuch-Liste konnte nicht gelesen werden.</b><br>'
+        + 'Das passiert, wenn die Seite direkt von der Festplatte geöffnet wird '
+        + '(Adresse beginnt mit <code>file://</code>). Über einen Webserver '
+        + 'oder online funktioniert es.';
+    else if(hbGrund === "fehlt")
+      t = '🎧 <b>Hier gibt es bald Hörbücher.</b><br>'
+        + 'Der Ordner <code>hoerbuch/</code> ist noch nicht hochgeladen.';
+    else if(hbGrund === "kaputt")
+      t = '⚠️ <b>Die Datei <code>hoerbuch/index.json</code> ist beschädigt.</b><br>'
+        + 'Sie lässt sich nicht lesen — bitte neu erzeugen lassen.';
+    else if(hbGrund)
+      t = '⚠️ <b>Die Hörbuch-Liste ließ sich nicht laden.</b><br>'
+        + 'Der Server meldet: ' + hbGrund.replace("fehler", "Fehler ") + '.';
+    else
+      t = '🎧 <b>Hier gibt es bald Hörbücher.</b><br>'
+        + 'Es ist noch keines eingetragen.';
+    box.innerHTML = '<div class="hb-hinweis" style="grid-column:1/-1">' + t
+      + '<br><br><button class="hb-btn leer" onclick="hbNochmal()">Nochmal versuchen</button></div>';
   } else {
     var html = "";
     for(var i=0;i<hbIndex.length;i++) {
