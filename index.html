@@ -277,8 +277,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .story-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:0;cursor:pointer;transition:border-color 0.15s;overflow:hidden;display:flex;flex-direction:column}
 .story-card:hover{border-color:#1D9E75}
 .card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
-.back-btn{font-size:13px;color:#888;cursor:pointer;background:none;border:none;padding:0 0 0.8rem;font-family:Georgia,serif;display:block}
-.back-btn:hover{color:#1D9E75}
 .section-title{font-size:11px;color:#aaa;font-style:italic;margin-bottom:10px}
 .story-text{font-size:15px;line-height:2.2;color:#2c2c2a}
 .word{cursor:pointer;border-bottom:2px dotted #1D9E75;color:#0F6E56;font-weight:bold}
@@ -507,11 +505,34 @@ body.in-uebung .sterne-knopf{font-size:13px;padding:6px 14px}
    Zeigt in jeder Tiefe, wo man ist. Die Stationen davor sind
    antippbar, damit man nicht nur schrittweise zurueck kann.
    ──────────────────────────────────────────────────────── */
-.zurueck-leiste{flex-wrap:wrap}
-.brotkrumen{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1}
+.zurueck-leiste{flex-wrap:nowrap}
+.brotkrumen{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;flex:1;min-width:0}
 .brotkrumen .krume{display:inline-block;border:none;border-radius:20px;padding:9px 15px;
   min-height:40px;font-size:14px;font-weight:bold;font-family:inherit;cursor:pointer;
   line-height:1.4;white-space:nowrap}
+/* ── Variante C ────────────────────────────────────────────
+   Statt der ganzen Kette nur noch drei Dinge, immer an derselben
+   Stelle und immer gleich gross: einen Schritt zurueck, mit einem
+   Tippen nach Hause, und der Name der Stelle. Die Kette brach auf
+   dem Handy schon bei einem langen Namen auf zwei Reihen um.
+   ──────────────────────────────────────────────────────── */
+.haus-btn{width:48px;height:48px;min-height:48px;padding:0;border-radius:24px;
+  background:#0F6E56;color:#fff;border:none;font-size:20px;line-height:1;
+  flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.haus-btn:hover{background:#0B5945}
+.krume-hier{background:#CDEDE0;color:#0B5945;border:none;border-radius:20px;
+  padding:9px 15px;min-height:40px;font-size:15px;font-weight:bold;line-height:1.35;
+  font-family:inherit;display:inline-flex;align-items:center;cursor:default;
+  min-width:0;flex:0 1 auto;overflow:hidden}
+/* Ein langer Titel wie "Eine Reise nach Griechenland" darf die Leiste
+   nicht auf zwei Reihen treiben - genau das sollte ja weg. Lange Namen
+   werden erst kleiner, im Notfall hinten gekuerzt. Das Kuerzen braucht
+   einen eigenen Block innen: in einem Flex-Kasten wirkt es nicht. */
+.krume-hier .krume-txt{display:block;min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.krume-hier.lang{font-size:13px}
+.krume-hier.sehrlang{font-size:12px}
+
 /* eine Farbe, drei Helligkeiten – dunkel = oben, hell = hier */
 .brotkrumen .krume.s1{background:#0F6E56;color:white}
 .brotkrumen .krume.s2{background:#2E9C77;color:white}
@@ -561,9 +582,8 @@ body.in-uebung .sterne-knopf{font-size:13px;padding:6px 14px}
 .app button, .app input, .app textarea, .app select {
   font-family: "Segoe UI", system-ui, -apple-system, "Trebuchet MS", Verdana, sans-serif !important;
 }
-/* Der kleine Zurück-Verweis innerhalb einer Übung war kaum zu sehen */
-.back-btn{font-size:14px;color:#0F6E56;padding:8px 0 12px;font-weight:bold}
-.back-btn:hover{text-decoration:underline}
+/* Die kleinen Zurueck-Verweise im Inhalt sind entfallen: der Pfeil in
+   der Leiste oben macht dasselbe und ist immer an derselben Stelle. */
 
 /* ── Nachbesserungen aus der Durchsicht ────────────────── */
 /* Sprachwahl im Hörbuch ist eine Auswahl wie jede andere */
@@ -1160,20 +1180,30 @@ function leisteMalen(id) {
     if(vorletzte && vorletzte.f) vorletzte.f(); else showScreen("start");
   };
 
+  // Haus-Knopf und die aktuelle Stelle. Mehr nicht - der Weg dorthin
+  // stand frueher als Kette daneben und brach auf dem Handy um.
   pfad.innerHTML = "";
-  for(var i=0;i<kette.length;i++) {
-    if(i) {
-      var pf = document.createElement("span");
-      pf.className = "pfeil"; pf.textContent = "›";
-      pfad.appendChild(pf);
-    }
-    var k = kette[i];
-    var el = document.createElement(k.f ? "button" : "span");
-    el.className = "krume s" + Math.min(i+1, 4) + (k.f ? "" : " hier");
-    el.textContent = k.t;
-    if(k.f) el.onclick = k.f;
-    pfad.appendChild(el);
-  }
+
+  var haus = document.createElement("button");
+  haus.className = "haus-btn";
+  haus.type = "button";
+  haus.setAttribute("aria-label", "Zur Startseite");
+  haus.title = "Zur Startseite";
+  haus.textContent = "🏠";
+  haus.onclick = function(){ showScreen("start"); };
+  pfad.appendChild(haus);
+
+  var wo = kette[kette.length - 1].t;
+  var hier = document.createElement("span");
+  hier.className = "krume-hier"
+                 + (wo.length > 24 ? " sehrlang" : wo.length > 15 ? " lang" : "");
+  var txt = document.createElement("span");
+  txt.className = "krume-txt";
+  txt.textContent = wo;
+  hier.appendChild(txt);
+  hier.title = wo;                 // ganzer Name beim Draufzeigen
+  pfad.appendChild(hier);
+
   leisteHoehe();
 }
 
@@ -1353,9 +1383,10 @@ function openStory(idx) {
   window.scrollTo(0,0);
   var s=stories[idx];
   navUnterpunkt(s.title, closeStory);
-  var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem">';
-  html+='<button class="back-btn" onclick="closeStory()">← Alle Geschichten</button>';
-  html+='<div style="display:flex;gap:6px">';
+  // Kein "Alle Geschichten" mehr: der Zurueck-Pfeil in der Leiste oben
+  // tut dasselbe, und zwei Zurueck-Wege dicht untereinander verwirren.
+  var html='<div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:0.8rem">';
+  html+='<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">';
   html+='<button onclick="openPrint('+idx+',\'de\')" style="padding:7px 12px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Deutsch</button>';
   html+='<button onclick="openPrint('+idx+',\'gr\')" style="padding:7px 12px;background:#0F6E56;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Griechisch</button>';
   html+='<button onclick="openColorPrint('+idx+')" style="padding:7px 12px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">🎨 Ausmalen</button>';
@@ -3504,7 +3535,6 @@ function hbOeffne(bi, ki, gleichSpielen) {
   hbKap = ki;
   var k = kap[ki] || {}, kt = hbTitel(k.titel), html = "";
 
-  html += '<button class="back-btn" onclick="hbListe()">← Alle Hörbücher</button>';
   html += '<div style="text-align:center;margin:10px 0 12px">';
   html += '<div style="font-size:18px;font-weight:bold;color:#0F6E56">'+(b.titelGr||b.titel)+'</div>';
   html += '<div style="font-size:13px;color:#888;font-style:italic">'+(b.emoji||"🎧")+' '+b.titel+'</div>';
@@ -3678,8 +3708,7 @@ function openComic(ci) {
   comicIdx = ci;
   var c = comics[ci], html = "";
 
-  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
-  html += '<button class="back-btn" onclick="renderComicList()">← Alle Bildgeschichten</button>';
+  html += '<div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px">';
   html += '<button class="print-btn green" style="padding:7px 14px;font-size:12px" onclick="comicDrucken('+ci+')">📝 Zum Ausmalen drucken</button>';
   html += '</div>';
   html += '<div style="text-align:center;margin-bottom:12px">';
