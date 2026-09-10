@@ -26,18 +26,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .header p{font-size:13px;color:#888;font-style:italic;margin-top:3px}
 .stars-bar{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:#BA7517;flex-wrap:wrap}
 
-.nav{display:flex;gap:6px;justify-content:center;margin:0.8rem 0 1.2rem;flex-wrap:wrap}
-.nav button{padding:8px 13px;border-radius:20px;border:1.5px solid #ccc;font-size:12px;cursor:pointer;background:white;color:#5F5E5A;font-family:Georgia,serif;transition:all 0.15s}
 .nav button.active,.nav button:hover{background:#1D9E75;color:white;border-color:#1D9E75}
 
 .screen{display:none}
 .screen.active{display:block}
-
-
-
-
-
-
 
 /* AUSSPRACHE-KNOEPFE */
 .ton-btn{display:inline-flex;align-items:center;justify-content:center;
@@ -258,7 +250,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .ab-print-btn{padding:7px 14px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif}
 .ab-print-btn:disabled{background:#e6e4df;color:#aaa;cursor:default}
 
-
 /* DRUCK / PDF */
 @media print {
   body { background: white !important; font-family: Arial, sans-serif; }
@@ -267,19 +258,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   .word-popup, .gr-story-box, .print-ignore { display: none !important; }
   .screen.active { display: block !important; }
 }
-.print-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; }
-.print-overlay.show { display:flex; }
-.print-sheet { background:white; width:210mm; max-height:90vh; overflow-y:auto; padding:15mm; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.3); }
-.print-sheet h2 { font-size:22px; color:#0F6E56; text-align:center; margin-bottom:12px; font-family:Arial,sans-serif; }
-.print-sheet .ps-img { width:100%; object-fit:contain; border-radius:8px; margin-bottom:16px; }
-.print-sheet .ps-hint { font-size:12px; color:#888; margin-bottom:8px; font-style:italic; }
-.print-sheet .ps-text { font-size:18px; line-height:2.8; color:#2c2c2a; font-family:Arial,sans-serif; margin-bottom:16px; }
-.print-sheet .ps-gap { display:inline-block; width:100px; border-bottom:2px solid #0F6E56; margin:0 4px; vertical-align:bottom; }
-.print-sheet .ps-hint-de { font-size:11px; color:#1D9E75; display:block; text-align:center; margin-top:-2px; }
-.print-sheet .ps-worterkasten { border:2px solid #0F6E56; border-radius:8px; padding:12px; margin-top:12px; }
-.print-sheet .ps-worterkasten h3 { font-size:14px; color:#0F6E56; margin-bottom:8px; font-family:Arial,sans-serif; }
-.print-sheet .ps-wort { display:inline-block; margin:4px 8px; font-size:15px; font-weight:bold; color:#0F6E56; background:#E1F5EE; padding:3px 10px; border-radius:6px; }
-.print-sheet .ps-wort small { display:block; font-size:11px; color:#888; font-weight:normal; text-align:center; }
 .print-btns { display:flex; gap:8px; justify-content:center; margin-top:12px; }
 .print-btn { padding:10px 20px; border:none; border-radius:14px; font-size:14px; cursor:pointer; font-family:Georgia,serif; }
 .print-btn.green { background:#1D9E75; color:white; }
@@ -298,8 +276,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
 .story-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:0;cursor:pointer;transition:border-color 0.15s;overflow:hidden;display:flex;flex-direction:column}
 .story-card:hover{border-color:#1D9E75}
-.story-title{font-size:14px;font-weight:bold;color:#2c2c2a;margin:8px 8px 4px;text-align:center}
-.story-level{font-size:11px;color:#1D9E75;background:#E1F5EE;padding:2px 8px;border-radius:8px;display:inline-block;margin-bottom:10px}
 .card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
 .back-btn{font-size:13px;color:#888;cursor:pointer;background:none;border:none;padding:0 0 0.8rem;font-family:Georgia,serif;display:block}
 .back-btn:hover{color:#1D9E75}
@@ -350,7 +326,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 /* MEMORY */
 .mem-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
-.mem-sel{padding:6px 10px;border-radius:10px;border:1px solid #ccc;font-size:13px;font-family:Georgia,serif;background:white}
 .mem-stats{font-size:13px;color:#888}
 .mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .mcard{height:130px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:6px;position:relative;overflow:hidden}
@@ -370,7 +345,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 /* LÜCKENTEXT */
 .luecke-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
-.luecke-sel{padding:6px 10px;border-radius:10px;border:1px solid #ccc;font-size:13px;font-family:Georgia,serif;background:white}
 .luecke-score{font-size:13px;color:#888}
 .luecke-card{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.5rem;margin-bottom:1rem}
 .luecke-img{display:flex;justify-content:center;margin-bottom:1rem}
@@ -423,6 +397,203 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .badge{padding:6px 12px;border-radius:10px;font-size:12px;background:#E1F5EE;color:#0F6E56;border:1px solid #5DCAA5}
 .badge.locked{background:#f5f5f5;color:#bbb;border-color:#eee}
 .reset-btn{padding:8px 18px;background:white;color:#D85A30;border:1px solid #D85A30;border-radius:14px;font-size:13px;cursor:pointer;font-family:Georgia,serif;margin-top:0.8rem}
+
+/* ══════════════════════════════════════════════════════════
+   KINDGERECHTE OBERFLÄCHE
+
+   Drei Ebenen, drei Farben – damit ein Kind sieht, was
+   worin steckt:
+     1. Bereiche      dunkelgrün, große Kacheln
+     2. Module        mintgrünes Band
+     3. Kategorien    sandfarbenes Band
+   Nichts ist seitlich weggescrollt: alles, was es gibt,
+   ist auch zu sehen.
+   ══════════════════════════════════════════════════════════ */
+body, button, input, select, textarea {
+  font-family: "Segoe UI", system-ui, -apple-system, "Trebuchet MS", Verdana, sans-serif;
+}
+/* Georgia bleibt dort, wo wirklich gelesen wird: Geschichten,
+   griechische Texte, Sprechblasen. Die Bedienoberflaeche - und dazu
+   gehoert auch der Titel oben - laeuft durchgehend in derselben
+   serifenlosen Schrift, sonst wirkt der Kopf wie aus einer anderen App. */
+.story-text, .gr-box, .hb-lesen, .comic-blase, .alpha-beispiel {
+  font-family: Georgia, serif;
+}
+
+/* Kopfzeile: Titel und Unterzeile aus einer Schrift.
+   Die Unterzeile war kursiv und hellgrau - auf dem cremefarbenen
+   Grund schwer zu lesen. Jetzt aufrecht und dunkler. */
+.header h1{font-family:inherit;letter-spacing:.2px}
+.header p{font-family:inherit;font-style:normal;color:#6f6d66;margin-top:4px}
+
+/* Sterne-Zeile führt zum Fortschritt */
+.sterne-knopf{background:white;border:2px solid #e3e0d8;border-radius:22px;padding:8px 18px;
+  font-size:15px;color:#C8891F;cursor:pointer;line-height:1.5}
+.sterne-knopf:hover{border-color:#1D9E75}
+
+/* ── Die drei Ebenen ───────────────────────────────────────
+   Unterschieden wird ueber die Knoepfe selbst: eigene Farbe,
+   eigene Groesse. Keine farbigen Flaechen dahinter.
+   ──────────────────────────────────────────────────────── */
+
+/* Ebene 1 – Bereiche: dunkelgruen, gross */
+
+/* Ebene 2 – Module: mittelgruen, mittelgross */
+
+/* Ebene 3 – Kategorien: sandgelb, klein */
+.cat-filters{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px;overflow:visible}
+.cat-btn{min-height:36px;padding:7px 11px;font-size:13px;background:white;
+  border:2px solid #E3CFA0;border-radius:18px;color:#8A6A28;cursor:pointer;
+  font-family:inherit;white-space:nowrap}
+.cat-btn:hover{border-color:#C8891F}
+.cat-btn.active{background:#C8891F;border-color:#C8891F;color:white;font-weight:bold}
+
+/* Lesbare Zwischentexte statt Hellgrau auf Creme */
+.section-title{font-size:14px;color:#6f6d66;font-style:normal}
+
+/* Vokabelkarten: das Bild ist die Eselsbrücke, also groß.
+   Nur dort – .svg-img wird auch im Quiz und in Gesprächen benutzt. */
+.vc .svg-img{width:100%;height:auto;max-height:135px;object-fit:contain}
+
+@media (max-width:560px){
+  h1{font-size:28px}
+  .eltern-hinweis{display:none}          /* richtet sich an Eltern, nicht an Kinder */
+  .vocab-grid{grid-template-columns:1fr 1fr}
+    .cat-btn{font-size:12px;padding:6px 9px;min-height:34px}
+}
+
+/* ── Startbildschirm: Bildkacheln ─────────────────────────
+   Kinder erkennen Bilder, bevor sie Wörter lesen. Deshalb
+   führt jede Kachel direkt in ihre Übung – ohne Kategorien
+   und ohne Menü, das mitläuft.
+   ──────────────────────────────────────────────────────── */
+.kachel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kachel{background:white;border:2px solid #e3e0d8;border-radius:18px;overflow:hidden;
+  cursor:pointer;transition:border-color .15s,transform .1s}
+.kachel:hover{border-color:#1D9E75}
+.kachel:active{transform:scale(.97)}
+.kachel img{width:100%;height:132px;object-fit:cover;display:block;background:#f7f6f2}
+.kachel .k-t{padding:11px 8px;text-align:center;font-size:16px;font-weight:bold;color:#2c2c2a}
+
+/* Zurück: ein einziger großer Knopf, sonst nichts */
+.zurueck-leiste{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.zurueck-btn{width:48px;height:48px;min-height:48px;padding:0;border-radius:24px;
+  font-size:22px;font-weight:bold;cursor:pointer;flex:none;line-height:1}
+
+/* In einer Übung verschwindet der Kopf – die Übung bekommt den Platz */
+body.in-uebung .header h1,
+body.in-uebung .header p,
+body.in-uebung .eltern-hinweis{display:none}
+body.in-uebung .header{display:none}   /* leer, also ganz weg */
+body.in-uebung .stars-bar{text-align:right}
+body.in-uebung .sterne-knopf{font-size:13px;padding:6px 14px}
+
+@media (min-width:620px){ .kachel-grid{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:900px){ .kachel-grid{grid-template-columns:repeat(4,1fr)} }
+
+/* ── Pfad-Anzeige (Brotkrumen) ─────────────────────────────
+   Zeigt in jeder Tiefe, wo man ist. Die Stationen davor sind
+   antippbar, damit man nicht nur schrittweise zurueck kann.
+   ──────────────────────────────────────────────────────── */
+.zurueck-leiste{flex-wrap:wrap}
+.brotkrumen{display:flex;align-items:center;gap:5px;flex-wrap:wrap;flex:1}
+.brotkrumen .krume{display:inline-block;border:none;border-radius:20px;padding:9px 15px;
+  min-height:40px;font-size:14px;font-weight:bold;font-family:inherit;cursor:pointer;
+  line-height:1.4;white-space:nowrap}
+/* eine Farbe, drei Helligkeiten – dunkel = oben, hell = hier */
+.brotkrumen .krume.s1{background:#0F6E56;color:white}
+.brotkrumen .krume.s2{background:#2E9C77;color:white}
+.brotkrumen .krume.s3{background:#79C9AC;color:#08402F}
+.brotkrumen .krume.s4{background:#CDEDE0;color:#0B5945}
+.brotkrumen .krume.hier{cursor:default;box-shadow:0 0 0 2px rgba(15,110,86,.18)}
+.brotkrumen button.krume:hover{filter:brightness(1.12)}
+.brotkrumen .pfeil{color:#b5b2a8;font-size:15px}
+/* Zurueck bleibt der groesste Knopf, aber als Umriss – damit die
+   farbige Kette daneben nicht untergeht */
+.zurueck-btn{background:white;color:#0F6E56;border:2.5px solid #0F6E56}
+.zurueck-btn:hover{background:#E1F5EE}
+
+/* Startbildschirm: nur vier Kacheln, also duerfen sie gross sein */
+.kachel-grid.gross img{height:150px}
+.kachel-grid.gross .k-t{font-size:18px;padding:13px 8px}
+
+/* ── Letzte Ebene: überall dieselbe Sandfarbe ──────────────
+   Alles, womit man INNERHALB einer Übung auswählt – Kategorien,
+   Reiter, Wortarten – gehört zur dritten Ebene und sieht deshalb
+   gleich aus. Grün bleibt dem Weg vorbehalten.
+   ──────────────────────────────────────────────────────── */
+.gram-tabs,.wb-cat-filters,.geo-tabs,.convo-tabs{
+  display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px;overflow:visible}
+.gram-tab,.wb-cat-btn,.geo-tab,.ctab{
+  min-height:36px;padding:7px 11px;font-size:13px;background:white;
+  border:2px solid #E3CFA0;border-radius:18px;color:#8A6A28;cursor:pointer;
+  font-family:inherit;white-space:nowrap;flex-shrink:0}
+.gram-tab:hover,.wb-cat-btn:hover,.geo-tab:hover,.ctab:hover{border-color:#C8891F}
+.gram-tab.active,.wb-cat-btn.active,.geo-tab.active,.ctab.active{
+  background:#C8891F;border-color:#C8891F;color:white;font-weight:bold}
+
+/* Zurück-Pfeil als Zeichnung – das Schriftzeichen ← ist zu dünn */
+.zurueck-btn svg{width:24px;height:24px;display:block;margin:auto}
+@media (max-width:560px){
+  .gram-tab,.wb-cat-btn,.geo-tab,.ctab{font-size:12px;padding:6px 9px;min-height:34px}
+}
+
+/* ── Eine Schrift für alle Bedienelemente ──────────────────
+   Viele Knopf-Klassen setzen noch einzeln "Georgia" – teils in
+   der Stilvorlage, teils direkt im HTML. Das hier zieht alles
+   gleich. Betrifft nur die Oberfläche: Die Druckfenster sind
+   eigene Dokumente und behalten ihre Schrift.
+   ──────────────────────────────────────────────────────── */
+.app button, .app input, .app textarea, .app select {
+  font-family: "Segoe UI", system-ui, -apple-system, "Trebuchet MS", Verdana, sans-serif !important;
+}
+/* Der kleine Zurück-Verweis innerhalb einer Übung war kaum zu sehen */
+.back-btn{font-size:14px;color:#0F6E56;padding:8px 0 12px;font-weight:bold}
+.back-btn:hover{text-decoration:underline}
+
+/* ── Nachbesserungen aus der Durchsicht ────────────────── */
+/* Sprachwahl im Hörbuch ist eine Auswahl wie jede andere */
+.hb-tab.wahl{border-color:#E3CFA0;color:#8A6A28}
+.hb-tab.wahl:hover{border-color:#C8891F}
+.hb-tab.wahl.on{background:#C8891F;border-color:#C8891F;color:white;font-weight:bold}
+
+/* Sternzeile in der Übung nach rechts (der Behälter ist ein Flex) */
+body.in-uebung .stars-bar{display:none}
+
+/* Ersatzbilder halten die Kachelhöhe, wenn eine Bilddatei fehlt */
+.kachel .bild-ersatz{height:132px;width:100%;border-radius:0;border:none;font-size:44px}
+.kachel-grid.gross .bild-ersatz{height:150px}
+.hb-card .bild-ersatz{height:120px;width:100%;border-radius:0;border:none;font-size:40px}
+.comic-card .bild-ersatz{height:110px;width:100%;border-radius:0;border:none;font-size:38px}
+
+/* Beim Drucken der Seite selbst gehören Pfad und Zurück nicht aufs Papier */
+@media print{
+  .zurueck-leiste,.brotkrumen,.kachel-grid{display:none !important}
+}
+
+/* ── Zurück und Pfad bleiben stehen ────────────────────────
+   Beim Scrollen verschwand der Rückweg aus dem Blick. Für
+   Kinder ist das die wichtigste Stelle der Seite, also klebt
+   sie jetzt oben fest. Der Rand links und rechts greift in die
+   Polsterung des Behälters, damit nichts seitlich daran
+   vorbeischeint.
+   ──────────────────────────────────────────────────────── */
+.zurueck-leiste{position:sticky;top:0;z-index:60;
+  background:#f4f1eb;margin:0 -1rem 14px;padding:10px 1rem;
+  box-shadow:0 6px 10px -8px rgba(0,0,0,.28)}
+@supports not (position:sticky){ .zurueck-leiste{position:static} }
+
+/* ── Die sandfarbene Ebene klebt mit ───────────────────────
+   Sie dockt unter der grünen Leiste an; deren Höhe steht in
+   --leiste und wird bei jedem Neuzeichnen gemessen.
+   ──────────────────────────────────────────────────────── */
+.cat-filters,.gram-tabs,.geo-tabs,.convo-tabs,.wb-cat-filters{
+  position:sticky;top:var(--leiste,68px);z-index:55;
+  background:#f4f1eb;margin-left:-1rem;margin-right:-1rem;
+  padding:10px 1rem;box-shadow:0 6px 10px -8px rgba(0,0,0,.28)}
+@supports not (position:sticky){
+  .cat-filters,.gram-tabs,.geo-tabs,.convo-tabs,.wb-cat-filters{position:static}
+}
 </style>
 </head>
 <body>
@@ -431,33 +602,30 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
     <h1>🇬🇷 Griechisch Lernen</h1>
     <p>Geschichten, Wörter und Spiele für Kinder</p>
     <div class="stars-bar">
-      ⭐ <span id="total-stars">0</span> Sterne &nbsp;|&nbsp;
-      📚 <span id="total-learned">0</span> Wörter gelernt
+      <button class="sterne-knopf" onclick="showScreen('progress')" title="Fortschritt ansehen">
+        ⭐ <span id="total-stars">0</span> Sterne &nbsp;|&nbsp;
+        📚 <span id="total-learned">0</span> Wörter gelernt
+      </button>
     </div>
-    <div style="font-size:12px;color:#999;text-align:center;margin-top:6px;font-style:italic;line-height:1.6">
+    <div class="eltern-hinweis" style="font-size:12px;color:#8a887f;text-align:center;margin-top:6px;font-style:italic;line-height:1.6">
       💡 Mit Chrome-Browser zum Startbildschirm hinzufügen — dann auch offline nutzbar!<br>
       Bei anderen Browsern nicht garantiert.
     </div>
   </div>
 
-  <div class="nav">
-    <button onclick="showScreen('stories')">📖 Geschichten</button>
-    <button onclick="showScreen('comics')">💬 Bildgeschichten</button>
-    <button onclick="showScreen('hoerbuch')">🎧 Hörbuch</button>
-    <button onclick="showScreen('vocab')">🔤 Wörter</button>
-    <button onclick="showScreen('convo')">💬 Gespräche</button>
-    <button onclick="showScreen('memory')">🃏 Memory</button>
-    <button onclick="showScreen('luecke')">📝 Lückentext</button>
-    <button onclick="showScreen('quiz')">⭐ Quiz</button>
-    <button class="active" onclick="showScreen('alphabet')">🔤 Alphabet</button>
-    <button onclick="showScreen('buchstaben-quiz')">🎯 Buchstaben-Quiz</button>
-    <button onclick="showScreen('buchstaben-memory')">🃏 Buchstaben-Memory</button>
-    <button onclick="showScreen('grammatik')">📐 Grammatik</button>
-    <button onclick="showScreen('mythos')">🏛️ Mythologie</button>
-    <button onclick="showScreen('wortbau')">🔀 Wortbau</button>
-    <button onclick="showScreen('geo')">🗺️ Geographie</button>
-    <button onclick="showScreen('progress')">📊 Fortschritt</button>
+  <div class="zurueck-leiste" id="zurueck-leiste" style="display:none">
+    <button class="zurueck-btn" id="zurueck-btn" title="Zurück" aria-label="Zurück"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12 H7 M13 6 L7 12 L13 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="brotkrumen" id="brotkrumen"></div>
   </div>
+
+  <div class="screen active" id="start">
+    <div class="kachel-grid gross" id="kachel-grid"></div>
+  </div>
+
+  <div class="screen" id="gruppe">
+    <div class="kachel-grid" id="gruppe-grid"></div>
+  </div>
+
 
   <div class="screen" id="stories">
     <div id="story-list">
@@ -498,7 +666,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="memory">
     <div class="mem-header">
-      <select class="mem-sel" id="mem-cat" onchange="startMemory()"></select>
+      <div class="cat-filters" id="mem-cat"></div>
       <div class="mem-stats" id="mem-stats">Paare: 0/8 · Versuche: 0</div>
     </div>
     <div id="memory-area"></div>
@@ -506,13 +674,13 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
   <div class="screen" id="luecke">
     <div class="luecke-hd">
-      <select class="luecke-sel" id="luecke-cat" onchange="startLuecke()"></select>
+      <div class="cat-filters" id="luecke-cat"></div>
       <div class="luecke-score" id="luecke-score">0 richtig</div>
     </div>
     <div id="luecke-area"></div>
   </div>
 
-  <div class="screen active" id="alphabet">
+  <div class="screen" id="alphabet">
     <p class="section-title">Das griechische Alphabet — Buchstabe anklicken für Beispielwörter!</p>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:0.8rem;flex-wrap:wrap">
       <button id="ab-btn" class="ab-print-btn" disabled onclick="abBauen(currentAlpha)">📝 Arbeitsblatt drucken</button>
@@ -570,16 +738,6 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 </div>
 
 <!-- DRUCKVORSCHAU -->
-<div class="print-overlay" id="print-overlay">
-  <div class="print-sheet" id="print-sheet">
-    <div id="print-content"></div>
-    <div class="print-btns">
-      <button class="print-btn green" onclick="doPrint()">🖨️ Drucken / Als PDF speichern</button>
-      <button class="print-btn gray" onclick="closePrint()">✕ Schliessen</button>
-    </div>
-  </div>
-</div>
-
 <script>
 // ============================================================
 //  grammatik.js  –  Grammatik: Einzahl / Mehrzahl & Verben
@@ -819,14 +977,204 @@ function resetProgress() {
   if (confirm("Wirklich alles zurücksetzen?")) { state={learned:{},stars:0,quizHighscore:0}; saveState(); renderProgress(); }
 }
 
+
+// ── NAVIGATION ────────────────────────────────────────────
+// Vier Bereiche statt sechzehn gleichrangiger Knoepfe. Kinder
+// koennen vier Dinge ueberblicken, sechzehn nicht. Die Zuordnung
+// laeuft ueber data-screen und nicht mehr ueber die Reihenfolge —
+// ein neuer Bildschirm braucht nur einen Eintrag in GRUPPEN.
+// ── NAVIGATION: BILDKACHELN IN ZWEI STUFEN ────────────────
+// Start = vier grosse Bildkacheln. Antippen fuehrt zur zweiten
+// Stufe mit den Uebungen dieses Bereichs, antippen fuehrt in die
+// Uebung. Zurueck geht immer eine Stufe hoch, und der Pfad oben
+// zeigt, wo man gerade ist.
+var BEREICHE = [
+  {id:"lesen",  titel:"Lesen",  bild:"story-hero_perseus_fighting_against_medusa", ziele:[
+     ["stories","Geschichten","story-hero_theseus_fighting_against_minotaur"],
+     ["comics","Bildgeschichten","story-a_happy_family_sitting_together_at_a_greek_restaurant"]]},
+  {id:"hoeren", titel:"Hören",  bild:"odysseus_01_departure_troy", ziele:[
+     ["hoerbuch","Hörbuch","odysseus_01_departure_troy"],
+     ["convo","Gespräche","story-a_hair_salon_scene_a_mother_sitting_in_daughter_waiting"]]},
+  {id:"lernen", titel:"Lernen", bild:"klasse", ziele:[
+     ["vocab","Wörter","katze"],
+     ["alphabet","Alphabet","alpha"],
+     ["grammatik","Grammatik","buch"]]},
+  {id:"spielen",titel:"Spielen",bild:"zwei", ziele:[
+     ["quiz","Quiz","schatz"],
+     ["memory","Memory","geschenk"],
+     ["luecke","Lückentext","tafel"],
+     ["wortbau","Wortbau","stift"],
+     ["mythos","Mythologie","story-12_greek_gods_with_names_greek_mythology"],
+     ["geo","Geographie","story-map_of_greece_01"],
+     ["buchstaben-quiz","Buchstaben-Quiz","beta"],
+     ["buchstaben-memory","Buchstaben-Memory","gamma"]]}
+];
+var aktBereich = null;
+
+function bereichVon(id) {
+  for(var i=0;i<BEREICHE.length;i++)
+    for(var j=0;j<BEREICHE[i].ziele.length;j++)
+      if(BEREICHE[i].ziele[j][0] === id) return BEREICHE[i];
+  return null;
+}
+function zielTitel(id) {
+  var b = bereichVon(id);
+  if(b) for(var j=0;j<b.ziele.length;j++) if(b.ziele[j][0] === id) return b.ziele[j][1];
+  if(id === "progress") return "Fortschritt";
+  return "";
+}
+function kachel(ziel, titel, bild) {
+  return '<div class="kachel" onclick="' + ziel + '">'
+       + '<img src="bilder/' + bild + '.png" alt="" data-emoji="🖼️" onerror="bildErsatz(this)">'
+       + '<div class="k-t">' + titel + '</div></div>';
+}
+
+function kachelnMalen() {
+  var h = "", i;
+  for(i=0;i<BEREICHE.length;i++)
+    h += kachel("zeigeBereich('" + BEREICHE[i].id + "')", BEREICHE[i].titel, BEREICHE[i].bild);
+  document.getElementById("kachel-grid").innerHTML = h;
+}
+
+function zeigeBereich(bid) {
+  for(var i=0;i<BEREICHE.length;i++) if(BEREICHE[i].id === bid) aktBereich = BEREICHE[i];
+  if(!aktBereich) return;
+  var h = "", z = aktBereich.ziele;
+  for(var j=0;j<z.length;j++)
+    h += kachel("showScreen('" + z[j][0] + "')", z[j][1], z[j][2]);
+  document.getElementById("gruppe-grid").innerHTML = h;
+  showScreen("gruppe");
+}
+
+// ── GERAETE-ZURUECK ───────────────────────────────────────
+// Ohne das hier verlaesst die Zurueck-Taste des Handys die App,
+// statt eine Stufe hochzugehen. Kinder druecken diese Taste.
+var verlaufSperre = false;
+
+function verlaufMerken(id, unter) {
+  if(verlaufSperre) return;
+  try {
+    history.pushState({schirm: id, bereich: aktBereich ? aktBereich.id : null,
+                       unter: unter || null}, "");
+  } catch(e) {}
+}
+
+window.addEventListener("popstate", function(e) {
+  var z = (e && e.state) ? e.state : {schirm: "start"};
+  verlaufSperre = true;
+  if(navUnter && !z.unter && navUnter.zurueck) {
+    navUnter.zurueck();                       // erst das Geoeffnete schliessen
+  } else if(z.schirm === "gruppe" && z.bereich) {
+    zeigeBereich(z.bereich);
+  } else {
+    showScreen(z.schirm || "start");
+  }
+  verlaufSperre = false;
+});
+
+// Eine Uebung kann noch eine Stufe tiefer gehen – ein einzelnes
+// Hoerbuch, eine einzelne Geschichte. Die Module melden das hier
+// an, damit der Pfad es zeigt. navUnterpunkt(null) meldet es ab.
+var navPfadId = "start";
+var navUnter  = null;          // {titel, zurueck}
+
+function navUnterpunkt(titel, zurueck) {
+  navUnter = titel ? {titel: titel, zurueck: zurueck} : null;
+  if(titel) verlaufMerken(navPfadId, titel);   // auch das Geoeffnete kommt in den Verlauf
+  leisteMalen(navPfadId);
+}
+function navZurueckZurListe() {
+  if(navUnter && navUnter.zurueck) navUnter.zurueck();
+}
+
+// Wird von showScreen gerufen
+function navMarkieren(id) {
+  verlaufMerken(id);
+  navPfadId = id;
+  navUnter  = null;            // beim Wechsel faellt der Unterpunkt weg
+  var b = bereichVon(id);
+  if(b) aktBereich = b;
+  leisteMalen(id);
+}
+
+// Der Pfad ist eine Kette von Knoepfen in derselben Farbe,
+// von dunkel (oben) nach hell (hier bin ich gerade).
+function leisteMalen(id) {
+  var leiste = document.getElementById("zurueck-leiste");
+  var knopf  = document.getElementById("zurueck-btn");
+  var pfad   = document.getElementById("brotkrumen");
+  if(!leiste) return;
+
+  if(id === "start") {
+    leiste.style.display = "none";
+    pfad.innerHTML = "";
+    document.body.className = "";
+    return;
+  }
+  leiste.style.display = "flex";
+  document.body.className = "in-uebung";
+
+  var kette = [{t: "🏠 Start", f: function(){ showScreen("start"); }}];
+  var b = bereichVon(id);
+
+  if(id === "gruppe" && aktBereich) {
+    kette.push({t: aktBereich.titel, f: null});
+  } else if(b) {
+    kette.push({t: b.titel, f: (function(bb){ return function(){ zeigeBereich(bb.id); }; })(b)});
+    kette.push({t: zielTitel(id), f: navUnter ? navZurueckZurListe : null});
+    if(navUnter) kette.push({t: navUnter.titel, f: null});
+  } else {
+    kette.push({t: zielTitel(id), f: null});
+  }
+
+  // Zurueck geht ueber den Verlauf zurueck statt vorwaerts zu navigieren.
+  // Sonst sammelt jedes Hin und Her zwei Eintraege an, und die
+  // Zurueck-Taste des Handys kommt nicht mehr aus der App heraus.
+  var vorletzte = kette[kette.length - 2];
+  knopf.onclick = function() {
+    if(history.length > 1) { history.back(); return; }
+    if(vorletzte && vorletzte.f) vorletzte.f(); else showScreen("start");
+  };
+
+  pfad.innerHTML = "";
+  for(var i=0;i<kette.length;i++) {
+    if(i) {
+      var pf = document.createElement("span");
+      pf.className = "pfeil"; pf.textContent = "›";
+      pfad.appendChild(pf);
+    }
+    var k = kette[i];
+    var el = document.createElement(k.f ? "button" : "span");
+    el.className = "krume s" + Math.min(i+1, 4) + (k.f ? "" : " hier");
+    el.textContent = k.t;
+    if(k.f) el.onclick = k.f;
+    pfad.appendChild(el);
+  }
+  leisteHoehe();
+}
+
+// Die sandfarbene Leiste klebt direkt unter der gruenen. Deren Hoehe
+// aendert sich, sobald der Pfad auf zwei Zeilen umbricht – deshalb
+// wird sie gemessen und als CSS-Variable weitergereicht.
+function leisteHoehe() {
+  var l = document.getElementById("zurueck-leiste");
+  var h = (l && l.style.display !== "none")
+        ? Math.round(l.getBoundingClientRect().height) : 0;
+  document.documentElement.style.setProperty("--leiste", h + "px");
+}
+window.addEventListener("resize", leisteHoehe);
+if(window.ResizeObserver) {
+  try {
+    new ResizeObserver(leisteHoehe).observe(document.getElementById("zurueck-leiste"));
+  } catch(e) {}
+}
+
 // ── SCREENS ───────────────────────────────────────────────
 function showScreen(id) {
   var all=document.querySelectorAll(".screen");
   for(var i=0;i<all.length;i++) all[i].classList.remove("active");
   document.getElementById(id).classList.add("active");
-  var ids=["stories","comics","hoerbuch","vocab","convo","memory","luecke","quiz","alphabet","buchstaben-quiz","buchstaben-memory","grammatik","mythos","wortbau","geo","progress"];
-  var btns=document.querySelectorAll(".nav button");
-  for(var i=0;i<btns.length;i++){btns[i].classList.remove("active");if(ids[i]===id) btns[i].classList.add("active");}
+  navMarkieren(id);
   if(id==="vocab")    renderVocab();
   if(id==="convo")    renderConvoTabs();
   if(id==="memory")  {buildSel("mem-cat"); startMemory();}
@@ -978,9 +1326,11 @@ function buildStoryGrid() {
 
 function openStory(idx) {
   document.getElementById("story-list").style.display="none";
+  window.scrollTo(0,0);
   var s=stories[idx];
+  navUnterpunkt(s.title, closeStory);
   var html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem">';
-  html+='<button class="back-btn" style="padding:0;margin:0" onclick="closeStory()">← Zurück</button>';
+  html+='<button class="back-btn" onclick="closeStory()">← Alle Geschichten</button>';
   html+='<div style="display:flex;gap:6px">';
   html+='<button onclick="openPrint('+idx+',\'de\')" style="padding:7px 12px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Deutsch</button>';
   html+='<button onclick="openPrint('+idx+',\'gr\')" style="padding:7px 12px;background:#0F6E56;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Griechisch</button>';
@@ -1020,6 +1370,7 @@ function closeStory() {
   document.getElementById("story-list").style.display="block";
   document.getElementById("story-detail").style.display="none";
   activePopup=null;
+  navUnterpunkt(null);
 }
 
 function toggleStoryPopup(id,gr) {
@@ -1034,17 +1385,22 @@ function toggleStoryPopup(id,gr) {
 // ── VOCAB ─────────────────────────────────────────────────
 var currentCat="all";
 
+// Auf dieser Ebene wird alles gezeigt. Kein Aufklappen, kein
+// Wischen – ein Kind sieht auf einen Blick, welche Kategorien
+// es gibt.
 function buildCatFilters() {
-  var html='<button class="cat-btn active" onclick="filterCat(\'all\',this)">Alle</button>';
+  var html = '<button class="cat-btn' + (currentCat==="all" ? " active" : "")
+           + '" onclick="filterCat(\'all\')">Alle</button>';
   for(var i=0;i<categories.length;i++)
-    html+='<button class="cat-btn" onclick="filterCat(\''+categories[i].id+'\',this)">'+categories[i].label+'</button>';
-  document.getElementById("cat-filters").innerHTML=html;
+    html += '<button class="cat-btn' + (categories[i].id===currentCat ? " active" : "")
+         +  '" onclick="filterCat(\'' + categories[i].id + '\')">' + categories[i].label + '</button>';
+  document.getElementById("cat-filters").innerHTML = html;
 }
 
-function filterCat(cat,btn) {
-  var btns=document.querySelectorAll(".cat-btn");
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
-  btn.classList.add("active"); currentCat=cat; renderVocab();
+function filterCat(cat) {
+  currentCat = cat;
+  buildCatFilters();
+  renderVocab();
 }
 
 function renderVocab() {
@@ -1122,16 +1478,30 @@ function renderConvo(idx) {
 // ── MEMORY ────────────────────────────────────────────────
 var memCards=[],memFlipped=[],memMatched=0,memMoves=0,memLock=false;
 
+// Kategorien auch in den Spielen als Knoepfe – gleiche Ebene,
+// gleiche Farbe wie bei den Woertern. Kein Aufklappmenue.
+var spielKat = {"mem-cat": "all", "luecke-cat": "all"};
+
 function buildSel(id) {
-  var sel=document.getElementById(id);
-  if(sel.options.length>0) return;
-  sel.innerHTML='<option value="all">Alle Kategorien</option>';
+  var box = document.getElementById(id);
+  if(!box) return;
+  var h = '<button class="cat-btn' + (spielKat[id]==="all" ? " active" : "")
+        + '" onclick="setzeKat(\'' + id + '\',\'all\')">Alle</button>';
   for(var i=0;i<categories.length;i++)
-    sel.innerHTML+='<option value="'+categories[i].id+'">'+categories[i].label+'</option>';
+    h += '<button class="cat-btn' + (categories[i].id===spielKat[id] ? " active" : "")
+      +  '" onclick="setzeKat(\'' + id + '\',\'' + categories[i].id + '\')">'
+      +  categories[i].label + '</button>';
+  box.innerHTML = h;
+}
+
+function setzeKat(id, cat) {
+  spielKat[id] = cat;
+  buildSel(id);
+  if(id === "mem-cat") startMemory(); else startLuecke();
 }
 
 function startMemory() {
-  var cat=document.getElementById("mem-cat").value;
+  var cat=spielKat["mem-cat"];
   var pool=vocab.filter(function(v){return cat==="all"||v.cat===cat;});
   var pick=pool.slice().sort(function(){return Math.random()-0.5;}).slice(0,8);
   memCards=[];
@@ -1200,7 +1570,7 @@ function showMemWin() {
 var lIdx=0,lQueue=[],lCorrect=0,lAnswered=false;
 
 function startLuecke() {
-  var cat=document.getElementById("luecke-cat").value;
+  var cat=spielKat["luecke-cat"];
   var pool=lueckeSentences.filter(function(s){return cat==="all"||s.cat===cat;});
   lQueue=pool.slice().sort(function(){return Math.random()-0.5;});
   lIdx=0; lCorrect=0; lAnswered=false; renderLuecke();
@@ -1517,42 +1887,6 @@ function openPrint(idx, mode) {
   pw.document.close();
   pw.onload = function(){ pw.focus(); pw.print(); };
 }
-
-function closePrint() {
-  document.getElementById('print-overlay').classList.remove('show');
-}
-
-function doPrint() {
-  var sheet = document.getElementById('print-sheet');
-  var original = document.body.innerHTML;
-  var printContent = document.getElementById('print-content').innerHTML;
-  var printWindow = window.open('','_blank');
-  printWindow.document.write('<html><head><title>Arbeitsblatt - '+s.title+'</title>');
-  printWindow.document.write('<style>');
-  printWindow.document.write('body{font-family:Arial,sans-serif;padding:15mm;max-width:210mm;margin:0 auto}');
-  printWindow.document.write('h2{font-size:22px;color:#0F6E56;text-align:center;margin-bottom:12px}');
-  printWindow.document.write('.ps-img{width:100%;object-fit:contain;border-radius:8px;margin-bottom:16px}');
-  printWindow.document.write('.ps-hint{font-size:12px;color:#888;margin-bottom:10px;font-style:italic}');
-  printWindow.document.write('.ps-text{font-size:18px;line-height:3.5;color:#2c2c2a;margin-bottom:16px}');
-  printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
-  
-  printWindow.document.write('.ps-worterkasten{border:2px solid #0F6E56;border-radius:8px;padding:12px;margin-top:12px}');
-  printWindow.document.write('.de-box{background:#f7f5f0;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#555;font-style:italic}');
-  printWindow.document.write('.ps-gap-wrap{display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;margin:0 4px}.ps-gap{display:block;width:110px;border-bottom:2px solid #0F6E56;margin-bottom:1px}.ps-hint-de{font-size:10px;color:#1D9E75;text-align:center;line-height:1.2}');
-  printWindow.document.write('.ps-worterkasten h3{font-size:14px;color:#0F6E56;margin-bottom:8px}');
-  printWindow.document.write('.ps-wort{display:inline-block;margin:4px 8px;font-size:15px;font-weight:bold;color:#0F6E56;background:#E1F5EE;padding:3px 10px;border-radius:6px}');
-  printWindow.document.write('.ps-wort small{display:block;font-size:11px;color:#888;font-weight:normal;text-align:center}');
-  printWindow.document.write('</style></head><body>');
-  printWindow.document.write(printContent);
-  printWindow.document.write('</body></html>');
-  printWindow.document.close();
-  printWindow.focus();
-  setTimeout(function(){ printWindow.print(); }, 500);
-}
-
-
-
-
 
 // ── MYTHOLOGIE QUIZ ───────────────────────────────────────
 var mythFragen = [
@@ -2467,6 +2801,7 @@ function showBMemWin() {
 var currentAlpha = 0;
 
 function renderAlphaGrid() {
+  navUnterpunkt(null);
   document.getElementById("alpha-detail").style.display="none";
   var html='<div class="alpha-grid">';
   for(var i=0;i<alphabet.length;i++){
@@ -2486,6 +2821,7 @@ function renderAlphaGrid() {
 function openAlpha(idx) {
   currentAlpha=idx;
   var a=alphabet[idx];
+  navUnterpunkt(a.gross + " " + a.klein, renderAlphaGrid);
   var bsp="";
   for(var i=0;i<a.beispiele.length;i++){
     var b=a.beispiele[i];
@@ -2808,10 +3144,18 @@ function hbEsc(t) {
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-function hbMerken() {
+// behalteStand = true: nur die Einstellungen sichern, die gemerkte
+// Stelle aber stehen lassen. Das braucht es, wenn ein Buch von selbst
+// bei Kapitel 1 aufgeht - sonst waere der Stand ueberschrieben, bevor
+// das Kind den Knopf "Weiterhoeren" ueberhaupt gesehen hat.
+function hbMerken(behalteStand) {
   try {
+    var alt = behalteStand ? hbHolen() : {};
+    var halten = behalteStand && typeof alt.kap === "number";
     localStorage.setItem("grApp_hb", JSON.stringify({
-      buch: hbBuch, kap: hbKap, sprache: hbSprache,
+      buch: halten ? alt.buch : hbBuch,
+      kap:  halten ? alt.kap  : hbKap,
+      sprache: hbSprache,
       auto: hbAutoWeiter, lesen: hbMitlesen}));
   } catch(e) {}
 }
@@ -2897,6 +3241,7 @@ function hbListe() {
   }
   document.getElementById("hb-list").style.display = "block";
   document.getElementById("hb-detail").style.display = "none";
+  navUnterpunkt(null);
 }
 
 // ── Mitlese-Texte nachladen ───────────────────────────────
@@ -3097,15 +3442,21 @@ function hbLoeschen(bi) {
 function hbSchalter(was, an) {
   if(was === "auto")  hbAutoWeiter = an;
   if(was === "lesen") { hbMitlesen = an; hbOeffne(hbBuch, hbKap); }
-  hbMerken();
+  hbMerken(true);   // ein Haekchen verschiebt die gemerkte Stelle nicht
 }
 
 function hbOeffne(bi, ki, gleichSpielen) {
   hbBuch = bi;
   var b = hbIndex[bi], kap = b.kapitel || [];
-  if(typeof ki !== "number") {
+  // Ein Buch faengt IMMER bei Kapitel 1 an. Frueher sprang es auf die
+  // zuletzt gehoerte Stelle - fuer ein Kind sieht das aus, als suche
+  // die App sich wahllos ein Kapitel aus, und es landet mitten in einer
+  // Geschichte, die es noch gar nicht kennt. Wer schon weiter war,
+  // bekommt stattdessen einen Knopf zum Weiterhoeren.
+  var vonSelbst = (typeof ki !== "number");
+  if(vonSelbst) {
     var m = hbHolen();
-    ki = (m.buch === bi && typeof m.kap === "number" && kap[m.kap]) ? m.kap : 0;
+    ki = 0;
     if(m.sprache === "de" || m.sprache === "gr") hbSprache = m.sprache;
   }
   hbKap = ki;
@@ -3119,6 +3470,18 @@ function hbOeffne(bi, ki, gleichSpielen) {
     html += '<div style="font-size:12px;color:#999;margin-top:6px;line-height:1.6">'+b.beschreibung+'</div>';
   html += '</div>';
 
+  // Knopf zum Weiterhoeren - nur wenn wirklich schon weiter gehoert
+  // wurde und wir gerade am Anfang stehen.
+  var stand = hbHolen();
+  if(ki === 0 && stand.buch === bi && typeof stand.kap === "number"
+     && stand.kap > 0 && kap[stand.kap]) {
+    var wnr = kap[stand.kap].nr || (stand.kap + 1);
+    html += '<div style="text-align:center;margin:0 0 14px">'
+         +  '<button class="hb-btn" style="padding:10px 20px;font-size:14px;border-radius:18px"'
+         +  ' onclick="hbOeffne('+bi+','+stand.kap+')">'
+         +  '▶ Weiterhören ab Kapitel ' + wnr + '</button></div>';
+  }
+
   html += '<div class="hb-offline" id="hb-offline">…</div>';
 
   // Der Spieler
@@ -3129,9 +3492,9 @@ function hbOeffne(bi, ki, gleichSpielen) {
   if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
 
   html += '<div class="hb-tabs">';
-  html += '<button class="hb-tab'+(hbSprache==="de"?" on":"")+'"'
+  html += '<button class="hb-tab wahl'+(hbSprache==="de"?" on":"")+'"'
        +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
-  html += '<button class="hb-tab'+(hbSprache==="gr"?" on":"")+'"'
+  html += '<button class="hb-tab wahl'+(hbSprache==="gr"?" on":"")+'"'
        +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
   html += '</div>';
 
@@ -3182,13 +3545,19 @@ function hbOeffne(bi, ki, gleichSpielen) {
   document.getElementById("hb-detail").innerHTML = html;
   document.getElementById("hb-detail").style.display = "block";
   document.getElementById("hb-list").style.display = "none";
-  hbMerken();
+  navUnterpunkt(b.titel, hbListe);
+  // Blosses Aufschlagen verschiebt die gemerkte Stelle nicht - das tut
+  // erst a.onplay weiter unten, wenn tatsaechlich gehoert wird.
+  hbMerken(true);
   hbOfflinePruefen(bi);
   hbTextLaden(b.id, function() { hbInhaltFuellen(bi, ki); });
 
   var a = document.getElementById("hb-audio");
   if(a) {
     a.onended = function() { if(hbAutoWeiter) hbWeiter(); };
+    // Erst wenn wirklich gehoert wird, ist das hier die Stelle,
+    // an der es beim naechsten Mal weitergehen soll.
+    a.onplay  = function() { hbMerken(); };
     if(gleichSpielen) {
       var p = a.play();
       if(p && p.catch) p.catch(function() {});   // manche Browser wollen erst einen Klick
@@ -3201,7 +3570,8 @@ function hbOeffne(bi, ki, gleichSpielen) {
 function hbInhaltFuellen(bi, ki) {
   if(hbBuch !== bi || hbKap !== ki) return;         // inzwischen weitergeblättert
   var b = hbIndex[bi], k = (b.kapitel||[])[ki] || {};
-  var t = (hbTexte[b.id] || {})["" + (k.nr < 10 ? "0" : "") + k.nr] || {};
+  var nr = k.nr || (ki + 1);
+  var t = (hbTexte[b.id] || {})[(nr < 10 ? "0" : "") + nr] || {};
   var ws = t.woerter || [], karte = hbWortBau(ws);
 
   var chips = document.getElementById("hb-chips");
@@ -3253,6 +3623,7 @@ function renderComicList() {
   document.getElementById("comic-grid").innerHTML = html;
   document.getElementById("comic-list").style.display = "block";
   document.getElementById("comic-detail").style.display = "none";
+  navUnterpunkt(null);
 }
 
 function comicAnzahlLuecken(c) {
@@ -3299,6 +3670,7 @@ function openComic(ci) {
   document.getElementById("comic-detail").innerHTML = html;
   document.getElementById("comic-detail").style.display = "block";
   document.getElementById("comic-list").style.display = "none";
+  navUnterpunkt(c.titel, renderComicList);
   window.scrollTo(0,0);
 }
 
@@ -3462,6 +3834,11 @@ function abBtnUpdate(idx) {
 
 // ── INIT ──────────────────────────────────────────────────
 loadState();
+kachelnMalen();
+verlaufSperre = true;
+showScreen('start');
+verlaufSperre = false;
+try { history.replaceState({schirm:"start"}, ""); } catch(e) {}
 buildStoryGrid();
 renderComicList();
 renderAlphaGrid();
