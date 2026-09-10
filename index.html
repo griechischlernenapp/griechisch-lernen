@@ -473,7 +473,16 @@ body, button, input, select, textarea {
 .kachel:hover{border-color:#1D9E75}
 .kachel:active{transform:scale(.97)}
 .kachel img{width:100%;height:132px;object-fit:cover;display:block;background:#f7f6f2}
-.kachel .k-t{padding:11px 8px;text-align:center;font-size:16px;font-weight:bold;color:#2c2c2a}
+.kachel .k-t{padding:9px 6px 10px;text-align:center;line-height:1.25;
+  display:flex;flex-direction:column;justify-content:center;min-height:56px}
+/* Griechisch zuerst und betont - das ist das Wort, das haengenbleiben soll.
+   Deutsch darunter kleiner, als Erklaerung. */
+.kachel .k-gr{display:block;font-size:15px;font-weight:bold;color:#0F6E56;
+  overflow-wrap:break-word;hyphens:auto}
+/* Lange Woerter wie "Ακουστικό βιβλίο" etwas kleiner, damit jede Kachel
+   einzeilig bleibt und alle Reihen gleich hoch sind. */
+.kachel .k-gr.lang{font-size:13px}
+.kachel .k-de{display:block;font-size:12px;color:#5F5E5A;margin-top:2px}
 
 /* Zurück: ein einziger großer Knopf, sonst nichts */
 .zurueck-leiste{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -515,7 +524,9 @@ body.in-uebung .sterne-knopf{font-size:13px;padding:6px 14px}
 
 /* Startbildschirm: nur vier Kacheln, also duerfen sie gross sein */
 .kachel-grid.gross img{height:150px}
-.kachel-grid.gross .k-t{font-size:18px;padding:13px 8px}
+.kachel-grid.gross .k-t{padding:11px 8px 12px;min-height:60px}
+.kachel-grid.gross .k-gr{font-size:17px}
+.kachel-grid.gross .k-de{font-size:13px}
 
 /* ── Letzte Ebene: überall dieselbe Sandfarbe ──────────────
    Alles, womit man INNERHALB einer Übung auswählt – Kategorien,
@@ -988,26 +999,32 @@ function resetProgress() {
 // Stufe mit den Uebungen dieses Bereichs, antippen fuehrt in die
 // Uebung. Zurueck geht immer eine Stufe hoch, und der Pfad oben
 // zeigt, wo man gerade ist.
+// Die vierte Angabe ist ein Ersatz-Zeichen. Es erscheint nur, wenn das
+// Bild fehlt - dann steht dort nicht ueberall dasselbe graue Symbol,
+// sondern etwas, woran ein Kind die Kachel trotzdem erkennt.
+// Aufbau einer Unterkachel: [Bildschirm, Deutsch, Bild, Ersatzzeichen, Griechisch]
+// Auf der Kachel steht das griechische Wort oben und gross, das deutsche
+// klein darunter - so liest das Kind bei jedem Tippen zuerst Griechisch.
 var BEREICHE = [
-  {id:"lesen",  titel:"Lesen",  bild:"story-hero_perseus_fighting_against_medusa", ziele:[
-     ["stories","Geschichten","story-hero_theseus_fighting_against_minotaur"],
-     ["comics","Bildgeschichten","story-a_happy_family_sitting_together_at_a_greek_restaurant"]]},
-  {id:"hoeren", titel:"Hören",  bild:"odysseus_01_departure_troy", ziele:[
-     ["hoerbuch","Hörbuch","odysseus_01_departure_troy"],
-     ["convo","Gespräche","story-a_hair_salon_scene_a_mother_sitting_in_daughter_waiting"]]},
-  {id:"lernen", titel:"Lernen", bild:"klasse", ziele:[
-     ["vocab","Wörter","katze"],
-     ["alphabet","Alphabet","alpha"],
-     ["grammatik","Grammatik","buch"]]},
-  {id:"spielen",titel:"Spielen",bild:"zwei", ziele:[
-     ["quiz","Quiz","schatz"],
-     ["memory","Memory","geschenk"],
-     ["luecke","Lückentext","tafel"],
-     ["wortbau","Wortbau","stift"],
-     ["mythos","Mythologie","story-12_greek_gods_with_names_greek_mythology"],
-     ["geo","Geographie","story-map_of_greece_01"],
-     ["buchstaben-quiz","Buchstaben-Quiz","beta"],
-     ["buchstaben-memory","Buchstaben-Memory","gamma"]]}
+  {id:"lesen",  titel:"Lesen",  gr:"Διαβάζω", bild:"nav-lesen",   emoji:"📖", ziele:[
+     ["stories","Geschichten","nav-geschichten","📚","Ιστορίες"],
+     ["comics","Bildgeschichten","nav-bildgeschichten","💬","Κόμικς"]]},
+  {id:"hoeren", titel:"Hören",  gr:"Ακούω",   bild:"nav-hoeren",  emoji:"🎧", ziele:[
+     ["hoerbuch","Hörbuch","odysseus_01_departure_troy","⛵","Ακουστικό βιβλίο"],
+     ["convo","Gespräche","nav-gespraeche","🗣️","Διάλογοι"]]},
+  {id:"lernen", titel:"Lernen", gr:"Μαθαίνω", bild:"nav-lernen",  emoji:"✏️", ziele:[
+     ["vocab","Wörter","nav-woerter","🃏","Λέξεις"],
+     ["alphabet","Alphabet","alpha","🔤","Αλφάβητο"],
+     ["grammatik","Grammatik","nav-grammatik","🍎","Γραμματική"]]},
+  {id:"spielen",titel:"Spielen",gr:"Παίζω",   bild:"nav-spielen", emoji:"🎲", ziele:[
+     ["quiz","Quiz","nav-quiz","💡","Κουίζ"],
+     ["memory","Memory","nav-memory","🎴","Μνήμη"],
+     ["luecke","Lückentext","nav-lueckentext","✂️","Κενά"],
+     ["wortbau","Wortbau","nav-wortbau","🧱","Φτιάχνω λέξεις"],
+     ["mythos","Mythologie","story-12_greek_gods_with_names_greek_mythology","⚡","Μυθολογία"],
+     ["geo","Geographie","story-map_of_greece_01","🗺️","Γεωγραφία"],
+     ["buchstaben-quiz","Buchstaben-Quiz","nav-buchstaben-quiz","🎯","Κουίζ γραμμάτων"],
+     ["buchstaben-memory","Buchstaben-Memory","nav-buchstaben-memory","🎴","Μνήμη γραμμάτων"]]}
 ];
 var aktBereich = null;
 
@@ -1023,16 +1040,20 @@ function zielTitel(id) {
   if(id === "progress") return "Fortschritt";
   return "";
 }
-function kachel(ziel, titel, bild) {
+function kachel(ziel, titel, bild, emoji, gr) {
   return '<div class="kachel" onclick="' + ziel + '">'
-       + '<img src="bilder/' + bild + '.png" alt="" data-emoji="🖼️" onerror="bildErsatz(this)">'
-       + '<div class="k-t">' + titel + '</div></div>';
+       + '<img src="bilder/' + bild + '.png" alt="" data-emoji="' + (emoji || "🖼️")
+       + '" onerror="bildErsatz(this)">'
+       + '<div class="k-t">'
+       + (gr ? '<span class="k-gr' + (gr.length > 12 ? ' lang' : '') + '">' + gr + '</span>' : '')
+       + '<span class="k-de">' + titel + '</span></div></div>';
 }
 
 function kachelnMalen() {
   var h = "", i;
   for(i=0;i<BEREICHE.length;i++)
-    h += kachel("zeigeBereich('" + BEREICHE[i].id + "')", BEREICHE[i].titel, BEREICHE[i].bild);
+    h += kachel("zeigeBereich('" + BEREICHE[i].id + "')", BEREICHE[i].titel,
+                BEREICHE[i].bild, BEREICHE[i].emoji, BEREICHE[i].gr);
   document.getElementById("kachel-grid").innerHTML = h;
 }
 
@@ -1041,7 +1062,7 @@ function zeigeBereich(bid) {
   if(!aktBereich) return;
   var h = "", z = aktBereich.ziele;
   for(var j=0;j<z.length;j++)
-    h += kachel("showScreen('" + z[j][0] + "')", z[j][1], z[j][2]);
+    h += kachel("showScreen('" + z[j][0] + "')", z[j][1], z[j][2], z[j][3], z[j][4]);
   document.getElementById("gruppe-grid").innerHTML = h;
   showScreen("gruppe");
 }
