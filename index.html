@@ -325,13 +325,23 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 /* MEMORY */
 .mem-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
 .mem-stats{font-size:13px;color:#888}
-.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.mcard{height:130px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:6px;position:relative;overflow:hidden}
+/* grid-auto-rows:1fr macht alle Reihen so hoch wie die hoechste Karte.
+   Dadurch darf die Karte mitwachsen, wenn das Bild auf breiten
+   Bildschirmen groesser wird, ohne dass der Text unten abgeschnitten
+   wird - und verdeckte Karten bleiben trotzdem gleich hoch. */
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;grid-auto-rows:1fr}
+.mcard{height:auto;min-height:118px;border-radius:12px;border:1.5px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all 0.2s;text-align:center;padding:6px;position:relative;overflow:hidden}
 .mcard.facedown{background:#1D9E75;cursor:pointer}
 .mcard.facedown::after{content:"?";color:white;font-size:24px;font-weight:bold}
 .mcard.flipped{background:#E1F5EE;border-color:#5DCAA5}
 .mcard.matched{background:#E1F5EE;border-color:#1D9E75;opacity:0.55;cursor:default}
-.mcard-inner{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;overflow:hidden}
+.mcard-inner{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;height:100%;justify-content:center;overflow:hidden}
+/* Das Bild war auf 44x44 festgenagelt und schwamm in der Karte. Jetzt
+   nimmt es die volle Kartenbreite. "cover" statt "contain", weil die
+   Bilder breit sind (704x384) und sonst nur ein schmaler Streifen in
+   der Mitte uebrigbliebe; 3:2 schneidet nur wenig ab. */
+.mcard-img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;border-radius:6px}
+.mcard .bild-ersatz{width:100%;aspect-ratio:3/2;font-size:26px;border-radius:6px;border:none}
 .mcard-gr{font-size:14px;font-weight:bold;color:#0F6E56;word-break:break-word;width:100%;text-align:center}
 .mcard-pr{font-size:11px;color:#1D9E75;font-style:italic;word-break:break-word;width:100%;text-align:center}
 .mcard-de{font-size:14px;font-weight:bold;color:#2c2c2a;word-break:break-word;width:100%;text-align:center}
@@ -372,8 +382,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .qpr{font-size:14px;color:#1D9E75;font-style:italic}
 .qchoices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .qc{padding:10px 8px 12px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:all 0.15s;color:#2c2c2a;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px}
-.qc .svg-img{width:78px;height:78px;border-radius:8px}
-.qc .bild-ersatz{width:78px;height:78px;font-size:38px;border-radius:8px}
+/* Wie beim Memory: volle Breite statt kleines Quadrat, sonst steht das
+   breite Bild als schmaler Streifen in einem leeren Kasten. */
+.qc .svg-img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:8px}
+.qc .bild-ersatz{width:100%;aspect-ratio:3/2;font-size:38px;border-radius:8px}
 .qc-t{font-weight:bold;line-height:1.25}
 .qc:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
 .qc.correct{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56;font-weight:bold}
@@ -1585,10 +1597,14 @@ function flipMemCard(idx) {
   var c=memCards[idx]; var el=document.getElementById(c.id);
   if(!el||el.classList.contains("matched")||el.classList.contains("flipped")) return;
   el.classList.remove("facedown"); el.classList.add("flipped");
+  var mbild = '<img src="bilder/'
+            + c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o")
+                       .replace(/ü/g,"u").replace(/ß/g,"ss")
+            + '.png" class="mcard-img" alt="" data-emoji="🃏" onerror="bildErsatz(this)">';
   if(c.type==="gr"){
-    el.innerHTML='<div class="mcard-inner"><img src="bilder/'+c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png" style="width:44px;height:44px;object-fit:contain" alt=""><span class="mcard-gr">'+c.word.gr+'</span><span class="mcard-pr">'+c.word.pr+'</span></div>';
+    el.innerHTML='<div class="mcard-inner">'+mbild+'<span class="mcard-gr">'+c.word.gr+'</span><span class="mcard-pr">'+c.word.pr+'</span></div>';
   } else {
-    el.innerHTML='<div class="mcard-inner"><img src="bilder/'+c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss")+'.png" style="width:44px;height:44px;object-fit:contain" alt=""><span class="mcard-de">'+c.word.de+'</span></div>';
+    el.innerHTML='<div class="mcard-inner">'+mbild+'<span class="mcard-de">'+c.word.de+'</span></div>';
   }
   memFlipped.push(idx);
   if(memFlipped.length===2){
