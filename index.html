@@ -373,7 +373,10 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .qword{font-size:28px;font-weight:bold;color:#0F6E56;margin-bottom:4px}
 .qpr{font-size:14px;color:#1D9E75;font-style:italic}
 .qchoices{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.qc{padding:13px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:all 0.15s;color:#2c2c2a;display:flex;align-items:center;justify-content:center;gap:8px}
+.qc{padding:10px 8px 12px;border-radius:12px;border:1.5px solid #ddd;background:white;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:all 0.15s;color:#2c2c2a;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px}
+.qc .svg-img{width:78px;height:78px;border-radius:8px}
+.qc .bild-ersatz{width:78px;height:78px;font-size:38px;border-radius:8px}
+.qc-t{font-weight:bold;line-height:1.25}
 .qc:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
 .qc.correct{background:#E1F5EE;border-color:#1D9E75;color:#0F6E56;font-weight:bold}
 .qc.wrong{background:#FAECE7;border-color:#D85A30;color:#993C1D}
@@ -1692,20 +1695,34 @@ function renderQuiz() {
   var dots="";
   for(var i=0;i<qData.length;i++) dots+='<div class="qdot'+(i<qIdx?" done":i===qIdx?" cur":"")+'"></div>';
   var grEsc=q.gr.replace(/'/g,"\\'");
+  // Das Bild gehoert zu den ANTWORTEN, nicht zur Frage. Stand es oben
+  // bei der Frage, sah das Kind das Meer, suchte "Meer" und musste das
+  // griechische Wort gar nicht ansehen - der Lerneffekt fiel weg.
+  // Jetzt traegt jede Antwort ihr eigenes Bild: das Bild hilft beim
+  // Verstehen der vier Moeglichkeiten, verraet aber nicht mehr, welche
+  // die richtige ist.
   var ch="";
   for(var i=0;i<choices.length;i++){
     var de=choices[i].de.replace(/'/g,"\\'");
     var qde=q.de.replace(/'/g,"\\'");
-    ch+='<button class="qc" onclick="checkQuiz(this,\''+de+'\',\''+qde+'\',\''+grEsc+'\')">'+choices[i].de+'</button>';
+    ch+='<button class="qc" data-de="'+hEsc(choices[i].de)+'"'
+      + ' onclick="checkQuiz(this,\''+de+'\',\''+qde+'\',\''+grEsc+'\')">'
+      + imgTag(choices[i].de.toLowerCase(),"")
+      + '<span class="qc-t">'+choices[i].de+'</span></button>';
   }
   document.getElementById("quiz-area").innerHTML=
     '<div class="quiz-prog">'+dots+'</div>'+
     '<div class="quiz-card">'+
-    '<div class="qimg">'+imgTag(q.de.toLowerCase(),"")+'</div>'+
     '<div class="qq">Was bedeutet dieses Wort auf Deutsch?</div>'+
     '<div class="qword">'+q.gr+tonKnopf(q.gr)+'</div>'+
     '<div class="qpr">'+q.pr+'</div></div>'+
     '<div class="qchoices">'+ch+'</div>';
+}
+
+// Anfuehrungszeichen fuer ein HTML-Attribut entschaerfen
+function hEsc(t) {
+  return String(t==null?"":t).replace(/&/g,"&amp;").replace(/"/g,"&quot;")
+                             .replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
 function checkQuiz(btn,chosen,correct,gr) {
@@ -1714,7 +1731,11 @@ function checkQuiz(btn,chosen,correct,gr) {
   if(chosen===correct){btn.classList.add("correct");qScore++;markLearned(gr);}
   else{
     btn.classList.add("wrong");
-    for(var i=0;i<btns.length;i++){if(btns[i].textContent.trim().indexOf(correct)!==-1) btns[i].classList.add("correct");}
+    // Genau vergleichen. Frueher wurde im Text gesucht - dabei galt bei
+    // der Loesung "Boot" auch "U-Boot" als richtig markiert.
+    for(var i=0;i<btns.length;i++){
+      if(btns[i].getAttribute("data-de")===correct) btns[i].classList.add("correct");
+    }
   }
   setTimeout(function(){qIdx++;renderQuiz();},1200);
 }
