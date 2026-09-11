@@ -251,8 +251,8 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
   gap:.1em;line-height:1;margin-bottom:4px;
   font-family:Comfortaa,"Segoe UI",system-ui,sans-serif;font-weight:700;font-size:42px;
   paint-order:stroke fill}
-.alpha-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:2px #2E7DD1}
-.alpha-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:2px #E2710F;font-size:.82em}
+.alpha-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:0.8px #2E7DD1}
+.alpha-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:0.8px #E2710F;font-size:.82em}
 /* Sigma hat zwei Kleinformen. Stehen beide da, wird es sonst zu breit. */
 .alpha-zeichen.zwei{font-size:34px}
 .alpha-letters{font-size:16px;font-weight:bold;color:#0F6E56;margin-bottom:1px}
@@ -263,8 +263,8 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .alpha-detail-zeichen{flex-shrink:0;display:flex;align-items:baseline;gap:.1em;
   line-height:1;font-family:Comfortaa,"Segoe UI",system-ui,sans-serif;font-weight:700;
   font-size:52px;paint-order:stroke fill}
-.alpha-detail-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:2.5px #2E7DD1}
-.alpha-detail-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:2.5px #E2710F;font-size:.82em}
+.alpha-detail-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:1px #2E7DD1}
+.alpha-detail-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:1px #E2710F;font-size:.82em}
 .alpha-detail-zeichen.zwei{font-size:42px}
 .alpha-detail-letters{font-size:28px;font-weight:bold;color:#0F6E56}
 .alpha-detail-name{font-size:16px;color:#2c2c2a;font-weight:bold}
@@ -1862,43 +1862,64 @@ function renderProgress() {
 
 
 // ── ALPHABET AUSMALBILD ──────────────────────────────────
-// Das Ausmalblatt fuers ganze Alphabet. Frueher ein fertiges Bild; jetzt
-// aus derselben Schrift gesetzt wie in der App - gleiche Formen, gleiche
-// Groessen, und in jeder Druckaufloesung scharf. Ausgemalt wird das ganze
-// Alphabet auf einem Blatt; einzelne Buchstaben bekommen keine Vorlage.
+// Das Ausmalblatt fuers ganze Alphabet.
+//
+// Gezeichnet wird es aus echten Umrisslinien (ALPHA_UMRISSE in
+// alphabet.js), nicht aus Schrift. Der Grund ist ein Druckfehler, der
+// sich sonst nicht abstellen laesst: steht im Druckdialog
+// "Hintergrundgrafiken" aus - das ist die Voreinstellung -, faerbt der
+// Browser helle Schrift dunkel ein, damit sie auf Papier lesbar bleibt.
+// Aus den hohlen Buchstaben wurden dadurch schwarze Kloetze. Eine Linie
+// hat keine Fuellung, die eingefaerbt werden koennte.
+//
+// Ausserdem sind die Buchstaben hier absichtlich dicker als in der App:
+// jeder wird rundum um DICK aufgeblasen, damit innen genug Platz zum
+// Nachfahren und Ausmalen bleibt. Gezeichnet wird zweimal - erst die
+// aufgeblasene Form in Schwarz, darueber dieselbe Form etwas kleiner in
+// Weiss. Was stehen bleibt, ist ein Band von STRICH Staerke.
 function printAlphabetColoring() {
-  var baseUrl = window.location.href.replace(/[^/]*$/, '');
+  var LUECKE = 80;    // Abstand zwischen Gross- und Kleinbuchstabe
+  var BREIT  = 1900;  // Bezugsbreite - haelt alle Buchstaben gleich gross
+  var DICK   = 160;   // so viel wird rundum aufgeblasen
+  var STRICH = 45;    // Staerke der Umrisslinie
+
+  function umriss(zeichen) {
+    var teile = [], x = 0, i, u;
+    for (i = 0; i < zeichen.length; i++) {
+      u = ALPHA_UMRISSE[zeichen.charAt(i)];
+      if (!u) continue;
+      teile.push('<path d="' + u.d + '" transform="translate(' + x + ',0)"/>');
+      x += u.w + LUECKE;
+    }
+    var ges = x - LUECKE;
+    var breit = Math.max(BREIT, ges);
+    var f = breit / BREIT;                 // Sigma ist breiter, alles schrumpft mit
+    var links = Math.round((breit - ges) / 2);
+    var pfade = '<g transform="translate(' + links + ',0)">' + teile.join('') + '</g>';
+    return '<svg viewBox="' + (-DICK/2) + ' ' + (-(881 + DICK/2)) + ' '
+         + (breit + DICK) + ' ' + (1115 + DICK) + '" preserveAspectRatio="xMidYMid meet">'
+         + '<g transform="scale(1,-1)" stroke-linejoin="round">'
+         + '<g fill="#111" stroke="#111" stroke-width="' + Math.round(DICK*f) + '">' + pfade + '</g>'
+         + '<g fill="#fff" stroke="#fff" stroke-width="' + Math.round((DICK-2*STRICH)*f) + '">' + pfade + '</g>'
+         + '</g></svg>';
+  }
 
   var css = [
-    '@font-face{font-family:Comfortaa;font-weight:700;',
-    '  src:url("'+baseUrl+'schrift/comfortaa-griechisch-700.woff2") format("woff2");}',
     '@page { size: A4 landscape; margin: 8mm; }',
     'body { margin:0; font-family:Arial,sans-serif; }',
     '.alpha-color-title { text-align:center; padding:0 0 4mm; font-size:14px; color:#1D9E75; font-weight:bold; }',
     '.ac-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:3mm; }',
-    '.ac-karte { border:0.4mm dashed #cfcfcf; border-radius:3mm; padding:4mm 1mm 3mm; text-align:center; }',
-    // Weisse Fuellung mit dunklem Rand: genau das, was ein Kind ausmalt.
-    // Die Buchstaben sind so gross gewaehlt, dass die vier Reihen das
-    // Querformat fuellen - ein Ausmalbild mit halber leerer Seite waere
-    // Papierverschwendung und fuer kleine Haende zu eng.
-    '.ac-z { height:30mm; display:flex; align-items:baseline; justify-content:center;',
-    '  gap:0.08em; line-height:1; font-family:Comfortaa,Arial,sans-serif; font-weight:700;',
-    '  font-size:52pt; color:#fff; -webkit-text-stroke:1mm #111; paint-order:stroke fill; }',
-    '.ac-z.zwei { font-size:38pt; }',
-    '.ac-z .kl { font-size:0.82em; }',
-    '.ac-name { font-size:9pt; color:#555; margin-top:2mm; }',
+    '.ac-karte { border:0.4mm dashed #cfcfcf; border-radius:3mm; padding:3mm 2mm 2mm; text-align:center; }',
+    '.ac-karte svg { width:100%; height:26mm; display:block; }',
+    '.ac-name { font-size:9pt; color:#555; margin-top:1.5mm; }',
     '.alpha-color-footer { font-size:8pt; color:#bbb; text-align:center; padding-top:3mm; }'
   ].join('');
 
   var karten = '';
   for (var i = 0; i < alphabet.length; i++) {
-    var a = alphabet[i], formen = a.klein.split("/"), kl = '';
-    for (var k = 0; k < formen.length; k++) {
-      kl += '<span class="kl">' + formen[k] + '</span>';
-    }
+    var a = alphabet[i];
     karten += '<div class="ac-karte">'
-            + '<div class="ac-z' + (formen.length > 1 ? ' zwei' : '') + '">'
-            + '<span>' + a.gross + '</span>' + kl + '</div>'
+            + umriss(a.gross + a.klein.split("/").join(""))
             + '<div class="ac-name">' + a.nameGr + '</div></div>';
   }
 
@@ -1908,7 +1929,7 @@ function printAlphabetColoring() {
 
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
   fullHtml += '<title>Alphabet Ausmalbild</title>';
-  fullHtml += '<style>'+css+'</style></head><body>';
+  fullHtml += '<style>' + css + '</style></head><body>';
   fullHtml += body + '</body></html>';
 
   var pw = window.open('', '_blank');
@@ -1916,17 +1937,8 @@ function printAlphabetColoring() {
   pw.document.open();
   pw.document.write(fullHtml);
   pw.document.close();
-  // Erst drucken, wenn die Schrift geladen ist - sonst kommt das Blatt in
-  // der Ersatzschrift heraus, und die hat andere Buchstabenformen.
-  pw.onload = function(){
-    var los = function(){ pw.focus(); pw.print(); };
-    if (pw.document.fonts && pw.document.fonts.ready) {
-      pw.document.fonts.ready.then(los);
-      setTimeout(los, 2500);     // Notbremse, falls das Versprechen ausbleibt
-    } else {
-      setTimeout(los, 400);
-    }
-  };
+  // Keine Schrift mehr zu laden - die Linien stehen sofort.
+  pw.onload = function(){ pw.focus(); pw.print(); };
 }
 
 // ── AUSMALBILD DRUCKEN ───────────────────────────────────
