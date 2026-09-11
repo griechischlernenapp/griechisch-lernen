@@ -17,13 +17,10 @@ var categories = [
   {id:"gefuehle",   label:"😊 Gefühle"},
   {id:"wetter",     label:"🌤️ Wetter"},
   {id:"wochentage", label:"📅 Wochentage"},
-  // Neue Kategorien für die Wörter aus vocabGeplant.
-  // Erst einkommentieren, wenn das erste Wort dieser Kategorie
-  // in vocab[] steht – sonst zeigt der Filter eine leere Liste.
-  // {id:"familie",    label:"👨‍👩‍👧 Familie"},
-  // {id:"stadt",      label:"🏛️ Stadt"},
-  // {id:"alltag",     label:"🧩 Alltag"},
-  // {id:"maerchen",   label:"🐉 Märchen & Helden"}
+  {id:"familie",    label:"👨‍👩‍👧 Familie"},
+  {id:"stadt",      label:"🏛️ Stadt"},
+  {id:"alltag",     label:"🧩 Alltag"},
+  {id:"maerchen",   label:"🐉 Märchen & Helden"}
 ];
 
 // SVG-Illustrationen – kindgerecht, bunt, inline
@@ -876,26 +873,17 @@ var vocab = [
   {de:"Donnerstag",    gr:"Πέμπτη",           art:"η",    pr:"Pemp-ti",               emoji:"📅", cat:"wochentage"},
   {de:"Freitag",       gr:"Παρασκευή",        art:"η",    pr:"Pa-ras-ke-vi",          emoji:"📅", cat:"wochentage"},
   {de:"Samstag",       gr:"Σάββατο",          art:"το",   pr:"Sa-wa-to",              emoji:"📅", cat:"wochentage"},
-  {de:"Sonntag",       gr:"Κυριακή",          art:"η",    pr:"Ki-ri-a-ki",            emoji:"📅", cat:"wochentage"}
-];
+  {de:"Sonntag",       gr:"Κυριακή",          art:"η",    pr:"Ki-ri-a-ki",            emoji:"📅", cat:"wochentage"},
 
-
-// ============================================================
-//  NOCH OHNE BILD  –  vocabGeplant
-//  Diese Wörter sind fertig vorbereitet, aber das passende Bild
-//  in bilder/ fehlt noch. Solange ein Wort hier steht, taucht es
-//  in der App NICHT auf – so entstehen keine kaputten Bilder.
-//
-//  Workflow: Bild in Firefly erzeugen (siehe firefly_bilderliste.xlsx),
-//  als bilder/<dateiname>.png ablegen, dann die Zeile von hier
-//  nach oben in vocab[] verschieben. Fertig.
-//
-//  Dateiname = deutsches Wort, klein, ohne Umlaute
-//  (Beispiel: "Schildkröte" -> schildkrote.png)
-// ============================================================
-
-var vocabGeplant = [
-  // Β β   (Priorität 2)
+  // ══════════════════════════════════════════════════════════
+  //  FRUEHER "vocabGeplant"
+  //  Diese 80 Woerter warteten auf ihre Bilder. Die Bilder und
+  //  die Toene sind da, geprueft am 11.09.2026 - jedes einzelne
+  //  Wort hat bilder/<name>.png und einen Eintrag in
+  //  ton/index.json. Sie standen nur noch in der falschen Liste
+  //  und waren deshalb in der App unsichtbar.
+  // ══════════════════════════════════════════════════════════
+// Β β   (Priorität 2)
   {de:"Boot",           gr:"βάρκα",           art:"η",    pr:"war-ka",             emoji:"🚣", cat:"verkehr"},
   {de:"Frosch",         gr:"βάτραχος",        art:"ο",    pr:"wa-tra-chos",        emoji:"🐸", cat:"tiere"},
   {de:"Vase",           gr:"βάζο",            art:"το",   pr:"wa-zo",              emoji:"🏺", cat:"zuhause"},
@@ -992,9 +980,31 @@ var vocabGeplant = [
   {de:"Ozean",          gr:"ωκεανός",         art:"ο",    pr:"o-ke-a-nos",         emoji:"🌊", cat:"natur"},
   {de:"Schulter",       gr:"ώμος",            art:"ο",    pr:"o-mos",              emoji:"💪", cat:"koerper"},
   {de:"Uhrzeit",        gr:"ώρα",             art:"η",    pr:"o-ra",               emoji:"🕐", cat:"alltag"},
-  {de:"Geschenk",       gr:"δώρο",            art:"το",   pr:"dho-ro",              emoji:"🎁", cat:"alltag"},
+  {de:"Geschenk",       gr:"δώρο",            art:"το",   pr:"dho-ro",              emoji:"🎁", cat:"alltag"}
+];
 
-  // ══════════════════════════════════════════════════════════
+
+// ============================================================
+//  NOCH OHNE BILD  –  vocabGeplant
+//  Diese Wörter sind fertig vorbereitet, aber das passende Bild
+//  in bilder/ fehlt noch. Solange ein Wort hier steht, taucht es
+//  in der App NICHT auf – so entstehen keine kaputten Bilder.
+//
+//  Workflow: Bild erzeugen (bilder-werkstatt.bat, Menuepunkt 8),
+//  als bilder/<dateiname>.png ablegen, dann die Zeile von hier
+//  nach oben in vocab[] verschieben. Fertig.
+//
+//  Dateiname = deutsches Wort, klein, ohne Umlaute
+//  (Beispiel: "Schildkröte" -> schildkrote.png)
+//
+//  Stand 11.09.2026: die 80 Woerter, die hier auf Bilder
+//  warteten, sind fertig und stehen jetzt in vocab[]. Uebrig
+//  sind die 44 Woerter aus dem Hoerbuch - denen fehlen noch die
+//  Bilder, 22 von ihnen auch der Ton.
+// ============================================================
+
+var vocabGeplant = [
+// ══════════════════════════════════════════════════════════
   //  AUS DEM HÖRBUCH »DIE ODYSSEE«
   //  Diese Wörter kommen in den 16 Kapiteln vor, fast alle
   //  mehrfach. Ein Kind, das das Hörbuch gehört hat, kennt sie
