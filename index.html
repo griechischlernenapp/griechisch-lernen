@@ -1864,30 +1864,24 @@ function renderProgress() {
 // ── ALPHABET AUSMALBILD ──────────────────────────────────
 // Das Ausmalblatt fuers ganze Alphabet.
 //
-// Gezeichnet wird es aus echten Umrisslinien (ALPHA_UMRISSE in
-// alphabet.js), nicht aus Schrift. Der Grund ist ein Druckfehler, der
-// sich sonst nicht abstellen laesst: steht im Druckdialog
-// "Hintergrundgrafiken" aus - das ist die Voreinstellung -, faerbt der
-// Browser helle Schrift dunkel ein, damit sie auf Papier lesbar bleibt.
-// Aus den hohlen Buchstaben wurden dadurch schwarze Kloetze. Eine Linie
-// hat keine Fuellung, die eingefaerbt werden koennte.
+// Gezeichnet aus reinen Umrisslinien (ALPHA_UMRISSE in alphabet.js).
+// Warum keine Schrift und keine Flaeche: siehe die Erklaerung dort.
+// Kurz - steht "Hintergrundgrafiken" im Druckdialog aus, faerbt der
+// Browser helle Fuellungen dunkel ein. Hier gibt es keine Fuellung.
 //
-// Ausserdem sind die Buchstaben hier absichtlich dicker als in der App:
-// jeder wird rundum um DICK aufgeblasen, damit innen genug Platz zum
-// Nachfahren und Ausmalen bleibt. Gezeichnet wird zweimal - erst die
-// aufgeblasene Form in Schwarz, darueber dieselbe Form etwas kleiner in
-// Weiss. Was stehen bleibt, ist ein Band von STRICH Staerke.
+// Die Formen sind bereits aufgeblasen, damit innen Platz zum Nachfahren
+// bleibt; hier wird nur noch die Linie darauf gezeichnet.
 function printAlphabetColoring() {
-  var LUECKE = 80;    // Abstand zwischen Gross- und Kleinbuchstabe
-  var BREIT  = 1900;  // Bezugsbreite - haelt alle Buchstaben gleich gross
-  var DICK   = 160;   // so viel wird rundum aufgeblasen
+  var LUECKE = 160;   // Abstand zwischen Gross- und Kleinbuchstabe
+  var BREIT  = 2000;  // Bezugsbreite - haelt alle Buchstaben gleich gross
+  var RAND   = 100;   // Luft, damit die Linie nicht am Rand klebt
   var STRICH = 45;    // Staerke der Umrisslinie
 
   function umriss(zeichen) {
     var teile = [], x = 0, i, u;
     for (i = 0; i < zeichen.length; i++) {
       u = ALPHA_UMRISSE[zeichen.charAt(i)];
-      if (!u) continue;
+      if (!u || !u.d) continue;
       teile.push('<path d="' + u.d + '" transform="translate(' + x + ',0)"/>');
       x += u.w + LUECKE;
     }
@@ -1895,18 +1889,20 @@ function printAlphabetColoring() {
     var breit = Math.max(BREIT, ges);
     var f = breit / BREIT;                 // Sigma ist breiter, alles schrumpft mit
     var links = Math.round((breit - ges) / 2);
-    var pfade = '<g transform="translate(' + links + ',0)">' + teile.join('') + '</g>';
-    return '<svg viewBox="' + (-DICK/2) + ' ' + (-(881 + DICK/2)) + ' '
-         + (breit + DICK) + ' ' + (1115 + DICK) + '" preserveAspectRatio="xMidYMid meet">'
-         + '<g transform="scale(1,-1)" stroke-linejoin="round">'
-         + '<g fill="#111" stroke="#111" stroke-width="' + Math.round(DICK*f) + '">' + pfade + '</g>'
-         + '<g fill="#fff" stroke="#fff" stroke-width="' + Math.round((DICK-2*STRICH)*f) + '">' + pfade + '</g>'
+    return '<svg viewBox="' + (-RAND) + ' ' + (-(881 + RAND)) + ' '
+         + (breit + 2*RAND) + ' ' + (1115 + 2*RAND) + '" preserveAspectRatio="xMidYMid meet">'
+         + '<g transform="scale(1,-1)" fill="none" stroke="#111" stroke-width="'
+         + Math.round(STRICH * f) + '" stroke-linejoin="round">'
+         + '<g transform="translate(' + links + ',0)">' + teile.join('') + '</g>'
          + '</g></svg>';
   }
 
   var css = [
     '@page { size: A4 landscape; margin: 8mm; }',
-    'body { margin:0; font-family:Arial,sans-serif; }',
+    // Guertel und Hosentraeger: ohne Fuellung waere ohnehin nichts
+    // einzufaerben, das hier sagt es dem Browser zusaetzlich.
+    'body { margin:0; font-family:Arial,sans-serif;',
+    '  -webkit-print-color-adjust:exact; print-color-adjust:exact; }',
     '.alpha-color-title { text-align:center; padding:0 0 4mm; font-size:14px; color:#1D9E75; font-weight:bold; }',
     '.ac-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:3mm; }',
     '.ac-karte { border:0.4mm dashed #cfcfcf; border-radius:3mm; padding:3mm 2mm 2mm; text-align:center; }',
@@ -1937,7 +1933,6 @@ function printAlphabetColoring() {
   pw.document.open();
   pw.document.write(fullHtml);
   pw.document.close();
-  // Keine Schrift mehr zu laden - die Linien stehen sofort.
   pw.onload = function(){ pw.focus(); pw.print(); };
 }
 
