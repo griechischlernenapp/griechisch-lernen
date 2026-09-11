@@ -1907,7 +1907,8 @@ function printAlphabetColoring() {
     '.ac-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:3mm; }',
     '.ac-karte { border:0.4mm dashed #cfcfcf; border-radius:3mm; padding:3mm 2mm 2mm; text-align:center; }',
     '.ac-karte svg { width:100%; height:26mm; display:block; }',
-    '.ac-name { font-size:9pt; color:#555; margin-top:1.5mm; }',
+    '.ac-name { font-size:8.5pt; color:#333; margin-top:1.5mm; line-height:1.25; }',
+    '.ac-name .de { color:#777; }',
     '.alpha-color-footer { font-size:8pt; color:#bbb; text-align:center; padding-top:3mm; }'
   ].join('');
 
@@ -1916,7 +1917,8 @@ function printAlphabetColoring() {
     var a = alphabet[i];
     karten += '<div class="ac-karte">'
             + umriss(a.gross + a.klein.split("/").join(""))
-            + '<div class="ac-name">' + a.nameGr + '</div></div>';
+            + '<div class="ac-name">' + a.nameGr
+            + ' <span class="de">\u00b7 ' + a.name + '</span></div></div>';
   }
 
   var body = '<div class="alpha-color-title">Das griechische Alphabet · Το Ελληνικό Αλφάβητο</div>';
