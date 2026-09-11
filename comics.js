@@ -24,7 +24,7 @@ var comics = [
         img: "story-a_happy_family_arrived_in_a_silver_car",
         ort: "Am Meer", ortGr: "Στη θάλασσα",
         blasen: [
-          {x:2,  y:3, w:37, tail:88, wer:"Άννα",
+          {x:2,  y:3, w:37, tail:88, wer:"Μαρία",
            vor:"Κοίτα! Η ", loesung:"θάλασσα", nach:" είναι μπλε!",
            de:"Schau! Das Meer ist blau!"},
           {x:59, y:2, w:39, tail:15, wer:"Η μαμά",
@@ -39,7 +39,7 @@ var comics = [
           {x:2,  y:2, w:36, tail:78, wer:"Η μαμά",
            vor:"Σήμερα έχουμε φρέσκο ", loesung:"ψάρι", nach:".",
            de:"Heute haben wir frischen Fisch."},
-          {x:61, y:2, w:37, tail:22, wer:"Άννα",
+          {x:61, y:2, w:37, tail:22, wer:"Μαρία",
            vor:"Εγώ θέλω ", loesung:"παγωτό", nach:", παρακαλώ!",
            de:"Ich möchte ein Eis, bitte!"}
         ]
@@ -48,7 +48,7 @@ var comics = [
         img: "story-children_playing_with_a_cat_in_greece",
         ort: "In der Gasse", ortGr: "Στο σοκάκι",
         blasen: [
-          {x:2,  y:2, w:35, tail:80, wer:"Άννα",
+          {x:2,  y:2, w:35, tail:80, wer:"Μαρία",
            vor:"Έλα εδώ, μικρή ", loesung:"γάτα", nach:"!",
            de:"Komm her, kleine Katze!"},
           {x:61, y:2, w:37, tail:20, wer:"Νίκος",
@@ -93,7 +93,7 @@ var comics = [
           {x:2,  y:2, w:36, tail:95, wer:"Η γιαγιά",
            vor:"Θέλεις λίγο ", loesung:"ψωμί", nach:";",
            de:"Möchtest du etwas Brot?"},
-          {x:61, y:2, w:37, tail:30, wer:"Άννα",
+          {x:61, y:2, w:37, tail:30, wer:"Μαρία",
            vor:"Ναι! Και ", loesung:"νερό", nach:", παρακαλώ.",
            de:"Ja! Und Wasser, bitte."}
         ]

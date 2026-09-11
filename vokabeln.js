@@ -992,5 +992,69 @@ var vocabGeplant = [
   {de:"Ozean",          gr:"ωκεανός",         art:"ο",    pr:"o-ke-a-nos",         emoji:"🌊", cat:"natur"},
   {de:"Schulter",       gr:"ώμος",            art:"ο",    pr:"o-mos",              emoji:"💪", cat:"koerper"},
   {de:"Uhrzeit",        gr:"ώρα",             art:"η",    pr:"o-ra",               emoji:"🕐", cat:"alltag"},
-  {de:"Geschenk",       gr:"δώρο",            art:"το",   pr:"dho-ro",              emoji:"🎁", cat:"alltag"}
+  {de:"Geschenk",       gr:"δώρο",            art:"το",   pr:"dho-ro",              emoji:"🎁", cat:"alltag"},
+
+  // ══════════════════════════════════════════════════════════
+  //  AUS DEM HÖRBUCH »DIE ODYSSEE«
+  //  Diese Wörter kommen in den 16 Kapiteln vor, fast alle
+  //  mehrfach. Ein Kind, das das Hörbuch gehört hat, kennt sie
+  //  schon – die Karte macht daraus dann richtiges Vokabular.
+  //  Verben (ανοίγω, περιμένω, αναγνωρίζω …) stehen bewusst
+  //  nicht hier: die Karten sind auf Hauptwörter mit Bild
+  //  ausgelegt.
+  // ══════════════════════════════════════════════════════════
+
+  // Familie  (Kapitel 5, 6, 10, 14, 16)
+  {de:"Vater",          gr:"πατέρας",         art:"ο",    pr:"pa-te-ras",          emoji:"👨", cat:"familie"},
+  {de:"Mutter",         gr:"μητέρα",          art:"η",    pr:"mi-te-ra",           emoji:"👩", cat:"familie"},
+  {de:"Sohn",           gr:"γιος",            art:"ο",    pr:"ghios",              emoji:"👦", cat:"familie"},
+  {de:"Frau",           gr:"γυναίκα",         art:"η",    pr:"ghi-ne-ka",          emoji:"👩", cat:"familie"},
+  {de:"Opa",            gr:"παππούς",         art:"ο",    pr:"pa-pus",             emoji:"👴", cat:"familie"},
+  {de:"Umarmung",       gr:"αγκαλιά",         art:"η",    pr:"an-ga-lia",          emoji:"🤗", cat:"familie"},
+
+  // Natur & Wetter  (Kapitel 3, 7, 8, 9, 10)
+  {de:"Höhle",          gr:"σπηλιά",          art:"η",    pr:"spi-lia",            emoji:"🕳️", cat:"natur"},
+  {de:"Stein",          gr:"πέτρα",           art:"η",    pr:"pe-tra",             emoji:"🪨", cat:"natur"},
+  {de:"Fels",           gr:"βράχος",          art:"ο",    pr:"wra-chos",           emoji:"⛰️", cat:"natur"},
+  {de:"Welle",          gr:"κύμα",            art:"το",   pr:"ki-ma",              emoji:"🌊", cat:"natur"},
+  {de:"Blitz",          gr:"αστραπή",         art:"η",    pr:"as-tra-pi",          emoji:"⚡", cat:"natur"},
+  {de:"Wetter",         gr:"καιρός",          art:"ο",    pr:"ke-ros",             emoji:"🌤️", cat:"natur"},
+  {de:"Licht",          gr:"φως",             art:"το",   pr:"fos",                emoji:"💡", cat:"natur"},
+
+  // Tiere & Körper  (Kapitel 6, 9, 13, 14)
+  {de:"Kuh",            gr:"αγελάδα",         art:"η",    pr:"a-ghe-la-dha",       emoji:"🐄", cat:"tiere"},
+  {de:"Schwanz",        gr:"ουρά",            art:"η",    pr:"u-ra",               emoji:"🐕", cat:"tiere"},
+  {de:"Haare",          gr:"μαλλιά",          art:"τα",   pr:"ma-lia",             emoji:"💇", cat:"koerper"},
+  {de:"Herz",           gr:"καρδιά",          art:"η",    pr:"kar-dhia",           emoji:"❤️", cat:"koerper"},
+  {de:"Stimme",         gr:"φωνή",            art:"η",    pr:"fo-ni",              emoji:"🗣️", cat:"koerper"},
+
+  // Märchen & Helden  (Kapitel 3, 5, 12, 13, 15)
+  {de:"Riese",          gr:"γίγαντας",        art:"ο",    pr:"gi-ghan-das",        emoji:"🗿", cat:"maerchen"},
+  {de:"Ungeheuer",      gr:"τέρας",           art:"το",   pr:"te-ras",             emoji:"👹", cat:"maerchen"},
+  {de:"Zauberin",       gr:"μάγισσα",         art:"η",    pr:"ma-ghi-sa",          emoji:"🧙", cat:"maerchen"},
+  {de:"Zauberstab",     gr:"ραβδί",           art:"το",   pr:"raw-dhi",            emoji:"🪄", cat:"maerchen"},
+  {de:"König",          gr:"βασιλιάς",        art:"ο",    pr:"wa-si-lias",         emoji:"👑", cat:"maerchen"},
+  {de:"Prinzessin",     gr:"πριγκίπισσα",     art:"η",    pr:"prin-gi-pi-sa",      emoji:"👸", cat:"maerchen"},
+  {de:"Palast",         gr:"παλάτι",          art:"το",   pr:"pa-la-ti",           emoji:"🏰", cat:"maerchen"},
+  {de:"Gott",           gr:"θεός",            art:"ο",    pr:"the-os",             emoji:"⚡", cat:"maerchen"},
+  {de:"Göttin",         gr:"θεά",             art:"η",    pr:"the-a",              emoji:"🏛️", cat:"maerchen"},
+  {de:"Bogen",          gr:"τόξο",            art:"το",   pr:"tok-so",             emoji:"🏹", cat:"maerchen"},
+  {de:"Pfeil",          gr:"βέλος",           art:"το",   pr:"we-los",             emoji:"🎯", cat:"maerchen"},
+
+  // Dinge & Alltag  (Kapitel 4, 7, 11, 12, 16)
+  {de:"Seil",           gr:"σχοινί",          art:"το",   pr:"schi-ni",            emoji:"🪢", cat:"alltag"},
+  {de:"Kerze",          gr:"κερί",            art:"το",   pr:"ke-ri",              emoji:"🕯️", cat:"zuhause"},
+  {de:"Ruder",          gr:"κουπί",           art:"το",   pr:"ku-pi",              emoji:"🛶", cat:"verkehr"},
+  {de:"Ball",           gr:"μπάλα",           art:"η",    pr:"ba-la",              emoji:"⚽", cat:"alltag"},
+  {de:"Kleider",        gr:"ρούχα",           art:"τα",   pr:"ru-cha",             emoji:"👕", cat:"kleidung"},
+  {de:"Essen",          gr:"φαγητό",          art:"το",   pr:"fa-ghi-to",          emoji:"🍽️", cat:"essen"},
+  {de:"Lied",           gr:"τραγούδι",        art:"το",   pr:"tra-ghu-dhi",        emoji:"🎵", cat:"alltag"},
+  {de:"Weg",            gr:"δρόμος",          art:"ο",    pr:"dhro-mos",           emoji:"🛣️", cat:"stadt"},
+  {de:"Name",           gr:"όνομα",           art:"το",   pr:"o-no-ma",            emoji:"🏷️", cat:"alltag"},
+  {de:"Heimat",         gr:"πατρίδα",         art:"η",    pr:"pa-tri-dha",         emoji:"🏡", cat:"alltag"},
+  {de:"Jahr",           gr:"χρόνος",          art:"ο",    pr:"chro-nos",           emoji:"📅", cat:"alltag"},
+  {de:"Tag",            gr:"μέρα",            art:"η",    pr:"me-ra",              emoji:"☀️", cat:"alltag"},
+  {de:"Hoffnung",       gr:"ελπίδα",          art:"η",    pr:"el-pi-dha",          emoji:"🌈", cat:"alltag"},
+  {de:"Geheimnis",      gr:"μυστικό",         art:"το",   pr:"mis-ti-ko",          emoji:"🤫", cat:"alltag"},
+  {de:"Frieden",        gr:"ειρήνη",          art:"η",    pr:"i-ri-ni",            emoji:"🕊️", cat:"alltag"}
 ];

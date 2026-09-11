@@ -1,0 +1,19 @@
+# ============================================================
+#  Was NICHT auf die Webseite gehoert
+# ============================================================
+
+# Das oertliche Rohbild-Archiv: 544 Dateien, 341 MB.
+# Die Werkstatt braucht es auf diesem Rechner fuer Menuepunkt
+# [9] Nachziehen - veroeffentlicht werden darf es nicht.
+bildbearbeitung/
+
+# Zwischenstaende der Bilderzeugung
+bilder/neu/
+bilder/ausmal_pruefen/
+
+# Windows- und Editorkram
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+~$*
