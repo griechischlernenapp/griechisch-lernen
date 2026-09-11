@@ -266,8 +266,7 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .alpha-detail-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:1px #2E7DD1}
 .alpha-detail-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:1px #E2710F;font-size:.82em}
 .alpha-detail-zeichen.zwei{font-size:42px}
-.alpha-detail-letters{font-size:28px;font-weight:bold;color:#0F6E56}
-.alpha-detail-name{font-size:16px;color:#2c2c2a;font-weight:bold}
+.alpha-detail-name{font-size:17px;color:#2c2c2a;font-weight:bold}
 .alpha-detail-pr{font-size:13px;color:#1D9E75;font-style:italic;margin-top:2px}
 .alpha-detail-de{font-size:12px;color:#888;margin-top:2px}
 .beispiele-title{font-size:12px;color:#aaa;font-style:italic;margin-bottom:8px}
@@ -3021,7 +3020,9 @@ function openAlpha(idx) {
   html+='<div class="alpha-detail-top">';
   html+=alphaZeichen(a, "alpha-detail-zeichen");
   html+='<div>';
-  html+='<div class="alpha-detail-letters">'+a.gross+' '+a.klein+'</div>';
+  // Die Zeile "Α α" stand hier frueher zwischen Zeichen und Namen. Seit
+  // die Buchstaben gross daneben stehen, sagt sie dasselbe ein zweites
+  // Mal - und die Leiste oben nennt sie ohnehin schon.
   html+='<div class="alpha-detail-name"><span style="color:#0F6E56">'+a.nameGr+'</span>'+tonKnopf(a.nameGr,true)+' · '+a.name+'</div>';
   html+='<div class="alpha-detail-pr">Aussprache: '+a.aussprache+'</div>';
   html+='<div class="alpha-detail-de">'+a.deutsch+'</div>';
