@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v6';
+var CACHE_NAME = 'griechisch-lernen-v7';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
@@ -11,6 +11,10 @@ var STATIC_FILES = [
   '/griechisch-lernen/comics.js',
   '/griechisch-lernen/impressum.html',
   '/griechisch-lernen/manifest.json',
+  // Die Buchstaben des Alphabets werden gesetzt, nicht mehr als Bilder
+  // geladen. Ohne diese Schrift im Cache waeren sie offline in der
+  // Ersatzschrift zu sehen.
+  '/griechisch-lernen/schrift/comfortaa-griechisch-700.woff2',
 ];
 
 // Beim Installieren: alle statischen Dateien cachen
