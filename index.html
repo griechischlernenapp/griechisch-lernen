@@ -17,6 +17,15 @@
 <script src="alphabet.js"></script>
 <script src="comics.js"></script>
 <style>
+/* Comfortaa, nur die griechischen Zeichen - 6 KB. Liegt im Repo, wird also
+   auch ohne Internet geladen. Ersetzt die 24 Buchstabenbilder (4,5 MB). */
+@font-face{
+  font-family:Comfortaa;
+  font-weight:700;
+  font-display:swap;
+  src:url("schrift/comfortaa-griechisch-700.woff2") format("woff2");
+  unicode-range:U+0370-03FF, U+1F00-1FFF;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh}
 .app{max-width:720px;margin:0 auto;padding:1rem}
@@ -223,17 +232,40 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .bmcard-klein{font-size:36px;font-weight:bold;color:#1D9E75}
 
 /* ALPHABET */
-.alpha-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1rem}
+/* Die Buchstaben waren einmal 24 einzelne Bilder. Jedes war fuer sich
+   gezeichnet, und dadurch fuellte der Buchstabe mal 73, mal 100 Prozent
+   der Bildhoehe - sie wirkten unterschiedlich gross. Jetzt werden sie
+   gesetzt: gleiche Grundlinie, gleiche Hoehe, gestochen scharf, und die
+   App wird um rund viereinhalb Megabyte leichter. */
+/* grid-auto-rows: alle Karten gleich hoch, auch wenn ein Name wie
+   "Omikron" auf dem Handy umbricht. */
+.alpha-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:1rem;
+  grid-auto-rows:1fr}
 .alpha-card{background:white;border:1.5px solid #ddd;border-radius:12px;padding:0.5rem;cursor:pointer;text-align:center;transition:border-color 0.15s}
 .alpha-card:hover{border-color:#1D9E75}
 .alpha-card.active{border:2px solid #1D9E75;background:#E1F5EE}
-.alpha-img{width:100%;max-width:70px;height:60px;object-fit:contain;margin:0 auto 4px;display:block}
+/* Dicker wird nicht ueber einen fetteren Schnitt gemacht - Comfortaa hat
+   bei 700 ihr Maximum -, sondern ueber eine Kontur in derselben Farbe.
+   Die Form bleibt dadurch exakt gleich und wird nur kraeftiger. */
+.alpha-zeichen{height:60px;display:flex;align-items:baseline;justify-content:center;
+  gap:.1em;line-height:1;margin-bottom:4px;
+  font-family:Comfortaa,"Segoe UI",system-ui,sans-serif;font-weight:700;font-size:42px;
+  paint-order:stroke fill}
+.alpha-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:2px #2E7DD1}
+.alpha-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:2px #E2710F;font-size:.82em}
+/* Sigma hat zwei Kleinformen. Stehen beide da, wird es sonst zu breit. */
+.alpha-zeichen.zwei{font-size:34px}
 .alpha-letters{font-size:16px;font-weight:bold;color:#0F6E56;margin-bottom:1px}
 .alpha-name{font-size:11px;color:#888}
 .alpha-pr{font-size:10px;color:#1D9E75;font-style:italic}
 .alpha-detail-box{background:white;border:1.5px solid #ddd;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
 .alpha-detail-top{display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;padding-bottom:0.8rem;border-bottom:1px solid #eee}
-.alpha-detail-img{width:70px;height:70px;object-fit:contain;flex-shrink:0}
+.alpha-detail-zeichen{flex-shrink:0;display:flex;align-items:baseline;gap:.1em;
+  line-height:1;font-family:Comfortaa,"Segoe UI",system-ui,sans-serif;font-weight:700;
+  font-size:52px;paint-order:stroke fill}
+.alpha-detail-zeichen .z-gr{color:#2E7DD1;-webkit-text-stroke:2.5px #2E7DD1}
+.alpha-detail-zeichen .z-kl{color:#E2710F;-webkit-text-stroke:2.5px #E2710F;font-size:.82em}
+.alpha-detail-zeichen.zwei{font-size:42px}
 .alpha-detail-letters{font-size:28px;font-weight:bold;color:#0F6E56}
 .alpha-detail-name{font-size:16px;color:#2c2c2a;font-weight:bold}
 .alpha-detail-pr{font-size:13px;color:#1D9E75;font-style:italic;margin-top:2px}
@@ -1830,20 +1862,48 @@ function renderProgress() {
 
 
 // ── ALPHABET AUSMALBILD ──────────────────────────────────
+// Das Ausmalblatt fuers ganze Alphabet. Frueher ein fertiges Bild; jetzt
+// aus derselben Schrift gesetzt wie in der App - gleiche Formen, gleiche
+// Groessen, und in jeder Druckaufloesung scharf. Ausgemalt wird das ganze
+// Alphabet auf einem Blatt; einzelne Buchstaben bekommen keine Vorlage.
 function printAlphabetColoring() {
   var baseUrl = window.location.href.replace(/[^/]*$/, '');
-  var imgSrc = baseUrl + 'bilder/story-greek_alphabet_all_24_letters_coloring.jpg';
 
   var css = [
-    '@page { size: A4 landscape; margin: 0; }',
-    'body { margin:0; padding:0; width:297mm; height:210mm; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:Arial,sans-serif; }',
-    '.alpha-color-img { width:100%; height:195mm; object-fit:contain; display:block; }',
-    '.alpha-color-title { text-align:center; padding:3mm 0 1mm; font-size:13px; color:#1D9E75; font-weight:bold; }',
-    '.alpha-color-footer { font-size:9px; color:#bbb; text-align:center; padding-top:2mm; }'
+    '@font-face{font-family:Comfortaa;font-weight:700;',
+    '  src:url("'+baseUrl+'schrift/comfortaa-griechisch-700.woff2") format("woff2");}',
+    '@page { size: A4 landscape; margin: 8mm; }',
+    'body { margin:0; font-family:Arial,sans-serif; }',
+    '.alpha-color-title { text-align:center; padding:0 0 4mm; font-size:14px; color:#1D9E75; font-weight:bold; }',
+    '.ac-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:3mm; }',
+    '.ac-karte { border:0.4mm dashed #cfcfcf; border-radius:3mm; padding:4mm 1mm 3mm; text-align:center; }',
+    // Weisse Fuellung mit dunklem Rand: genau das, was ein Kind ausmalt.
+    // Die Buchstaben sind so gross gewaehlt, dass die vier Reihen das
+    // Querformat fuellen - ein Ausmalbild mit halber leerer Seite waere
+    // Papierverschwendung und fuer kleine Haende zu eng.
+    '.ac-z { height:30mm; display:flex; align-items:baseline; justify-content:center;',
+    '  gap:0.08em; line-height:1; font-family:Comfortaa,Arial,sans-serif; font-weight:700;',
+    '  font-size:52pt; color:#fff; -webkit-text-stroke:1mm #111; paint-order:stroke fill; }',
+    '.ac-z.zwei { font-size:38pt; }',
+    '.ac-z .kl { font-size:0.82em; }',
+    '.ac-name { font-size:9pt; color:#555; margin-top:2mm; }',
+    '.alpha-color-footer { font-size:8pt; color:#bbb; text-align:center; padding-top:3mm; }'
   ].join('');
 
+  var karten = '';
+  for (var i = 0; i < alphabet.length; i++) {
+    var a = alphabet[i], formen = a.klein.split("/"), kl = '';
+    for (var k = 0; k < formen.length; k++) {
+      kl += '<span class="kl">' + formen[k] + '</span>';
+    }
+    karten += '<div class="ac-karte">'
+            + '<div class="ac-z' + (formen.length > 1 ? ' zwei' : '') + '">'
+            + '<span>' + a.gross + '</span>' + kl + '</div>'
+            + '<div class="ac-name">' + a.nameGr + '</div></div>';
+  }
+
   var body = '<div class="alpha-color-title">Das griechische Alphabet · Το Ελληνικό Αλφάβητο</div>';
-  body += '<img src="'+imgSrc+'" class="alpha-color-img" alt="Griechisches Alphabet">';
+  body += '<div class="ac-grid">' + karten + '</div>';
   body += '<div class="alpha-color-footer">griechischlernenapp.github.io/griechisch-lernen</div>';
 
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
@@ -1856,7 +1916,17 @@ function printAlphabetColoring() {
   pw.document.open();
   pw.document.write(fullHtml);
   pw.document.close();
-  pw.onload = function(){ pw.focus(); pw.print(); };
+  // Erst drucken, wenn die Schrift geladen ist - sonst kommt das Blatt in
+  // der Ersatzschrift heraus, und die hat andere Buchstabenformen.
+  pw.onload = function(){
+    var los = function(){ pw.focus(); pw.print(); };
+    if (pw.document.fonts && pw.document.fonts.ready) {
+      pw.document.fonts.ready.then(los);
+      setTimeout(los, 2500);     // Notbremse, falls das Versprechen ausbleibt
+    } else {
+      setTimeout(los, 400);
+    }
+  };
 }
 
 // ── AUSMALBILD DRUCKEN ───────────────────────────────────
@@ -2889,6 +2959,21 @@ function showBMemWin() {
 // ── ALPHABET ─────────────────────────────────────────────
 var currentAlpha = 0;
 
+// Grossbuchstabe blau, Kleinbuchstabe orange. Sigma ist der einzige
+// Buchstabe mit zwei Kleinformen - sigma im Wort, Schluss-sigma am
+// Wortende. In alphabet.js steht das als "sigma/schluss-sigma"; der
+// Schraegstrich ist eine Schreibweise fuer die Daten und gehoert nicht
+// gross ins Bild, deshalb wird er hier zu einem Abstand.
+function alphaZeichen(a, klasse) {
+  var formen = a.klein.split("/");
+  var kl = "";
+  for (var i = 0; i < formen.length; i++) {
+    kl += '<span class="z-kl">' + formen[i] + '</span>';
+  }
+  return '<div class="' + klasse + (formen.length > 1 ? " zwei" : "") + '">'
+       + '<span class="z-gr">' + a.gross + '</span>' + kl + '</div>';
+}
+
 function renderAlphaGrid() {
   navUnterpunkt(null);
   document.getElementById("alpha-detail").style.display="none";
@@ -2896,8 +2981,11 @@ function renderAlphaGrid() {
   for(var i=0;i<alphabet.length;i++){
     var a=alphabet[i];
     html+='<div class="alpha-card" onclick="openAlpha('+i+')">';
-    html+='<img src="bilder/'+a.img+'.png" class="alpha-img" alt="" data-emoji="'+a.gross+'" onerror="bildErsatz(this)">';
-    html+='<div class="alpha-letters">'+a.gross+' '+a.klein+'</div>';
+    // Die kleine Zeile "Α α" stand frueher unter dem Bild, weil das Bild
+    // nur Schmuck war. Jetzt sind die grossen Zeichen selbst die
+    // Buchstaben - die Zeile waere dieselbe Auskunft zweimal und hat den
+    // Namen darunter auf dem Handy in zwei Zeilen gedraengt.
+    html+=alphaZeichen(a, "alpha-zeichen");
     html+='<div class="alpha-name"><span style="color:#0F6E56;font-weight:bold">'+a.nameGr+'</span> · '+a.name+'</div>';
     html+='<div class="alpha-pr">'+a.aussprache+'</div>';
     html+='</div>';
@@ -2922,7 +3010,7 @@ function openAlpha(idx) {
   }
   var html='<div class="alpha-detail-box">';
   html+='<div class="alpha-detail-top">';
-  html+='<img src="bilder/'+a.img+'.png" class="alpha-detail-img" alt="" data-emoji="'+a.gross+'" onerror="bildErsatz(this)">';
+  html+=alphaZeichen(a, "alpha-detail-zeichen");
   html+='<div>';
   html+='<div class="alpha-detail-letters">'+a.gross+' '+a.klein+'</div>';
   html+='<div class="alpha-detail-name"><span style="color:#0F6E56">'+a.nameGr+'</span>'+tonKnopf(a.nameGr,true)+' · '+a.name+'</div>';
