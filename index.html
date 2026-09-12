@@ -3220,7 +3220,7 @@ function openAlpha(idx) {
       bsp+='<div class="beispiele-title mitte">… und mit '+a.klein.split("/")[0]+' mittendrin:</div>';
     }
     bsp+='<div class="beispiel-row">';
-    bsp+='<img src="'+abDatei(b.de)+'" class="bsp-bild" alt="" data-emoji="'+(b.emoji||"🖼️")+'" onerror="bildErsatz(this)">';
+    bsp+='<img src="'+abDatei(b)+'" class="bsp-bild" alt="" data-emoji="'+(b.emoji||"🖼️")+'" onerror="bildErsatz(this)">';
     bsp+='<span class="bsp-gr">'+(b.art?'<span class="bsp-art">'+b.art+'</span> ':'')+b.gr+tonKnopf(b.gr,true)+'</span>';
     bsp+='<span class="bsp-pr">'+b.pr+'</span>';
     bsp+='<span class="bsp-de">'+b.de+'</span>';
@@ -3269,8 +3269,18 @@ function abNorm(s) {
   return s.toLowerCase().replace(/ς/g,"σ");
 }
 
-function abDatei(de) {
-  return "bilder/" + de.toLowerCase()
+// Bildadresse zu einem Wort.
+//
+// Normalfall: das deutsche Wort ist der Dateiname (Apfel -> apfel.png).
+// Ein Wort darf das aber mit dem Feld bild:"..." uebersteuern - noetig,
+// wenn das deutsche Wort keinen brauchbaren Dateinamen hergibt
+// ("Brief / Buchstabe") oder wenn zwei Woerter dasselbe zeigen sollen
+// (ίππος, das gehobene Wort fuer Pferd, nimmt pferd.png mit).
+//
+// Nimmt ein Wort-Objekt oder direkt einen Namen.
+function abDatei(w) {
+  var name = (typeof w === "string") ? w : (w.bild || w.de);
+  return "bilder/" + name.toLowerCase()
     .replace(/ä/g,"a").replace(/ö/g,"o").replace(/ü/g,"u").replace(/ß/g,"ss") + ".png";
 }
 
@@ -3397,7 +3407,7 @@ function abBauen(idx) {
       var im = new Image();
       im.onload  = function() { bilder[v.de] = abLineArt(im) || im.src; fertig(); };
       im.onerror = function() { bilder[v.de] = ""; fertig(); };
-      im.src = abDatei(v.de);
+      im.src = abDatei(v);
     })(woerter[i]);
   }
 }

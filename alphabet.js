@@ -2,7 +2,15 @@
 //  alphabet.js  –  Griechisches Alphabet
 //  Hier kannst du Beispielwörter ergänzen oder ändern!
 //
-//  Kein Bildfeld mehr: die Buchstaben werden in der App als
+//  Ein Beispielwort darf ein Feld  bild:"..."  haben. Normalerweise
+//  sucht die App das Bild unter dem deutschen Wort (Apfel -> apfel.png).
+//  Das geht nicht, wenn das deutsche Wort einen Schraegstrich oder eine
+//  Klammer enthaelt ("Brief / Buchstabe", "Pferd (formal)") - daraus
+//  wird kein brauchbarer Dateiname. Und es waere Verschwendung, wenn
+//  zwei Woerter dasselbe zeigen: ίππος ist das gehobene Wort fuer
+//  Pferd und nimmt deshalb pferd.png mit.
+//
+//  Kein Bildfeld fuer die Buchstaben selbst: die werden in der App als
 //  Schrift gesetzt (Comfortaa, schrift/comfortaa-griechisch-700.woff2),
 //  nicht als Bild geladen. Vorher war jeder Buchstabe ein eigenes
 //  PNG - 24 Dateien, 5 MB, und jedes einzeln gezeichnet, weshalb
@@ -17,7 +25,7 @@ var alphabet = [
     beispiele: [
       {gr:"αγάπη",    pr:"a-gha-pi",   de:"Liebe"},
       {gr:"αδελφός",  pr:"a-dhel-fos", de:"Bruder"},
-      {gr:"αέρας",    pr:"a-e-ras",    de:"Wind / Luft"},
+      {gr:"αέρας",    pr:"a-e-ras",    de:"Wind / Luft", bild:"wind"},
       {gr:"αλεπού",   pr:"a-le-pu",    de:"Fuchs"},
       {gr:"άνθρωπος", pr:"an-thro-pos",de:"Mensch"}
     ]
@@ -41,7 +49,7 @@ var alphabet = [
       {gr:"γάλα",     pr:"gha-la",     de:"Milch"},
       {gr:"γιαγιά",   pr:"ja-ja",      de:"Oma"},
       {gr:"γη",       pr:"ji",         de:"Erde"},
-      {gr:"γράμμα",   pr:"ghra-ma",    de:"Brief / Buchstabe"}
+      {gr:"γράμμα",   pr:"ghra-ma",    de:"Brief / Buchstabe", bild:"brief"}
     ]
   },
   {
@@ -72,9 +80,9 @@ var alphabet = [
     beispiele: [
       {gr:"ζώο",      pr:"zo-o",       de:"Tier"},
       {gr:"ζάχαρη",   pr:"za-cha-ri",  de:"Zucker"},
-      {gr:"ζεστός",   pr:"zes-tos",    de:"warm / heiß"},
+      {gr:"ζεστός",   pr:"zes-tos",    de:"warm / heiß", bild:"warm"},
       {gr:"ζωή",      pr:"zo-i",       de:"Leben"},
-      {gr:"ζυμαρικά", pr:"zi-ma-ri-ka",de:"Nudeln / Pasta"}
+      {gr:"ζυμαρικά", pr:"zi-ma-ri-ka",de:"Nudeln / Pasta", bild:"nudeln"}
     ]
   },
   {
@@ -96,7 +104,7 @@ var alphabet = [
       {gr:"θερμοκρασία",pr:"ther-mo-kra-si-a",de:"Temperatur"},
       {gr:"θέατρο",   pr:"the-a-tro",  de:"Theater"},
       {gr:"θυμάρι",   pr:"thi-ma-ri",  de:"Thymian"},
-      {gr:"θύρα",     pr:"thi-ra",     de:"Tür / Eingang"}
+      {gr:"θύρα",     pr:"thi-ra",     de:"Tür / Eingang", bild:"tur"}
     ]
   },
   {
@@ -106,15 +114,15 @@ var alphabet = [
       {gr:"ιστορία",  pr:"is-to-ri-a", de:"Geschichte"},
       {gr:"ιδέα",     pr:"i-dhe-a",    de:"Idee"},
       {gr:"ιατρός",   pr:"i-a-tros",   de:"Arzt"},
-      {gr:"ίππος",    pr:"i-pos",      de:"Pferd (formal)"},
-      {gr:"ιχθύς",    pr:"ich-this",   de:"Fisch (formal)"}
+      {gr:"ίππος",    pr:"i-pos",      de:"Pferd (formal)", bild:"pferd"},
+      {gr:"ιχθύς",    pr:"ich-this",   de:"Fisch (formal)", bild:"fisch"}
     ]
   },
   {
     name: "Kappa", nameGr: "Κάππα", gross: "Κ", klein: "κ",
     aussprache: "k", deutsch: "wie deutsches K",
     beispiele: [
-      {gr:"καλημέρα", pr:"ka-li-me-ra",de:"Guten Morgen"},
+      {gr:"καλημέρα", pr:"ka-li-me-ra",de:"Guten Morgen", bild:"guten-morgen"},
       {gr:"κατσίκα",  pr:"kat-si-ka",  de:"Ziege"},
       {gr:"κήπος",    pr:"ki-pos",     de:"Garten"},
       {gr:"κύκλος",   pr:"ki-klos",    de:"Kreis"},
@@ -161,8 +169,8 @@ var alphabet = [
       {gr:"ξύλο",     pr:"ksi-lo",     de:"Holz"},
       {gr:"ξενοδοχείο",pr:"kse-no-dho-chi-o",de:"Hotel"},
       {gr:"ξαδελφός", pr:"ksa-dhel-fos",de:"Cousin"},
-      {gr:"ξέρω",     pr:"kse-ro",     de:"ich weiß"},
-      {gr:"ξεκινώ",   pr:"kse-ki-no",  de:"ich beginne"}
+      {gr:"ξέρω",     pr:"kse-ro",     de:"ich weiß", bild:"wissen"},
+      {gr:"ξεκινώ",   pr:"kse-ki-no",  de:"ich beginne", bild:"beginnen"}
     ]
   },
   {
@@ -172,8 +180,8 @@ var alphabet = [
       {gr:"οικογένεια",pr:"i-ko-ghe-ni-a",de:"Familie"},
       {gr:"όνομα",    pr:"o-no-ma",    de:"Name"},
       {gr:"ουρανός",  pr:"u-ra-nos",   de:"Himmel"},
-      {gr:"οδός",     pr:"o-dhos",     de:"Straße (formal)"},
-      {gr:"όρος",     pr:"o-ros",      de:"Berg (formal)"}
+      {gr:"οδός",     pr:"o-dhos",     de:"Straße (formal)", bild:"weg"},
+      {gr:"όρος",     pr:"o-ros",      de:"Berg (formal)", bild:"berg"}
     ]
   },
   {
@@ -205,7 +213,7 @@ var alphabet = [
       {gr:"σπίτι",    pr:"spi-ti",     de:"Haus"},
       {gr:"σκύλος",   pr:"ski-los",    de:"Hund"},
       {gr:"σχολείο",  pr:"scho-li-o",  de:"Schule"},
-      {gr:"σελήνη",   pr:"se-li-ni",   de:"Mond (formal)"},
+      {gr:"σελήνη",   pr:"se-li-ni",   de:"Mond (formal)", bild:"mond"},
       {gr:"σταφύλι",  pr:"sta-fi-li",  de:"Weintraube"}
     ]
   },
@@ -227,7 +235,7 @@ var alphabet = [
       {gr:"υπολογιστής",pr:"i-po-lo-ghis-tis",de:"Computer"},
       {gr:"ύπνος",    pr:"ip-nos",     de:"Schlaf"},
       {gr:"υγεία",    pr:"i-ghi-a",    de:"Gesundheit"},
-      {gr:"ύδωρ",     pr:"i-dhor",     de:"Wasser (formal)"},
+      {gr:"ύδωρ",     pr:"i-dhor",     de:"Wasser (formal)", bild:"wasser"},
       {gr:"υπόγειο",  pr:"i-po-ghi-o", de:"Keller"}
     ]
   },
@@ -239,7 +247,7 @@ var alphabet = [
       {gr:"φεγγάρι",  pr:"fen-gha-ri", de:"Mond"},
       {gr:"φωτιά",    pr:"fo-tia",     de:"Feuer"},
       {gr:"φύλλο",    pr:"fi-lo",      de:"Blatt"},
-      {gr:"φαγητό",   pr:"fa-ghi-to",  de:"Essen / Mahlzeit"}
+      {gr:"φαγητό",   pr:"fa-ghi-to",  de:"Essen / Mahlzeit", bild:"essen"}
     ]
   },
   {
@@ -260,7 +268,7 @@ var alphabet = [
       {gr:"ψάρι",     pr:"psa-ri",     de:"Fisch"},
       {gr:"ψωμί",     pr:"pso-mi",     de:"Brot"},
       {gr:"ψυγείο",   pr:"psi-ghi-o",  de:"Kühlschrank"},
-      {gr:"ψηλός",    pr:"psi-los",    de:"groß / hoch"},
+      {gr:"ψηλός",    pr:"psi-los",    de:"groß / hoch", bild:"gross"},
       {gr:"ψυχή",     pr:"psi-chi",    de:"Seele"}
     ]
   },
@@ -268,7 +276,7 @@ var alphabet = [
     name: "Omega", nameGr: "Ωμέγα", gross: "Ω", klein: "ω",
     aussprache: "o", deutsch: "wie deutsches O",
     beispiele: [
-      {gr:"ώρα",      pr:"o-ra",       de:"Stunde / Uhrzeit"},
+      {gr:"ώρα",      pr:"o-ra",       de:"Stunde / Uhrzeit", bild:"uhrzeit"},
       {gr:"ωκεανός",  pr:"o-ke-a-nos", de:"Ozean"},
       {gr:"ώμος",     pr:"o-mos",      de:"Schulter"},
       {gr:"ωραίος",   pr:"o-re-os",    de:"schön"},
