@@ -306,6 +306,20 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 
 /* BILDER */
 .svg-img{width:90px;height:90px;display:block;object-fit:contain;border-radius:8px}
+/* Ziffern statt Bild. Sie belegen genau die Flaeche, die sonst das
+   Bild haette, damit die Karten nicht springen. Comfortaa enthaelt
+   nur griechische Zeichen, keine Ziffern - deshalb die Systemschrift. */
+.zahl-karte{display:flex;align-items:center;justify-content:center;align-self:stretch;
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;font-weight:700;
+  color:#2E7DD1;background:#EEF4FB;border-radius:8px;line-height:1;
+  letter-spacing:-.02em}
+/* Die beiden Seiten der Karte schrumpfen sonst auf Textbreite -
+   bei Bildern faellt das nicht auf, weil ein Bild eine eigene
+   Breite mitbringt, bei einer Ziffer schon. */
+.vc div[id^="vf"], .vc div[id^="vb"]{width:100%}
+.vc .zahl-karte{width:100%;height:90px;font-size:46px}
+.qc .zahl-karte{width:100%;aspect-ratio:3/2;font-size:42px}
+.mcard .zahl-karte{width:100%;aspect-ratio:3/2;font-size:34px;border-radius:6px}
 .svg-img-lg{width:130px;height:130px;display:block;margin:0 auto 1rem;object-fit:contain;border-radius:10px}
 .svg-img-sm{width:72px;height:72px;display:block;object-fit:contain;border-radius:6px}
 
@@ -906,6 +920,37 @@ var zahlenGross = [
   {z:"1.000.000", de:"eine Million", gr:"ένα εκατομμύριο", pr:"e-na e-ka-to-mi-rio"},
   {z:"1.000.000.000", de:"eine Milliarde", gr:"ένα δισεκατομμύριο", pr:"e-na dhi-se-ka-to-mi-rio"}
 ];
+
+// Die Zahlen erscheinen auch unter "Woerter". Damit es nur EINE
+// Quelle gibt, werden die Karten hier aus den Listen oben erzeugt,
+// statt sie ein zweites Mal zu tippen. Wer oben eine Zahl aendert,
+// aendert sie ueberall.
+//
+// In vocab standen frueher sieben Zahlen mit Luftballon-Bildern. Die
+// sind raus: auf ihnen war die Ziffer nur zu erahnen, und "Acht" war
+// ein Ballonstrauss ganz ohne Ziffer. Eine Ziffer ist ein Zeichen,
+// kein Bild - sie wird gesetzt.
+(function () {
+  var fuerWoerter = zahlenGrund
+        .concat(zahlenZehner)
+        .concat(zahlenGross.filter(function (n) { return n.z === "1.000"; }));
+  for (var i = 0; i < fuerWoerter.length; i++) {
+    var n = fuerWoerter[i];
+    vocab.push({
+      de:    n.de.charAt(0).toUpperCase() + n.de.slice(1),
+      gr:    n.gr,
+      art:   "",
+      pr:    n.pr,
+      emoji: "\ud83d\udd22",
+      cat:   "zahlen",
+      zahl:  n.z,           // steht statt eines Bildes auf der Karte
+      // Nur 1 bis 10 bekommen ein Mengenbild: drei Katzen zur 3.
+      // Zwoelf Gegenstaende kann ein Kind auf einem Bild nicht mehr
+      // abzaehlen, bei 30 oder 1000 ist es sinnlos.
+      menge: (i >= 1 && i <= 10)
+    });
+  }
+})();
 
 var nomen = [
   // Tiere
@@ -1564,6 +1609,22 @@ function filterCat(cat) {
   renderVocab();
 }
 
+// Bild einer Wortkarte - oder die Ziffer, wenn es eine Zahl ist.
+//
+// Bei den kleinen Zahlen gibt es zusaetzlich ein Mengenbild: drei
+// Katzen zur 3, fuenf Sterne zur 5. Wo es erlaubt ist, wird es der
+// Ziffer vorgezogen - in den Spielen und auf der Rueckseite der
+// Karte. Aus "welche Ziffer?" wird damit "wie viele?", und das ist
+// bei den kleinen Zahlen das eigentlich zu Lernende. Vorn auf der
+// Karte bleibt die Ziffer stehen.
+function kartenBild(w, mengeErlaubt) {
+  if (w.zahl) {
+    if (mengeErlaubt && w.menge) return imgTag(w.de.toLowerCase(), "");
+    return '<div class="zahl-karte">' + w.zahl + '</div>';
+  }
+  return imgTag(w.de.toLowerCase(), "");
+}
+
 function renderVocab() {
   var list=vocab.filter(function(v){return currentCat==="all"||v.cat===currentCat;});
   var html="";
@@ -1573,11 +1634,11 @@ function renderVocab() {
     html+='<div class="vc'+lnd+'" id="vc'+i+'" onclick="flipVc('+i+')">';
     html+='<div class="lbadge"></div>';
     html+='<div id="vf'+i+'" style="display:flex;flex-direction:column;align-items:center">';
-    html+=imgTag(v.de.toLowerCase(),"");
+    html+=kartenBild(v);
     html+='<div class="vde">'+v.de+'</div>';
     html+='<div class="vsub">antippen →</div></div>';
     html+='<div id="vb'+i+'" style="display:none;flex-direction:column;align-items:center">';
-    html+=imgTag(v.de.toLowerCase(),"");
+    html+=kartenBild(v, true);
     html+='<div class="vgr">'+v.gr+tonKnopf(v.gr)+'</div>';
     html+='<div class="vpr">'+v.pr+'</div>';
     html+='<div class="vsub2">'+v.de+'</div></div>';
@@ -1691,7 +1752,9 @@ function flipMemCard(idx) {
   var c=memCards[idx]; var el=document.getElementById(c.id);
   if(!el||el.classList.contains("matched")||el.classList.contains("flipped")) return;
   el.classList.remove("facedown"); el.classList.add("flipped");
-  var mbild = '<img src="bilder/'
+  var mbild = (c.word.zahl && !c.word.menge)
+            ? '<div class="zahl-karte">' + c.word.zahl + '</div>'
+            : '<img src="bilder/'
             + c.word.de.toLowerCase().replace(/ä/g,"a").replace(/ö/g,"o")
                        .replace(/ü/g,"u").replace(/ß/g,"ss")
             + '.png" class="mcard-img" alt="" data-emoji="🃏" onerror="bildErsatz(this)">';
@@ -1848,7 +1911,7 @@ function renderQuiz() {
     var qde=q.de.replace(/'/g,"\\'");
     ch+='<button class="qc" data-de="'+hEsc(choices[i].de)+'"'
       + ' onclick="checkQuiz(this,\''+de+'\',\''+qde+'\',\''+grEsc+'\')">'
-      + imgTag(choices[i].de.toLowerCase(),"")
+      + kartenBild(choices[i], true)
       + '<span class="qc-t">'+choices[i].de+'</span></button>';
   }
   document.getElementById("quiz-area").innerHTML=

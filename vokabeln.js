@@ -804,12 +804,6 @@ var vocab = [
   {de:"Weiß",          gr:"άσπρο",            art:"",     pr:"a-spro",                emoji:"⬜", cat:"farben"},
   {de:"Schwarz",       gr:"μαύρο",            art:"",     pr:"mav-ro",                emoji:"⬛", cat:"farben"},
   // Zahlen
-  {de:"Eins",          gr:"ένα",              art:"",     pr:"e-na",                  emoji:"1️⃣", cat:"zahlen"},
-  {de:"Zwei",          gr:"δύο",              art:"",     pr:"dhi-o",                  emoji:"2️⃣", cat:"zahlen"},
-  {de:"Drei",          gr:"τρία",             art:"",     pr:"tri-a",                 emoji:"3️⃣", cat:"zahlen"},
-  {de:"Vier",          gr:"τέσσερα",          art:"",     pr:"te-se-ra",              emoji:"4️⃣", cat:"zahlen"},
-  {de:"Fünf",          gr:"πέντε",            art:"",     pr:"pen-de",                emoji:"5️⃣", cat:"zahlen"},
-  {de:"Zehn",          gr:"δέκα",             art:"",     pr:"dhe-ka",                 emoji:"🔟", cat:"zahlen"},
   // Körper
   {de:"Kopf",          gr:"κεφάλι",           art:"το",   pr:"ke-fa-li",              emoji:"🗣️", cat:"koerper"},
   {de:"Hand",          gr:"χέρι",             art:"το",   pr:"che-ri",                emoji:"✋", cat:"koerper"},
@@ -948,7 +942,6 @@ var vocab = [
   {de:"Himmel",         gr:"ουρανός",         art:"ο",    pr:"u-ra-nos",           emoji:"☁️", cat:"natur"},
   {de:"Regenschirm",    gr:"ομπρέλα",         art:"η",    pr:"om-bre-la",          emoji:"☂️", cat:"wetter"},
   {de:"Zahnbürste",     gr:"οδοντόβουρτσα",   art:"η",    pr:"o-dhon-do-wur-tsa",   emoji:"🪥", cat:"alltag"},
-  {de:"Acht",           gr:"οκτώ",            art:"",     pr:"ok-to",              emoji:"8️⃣", cat:"zahlen"},
   // Ρ ρ   (Priorität 1)
   {de:"Uhr",            gr:"ρολόι",           art:"το",   pr:"ro-lo-i",            emoji:"⏰", cat:"alltag"},
   {de:"Rose",           gr:"ρόδο",            art:"το",   pr:"ro-dho",              emoji:"🌹", cat:"natur"},
