@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v12';
+var CACHE_NAME = 'griechisch-lernen-v13';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
@@ -98,8 +98,19 @@ self.addEventListener('fetch', function(event) {
     return;   // ohne respondWith geht die Anfrage normal ans Netz
   }
 
-  // Bilder und Aussprache-Schnipsel: Cache first
-  if(url.indexOf('/bilder/') >= 0 || url.indexOf('/ton/') >= 0) {
+  // Bilder und Aussprache-Schnipsel: Cache first.
+  //
+  // Eine Ausnahme: ton/index.json ist keine Aufnahme, sondern das
+  // VERZEICHNIS dazu - es ordnet jedem griechischen Text seine MP3 zu.
+  // Liegt es fest im Speicher, erfaehrt die App von neuen Toenen nie:
+  // die MP3 liegt auf dem Server, aber niemand weiss davon, und der
+  // Lautsprecherknopf bleibt aus. Genau das ist mit den Zahlen
+  // passiert. Das Verzeichnis geht deshalb den Netz-zuerst-Weg,
+  // mit dem Speicher als Rueckfall, wenn kein Netz da ist.
+  var istTonVerzeichnis = url.indexOf('/ton/index.json') >= 0;
+
+  if(!istTonVerzeichnis &&
+     (url.indexOf('/bilder/') >= 0 || url.indexOf('/ton/') >= 0)) {
     event.respondWith(
       caches.match(event.request).then(function(cached) {
         if(cached) return cached;
