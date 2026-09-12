@@ -1,11 +1,18 @@
 // ============================================================
 //  alphabet.js  –  Griechisches Alphabet
 //  Hier kannst du Beispielwörter ergänzen oder ändern!
+//
+//  Kein Bildfeld mehr: die Buchstaben werden in der App als
+//  Schrift gesetzt (Comfortaa, schrift/comfortaa-griechisch-700.woff2),
+//  nicht als Bild geladen. Vorher war jeder Buchstabe ein eigenes
+//  PNG - 24 Dateien, 5 MB, und jedes einzeln gezeichnet, weshalb
+//  sie unterschiedlich gross wirkten. Fuer einen neuen Buchstaben
+//  ist also kein Bild anzulegen.
 // ============================================================
 
 var alphabet = [
   {
-    name: "Alpha", nameGr: "Άλφα", gross: "Α", klein: "α", img: "alpha",
+    name: "Alpha", nameGr: "Άλφα", gross: "Α", klein: "α",
     aussprache: "a", deutsch: "wie deutsches A",
     beispiele: [
       {gr:"αγάπη",    pr:"a-gha-pi",   de:"Liebe"},
@@ -16,7 +23,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Beta", nameGr: "Βήτα", gross: "Β", klein: "β", img: "beta",
+    name: "Beta", nameGr: "Βήτα", gross: "Β", klein: "β",
     aussprache: "w", deutsch: "wie deutsches W",
     beispiele: [
       {gr:"βιβλίο",   pr:"wi-wli-o",   de:"Buch"},
@@ -27,7 +34,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Gamma", nameGr: "Γάμμα", gross: "Γ", klein: "γ", img: "gamma",
+    name: "Gamma", nameGr: "Γάμμα", gross: "Γ", klein: "γ",
     aussprache: "gh / j", deutsch: "wie weiches G oder J",
     beispiele: [
       {gr:"γάτα",     pr:"gha-ta",     de:"Katze"},
@@ -38,7 +45,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Delta", nameGr: "Δέλτα", gross: "Δ", klein: "δ", img: "delta",
+    name: "Delta", nameGr: "Δέλτα", gross: "Δ", klein: "δ",
     aussprache: "dh", deutsch: "wie englisches TH in 'the'",
     beispiele: [
       {gr:"δέντρο",   pr:"dhen-dro",   de:"Baum"},
@@ -49,7 +56,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Epsilon", nameGr: "Έψιλον", gross: "Ε", klein: "ε", img: "epsilon",
+    name: "Epsilon", nameGr: "Έψιλον", gross: "Ε", klein: "ε",
     aussprache: "e", deutsch: "wie deutsches E",
     beispiele: [
       {gr:"εκκλησία", pr:"e-kli-si-a", de:"Kirche"},
@@ -60,7 +67,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Zeta", nameGr: "Ζήτα", gross: "Ζ", klein: "ζ", img: "zeta",
+    name: "Zeta", nameGr: "Ζήτα", gross: "Ζ", klein: "ζ",
     aussprache: "s (stimmhaft)", deutsch: "wie deutsches S in 'Sonne'",
     beispiele: [
       {gr:"ζώο",      pr:"zo-o",       de:"Tier"},
@@ -71,7 +78,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Eta", nameGr: "Ήτα", gross: "Η", klein: "η", img: "eta",
+    name: "Eta", nameGr: "Ήτα", gross: "Η", klein: "η",
     aussprache: "i", deutsch: "wie deutsches I",
     beispiele: [
       {gr:"ήλιος",    pr:"i-li-os",    de:"Sonne"},
@@ -82,7 +89,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Theta", nameGr: "Θήτα", gross: "Θ", klein: "θ", img: "theta",
+    name: "Theta", nameGr: "Θήτα", gross: "Θ", klein: "θ",
     aussprache: "th", deutsch: "wie englisches TH in 'think'",
     beispiele: [
       {gr:"θάλασσα",  pr:"tha-la-sa",  de:"Meer"},
@@ -93,7 +100,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Iota", nameGr: "Ιώτα", gross: "Ι", klein: "ι", img: "iota",
+    name: "Iota", nameGr: "Ιώτα", gross: "Ι", klein: "ι",
     aussprache: "i", deutsch: "wie deutsches I",
     beispiele: [
       {gr:"ιστορία",  pr:"is-to-ri-a", de:"Geschichte"},
@@ -104,7 +111,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Kappa", nameGr: "Κάππα", gross: "Κ", klein: "κ", img: "kappa",
+    name: "Kappa", nameGr: "Κάππα", gross: "Κ", klein: "κ",
     aussprache: "k", deutsch: "wie deutsches K",
     beispiele: [
       {gr:"καλημέρα", pr:"ka-li-me-ra",de:"Guten Morgen"},
@@ -115,7 +122,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Lambda", nameGr: "Λάμδα", gross: "Λ", klein: "λ", img: "lambda",
+    name: "Lambda", nameGr: "Λάμδα", gross: "Λ", klein: "λ",
     aussprache: "l", deutsch: "wie deutsches L",
     beispiele: [
       {gr:"λεμόνι",   pr:"le-mo-ni",   de:"Zitrone"},
@@ -126,7 +133,7 @@ var alphabet = [
     ]
   },
   {
-    name: "My", nameGr: "Μι", gross: "Μ", klein: "μ", img: "mu",
+    name: "My", nameGr: "Μι", gross: "Μ", klein: "μ",
     aussprache: "m", deutsch: "wie deutsches M",
     beispiele: [
       {gr:"μαμά",     pr:"ma-ma",      de:"Mama"},
@@ -137,7 +144,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Ny", nameGr: "Νι", gross: "Ν", klein: "ν", img: "nu",
+    name: "Ny", nameGr: "Νι", gross: "Ν", klein: "ν",
     aussprache: "n", deutsch: "wie deutsches N",
     beispiele: [
       {gr:"νερό",     pr:"ne-ro",      de:"Wasser"},
@@ -148,7 +155,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Xi", nameGr: "Ξι", gross: "Ξ", klein: "ξ", img: "xi",
+    name: "Xi", nameGr: "Ξι", gross: "Ξ", klein: "ξ",
     aussprache: "ks", deutsch: "wie deutsches X",
     beispiele: [
       {gr:"ξύλο",     pr:"ksi-lo",     de:"Holz"},
@@ -159,7 +166,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Omikron", nameGr: "Όμικρον", gross: "Ο", klein: "ο", img: "omicron",
+    name: "Omikron", nameGr: "Όμικρον", gross: "Ο", klein: "ο",
     aussprache: "o", deutsch: "wie deutsches O",
     beispiele: [
       {gr:"οικογένεια",pr:"i-ko-ghe-ni-a",de:"Familie"},
@@ -170,7 +177,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Pi", nameGr: "Πι", gross: "Π", klein: "π", img: "pi",
+    name: "Pi", nameGr: "Πι", gross: "Π", klein: "π",
     aussprache: "p", deutsch: "wie deutsches P",
     beispiele: [
       {gr:"παιδί",    pr:"pe-dhi",     de:"Kind"},
@@ -181,7 +188,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Rho", nameGr: "Ρο", gross: "Ρ", klein: "ρ", img: "rho",
+    name: "Rho", nameGr: "Ρο", gross: "Ρ", klein: "ρ",
     aussprache: "r", deutsch: "wie deutsches R",
     beispiele: [
       {gr:"ρόδο",     pr:"ro-dho",     de:"Rose"},
@@ -192,7 +199,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Sigma", nameGr: "Σίγμα", gross: "Σ", klein: "σ/ς", img: "sigma",
+    name: "Sigma", nameGr: "Σίγμα", gross: "Σ", klein: "σ/ς",
     aussprache: "s", deutsch: "wie deutsches S (scharf)",
     beispiele: [
       {gr:"σπίτι",    pr:"spi-ti",     de:"Haus"},
@@ -203,7 +210,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Tau", nameGr: "Ταυ", gross: "Τ", klein: "τ", img: "tau",
+    name: "Tau", nameGr: "Ταυ", gross: "Τ", klein: "τ",
     aussprache: "t", deutsch: "wie deutsches T",
     beispiele: [
       {gr:"τραπέζι",  pr:"tra-pe-zi",  de:"Tisch"},
@@ -214,7 +221,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Ypsilon", nameGr: "Ύψιλον", gross: "Υ", klein: "υ", img: "upsilon",
+    name: "Ypsilon", nameGr: "Ύψιλον", gross: "Υ", klein: "υ",
     aussprache: "i", deutsch: "wie deutsches I",
     beispiele: [
       {gr:"υπολογιστής",pr:"i-po-lo-ghis-tis",de:"Computer"},
@@ -225,7 +232,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Phi", nameGr: "Φι", gross: "Φ", klein: "φ", img: "phi",
+    name: "Phi", nameGr: "Φι", gross: "Φ", klein: "φ",
     aussprache: "f", deutsch: "wie deutsches F",
     beispiele: [
       {gr:"φίλος",    pr:"fi-los",     de:"Freund"},
@@ -236,7 +243,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Chi", nameGr: "Χι", gross: "Χ", klein: "χ", img: "chi",
+    name: "Chi", nameGr: "Χι", gross: "Χ", klein: "χ",
     aussprache: "ch", deutsch: "wie deutsches CH in 'Bach'",
     beispiele: [
       {gr:"χέρι",     pr:"che-ri",     de:"Hand"},
@@ -247,7 +254,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Psi", nameGr: "Ψι", gross: "Ψ", klein: "ψ", img: "psi",
+    name: "Psi", nameGr: "Ψι", gross: "Ψ", klein: "ψ",
     aussprache: "ps", deutsch: "wie PS in 'Psyche'",
     beispiele: [
       {gr:"ψάρι",     pr:"psa-ri",     de:"Fisch"},
@@ -258,7 +265,7 @@ var alphabet = [
     ]
   },
   {
-    name: "Omega", nameGr: "Ωμέγα", gross: "Ω", klein: "ω", img: "omega",
+    name: "Omega", nameGr: "Ωμέγα", gross: "Ω", klein: "ω",
     aussprache: "o", deutsch: "wie deutsches O",
     beispiele: [
       {gr:"ώρα",      pr:"o-ra",       de:"Stunde / Uhrzeit"},

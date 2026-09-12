@@ -204,6 +204,12 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .gram-pr{font-size:11px;color:#1D9E75;font-style:italic;display:block;margin-top:1px}
 .gram-de{font-size:13px;color:#2c2c2a}
 .gram-emoji{font-size:20px;margin-right:6px}
+.gram-zahl{display:inline-block;min-width:34px;padding:2px 7px;border-radius:8px;
+  background:#E1F5EE;color:#0F6E56;font-weight:bold;font-size:13px;text-align:center}
+.gram-hinweis{background:#fff;border:1.5px solid #ddd;border-left:5px solid #1D9E75;
+  border-radius:10px;padding:10px 14px;font-size:12.5px;line-height:1.6;color:#5F5E5A;
+  margin-bottom:1.5rem}
+.gram-hinweis b{color:#0F6E56}
 .gram-verb-title{display:flex;align-items:center;gap:8px;background:#E1F5EE;border-radius:10px;padding:8px 12px;margin-bottom:6px;font-size:15px;font-weight:bold;color:#0F6E56}
 .gram-person{font-size:12px;color:#888;font-style:italic}
 
@@ -838,6 +844,69 @@ var grammatikKategorien = [
 ];
 
 // Nomen: Einzahl und Mehrzahl
+// ============================================================
+//  Zahlen  --  fuer die Grammatikseite
+// ============================================================
+//  Zahlen gehoeren nicht in eine Einzahl/Mehrzahl-Tabelle. Dort
+//  standen sie bisher und erzeugten Unsinn: "Eins - Einsen",
+//  "ena (pl.)". Deshalb eine eigene Liste und eine eigene
+//  Darstellung.
+//
+//  Lautschrift nach der Konvention aus alphabet.js:
+//  delta = dh, beta = w, chi = ch, ny+tau = d, ypsilon = i.
+//  Die alten Eintraege in nomen[] hatten "di-o" und "de-ka" -
+//  das widersprach vokabeln.js, wo dieselben Woerter als
+//  "dhi-o" und "dhe-ka" stehen. Jetzt stimmt beides ueberein.
+//
+//  Gezaehlt wird im Griechischen mit der saechlichen Form.
+//  Eins, drei und vier aendern sich je nach Geschlecht des
+//  Hauptworts (enas/mia/ena) - das steht als Hinweis unter der
+//  Tabelle und ist fuer die Grundschule bewusst nicht
+//  ausgebreitet.
+
+var zahlenGrund = [
+  {z:"0", de:"null", gr:"μηδέν", pr:"mi-dhen"},
+  {z:"1", de:"eins", gr:"ένα", pr:"e-na"},
+  {z:"2", de:"zwei", gr:"δύο", pr:"dhi-o"},
+  {z:"3", de:"drei", gr:"τρία", pr:"tri-a"},
+  {z:"4", de:"vier", gr:"τέσσερα", pr:"te-se-ra"},
+  {z:"5", de:"fünf", gr:"πέντε", pr:"pen-de"},
+  {z:"6", de:"sechs", gr:"έξι", pr:"ek-si"},
+  {z:"7", de:"sieben", gr:"επτά", pr:"ep-ta"},
+  {z:"8", de:"acht", gr:"οκτώ", pr:"ok-to"},
+  {z:"9", de:"neun", gr:"εννιά", pr:"e-nia"},
+  {z:"10", de:"zehn", gr:"δέκα", pr:"dhe-ka"},
+  {z:"11", de:"elf", gr:"έντεκα", pr:"en-de-ka"},
+  {z:"12", de:"zwölf", gr:"δώδεκα", pr:"dho-dhe-ka"},
+  {z:"13", de:"dreizehn", gr:"δεκατρία", pr:"dhe-ka-tri-a"},
+  {z:"14", de:"vierzehn", gr:"δεκατέσσερα", pr:"dhe-ka-te-se-ra"},
+  {z:"15", de:"fünfzehn", gr:"δεκαπέντε", pr:"dhe-ka-pen-de"},
+  {z:"16", de:"sechzehn", gr:"δεκαέξι", pr:"dhe-ka-ek-si"},
+  {z:"17", de:"siebzehn", gr:"δεκαεπτά", pr:"dhe-ka-ep-ta"},
+  {z:"18", de:"achtzehn", gr:"δεκαοκτώ", pr:"dhe-ka-ok-to"},
+  {z:"19", de:"neunzehn", gr:"δεκαεννιά", pr:"dhe-ka-e-nia"},
+  {z:"20", de:"zwanzig", gr:"είκοσι", pr:"i-ko-si"}
+];
+
+var zahlenZehner = [
+  {z:"30", de:"dreißig", gr:"τριάντα", pr:"tri-an-da"},
+  {z:"40", de:"vierzig", gr:"σαράντα", pr:"sa-ran-da"},
+  {z:"50", de:"fünfzig", gr:"πενήντα", pr:"pe-nin-da"},
+  {z:"60", de:"sechzig", gr:"εξήντα", pr:"ek-sin-da"},
+  {z:"70", de:"siebzig", gr:"εβδομήντα", pr:"ew-dho-min-da"},
+  {z:"80", de:"achtzig", gr:"ογδόντα", pr:"ogh-dhon-da"},
+  {z:"90", de:"neunzig", gr:"ενενήντα", pr:"e-ne-nin-da"},
+  {z:"100", de:"hundert", gr:"εκατό", pr:"e-ka-to"}
+];
+
+var zahlenGross = [
+  {z:"1.000", de:"tausend", gr:"χίλια", pr:"chi-lia"},
+  {z:"10.000", de:"zehntausend", gr:"δέκα χιλιάδες", pr:"dhe-ka chi-lia-dhes"},
+  {z:"100.000", de:"hunderttausend", gr:"εκατό χιλιάδες", pr:"e-ka-to chi-lia-dhes"},
+  {z:"1.000.000", de:"eine Million", gr:"ένα εκατομμύριο", pr:"e-na e-ka-to-mi-rio"},
+  {z:"1.000.000.000", de:"eine Milliarde", gr:"ένα δισεκατομμύριο", pr:"e-na dhi-se-ka-to-mi-rio"}
+];
+
 var nomen = [
   // Tiere
   {artDe:"die",artGr:"η",artDePl:"die",artGrPl:"οι",de:"Katze",     dePl:"Katzen",      gr:"γάτα",       grPl:"γάτες",       pr:"gha-ta",        prPl:"gha-tes",       emoji:"🐱", cat:"tiere"},
@@ -904,12 +973,6 @@ var nomen = [
   {artDe:"die",artGr:"ο",artDePl:"die",artGrPl:"οι",de:"Wut",        dePl:"Wutanfälle",  gr:"θυμός",      grPl:"θυμοί",       pr:"thi-mos",       prPl:"thi-mi",        emoji:"😠", cat:"gefuehle"},
   {artDe:"die",artGr:"η",artDePl:"die",artGrPl:"οι",de:"Überraschung",dePl:"Überraschungen",gr:"έκπληξη",grPl:"εκπλήξεις",   pr:"ek-plik-si",    prPl:"ek-plik-sis",   emoji:"😲", cat:"gefuehle"},
   // Zahlen
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Eins",       dePl:"Einsen",      gr:"ένα",        grPl:"ένα (pl.)",   pr:"e-na",          prPl:"e-na",          emoji:"1️⃣", cat:"zahlen"},
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Zwei",       dePl:"Zweien",      gr:"δύο",        grPl:"δύο",         pr:"di-o",          prPl:"di-o",          emoji:"2️⃣", cat:"zahlen"},
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Drei",       dePl:"Dreien",      gr:"τρία",       grPl:"τρία",        pr:"tri-a",         prPl:"tri-a",         emoji:"3️⃣", cat:"zahlen"},
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Vier",       dePl:"Vieren",      gr:"τέσσερα",    grPl:"τέσσερα",     pr:"te-se-ra",      prPl:"te-se-ra",      emoji:"4️⃣", cat:"zahlen"},
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Fünf",       dePl:"Fünfen",      gr:"πέντε",      grPl:"πέντε",       pr:"pen-de",        prPl:"pen-de",        emoji:"5️⃣", cat:"zahlen"},
-  {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Zehn",       dePl:"Zehnen",      gr:"δέκα",       grPl:"δέκα",        pr:"de-ka",         prPl:"de-ka",         emoji:"🔟", cat:"zahlen"},
   // Farben
   {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Blau",       dePl:"Blautöne",    gr:"μπλε",       grPl:"μπλε",        pr:"ble",           prPl:"ble",           emoji:"🔵", cat:"farben"},
   {artDe:"",artGr:"",artDePl:"",artGrPl:"",de:"Rot",        dePl:"Rottöne",     gr:"κόκκινο",    grPl:"κόκκινα",     pr:"ko-ki-no",      prPl:"ko-ki-na",      emoji:"🔴", cat:"farben"},
@@ -2790,9 +2853,35 @@ function switchGramKat(kat, btn) {
   renderGramContent();
 }
 
+// Eine Tabelle Zahl | Deutsch | Griechisch. Drei Bloecke, damit
+// die Sprunghaftigkeit sichtbar bleibt: luckenlos bis 20, dann in
+// Zehnerschritten, dann die grossen Zahlen.
+function zahlenTabelle(titel, liste) {
+  var h = '<div class="gram-section"><h3>' + titel + '</h3>';
+  h += '<table class="gram-table">';
+  h += '<tr><th>Zahl</th><th>Deutsch</th><th>Griechisch</th></tr>';
+  for (var i = 0; i < liste.length; i++) {
+    var n = liste[i];
+    h += '<tr><td><span class="gram-zahl">' + n.z + '</span></td>'
+       + '<td class="gram-de">' + n.de + '</td>'
+       + '<td><span class="gram-gr">' + n.gr + '</span>' + tonKnopf(n.gr, true)
+       + '<span class="gram-pr">' + n.pr + '</span></td></tr>';
+  }
+  return h + '</table></div>';
+}
+
 function renderGramContent() {
   var html="";
-  if(currentGramKat==="verben") {
+  if(currentGramKat==="zahlen") {
+    html += zahlenTabelle("\ud83d\udd22 Null bis zwanzig", zahlenGrund);
+    html += zahlenTabelle("\ud83d\udcc8 In Zehnerschritten", zahlenZehner);
+    html += zahlenTabelle("\ud83c\udf0d Grosse Zahlen", zahlenGross);
+    html += '<div class="gram-hinweis">Gez\u00e4hlt wird mit dieser Form. '
+          + '<b>Eins</b>, <b>drei</b> und <b>vier</b> \u00e4ndern sich, wenn ein Hauptwort dabeisteht: '
+          + '\u03ad\u03bd\u03b1\u03c2 \u03c3\u03ba\u03cd\u03bb\u03bf\u03c2 (ein Hund), '
+          + '\u03bc\u03af\u03b1 \u03b3\u03ac\u03c4\u03b1 (eine Katze), '
+          + '\u03ad\u03bd\u03b1 \u03c3\u03c0\u03af\u03c4\u03b9 (ein Haus).</div>';
+  } else if(currentGramKat==="verben") {
     // Show verb conjugation tables
     html+='<div class="gram-section"><h3>🔄 Verben — Konjugation</h3>';
     for(var i=0;i<verben.length;i++){
