@@ -276,11 +276,17 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .alpha-detail-pr{font-size:13px;color:#1D9E75;font-style:italic;margin-top:2px}
 .alpha-detail-de{font-size:12px;color:#888;margin-top:2px}
 .beispiele-title{font-size:12px;color:#aaa;font-style:italic;margin-bottom:8px}
-.beispiel-row{display:flex;flex-wrap:wrap;align-items:baseline;padding:8px 0;border-bottom:1px solid #f0f0ec;gap:4px}
+.beispiele-title.mitte{margin-top:14px;padding-top:10px;border-top:1px solid #f0f0ec}
+.beispiel-row{display:flex;flex-wrap:wrap;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0ec;gap:4px 8px}
 .beispiel-row:last-child{border-bottom:none}
-.bsp-gr{font-size:15px;font-weight:bold;color:#0F6E56;min-width:120px;flex-shrink:0}
-.bsp-pr{font-size:11px;color:#1D9E75;font-style:italic;min-width:90px;flex-shrink:0}
-.bsp-de{font-size:13px;color:#2c2c2a}
+/* Das Bild ist derselbe Dateiname wie auf der Wortkarte. Fehlt es noch,
+   springt bildErsatz() auf das Emoji um - die Zeile bleibt heil. */
+.bsp-bild{width:46px;height:46px;object-fit:contain;flex-shrink:0;border-radius:8px;background:#F7F5EF}
+.bild-ersatz.bsp-bild{display:flex;align-items:center;justify-content:center;font-size:26px}
+.bsp-art{font-weight:normal;color:#1D9E75;font-size:13px}
+.bsp-gr{font-size:15px;font-weight:bold;color:#0F6E56;flex:0 0 auto;min-width:104px}
+.bsp-pr{font-size:11px;color:#1D9E75;font-style:italic;flex:1 1 60px}
+.bsp-de{font-size:13px;color:#2c2c2a;flex:0 0 auto;text-align:right;max-width:38%}
 .alpha-nav{display:flex;justify-content:space-between;margin-top:0.8rem;gap:6px}
 .alpha-nav-btn{padding:8px 10px;background:#1D9E75;color:white;border:none;border-radius:14px;font-size:12px;cursor:pointer;font-family:Georgia,serif;flex:1;text-align:center}
 .alpha-nav-btn:disabled{background:#ddd;color:#aaa;cursor:default}
@@ -3155,15 +3161,67 @@ function renderAlphaGrid() {
   abBtnUpdate(null);
 }
 
+// ── BEISPIELWOERTER ZU EINEM BUCHSTABEN ───────────────────
+// Frueher standen hier fuenf Woerter fest in alphabet.js. Jetzt kommt
+// die Liste aus dem Wortschatz selbst: sie waechst mit, sobald ein Wort
+// dazukommt, und kein Wort muss an zwei Stellen gepflegt werden.
+// Reihenfolge:
+//   1. Woerter aus vocab[]        - haben ein Bild
+//   2. Woerter aus vocabGeplant[] - vertont, Bild fehlt noch
+//   3. die Handliste aus alphabet.js als Rueckfall, damit auch ein
+//      Buchstabe mit wenig Wortschatz nicht fast leer dasteht
+// Innerhalb davon zuerst die Woerter, die MIT dem Buchstaben anfangen,
+// danach die, die ihn nur enthalten.
+var ALPHA_MAX = 20;
+
+function alphaBeispiele(idx) {
+  var a = alphabet[idx], ls = a.klein.split("/"), i;
+  for(i=0;i<ls.length;i++) ls[i] = abNorm(ls[i]);
+
+  var gesehen = {}, anlaut = [], innen = [];
+
+  function aufnehmen(w) {
+    var g = abNorm(w.gr);
+    if(gesehen[g]) return;
+    var start = false, drin = false;
+    for(var j=0;j<ls.length;j++) {
+      if(g.charAt(0) === ls[j]) start = true;
+      if(g.indexOf(ls[j]) >= 0)  drin  = true;
+    }
+    if(!start && !drin) return;
+    gesehen[g] = true;
+    (start ? anlaut : innen).push({w: w, start: start});
+  }
+
+  for(i=0;i<vocab.length;i++) {
+    // Zahlwoerter ohne Mengenbild wuerden nur ein leeres Kaestchen zeigen
+    if(vocab[i].cat === "zahlen" && !vocab[i].menge) continue;
+    aufnehmen(vocab[i]);
+  }
+  if(typeof vocabGeplant !== "undefined")
+    for(i=0;i<vocabGeplant.length;i++) aufnehmen(vocabGeplant[i]);
+  for(i=0;i<a.beispiele.length;i++) aufnehmen(a.beispiele[i]);
+
+  return anlaut.concat(innen).slice(0, ALPHA_MAX);
+}
+
 function openAlpha(idx) {
   currentAlpha=idx;
   var a=alphabet[idx];
   navUnterpunkt(a.gross + " " + a.klein, renderAlphaGrid);
-  var bsp="";
-  for(var i=0;i<a.beispiele.length;i++){
-    var b=a.beispiele[i];
+  var liste = alphaBeispiele(idx), bsp="", anlautZahl=0, getrennt=false;
+  for(var i=0;i<liste.length;i++) if(liste[i].start) anlautZahl++;
+  for(var i=0;i<liste.length;i++){
+    var b=liste[i].w;
+    // Ab hier faengt das Wort nicht mehr mit dem Buchstaben an, er steckt
+    // nur mittendrin. Ohne diese Zwischenzeile wirkte die Liste falsch.
+    if(!liste[i].start && !getrennt) {
+      getrennt = true;
+      bsp+='<div class="beispiele-title mitte">… und mit '+a.klein.split("/")[0]+' mittendrin:</div>';
+    }
     bsp+='<div class="beispiel-row">';
-    bsp+='<span class="bsp-gr">'+b.gr+tonKnopf(b.gr,true)+'</span>';
+    bsp+='<img src="'+abDatei(b.de)+'" class="bsp-bild" alt="" data-emoji="'+(b.emoji||"🖼️")+'" onerror="bildErsatz(this)">';
+    bsp+='<span class="bsp-gr">'+(b.art?'<span class="bsp-art">'+b.art+'</span> ':'')+b.gr+tonKnopf(b.gr,true)+'</span>';
     bsp+='<span class="bsp-pr">'+b.pr+'</span>';
     bsp+='<span class="bsp-de">'+b.de+'</span>';
     bsp+='</div>';
@@ -3179,7 +3237,7 @@ function openAlpha(idx) {
   html+='<div class="alpha-detail-pr">Aussprache: '+a.aussprache+'</div>';
   html+='<div class="alpha-detail-de">'+a.deutsch+'</div>';
   html+='</div></div>';
-  html+='<div class="beispiele-title">5 Beispielwörter mit '+a.name+':</div>';
+  html+='<div class="beispiele-title">'+anlautZahl+' Wörter, die mit '+a.klein.split("/")[0]+' anfangen:</div>';
   html+=bsp;
   html+='<div class="alpha-nav">';
   html+='<button class="alpha-nav-btn" onclick="openAlpha('+(idx-1)+')" '+(idx===0?'disabled':'')+'>← Vorheriger</button>';
@@ -3202,7 +3260,9 @@ function openAlpha(idx) {
 var AB_ENDUNGEN     = ["α","ε","η","ι","ο","ου","υ","ω"];
 var AB_KONSONANTEN  = ["μ","ν","π","τ","κ","λ","σ","ρ"];
 var AB_VOKALE       = "αεηιουω";
-var AB_MAX          = 6;
+// Neun Bilder, also drei volle Reihen im Kasten unten. Mehr passt nicht
+// auf eine A4-Seite, ohne dass die Schreiblinien zu eng werden.
+var AB_MAX          = 9;
 
 function abNorm(s) {
   if(s.normalize) s = s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -3220,6 +3280,8 @@ function abWoerter(idx) {
   for(var i=0;i<ls.length;i++) ls[i] = abNorm(ls[i]);
   for(var i=0;i<vocab.length;i++) {
     var v = vocab[i], g = abNorm(v.gr), drin = false, start = false;
+    // Zahlwoerter ohne Mengenbild haetten auf dem Blatt ein leeres Feld
+    if(v.cat === "zahlen" && !v.menge) continue;
     for(var j=0;j<ls.length;j++) {
       if(g.indexOf(ls[j]) >= 0) drin = true;
       if(g.charAt(0) === ls[j]) start = true;
@@ -3400,8 +3462,8 @@ function abDrucken(idx, woerter, bilder) {
    + '.ab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm}'
    + '.ab-cell{border:1.2px solid #111;border-radius:3px;padding:2.5mm 2mm 2mm;display:flex;'
    +   'flex-direction:column;align-items:center}'
-   + '.ab-cell img{height:25mm;width:auto;max-width:100%;object-fit:contain;display:block;margin-bottom:2mm}'
-   + '.ab-noimg{height:25mm;margin-bottom:2mm}'
+   + '.ab-cell img{height:22mm;width:auto;max-width:100%;object-fit:contain;display:block;margin-bottom:2mm}'
+   + '.ab-noimg{height:22mm;margin-bottom:2mm}'
    + '.ab-wr{display:flex;align-items:flex-end;gap:1.5mm;width:100%;justify-content:center}'
    + '.ab-art{font-size:13px;line-height:1}'
    + '.ab-slots{display:flex;gap:1.2mm}'
