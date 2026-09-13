@@ -75,6 +75,9 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .hb-player{background:#F7F6F2;border:1.5px solid #1D9E75;border-radius:16px;padding:14px;margin-bottom:16px;text-align:center}
 .hb-player img{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto 10px}
 .hb-player audio{width:100%;max-width:420px;margin-top:10px}
+.hb-szenen{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.hb-szene{width:30px;height:30px;padding:0;border:1.5px solid #1D9E75;background:white;color:#1D9E75;border-radius:50%;font-size:12px;cursor:pointer;font-family:Georgia,serif}
+.hb-szene.on{background:#1D9E75;color:white}
 .hb-tabs{display:flex;gap:8px;justify-content:center;margin-top:8px}
 .hb-tab{padding:7px 16px;border:1.5px solid #1D9E75;background:white;color:#1D9E75;border-radius:14px;font-size:13px;cursor:pointer;font-family:Georgia,serif}
 .hb-tab.on{background:#1D9E75;color:white}
@@ -3896,7 +3899,9 @@ function hbOeffne(bi, ki, gleichSpielen) {
 
   // Der Spieler
   html += '<div class="hb-player">';
-  if(k.bild) html += '<img src="bilder/'+k.bild+'.png" alt="" data-emoji="🎧" onerror="bildErsatz(this)">';
+  var szenen = hbSzenenListe(k);
+  var erstesBild = szenen.length ? szenen[0].n : k.bild;
+  if(erstesBild) html += '<img id="hb-szenenbild" src="bilder/'+erstesBild+'.png" alt="" data-emoji="🎧" onerror="bildErsatz(this)">';
   html += '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px">KAPITEL '+(k.nr||ki+1)+'</div>';
   html += '<div style="font-size:16px;font-weight:bold;color:#2c2c2a;margin-top:2px">'+kt.de+'</div>';
   if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
@@ -3918,6 +3923,16 @@ function hbOeffne(bi, ki, gleichSpielen) {
          +  '</div>';
   } else {
     html += '<div style="font-size:12px;color:#aaa;margin-top:10px">Für dieses Kapitel gibt es noch keinen Ton.</div>';
+  }
+
+  // Die Sprungleiste - eine Zahl je Bild
+  if(szenen.length > 1) {
+    html += '<div class="hb-szenen">';
+    for(var sz = 0; sz < szenen.length; sz++)
+      html += '<button class="hb-szene'+(sz===0?" on":"")+'" onclick="hbSpringe('+sz+')">'+(sz+1)+'</button>';
+    html += '</div>';
+    html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
+         +  'Die Bilder wechseln von selbst — tippe eine Zahl, um dorthin zu springen.</div>';
   }
 
   html += '<div class="hb-tabs" style="margin-top:12px">';
@@ -3962,9 +3977,16 @@ function hbOeffne(bi, ki, gleichSpielen) {
   hbOfflinePruefen(bi);
   hbTextLaden(b.id, function() { hbInhaltFuellen(bi, ki); });
 
+  hbSzene = szenen.length ? 0 : -1;
+
   var a = document.getElementById("hb-audio");
   if(a) {
     a.onended = function() { if(hbAutoWeiter) hbWeiter(); };
+    // Bildwechsel. timeupdate feuert vier- bis fuenfmal je Sekunde;
+    // hbSzenePruefen tut nur dann etwas, wenn sich die Szene wirklich
+    // aendert, sonst waere es viermal pro Sekunde ein Neuzeichnen.
+    a.ontimeupdate = hbSzenePruefen;
+    a.onseeked     = hbSzenePruefen;
     // Erst wenn wirklich gehoert wird, ist das hier die Stelle,
     // an der es beim naechsten Mal weitergehen soll.
     a.onplay  = function() { hbMerken(); };
@@ -4012,6 +4034,69 @@ function hbInhaltFuellen(bi, ki) {
 function hbSprich(s) {
   hbSprache = s;
   hbOeffne(hbBuch, hbKap, true);
+}
+
+// ── Bilderbuchkino ────────────────────────────────────────────
+//
+//  Ein Kapitel hat mehrere Bilder, und jedes gehoert zu einer Stelle
+//  im Ton. In index.json steht dafuer je Kapitel:
+//
+//      "bilder": [ {"n":"ody03_1", "de":0,   "gr":0},
+//                  {"n":"ody03_2", "de":32,  "gr":27}, ... ]
+//
+//  Deutsch und Griechisch haben eigene Sekunden - dieselbe Stelle ist
+//  in der griechischen Fassung frueher dran, weil sie kuerzer ist.
+//  Die Zahlen rechnet bildfahrplan.py aus.
+//
+//  Kapitel ohne "bilder" verhalten sich wie bisher: ein festes Bild.
+
+var hbSzene = -1;
+
+function hbSzenenListe(k) {
+  var bs = k && k.bilder, aus = [], i, s;
+  if(!bs || !bs.length) return aus;
+  for(i = 0; i < bs.length; i++) {
+    s = bs[i][hbSprache];
+    if(typeof s !== "number") s = bs[i].de;      // Rueckfall, falls eine Sprache fehlt
+    if(typeof s !== "number") s = 0;
+    aus.push({ n: bs[i].n, s: s });
+  }
+  return aus;
+}
+
+function hbSzenenJetzt() {
+  return hbSzenenListe(((hbIndex[hbBuch] || {}).kapitel || [])[hbKap]);
+}
+
+function hbSzeneMalen(i) {
+  var liste = hbSzenenJetzt(), img, knoepfe, j;
+  if(!liste.length || i < 0 || i >= liste.length) return;
+  hbSzene = i;
+  img = document.getElementById("hb-szenenbild");
+  if(img) {
+    img.onerror = function() { bildErsatz(this); };
+    img.src = "bilder/" + liste[i].n + ".png";
+  }
+  knoepfe = document.querySelectorAll(".hb-szene");
+  for(j = 0; j < knoepfe.length; j++)
+    knoepfe[j].className = "hb-szene" + (j === i ? " on" : "");
+}
+
+// Tippen auf eine Zahl setzt Bild UND Tonstelle - ein Kind soll eine
+// Stelle noch einmal hoeren koennen, nicht nur noch einmal ansehen.
+function hbSpringe(i) {
+  var liste = hbSzenenJetzt(), a = document.getElementById("hb-audio");
+  if(!liste[i]) return;
+  if(a) { try { a.currentTime = liste[i].s; } catch(e) {} }
+  hbSzeneMalen(i);
+}
+
+function hbSzenePruefen() {
+  var liste = hbSzenenJetzt(), a = document.getElementById("hb-audio"), t, neu, i;
+  if(!a || !liste.length) return;
+  t = a.currentTime; neu = 0;
+  for(i = 0; i < liste.length; i++) if(t + 0.25 >= liste[i].s) neu = i;
+  if(neu !== hbSzene) hbSzeneMalen(neu);
 }
 
 function hbWeiter() {
