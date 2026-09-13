@@ -75,6 +75,20 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .hb-player{background:#F7F6F2;border:1.5px solid #1D9E75;border-radius:16px;padding:14px;margin-bottom:16px;text-align:center}
 .hb-player img{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto 10px}
 .hb-player audio{width:100%;max-width:420px;margin-top:10px}
+.hb-kino{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#0d0d0d;
+  display:flex;align-items:center;justify-content:center}
+.hb-kino img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.hb-kino .hb-bedien{position:absolute;left:0;right:0;bottom:0;padding:14px 10px 18px;
+  background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.75));transition:opacity .3s}
+.hb-kino.still .hb-bedien,.hb-kino.still .hb-kino-zu{opacity:0;pointer-events:none}
+.hb-kino .hb-szene{border-color:#eee;background:rgba(0,0,0,.35);color:#eee}
+.hb-kino .hb-szene.on{background:#1D9E75;border-color:#1D9E75;color:white}
+.hb-kino-zu{position:absolute;top:12px;right:14px;width:38px;height:38px;padding:0;
+  border:1.5px solid rgba(255,255,255,.6);background:rgba(0,0,0,.35);color:#eee;
+  border-radius:50%;font-size:17px;cursor:pointer;transition:opacity .3s}
+.hb-kino-titel{position:absolute;top:16px;left:16px;color:#ddd;font-size:12px;
+  letter-spacing:.5px;transition:opacity .3s}
+.hb-kino.still .hb-kino-titel{opacity:0}
 .hb-szenen{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
 .hb-szene{width:30px;height:30px;padding:0;border:1.5px solid #1D9E75;background:white;color:#1D9E75;border-radius:50%;font-size:12px;cursor:pointer;font-family:Georgia,serif}
 .hb-szene.on{background:#1D9E75;color:white}
@@ -3642,6 +3656,7 @@ function hbListe() {
     var html = "";
     for(var i=0;i<hbIndex.length;i++) {
       var b = hbIndex[i], n = (b.kapitel||[]).length;
+      html += '<div>';
       html += '<div class="hb-card" onclick="hbOeffne('+i+')">';
       if(b.bild) html += '<img src="bilder/'+b.bild+'.png" alt="" data-emoji="'
                        + (b.emoji||"🎧") + '" onerror="bildErsatz(this)">';
@@ -3650,8 +3665,18 @@ function hbListe() {
       html += '<div style="font-size:12px;color:#1D9E75">'+(b.emoji||"🎧")+' '+b.titel+'</div>';
       html += '<div style="font-size:11px;color:#aaa;margin-top:3px">'+n+' Kapitel</div>';
       html += '</div></div>';
+      // Das Speichern-Angebot gehoert zum BUCH, nicht zu jedem Kapitel:
+      // gespeichert wird ohnehin immer das ganze Buch, und im Kapitel
+      // stand derselbe Kasten sechzehnmal ueber dem Spieler.
+      //
+      // Ausserhalb der Karte, nicht darin - sonst wuerde ein Tipp auf
+      // "Speichern" zugleich das Buch aufschlagen.
+      html += '<div class="hb-offline" id="hb-offline-'+i+'"'
+           +  ' style="margin:8px 0 0">…</div>';
+      html += '</div>';
     }
     box.innerHTML = html;
+    for(var j=0;j<hbIndex.length;j++) hbOfflinePruefen(j);
   }
   document.getElementById("hb-list").style.display = "block";
   document.getElementById("hb-detail").style.display = "none";
@@ -3777,8 +3802,10 @@ function hbBalken(fertig, ganz) {
 }
 
 function hbOfflineMalen(bi, zustand, text) {
-  var box = document.getElementById("hb-offline");
-  if(!box || hbBuch !== bi) return;
+  // Je Buch ein eigener Kasten in der Buchliste - frueher gab es nur
+  // einen einzigen, drinnen in der Kapitelansicht.
+  var box = document.getElementById("hb-offline-" + bi);
+  if(!box) return;
   var b = hbIndex[bi], mb = hbGroesse(b);
   box.className = "hb-offline" + (zustand === "fertig" ? " da" : "");
   if(zustand === "arbeitet") { box.innerHTML = text; return; }
@@ -3895,13 +3922,18 @@ function hbOeffne(bi, ki, gleichSpielen) {
          +  '▶ Weiterhören ab Kapitel ' + wnr + '</button></div>';
   }
 
-  html += '<div class="hb-offline" id="hb-offline">…</div>';
+  // Kein Speichern-Kasten mehr: der steht jetzt eine Ebene hoeher,
+  // bei den Buechern.
 
   // Der Spieler
   html += '<div class="hb-player">';
   var szenen = hbSzenenListe(k);
   var erstesBild = szenen.length ? szenen[0].n : k.bild;
-  if(erstesBild) html += '<img id="hb-szenenbild" src="bilder/'+erstesBild+'.png" alt="" data-emoji="🎧" onerror="bildErsatz(this)">';
+  if(erstesBild) html += '<img id="hb-szenenbild" src="bilder/'+erstesBild+'.png" alt=""'
+       +  ' data-emoji="🎧" onerror="bildErsatz(this)"'
+       // Aufs Bild tippen heisst Grossbild - das ist die Geste, die ein
+       // Kind von selbst probiert, lange bevor es den Knopf liest.
+       +  (szenen.length > 1 ? ' style="cursor:pointer" onclick="hbKino(true)"' : '') + '>';
   html += '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px">KAPITEL '+(k.nr||ki+1)+'</div>';
   html += '<div style="font-size:16px;font-weight:bold;color:#2c2c2a;margin-top:2px">'+kt.de+'</div>';
   if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
@@ -3931,6 +3963,8 @@ function hbOeffne(bi, ki, gleichSpielen) {
     for(var sz = 0; sz < szenen.length; sz++)
       html += '<button class="hb-szene'+(sz===0?" on":"")+'" onclick="hbSpringe('+sz+')">'+(sz+1)+'</button>';
     html += '</div>';
+    html += '<div style="margin-top:10px">'
+         +  '<button class="hb-btn leer" onclick="hbKino(true)">⛶ Großbild</button></div>';
     html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
          +  'Die Bilder wechseln von selbst — tippe eine Zahl, um dorthin zu springen.</div>';
   }
@@ -3974,10 +4008,15 @@ function hbOeffne(bi, ki, gleichSpielen) {
   // Blosses Aufschlagen verschiebt die gemerkte Stelle nicht - das tut
   // erst a.onplay weiter unten, wenn tatsaechlich gehoert wird.
   hbMerken(true);
-  hbOfflinePruefen(bi);
   hbTextLaden(b.id, function() { hbInhaltFuellen(bi, ki); });
 
   hbSzene = szenen.length ? 0 : -1;
+
+  // Laeuft das Kino und wird dabei umgeblaettert - etwa weil das Kapitel
+  // zu Ende ist und "Automatisch weiter" greift -, dann muss es mit dem
+  // neuen Kapitel neu aufgebaut werden. Sonst stuende dort der alte
+  // Titel ueber den neuen Bildern.
+  if(hbKinoAn) { hbKino(false); hbKino(true); }
 
   var a = document.getElementById("hb-audio");
   if(a) {
@@ -4069,25 +4108,43 @@ function hbSzenenJetzt() {
 }
 
 function hbSzeneMalen(i) {
-  var liste = hbSzenenJetzt(), img, knoepfe, j;
+  var liste = hbSzenenJetzt(), knoepfe, j, img, ids = ["hb-szenenbild", "hb-kinobild"];
   if(!liste.length || i < 0 || i >= liste.length) return;
   hbSzene = i;
-  img = document.getElementById("hb-szenenbild");
-  if(img) {
+  // Zwei Bilder koennen dasselbe zeigen: das im Spieler und das im Kino.
+  for(j = 0; j < ids.length; j++) {
+    img = document.getElementById(ids[j]);
+    if(!img) continue;
     img.onerror = function() { bildErsatz(this); };
     img.src = "bilder/" + liste[i].n + ".png";
   }
+  // Und zwei Zahlenreihen: die Knoepfe stehen im Spieler UND im Kino.
   knoepfe = document.querySelectorAll(".hb-szene");
   for(j = 0; j < knoepfe.length; j++)
-    knoepfe[j].className = "hb-szene" + (j === i ? " on" : "");
+    knoepfe[j].className = "hb-szene" + ((j % liste.length) === i ? " on" : "");
 }
 
 // Tippen auf eine Zahl setzt Bild UND Tonstelle - ein Kind soll eine
 // Stelle noch einmal hoeren koennen, nicht nur noch einmal ansehen.
 function hbSpringe(i) {
-  var liste = hbSzenenJetzt(), a = document.getElementById("hb-audio");
+  var liste = hbSzenenJetzt(), a = document.getElementById("hb-audio"), ziel;
   if(!liste[i]) return;
-  if(a) { try { a.currentTime = liste[i].s; } catch(e) {} }
+  if(a) {
+    ziel = liste[i].s;
+    try { a.currentTime = ziel; } catch(e) {}
+    // Das <audio> steht auf preload="none". Solange die Datei nicht
+    // geladen ist, laesst sich currentTime nicht setzen - es bleibt
+    // stillschweigend bei 0. Wer also auf eine Zahl tippt, bevor er
+    // Play gedrueckt hat, bekaeme sonst das Bild ohne die Tonstelle.
+    // Also vormerken und nachholen, sobald die Laenge bekannt ist.
+    if(Math.abs(a.currentTime - ziel) > 1) {
+      a.addEventListener("loadedmetadata", function nachholen() {
+        a.removeEventListener("loadedmetadata", nachholen);
+        try { a.currentTime = ziel; } catch(e) {}
+      });
+      try { a.load(); } catch(e) {}
+    }
+  }
   hbSzeneMalen(i);
 }
 
@@ -4098,6 +4155,96 @@ function hbSzenePruefen() {
   for(i = 0; i < liste.length; i++) if(t + 0.25 >= liste[i].s) neu = i;
   if(neu !== hbSzene) hbSzeneMalen(neu);
 }
+
+// ── Kino: das Bild fuellt den Schirm ──────────────────────────
+//
+//  Der Ton laeuft unveraendert weiter - das <audio> bleibt, wo es ist,
+//  darueber legt sich nur eine Flaeche. Deshalb reisst nichts ab und
+//  die Stelle geht nicht verloren.
+//
+//  Zwei Wege zugleich: eine feste Flaeche ueber allem (das kann jeder
+//  Browser) UND, falls vorhanden, echter Vollbildmodus. Auf dem iPad
+//  kann eine einzelne Seite nicht in den echten Vollbildmodus - dort
+//  traegt die Flaeche allein, und genau deshalb ist sie die Grundlage
+//  und nicht der Notbehelf.
+
+var hbKinoAn = false, hbKinoSchlaf = null, hbKinoUhr = null;
+
+function hbKinoRuhe() {                 // Bedienung nach 3 s ausblenden
+  var k = document.getElementById("hb-kino");
+  if(!k) return;
+  if(hbKinoUhr) clearTimeout(hbKinoUhr);
+  k.className = "hb-kino";
+  hbKinoUhr = setTimeout(function() {
+    var kk = document.getElementById("hb-kino");
+    if(kk) kk.className = "hb-kino still";
+  }, 3000);
+}
+
+function hbKino(an) {
+  var liste = hbSzenenJetzt(), k, html, i, kap;
+  if(an && !liste.length) return;
+  hbKinoAn = an;
+
+  if(!an) {
+    k = document.getElementById("hb-kino");
+    if(k && k.parentNode) k.parentNode.removeChild(k);
+    if(hbKinoUhr) { clearTimeout(hbKinoUhr); hbKinoUhr = null; }
+    if(hbKinoSchlaf) { try { hbKinoSchlaf.release(); } catch(e) {} hbKinoSchlaf = null; }
+    try { if(document.fullscreenElement) document.exitFullscreen(); } catch(e) {}
+    return;
+  }
+
+  kap = ((hbIndex[hbBuch] || {}).kapitel || [])[hbKap] || {};
+  k = document.createElement("div");
+  k.id = "hb-kino";
+  k.className = "hb-kino";
+  html  = '<div class="hb-kino-titel">' + hbEsc(hbTitel(kap.titel).de) + '</div>';
+  html += '<img id="hb-kinobild" alt="">';
+  html += '<button class="hb-kino-zu" onclick="hbKino(false)" title="Schließen">✕</button>';
+  html += '<div class="hb-bedien"><div class="hb-szenen">';
+  for(i = 0; i < liste.length; i++)
+    html += '<button class="hb-szene" onclick="hbSpringe(' + i + ')">' + (i + 1) + '</button>';
+  html += '</div></div>';
+  k.innerHTML = html;
+  // Tippen auf die Flaeche holt die Bedienung zurueck, ein zweites Mal
+  // laesst sie wieder verschwinden. Die Knoepfe selbst sind ausgenommen,
+  // sonst verschwaende der erste Tipp auf eine Zahl.
+  k.onclick = function(e) {
+    var z = e.target;
+    if(z && z.tagName === "BUTTON") return;
+    if(k.className.indexOf("still") >= 0) hbKinoRuhe();
+    else k.className = "hb-kino still";
+  };
+  document.body.appendChild(k);
+
+  hbSzeneMalen(hbSzene < 0 ? 0 : hbSzene);
+  hbKinoRuhe();
+
+  // Echter Vollbildmodus, wo es ihn gibt. Schlaegt er fehl, bleibt die
+  // Flaeche - deshalb wird der Fehler auch nur verschluckt.
+  try {
+    var w = document.documentElement;
+    if(w.requestFullscreen) w.requestFullscreen();
+  } catch(e) {}
+
+  // Ohne Video dimmt das Tablet nach einer Weile den Schirm. Das waere
+  // beim Zuhoeren genau falsch.
+  try {
+    if(navigator.wakeLock && navigator.wakeLock.request)
+      navigator.wakeLock.request("screen").then(function(s) { hbKinoSchlaf = s; },
+                                                function() {});
+  } catch(e) {}
+}
+
+// Verlaesst jemand den Vollbildmodus mit Escape oder der Zurueck-Geste,
+// soll auch die Flaeche verschwinden - sonst haengt sie ohne Ausweg da.
+document.addEventListener("fullscreenchange", function() {
+  if(!document.fullscreenElement && hbKinoAn) hbKino(false);
+});
+document.addEventListener("keydown", function(e) {
+  if(e.key === "Escape" && hbKinoAn) hbKino(false);
+});
 
 function hbWeiter() {
   var kap = (hbIndex[hbBuch] || {}).kapitel || [];
