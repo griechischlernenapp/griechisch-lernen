@@ -129,6 +129,15 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .hb-vb.on{border-color:#1D9E75}
 .hb-vb span{position:absolute;left:3px;bottom:3px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;
   border-radius:4px;padding:0 5px;line-height:16px;font-family:Georgia,serif}
+.hb-buehne.mit-text{border-radius:12px 12px 0 0;margin-bottom:0}
+/* Text unter dem Bild: nur der Teil, der gerade vorgelesen wird (20.09.2026) */
+.hb-unterbild{max-width:640px;margin:0 auto 12px;background:white;border:1.5px solid #e3e1da;border-top:none;
+  border-radius:0 0 12px 12px;padding:12px 16px 10px;text-align:left;font-family:Georgia,serif;
+  font-size:16px;line-height:1.75;color:#2c2c2a}
+.hb-unterbild p{margin:0 0 8px}
+.hb-ub-balken{height:3px;background:#e8e6e0;border-radius:2px;margin-top:10px;overflow:hidden}
+.hb-ub-balken i{display:block;height:3px;background:#1D9E75;width:0}
+.hb-unterbild .hb-wortinfo{position:static}
 .hb-knopfreihe{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
 .hb-an{padding:8px 14px;border:1.5px solid #ddd;background:white;color:#888;border-radius:18px;
   font-size:13px;cursor:pointer;font-family:Georgia,serif}
@@ -3617,6 +3626,10 @@ var hbIndex = null, hbGeladen = false, hbGrund = "";
 var hbTexte = {};                       // Buch-Id -> {"01": {de, gr, woerter}}
 var hbBuch = -1, hbKap = -1, hbSprache = "de";
 var hbAutoWeiter = true, hbMitlesen = true, hbWoerter = true;
+// hbMitlesen: der Textteil unter dem Bild. hbGanz: der ganze Text
+// darunter, wie frueher "Mitlesen" - von Hand einzuschalten.
+var hbGanz = false;
+var hbTextJetzt = null;        // {bi, ki, t, karte} des offenen Kapitels
 
 // Kapiteltitel stehen als "Deutsch · Ελληνικά" in der Textdatei
 function hbTitel(t) {
@@ -3642,7 +3655,7 @@ function hbMerken(behalteStand) {
       buch: halten ? alt.buch : hbBuch,
       kap:  halten ? alt.kap  : hbKap,
       sprache: hbSprache,
-      auto: hbAutoWeiter, lesen: hbMitlesen, woerter: hbWoerter}));
+      auto: hbAutoWeiter, lesen: hbMitlesen, woerter: hbWoerter, ganz: hbGanz}));
   } catch(e) {}
 }
 function hbHolen() {
@@ -3657,6 +3670,7 @@ function hbLaden() {
   if(m.auto  === false) hbAutoWeiter = false;
   if(m.lesen === false) hbMitlesen   = false;
   if(m.woerter === false) hbWoerter  = false;
+  if(m.ganz === true) hbGanz = true;
   var r = new XMLHttpRequest();
   r.open("GET", "hoerbuch/index.json", true);
   r.onload = function() {
@@ -3822,7 +3836,10 @@ function hbTonKnopf(gr) {
 }
 
 function hbWort(el) {
-  var box = document.getElementById("hb-wortinfo");
+  // Die Erklaerung erscheint in dem Kasten, in dem das Wort steht -
+  // unter dem Bild oder im ganzen Text.
+  var kasten = el.closest ? el.closest(".hb-unterbild, .hb-lesen") : null;
+  var box = kasten ? kasten.querySelector(".hb-wortinfo") : document.getElementById("hb-wortinfo");
   if(!box) return;
   var alt = document.querySelectorAll(".hb-gr.wach");
   for(var i=0;i<alt.length;i++) alt[i].className = "hb-gr kann";
@@ -3944,19 +3961,23 @@ function hbLoeschen(bi) {
 
 // ── Der Spieler ───────────────────────────────────────────
 function hbSchalter(was, an) {
+  // Nichts wird neu aufgebaut, nur ein- und ausgeblendet - sonst
+  // wuerde der Ton mitten im Satz abbrechen.
+  var el;
   if(was === "auto")  hbAutoWeiter = an;
-  if(was === "lesen") { hbMitlesen = an; hbOeffne(hbBuch, hbKap); }
-  if(was === "woerter") { hbWoerter = an; hbOeffne(hbBuch, hbKap); }
+  if(was === "lesen") { hbMitlesen = an; hbUnterbild(); }
+  if(was === "ganz")  { hbGanz = an; el = document.getElementById("hb-lesen");
+                        if(el) el.style.display = an ? "" : "none"; }
+  if(was === "woerter") { hbWoerter = an; el = document.getElementById("hb-chips");
+                        if(el) el.style.display = an ? "" : "none"; }
   hbMerken(true);   // ein Haekchen verschiebt die gemerkte Stelle nicht
 }
 
 function hbSchalterKnopf(el, was) {
   var an = el.className.indexOf(" on") < 0;
-  if(was === "auto") {            // baut nicht neu auf, also Knopf selbst umstellen
-    el.className = "hb-an" + (an ? " on" : "");
-    el.setAttribute("aria-pressed", an);
-    el.textContent = (an ? "✓ " : "") + "Automatisch weiter";
-  }
+  el.className = "hb-an" + (an ? " on" : "");
+  el.setAttribute("aria-pressed", an);
+  el.textContent = (an ? "✓ " : "") + el.getAttribute("data-name");
   hbSchalter(was, an);
 }
 
@@ -3975,6 +3996,7 @@ function hbOeffne(bi, ki, gleichSpielen) {
     if(m.sprache === "de" || m.sprache === "gr") hbSprache = m.sprache;
   }
   hbKap = ki;
+  hbTextJetzt = null;
   var k = kap[ki] || {}, kt = hbTitel(k.titel), html = "";
 
   html += '<div style="text-align:center;margin:8px 0 12px;font-size:18px;font-weight:bold;color:#0F6E56">'
@@ -4021,6 +4043,9 @@ function hbOeffne(bi, ki, gleichSpielen) {
     html += '<button class="hb-gross" onclick="hbKino(true)" aria-label="Großbild" title="Großbild">⛶</button>';
   }
   html += '</div>';
+  // Darunter der Teil des Textes, der gerade vorgelesen wird - er
+  // wechselt zusammen mit dem Bild (hbUnterbild).
+  html += '<div class="hb-unterbild" id="hb-unterbild" style="display:none"></div>';
 
   var quelle = k[hbSprache] || k.de || k.gr;
   // Eigener Abspielknopf statt des grauen Browser-Spielers: gross genug
@@ -4064,17 +4089,20 @@ function hbOeffne(bi, ki, gleichSpielen) {
   }
 
   html += '<div class="hb-knopfreihe">';
-  html += '<button class="hb-an'+(hbAutoWeiter?' on':'')+'" aria-pressed="'+hbAutoWeiter+'" onclick="hbSchalterKnopf(this,\'auto\')">'
-       +  (hbAutoWeiter?'✓ ':'')+'Automatisch weiter</button>';
-  html += '<button class="hb-an'+(hbWoerter?' on':'')+'" aria-pressed="'+hbWoerter+'" onclick="hbSchalterKnopf(this,\'woerter\')">'
-       +  (hbWoerter?'✓ ':'')+'Wörter</button>';
-  html += '<button class="hb-an'+(hbMitlesen?' on':'')+'" aria-pressed="'+hbMitlesen+'" onclick="hbSchalterKnopf(this,\'lesen\')">'
-       +  (hbMitlesen?'✓ ':'')+'Mitlesen</button>';
+  var knopf = function(was, an, name) {
+    return '<button class="hb-an'+(an?' on':'')+'" aria-pressed="'+an+'" data-name="'+name+'"'
+         + ' onclick="hbSchalterKnopf(this,\''+was+'\')">'+(an?'✓ ':'')+name+'</button>';
+  };
+  html += knopf('auto', hbAutoWeiter, 'Automatisch weiter');
+  html += knopf('lesen', hbMitlesen, 'Mitlesen');
+  html += knopf('ganz', hbGanz, 'Ganzer Text');
+  html += knopf('woerter', hbWoerter, 'Wörter');
   html += '</div></div>';
 
   // Wörter und Mitlese-Text kommen nach, sobald text.json da ist
-  if(hbWoerter) html += '<div id="hb-chips"></div>';
-  if(hbMitlesen) html += '<div id="hb-lesen"></div>';
+  // Beide Kaesten stehen immer da und werden nur ein- und ausgeblendet.
+  html += '<div id="hb-chips"'+(hbWoerter?'':' style="display:none"')+'></div>';
+  html += '<div id="hb-lesen"'+(hbGanz?'':' style="display:none"')+'></div>';
 
   // Kapitelliste, als Kacheln - siehe .kap-grid im Stilteil
   html += '<p class="section-title" style="margin-top:4px">Alle Kapitel</p>';
@@ -4114,6 +4142,7 @@ function hbOeffne(bi, ki, gleichSpielen) {
 
   hbSzene = szenen.length ? 0 : -1;
   hbPfeileSetzen();
+  hbUnterbild();
 
   // Laeuft das Kino und wird dabei umgeblaettert - etwa weil das Kapitel
   // zu Ende ist und "Automatisch weiter" greift -, dann muss es mit dem
@@ -4150,6 +4179,8 @@ function hbInhaltFuellen(bi, ki) {
   var nr = k.nr || (ki + 1);
   var t = (hbTexte[b.id] || {})[(nr < 10 ? "0" : "") + nr] || {};
   var ws = t.woerter || [], karte = hbWortBau(ws);
+  hbTextJetzt = {bi: bi, ki: ki, t: t, karte: karte};
+  hbUnterbild();
 
   var chips = document.getElementById("hb-chips");
   if(chips && ws.length) {
@@ -4168,8 +4199,8 @@ function hbInhaltFuellen(bi, ki) {
     lese.className = "hb-lesen";
     lese.innerHTML =
         '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px;margin-bottom:10px">'
-      + (hbSprache === "de" ? "MITLESEN · tippe ein grünes Wort an"
-                            : "MITLESEN · der griechische Text")
+      + (hbSprache === "de" ? "GANZER TEXT · tippe ein grünes Wort an"
+                            : "GANZER TEXT · der griechische Text")
       + '</div>'
       + hbMarkiere(txt, karte, hbSprache === "gr")
       + '<div class="hb-wortinfo" id="hb-wortinfo" style="display:none"></div>';
@@ -4239,6 +4270,53 @@ function hbSzeneMalen(i) {
   var z = document.getElementById("hb-zaehler");
   if(z) z.textContent = (i + 1) + " / " + liste.length;
   hbPfeileSetzen();
+  hbUnterbild();
+}
+
+// ── Text unter dem Bild ────────────────────────────────────
+//  text.json hat je Kapitel "marken": {"de": {"ody03_4": 7, ...}, "gr": ...}
+//  = mit welchem Absatz jedes Bild anfaengt (hoerbuch_erzeugen.py liest
+//  das aus den Bildmarken der Kapiteldatei). Unter dem Bild steht vom
+//  Anfang des aktuellen Bildes bis zum Anfang des naechsten. Bildmarken
+//  ohne Bild in index.json haengen so von selbst am Bild davor.
+function hbUnterbild() {
+  var box = document.getElementById("hb-unterbild"), bu = document.querySelector(".hb-buehne");
+  if(!box) return;
+  var tj = hbTextJetzt, liste = hbSzenenJetzt();
+  var gut = tj && tj.bi === hbBuch && tj.ki === hbKap;
+  var t = gut ? tj.t : {}, mk = (t.marken || {})[hbSprache], txt = t[hbSprache] || "";
+  var von = -1, bis, j, abs = [], roh;
+  if(hbMitlesen && mk && txt && liste.length && hbSzene >= 0 && liste[hbSzene]) {
+    von = hbSzene === 0 ? 0 : mk[liste[hbSzene].n];     // Vorspann gehoert zum ersten Bild
+    if(typeof von !== "number") von = -1;
+  }
+  if(von >= 0) {
+    roh = txt.split(/\n\s*\n/);
+    for(j = 0; j < roh.length; j++) if(roh[j].replace(/\s+/g, "")) abs.push(roh[j]);
+    bis = abs.length;
+    for(j = hbSzene + 1; j < liste.length; j++)
+      if(typeof mk[liste[j].n] === "number") { bis = mk[liste[j].n]; break; }
+  }
+  if(von < 0 || bis <= von) {
+    box.style.display = "none";
+    if(bu) bu.className = "hb-buehne";
+    return;
+  }
+  box.innerHTML = hbMarkiere(abs.slice(von, bis).join("\n\n"), tj.karte, hbSprache === "gr")
+    + '<div class="hb-ub-balken"><i id="hb-ub-i"></i></div>'
+    + '<div class="hb-wortinfo" style="display:none"></div>';
+  box.style.display = "";
+  if(bu) bu.className = "hb-buehne mit-text";
+  hbUbBalken();
+}
+// Duenner Balken: wie weit dieser Teil schon vorgelesen ist
+function hbUbBalken() {
+  var i = document.getElementById("hb-ub-i"), a = document.getElementById("hb-audio"), l = hbSzenenJetzt();
+  if(!i || !a || hbSzene < 0 || !l[hbSzene]) return;
+  var s0 = l[hbSzene].s, s1 = hbSzene + 1 < l.length ? l[hbSzene + 1].s : a.duration;
+  if(!isFinite(s1) || s1 <= s0) { i.style.width = "0"; return; }
+  var f = (a.currentTime - s0) / (s1 - s0);
+  i.style.width = Math.round(Math.max(0, Math.min(1, f)) * 100) + "%";
 }
 
 // Fehlt ein kleines Vorschaubild, das grosse nehmen; fehlt auch das,
@@ -4292,6 +4370,7 @@ function hbUhr() {
   var a = document.getElementById("hb-audio"), l = document.getElementById("hb-lauf");
   if(!a) return;
   var d = a.duration;
+  hbUbBalken();
   var t0 = document.getElementById("hb-t0"), t1 = document.getElementById("hb-t1");
   if(t1) t1.textContent = hbMinSek(d);
   if(hbZieht) return;               // beim Ziehen nicht dazwischenfunken
