@@ -3999,10 +3999,9 @@ function hbOeffne(bi, ki, gleichSpielen) {
   hbTextJetzt = null;
   var k = kap[ki] || {}, kt = hbTitel(k.titel), html = "";
 
-  html += '<div style="text-align:center;margin:8px 0 12px;font-size:18px;font-weight:bold;color:#0F6E56">'
-       +  (b.titelGr||b.titel)
-       +  (b.titelGr ? ' <span style="font-size:14px;font-weight:normal;color:#999;font-style:italic">· '+b.titel+'</span>' : '')
-       +  '</div>';
+  // Kein Buchtitel mehr ueber dem Spieler: er steht schon oben in der
+  // gruenen Leiste (navUnterpunkt). Nur etwas Abstand bleibt.
+  html += '<div style="height:8px"></div>';
 
   // Knopf zum Weiterhoeren - nur wenn wirklich schon weiter gehoert
   // wurde und wir gerade am Anfang stehen.
@@ -4303,14 +4302,15 @@ function hbUnterbild() {
     return;
   }
   box.innerHTML = hbMarkiere(abs.slice(von, bis).join("\n\n"), tj.karte, hbSprache === "gr")
-    + '<div class="hb-ub-balken"><i id="hb-ub-i"></i></div>'
     + '<div class="hb-wortinfo" style="display:none"></div>';
   box.style.display = "";
   if(bu) bu.className = "hb-buehne mit-text";
-  hbUbBalken();
 }
-// Duenner Balken: wie weit dieser Teil schon vorgelesen ist
+// Frueher ein duenner Balken unter dem Text, wie weit der Teil schon
+// vorgelesen ist. Entfernt (20.09.2026): er setzt langsame Leser unter
+// Druck. Die Funktion bleibt leer stehen, falls sie noch aufgerufen wird.
 function hbUbBalken() {
+  return;
   var i = document.getElementById("hb-ub-i"), a = document.getElementById("hb-audio"), l = hbSzenenJetzt();
   if(!i || !a || hbSzene < 0 || !l[hbSzene]) return;
   var s0 = l[hbSzene].s, s1 = hbSzene + 1 < l.length ? l[hbSzene + 1].s : a.duration;
