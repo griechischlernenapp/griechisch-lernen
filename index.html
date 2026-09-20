@@ -2343,19 +2343,327 @@ var mythFragen = [
    antwort:true, erkl:"Richtig! Helios war der Sonnengott und seine heiligen Rinder durfte niemand anfassen."},
 ];
 
-var mythData=[], mythIdx=0, mythScore=0, mythAnswered=false;
+// ── ODYSSEE-QUIZ (20.09.2026) ─────────────────────────────
+// 64 Fragen, 4 je Kapitel (3 Multiple Choice, 1 Wahr/Falsch), jede aus
+// dem Kapiteltext belegt (Belege: griechisch\\odyssee_quiz_fragen.json).
+// erkl nennt nach der Antwort ein Wort aus der Wortliste des Kapitels.
+var odysseeFragen = [
+  {kap:1, typ:"mc", img:"ody01_12",
+   gr:"Από τι έφτιαξαν οι Έλληνες το μεγάλο άλογο;", de:"Woraus bauten die Griechen das große Pferd?",
+   antwort:"Ξύλο · Holz", falsch:["Πέτρα · Stein", "Χαλκός · Bronze", "Χρυσός · Gold"],
+   erkl:"Holz heißt auf Griechisch το ξύλο (ksi-lo)."},
+  {kap:1, typ:"mc", img:"ody01_15",
+   gr:"Σε ποιο νησί ήταν το σπίτι του Οδυσσέα;", de:"Auf welcher Insel war Odysseus zu Hause?",
+   antwort:"Η Ιθάκη · Ithaka", falsch:["Η Κρήτη · Kreta", "Η Ρόδος · Rhodos", "Η Νάξος · Naxos"],
+   erkl:"Insel heißt auf Griechisch το νησί (ni-si)."},
+  {kap:1, typ:"mc", img:"ody01_8",
+   gr:"Τι φούσκωσε τα πανιά του πλοίου;", de:"Was blähte die Segel des Schiffes auf?",
+   antwort:"Ο άνεμος · der Wind", falsch:["Ο ήλιος · die Sonne", "Η βροχή · der Regen", "Τα κύματα · die Wellen"],
+   erkl:"Wind heißt auf Griechisch ο άνεμος (a-ne-mos)."},
+  {kap:1, typ:"wf", img:"ody01_4",
+   gr:"Οι Τρώες τράβηξαν το άλογο μέσα στην πόλη τους.", de:"Die Trojaner zogen das Pferd in ihre Stadt hinein.",
+   antwort:true,
+   erkl:"Richtig! Die Trojaner zogen das Pferd in ihre Stadt — Stadt heißt η πόλη (po-li)."},
+  {kap:2, typ:"mc", img:"ody02_4",
+   gr:"Ποιον καρπό έδωσαν οι άνθρωποι στους τρεις άντρες;", de:"Welche Frucht gaben die Menschen den drei Männern?",
+   antwort:"Λωτός · Lotos", falsch:["Σταφύλι · Traube", "Σύκο · Feige", "Μήλο · Apfel"],
+   erkl:"Die Lotosfrucht heißt auf Griechisch ο λωτός (lo-tos)."},
+  {kap:2, typ:"mc", img:"ody02_14",
+   gr:"Τι γεύση είχε ο λωτός;", de:"Wie schmeckte der Lotos?",
+   antwort:"Γλυκός · süß", falsch:["Ξινός · sauer", "Πικρός · bitter", "Αλμυρός · salzig"],
+   erkl:"Süß heißt auf Griechisch γλυκός (ghli-kos)."},
+  {kap:2, typ:"mc", img:"ody02_18",
+   gr:"Τι έπαθαν οι άντρες που έφαγαν τον λωτό;", de:"Was geschah mit den Männern, die den Lotos gegessen hatten?",
+   antwort:"Ξέχασαν το σπίτι · vergaßen ihr Zuhause", falsch:["Έγιναν γίγαντες · wurden zu Riesen", "Έχασαν τη φωνή · verloren ihre Stimme", "Έγιναν πουλιά · wurden zu Vögeln"],
+   erkl:"Vergessen heißt auf Griechisch ξεχνώ (kse-chno)."},
+  {kap:2, typ:"wf", img:"ody02_8",
+   gr:"Ο Οδυσσέας άφησε τους τρεις άντρες πίσω, στη χώρα με τα λουλούδια.", de:"Odysseus ließ die drei Männer im Land der Blumen zurück.",
+   antwort:false,
+   erkl:"Falsch! Odysseus holte die drei Männer zurück aufs Schiff — Schiff heißt το πλοίο (pli-o)."},
+  {kap:3, typ:"mc", img:"ody03_4",
+   gr:"Τι δώρο έφερε ο Οδυσσέας στον γίγαντα;", de:"Welches Geschenk brachte Odysseus dem Riesen?",
+   antwort:"Κρασί · Wein", falsch:["Ψωμί · Brot", "Μέλι · Honig", "Χρυσός · Gold"],
+   erkl:"Wein heißt auf Griechisch το κρασί (kra-si)."},
+  {kap:3, typ:"mc", img:"ody03_19",
+   gr:"Ποιο όνομα είπε ο Οδυσσέας στον γίγαντα;", de:"Welchen Namen nannte Odysseus dem Riesen?",
+   antwort:"Κανένας · Niemand", falsch:["Κάποιος · Jemand", "Φίλος · Freund", "Ναύτης · Seemann"],
+   erkl:"Niemand heißt auf Griechisch κανένας (ka-ne-nas)."},
+  {kap:3, typ:"mc", img:"ody03_15",
+   gr:"Πώς βγήκαν οι άντρες από τη σπηλιά;", de:"Wie kamen die Männer aus der Höhle heraus?",
+   antwort:"Κάτω από τα πρόβατα · unter den Schafen", falsch:["Από μια τρύπα · durch ein Loch", "Μέσα σε καλάθια · in Körben", "Πάνω από την πέτρα · über den Stein"],
+   erkl:"Schaf heißt auf Griechisch το πρόβατο (pro-va-to)."},
+  {kap:3, typ:"wf", img:"ody03_14",
+   gr:"Ο γίγαντας Πολύφημος είχε μόνο ένα μάτι.", de:"Der Riese Polyphem hatte nur ein einziges Auge.",
+   antwort:true,
+   erkl:"Richtig! Polyphem hatte nur ένα μάτι — Auge heißt το μάτι (ma-ti)."},
+  {kap:4, typ:"mc", img:"ody04_10",
+   gr:"Τι ήταν μέσα στον ασκό, το δώρο του Αιόλου;", de:"Was war in dem Sack, den Aiolos Odysseus schenkte?",
+   antwort:"Οι άνεμοι · die Winde", falsch:["Το κρασί · der Wein", "Το ψωμί · das Brot", "Το νερό · das Wasser"],
+   erkl:"Der Sack heißt auf Griechisch ο ασκός (as-kos)."},
+  {kap:4, typ:"mc", img:"ody04_04",
+   gr:"Πού έμενε ο βασιλιάς Αίολος;", de:"Wo wohnte König Aiolos?",
+   antwort:"Σε πλωτό νησί · auf einer schwimmenden Insel", falsch:["Σε μια σπηλιά · in einer Höhle", "Σε ψηλό βουνό · auf einem hohen Berg", "Σε μια πόλη · in einer großen Stadt"],
+   erkl:"Insel heißt auf Griechisch το νησί (ni-si)."},
+  {kap:4, typ:"mc", img:"ody04_18",
+   gr:"Τι έκανε ο Οδυσσέας, όταν η Ιθάκη ήταν πολύ κοντά;", de:"Was tat Odysseus, als Ithaka schon ganz nah war?",
+   antwort:"Κοιμήθηκε · Er schlief ein", falsch:["Κολύμπησε · Er schwamm", "Τραγούδησε · Er sang", "Χόρεψε · Er tanzte"],
+   erkl:"Schlafen heißt auf Griechisch κοιμάμαι (ki-ma-me)."},
+  {kap:4, typ:"wf", img:"ody04_25",
+   gr:"Ο Αίολος βοήθησε τον Οδυσσέα και δεύτερη φορά.", de:"Aiolos half Odysseus auch ein zweites Mal.",
+   antwort:false,
+   erkl:"Falsch! Aiolos gab kein zweites Geschenk — Geschenk heißt το δώρο (dho-ro)."},
+  {kap:5, typ:"mc", img:"ody05_09",
+   gr:"Σε τι μεταμόρφωσε η Κίρκη τους άντρες;", de:"Wozu verwandelte Kirke die Männer?",
+   antwort:"Σε γουρούνια · in Schweine", falsch:["Σε λιοντάρια · in Löwen", "Σε πουλιά · in Vögel", "Σε ψάρια · in Fische"],
+   erkl:"Schwein heißt auf Griechisch το γουρούνι (ghu-ru-ni)."},
+  {kap:5, typ:"mc", img:"ody05_03",
+   gr:"Ποια ζώα ήταν μπροστά στο σπίτι της Κίρκης;", de:"Welche Tiere waren vor Kirkes Haus?",
+   antwort:"Λιοντάρι και λύκος · Löwe und Wolf", falsch:["Άλογο και σκύλος · Pferd und Hund", "Αγελάδα και πρόβατο · Kuh und Schaf", "Αρκούδα και φίδι · Bär und Schlange"],
+   erkl:"Löwe heißt auf Griechisch το λιοντάρι (lion-da-ri)."},
+  {kap:5, typ:"mc", img:"ody05_21",
+   gr:"Τι έδωσε ο Ερμής στον Οδυσσέα;", de:"Was gab Hermes dem Odysseus?",
+   antwort:"Ένα λουλούδι · eine Blume", falsch:["Ένα σπαθί · ein Schwert", "Ένα ραβδί · einen Zauberstab", "Ένα κύπελλο · einen Becher"],
+   erkl:"Blume heißt auf Griechisch το λουλούδι (lu-lu-dhi)."},
+  {kap:5, typ:"wf", img:"ody05_30",
+   gr:"Η Κίρκη έμεινε για πάντα εχθρός.", de:"Kirke blieb für immer eine Feindin.",
+   antwort:false,
+   erkl:"Falsch! Kirke half den Männern – helfen heißt βοηθάω (vo-i-tha-o)."},
+  {kap:6, typ:"mc", img:"ody06_09",
+   gr:"Πώς λεγόταν ο γέρος που είπε στον Οδυσσέα τον δρόμο;", de:"Wie hieß der alte Mann, der Odysseus den Weg sagte?",
+   antwort:"Τειρεσίας · Teiresias", falsch:["Ερμής · Hermes", "Αίολος · Aiolos", "Τηλέμαχος · Telemachos"],
+   erkl:"Der Alte heißt auf Griechisch ο γέρος (ghe-ros)."},
+  {kap:6, typ:"mc", img:"ody06_11",
+   gr:"Ποια ζώα δεν πρέπει να αγγίξουν οι άντρες;", de:"Welche Tiere dürfen die Männer nicht anrühren?",
+   antwort:"Τις αγελάδες · die Kühe", falsch:["Τα πρόβατα · die Schafe", "Τα άλογα · die Pferde", "Τα κατσίκια · die Ziegen"],
+   erkl:"Kuh heißt auf Griechisch η αγελάδα (a-ghe-la-dha)."},
+  {kap:6, typ:"mc", img:"ody06_14",
+   gr:"Ποια σκιά ήρθε μετά τον γέρο;", de:"Welcher Schatten kam nach dem alten Mann?",
+   antwort:"Η μητέρα του · seine Mutter", falsch:["Η Κίρκη · Kirke", "Η Πηνελόπη · Penelope", "Η αδελφή του · seine Schwester"],
+   erkl:"Mutter heißt auf Griechisch η μητέρα (mi-te-ra)."},
+  {kap:6, typ:"wf", img:"ody06_16",
+   gr:"Η Πηνελόπη περιμένει κάθε μέρα στο παράθυρο.", de:"Penelope wartet jeden Tag am Fenster.",
+   antwort:true,
+   erkl:"Richtig! Warten heißt auf Griechisch περιμένω (pe-ri-me-no)."},
+  {kap:7, typ:"mc", img:"ody07_01",
+   gr:"Πού κάθονται οι Σειρήνες;", de:"Wo sitzen die Sirenen?",
+   antwort:"Πάνω σε βράχους · auf Felsen", falsch:["Πάνω σε δέντρα · auf Bäumen", "Μέσα σε σπηλιά · in einer Höhle", "Πάνω σε πλοίο · auf einem Schiff"],
+   erkl:"Fels heißt auf Griechisch ο βράχος (vra-chos)."},
+  {kap:7, typ:"mc", img:"ody07_04",
+   gr:"Τι έβαλε ο Οδυσσέας στα αυτιά των αντρών;", de:"Was steckte Odysseus den Männern in die Ohren?",
+   antwort:"Κερί · Wachs", falsch:["Μέλι · Honig", "Ψωμί · Brot", "Άμμο · Sand"],
+   erkl:"Wachs heißt auf Griechisch το κερί (ke-ri)."},
+  {kap:7, typ:"mc", img:"ody07_07",
+   gr:"Πού έδεσαν οι άντρες τον Οδυσσέα;", de:"Woran banden die Männer Odysseus fest?",
+   antwort:"Στο κατάρτι · an den Mast", falsch:["Σε ένα κουπί · an ein Ruder", "Σε έναν βράχο · an einen Felsen", "Σε ένα δέντρο · an einen Baum"],
+   erkl:"Seil heißt auf Griechisch το σχοινί (schi-ni)."},
+  {kap:7, typ:"wf", img:"ody07_12",
+   gr:"Ο Οδυσσέας έβαλε κι αυτός κερί στα αυτιά του.", de:"Odysseus steckte sich auch Wachs in die Ohren.",
+   antwort:false,
+   erkl:"Falsch! Er wollte das Lied hören und ließ seine Ohren frei – Ohr heißt το αυτί (af-ti)."},
+  {kap:8, typ:"mc", img:"ody08_03",
+   gr:"Τι έκανε η Χάρυβδη με το νερό;", de:"Was machte Charybdis mit dem Wasser?",
+   antwort:"Το κατάπινε · sie schluckte es", falsch:["Το ζέσταινε · sie wärmte es", "Το πάγωνε · sie fror es ein", "Το έκανε κόκκινο · sie färbte es rot"],
+   erkl:"Wasser heißt auf Griechisch το νερό (ne-ro)."},
+  {kap:8, typ:"mc", img:"ody08_01",
+   gr:"Πώς είπε η Κίρκη να περάσει ο Οδυσσέας;", de:"Wie sollte Odysseus laut Kirke hindurchfahren?",
+   antwort:"Αριστερά και γρήγορα · links und schnell", falsch:["Δεξιά και γρήγορα · rechts und schnell", "Αριστερά και σιγά · links und langsam", "Δεξιά και σιγά · rechts und langsam"],
+   erkl:"Schnell heißt auf Griechisch γρήγορα (ghri-gho-ra)."},
+  {kap:8, typ:"mc", img:"ody08_12",
+   gr:"Για ποιο τέρας δεν είπε τίποτα ο Οδυσσέας στους άντρες;", de:"Von welchem Ungeheuer erzählte Odysseus seinen Männern nichts?",
+   antwort:"Για τη Σκύλλα · von Skylla", falsch:["Για τη Χάρυβδη · von Charybdis", "Για τις Σειρήνες · von den Sirenen", "Για τον Κύκλωπα · vom Zyklopen"],
+   erkl:"Ungeheuer heißt auf Griechisch το τέρας (te-ras)."},
+  {kap:8, typ:"wf", img:"ody08_19",
+   gr:"Μετά ο Οδυσσέας είπε στους άντρες όλη την αλήθεια.", de:"Danach erzählte Odysseus seinen Männern die ganze Wahrheit.",
+   antwort:true,
+   erkl:"Richtig! Er erklärte, dass er wählen musste – wählen heißt διαλέγω (dhia-le-gho)."},
+  {kap:9, typ:"mc", img:"ody09_02",
+   gr:"Σε ποιον ανήκαν οι αγελάδες;", de:"Wem gehörten die Rinder?",
+   antwort:"Στον θεό του ήλιου · dem Sonnengott", falsch:["Στον Ποσειδώνα · Poseidon", "Στην Κίρκη · Kirke", "Στον Αίολο · Aiolos"],
+   erkl:"Sonne heißt auf Griechisch ο ήλιος (i-li-os)."},
+  {kap:9, typ:"mc", img:"ody09_08",
+   gr:"Τι έπιαναν οι άντρες, όταν τελείωσε το φαγητό;", de:"Was fingen die Männer, als ihr Essen zu Ende ging?",
+   antwort:"Ψάρια · Fische", falsch:["Πουλιά · Vögel", "Κουνέλια · Kaninchen", "Καβούρια · Krebse"],
+   erkl:"Fisch heißt auf Griechisch το ψάρι (psa-ri)."},
+  {kap:9, typ:"mc", img:"ody09_12",
+   gr:"Τι έκανε ο Οδυσσέας, όταν πήγε μόνος στο νησί;", de:"Was passierte, als Odysseus allein ins Landesinnere ging?",
+   antwort:"Αποκοιμήθηκε · Er schlief ein", falsch:["Έφτιαξε φωτιά · Er machte Feuer", "Κολύμπησε · Er schwamm", "Βρήκε ένα πλοίο · Er fand ein Schiff"],
+   erkl:"Schlafen heißt auf Griechisch κοιμάμαι (ki-ma-me)."},
+  {kap:9, typ:"wf", img:"ody09_22",
+   gr:"Στο τέλος ο Οδυσσέας είναι μόνος πάνω σε ένα ξύλο.", de:"Am Ende ist Odysseus ganz allein auf einem Stück Holz.",
+   antwort:true,
+   erkl:"Richtig! Allein heißt auf Griechisch μόνος (mo-nos)."},
+  {kap:10, typ:"mc", img:"ody10_11",
+   gr:"Ποιος ήταν ο πατέρας του Πολύφημου;", de:"Wer war der Vater von Polyphem?",
+   antwort:"Ο Ποσειδώνας · Poseidon", falsch:["Ο Δίας · Zeus", "Ο Αίολος · Aiolos", "Ο Ερμής · Hermes"],
+   erkl:"Vater heißt auf Griechisch ο πατέρας (pa-te-ras)."},
+  {kap:10, typ:"mc", img:"ody10_10",
+   gr:"Ποιο όνομα φώναξε ο Οδυσσέας στον γίγαντα;", de:"Welchen Namen rief Odysseus dem Riesen zu?",
+   antwort:"Οδυσσέας · Odysseus", falsch:["Κανένας · Niemand", "Πολύφημος · Polyphem", "Ποσειδώνας · Poseidon"],
+   erkl:"Das war ein Fehler – Fehler heißt auf Griechisch το λάθος (la-thos)."},
+  {kap:10, typ:"mc", img:"ody10_19",
+   gr:"Τι έδωσε η Ινώ στον Οδυσσέα;", de:"Was gab Ino Odysseus?",
+   antwort:"Ένα πανί · ein Tuch", falsch:["Ένα κουπί · ein Ruder", "Ένα σκοινί · ein Seil", "Μια βάρκα · ein Boot"],
+   erkl:"Mit dem Tuch konnte er weiter schwimmen – schwimmen heißt κολυμπάω (ko-lim-ba-o)."},
+  {kap:10, typ:"wf", img:"ody10_6",
+   gr:"Η Ινώ είπε: «Κράτα καλά το ξύλο!»", de:"Ino sagte: „Halt das Holz gut fest!“",
+   antwort:false,
+   erkl:"Falsch! Ino sagte: „Lass das Holz los!“ Holz heißt το ξύλο (ksi-lo)."},
+  {kap:11, typ:"mc", img:"ody11_3",
+   gr:"Τι ήθελε να κάνει η Καλυψώ τον Οδυσσέα;", de:"Was wollte Kalypso aus Odysseus machen?",
+   antwort:"Αθάνατο · unsterblich", falsch:["Βασιλιά · einen König", "Πλούσιο · reich", "Ψαρά · einen Fischer"],
+   erkl:"Unsterblich heißt auf Griechisch αθάνατος (a-tha-na-tos)."},
+  {kap:11, typ:"mc", img:"ody11_16",
+   gr:"Τι έκανε ο Οδυσσέας κάθε μέρα στην παραλία;", de:"Was machte Odysseus jeden Tag am Strand?",
+   antwort:"Κοίταζε τη θάλασσα · Er schaute aufs Meer", falsch:["Έχτιζε ένα σπίτι · Er baute ein Haus", "Ψάρευε · Er angelte", "Έπαιζε μπάλα · Er spielte Ball"],
+   erkl:"Strand heißt auf Griechisch η παραλία (pa-ra-li-a)."},
+  {kap:11, typ:"mc", img:"ody11_18",
+   gr:"Τι ήθελε ο Οδυσσέας πιο πολύ από όλα;", de:"Was wünschte sich Odysseus am meisten?",
+   antwort:"Την πατρίδα του · seine Heimat", falsch:["Ένα παλάτι · einen Palast", "Χρυσάφι · Gold", "Να μείνει εκεί · dort bleiben"],
+   erkl:"Heimat heißt auf Griechisch η πατρίδα (pa-tri-dha)."},
+  {kap:11, typ:"wf", img:"ody11_21",
+   gr:"Ο Οδυσσέας φεύγει από το νησί με ένα μεγάλο πλοίο.", de:"Odysseus fährt mit einem großen Schiff von der Insel weg.",
+   antwort:false,
+   erkl:"Falsch! Er baut sich ein Floß aus Bäumen – Baum heißt το δέντρο (dhen-dro)."},
+  {kap:12, typ:"mc", img:"ody12_14",
+   gr:"Γιατί πήγε η Ναυσικά στο ποτάμι;", de:"Warum fuhr Nausikaa zum Fluss?",
+   antwort:"Να πλύνει τα ρούχα · Wäsche waschen", falsch:["Να ψαρέψει · angeln", "Να φέρει νερό · Wasser holen", "Να μαζέψει λουλούδια · Blumen pflücken"],
+   erkl:"Waschen heißt auf Griechisch πλένω (ple-no)."},
+  {kap:12, typ:"mc", img:"ody12_7",
+   gr:"Ποιος έβαλε τον Οδυσσέα να καθίσει δίπλα του;", de:"Wer setzte Odysseus im Palast neben sich?",
+   antwort:"Ο βασιλιάς Αλκίνοος · König Alkinoos", falsch:["Ο τραγουδιστής · der Sänger", "Η Ναυσικά · Nausikaa", "Η Αθηνά · Athene"],
+   erkl:"König heißt auf Griechisch ο βασιλιάς (va-si-lias)."},
+  {kap:12, typ:"mc", img:"ody12_8",
+   gr:"Για τι τραγουδούσε ο Δημόδοκος;", de:"Wovon sang der Sänger Demodokos?",
+   antwort:"Για την Τροία · vom Krieg um Troja", falsch:["Για τις Σειρήνες · von den Sirenen", "Για την Καλυψώ · von Kalypso", "Για τον Κύκλωπα · vom Zyklopen"],
+   erkl:"Lied heißt auf Griechisch το τραγούδι (tra-ghu-dhi)."},
+  {kap:12, typ:"wf", img:"ody12_16",
+   gr:"Η Ναυσικά δεν έφυγε, όταν ήρθε ο Οδυσσέας.", de:"Nausikaa rannte nicht weg, als Odysseus kam.",
+   antwort:true,
+   erkl:"Richtig! Sie hatte Angst, aber sie blieb stehen – Angst haben heißt φοβάμαι (fo-va-me)."},
+  {kap:13, typ:"mc", img:"ody13_04",
+   gr:"Ποιος ήταν στην αλήθεια ο νεαρός βοσκός;", de:"Wer war der junge Hirte in Wahrheit?",
+   antwort:"Η θεά Αθηνά · die Göttin Athene", falsch:["Η Καλυψώ · die Nymphe Kalypso", "Η Κίρκη · die Zauberin Kirke", "Ο Ερμής · der Gott Hermes"],
+   erkl:"Göttin heißt auf Griechisch η θεά (the-a)."},
+  {kap:13, typ:"mc", img:"ody13_17",
+   gr:"Τι έκανε η Πηνελόπη κάθε νύχτα με το ύφασμα;", de:"Was machte Penelope jede Nacht mit dem Tuch?",
+   antwort:"Το ξήλωνε κρυφά · trennte es heimlich auf", falsch:["Το έκρυβε στο δωμάτιο · versteckte es im Zimmer", "Το έπλενε στο νερό · wusch es im Wasser", "Το έδειχνε στους μνηστήρες · zeigte es den Freiern"],
+   erkl:"Das war ein kluger Trick – klug heißt auf Griechisch έξυπνος (ek-sip-nos)."},
+  {kap:13, typ:"mc", img:"ody13_21",
+   gr:"Σε τι μεταμόρφωσε η Αθηνά τον Οδυσσέα;", de:"In wen verwandelte Athene Odysseus?",
+   antwort:"Σε ζητιάνο · in einen Bettler", falsch:["Σε βοσκό · in einen Hirten", "Σε ναύτη · in einen Seemann", "Σε έμπορο · in einen Händler"],
+   erkl:"Bettler heißt auf Griechisch ο ζητιάνος (zi-tia-nos)."},
+  {kap:13, typ:"wf", img:"ody13_19",
+   gr:"Η Αθηνά είπε στον Οδυσσέα να πάει αμέσως στο σπίτι του.", de:"Athene sagte Odysseus, er solle sofort in sein Haus gehen.",
+   antwort:false,
+   erkl:"Falsch! Athene sagte, er brauche Geduld – auf Griechisch η υπομονή (i-po-mo-ni)."},
+  {kap:14, typ:"mc", img:"ody14_03",
+   gr:"Ποιος φιλοξένησε τον ζητιάνο στην καλύβα του;", de:"Wer nahm den Bettler in seiner Hütte auf?",
+   antwort:"Ο Εύμαιος · Eumaios", falsch:["Ο Τηλέμαχος · Telemachos", "Η Ευρύκλεια · Eurykleia", "Ο Λαέρτης · Laertes"],
+   erkl:"Eumaios blieb seinem Herrn treu – treu heißt auf Griechisch πιστός (pis-tos)."},
+  {kap:14, typ:"mc", img:"ody14_18",
+   gr:"Από τι αναγνώρισε ο Τηλέμαχος τον πατέρα του;", de:"Woran erkannte Telemachos seinen Vater?",
+   antwort:"Από τη φωνή · an der Stimme", falsch:["Από το πρόσωπο · am Gesicht", "Από τα μαλλιά · an den Haaren", "Από τα ρούχα · an den Kleidern"],
+   erkl:"Stimme heißt auf Griechisch η φωνή (fo-ni)."},
+  {kap:14, typ:"mc", img:"ody14_22",
+   gr:"Ποιος αναγνώρισε τον ζητιάνο μπροστά στο παλάτι;", de:"Wer erkannte den Bettler vor dem Palast?",
+   antwort:"Ο σκύλος Άργος · der Hund Argos", falsch:["Η Πηνελόπη · Penelope", "Ο Εύμαιος · Eumaios", "Ένας μνηστήρας · ein Freier"],
+   erkl:"Hund heißt auf Griechisch ο σκύλος (ski-los)."},
+  {kap:14, typ:"wf", img:"ody14_20",
+   gr:"Ο Οδυσσέας και ο Τηλέμαχος έφτιαξαν μαζί ένα σχέδιο.", de:"Odysseus und Telemachos machten zusammen einen Plan.",
+   antwort:true,
+   erkl:"Richtig! Plan heißt auf Griechisch το σχέδιο (sche-dhi-o)."},
+  {kap:15, typ:"mc", img:"ody15_05",
+   gr:"Από τι αναγνώρισε η Ευρύκλεια τον ζητιάνο;", de:"Woran erkannte Eurykleia den Bettler?",
+   antwort:"Από το σημάδι · an der Narbe", falsch:["Από τη φωνή · an der Stimme", "Από τα μάτια · an den Augen", "Από το τόξο · am Bogen"],
+   erkl:"Zeichen oder Narbe heißt auf Griechisch το σημάδι (si-ma-dhi)."},
+  {kap:15, typ:"mc", img:"ody15_13",
+   gr:"Τι έφερε η Πηνελόπη για τον διαγωνισμό;", de:"Was brachte Penelope für den Wettkampf?",
+   antwort:"Ένα τόξο · einen Bogen", falsch:["Ένα σπαθί · ein Schwert", "Ένα δόρυ · einen Speer", "Μια ασπίδα · einen Schild"],
+   erkl:"Bogen heißt auf Griechisch το τόξο (to-kso)."},
+  {kap:15, typ:"mc", img:"ody15_22",
+   gr:"Τι έκανε ο Εύμαιος, ενώ οι μνηστήρες γελούσαν;", de:"Was tat Eumaios, während die Freier lachten?",
+   antwort:"Έκλεισε την πόρτα · schloss die Tür", falsch:["Άναψε τη φωτιά · machte Feuer", "Έφερε κρασί · brachte Wein", "Άνοιξε το παράθυρο · öffnete das Fenster"],
+   erkl:"Tür heißt auf Griechisch η πόρτα (por-ta)."},
+  {kap:15, typ:"wf", img:"ody15_17",
+   gr:"Κανένας μνηστήρας δεν μπόρεσε να τεντώσει το τόξο.", de:"Keiner der Freier konnte den Bogen spannen.",
+   antwort:true,
+   erkl:"Richtig! Die Freier waren stark – auf Griechisch δυνατός (dhi-na-tos) –, aber keiner schaffte es."},
+  {kap:16, typ:"mc", img:"ody16_07",
+   gr:"Με τι δοκίμασε η Πηνελόπη τον Οδυσσέα;", de:"Womit stellte Penelope Odysseus auf die Probe?",
+   antwort:"Με το κρεβάτι · mit dem Bett", falsch:["Με το τόξο · mit dem Bogen", "Με το σημάδι · mit der Narbe", "Με ένα τραγούδι · mit einem Lied"],
+   erkl:"Bett heißt auf Griechisch το κρεβάτι (kre-va-ti)."},
+  {kap:16, typ:"mc", img:"ody16_09",
+   gr:"Γύρω από ποιο δέντρο έχτισε ο Οδυσσέας την κρεβατοκάμαρα;", de:"Um welchen Baum herum baute Odysseus das Schlafzimmer?",
+   antwort:"Μια ελιά · ein Olivenbaum", falsch:["Μια βελανιδιά · eine Eiche", "Μια συκιά · ein Feigenbaum", "Μια μηλιά · ein Apfelbaum"],
+   erkl:"Olivenbaum heißt auf Griechisch η ελιά (e-lia)."},
+  {kap:16, typ:"mc", img:"ody16_17",
+   gr:"Ποιον επισκέφτηκε ο Οδυσσέας στο μικρό κτήμα έξω από την πόλη;", de:"Wen besuchte Odysseus auf dem kleinen Hof vor der Stadt?",
+   antwort:"Τον πατέρα του Λαέρτη · seinen Vater Laertes", falsch:["Τον βοσκό Εύμαιο · den Hirten Eumaios", "Τη θεά Αθηνά · die Göttin Athene", "Τον γιο του Τηλέμαχο · seinen Sohn Telemachos"],
+   erkl:"Laertes ist der Großvater von Telemachos – Großvater heißt auf Griechisch ο παππούς (pa-pus)."},
+  {kap:16, typ:"wf", img:"ody16_26",
+   gr:"Στο τέλος ξεκίνησε πόλεμος στην Ιθάκη.", de:"Am Ende begann auf Ithaka ein Krieg.",
+   antwort:false,
+   erkl:"Falsch! Athene brachte Frieden – Frieden heißt auf Griechisch η ειρήνη (i-ri-ni)."}
+];
 
-function startMythosQuiz() {
-  mythData=mythFragen.slice().sort(function(){ return Math.random()-0.5; });
+var mythData=[], mythIdx=0, mythScore=0, mythAnswered=false, mythArt="";
+
+// Ohne Art: Auswahl zwischen dem allgemeinen Quiz und dem Odyssee-Quiz.
+function startMythosQuiz(art) {
+  var area = document.getElementById("mythos-area");
+  if(!art) {
+    navUnterpunkt(null);
+    var h = '<div class="myth-header"><h2>🏛️ Mythologie-Quiz</h2><p>Welches Quiz möchtest du spielen?</p></div>';
+    h += '<div class="hb-grid">';
+    h += '<div class="hb-card" onclick="startMythosQuiz(\'allgemein\')">'
+       + '<img src="bilder/story-12_greek_gods_with_names_greek_mythology.png" alt="" data-emoji="⚡" onerror="bildErsatz(this)">'
+       + '<div class="t"><div style="font-size:15px;font-weight:bold;color:#2c2c2a">Allgemeines Quiz</div>'
+       + '<div style="font-size:13px;color:#0F6E56;font-style:italic">Γενικό κουίζ</div>'
+       + '<div style="font-size:11px;color:#aaa;margin-top:3px">Götter, Helden und Sagen</div></div></div>';
+    h += '<div class="hb-card" onclick="startMythosQuiz(\'odyssee\')">'
+       + '<img src="bilder/ody03_4.png" alt="" data-emoji="⛵" onerror="bildErsatz(this)">'
+       + '<div class="t"><div style="font-size:15px;font-weight:bold;color:#2c2c2a">Odyssee-Quiz</div>'
+       + '<div style="font-size:13px;color:#0F6E56;font-style:italic">Κουίζ της Οδύσσειας</div>'
+       + '<div style="font-size:11px;color:#aaa;margin-top:3px">12 Fragen zum Hörbuch</div></div></div>';
+    h += '</div>';
+    area.innerHTML = h;
+    return;
+  }
+  mythArt = art;
+  var gemischt;
+  if(art === "odyssee") {
+    // 12 zufaellige Fragen, in der Reihenfolge der Kapitel - so folgt das
+    // Quiz der Geschichte, statt von Ithaka zum Zyklopen zu springen.
+    gemischt = odysseeFragen.slice().sort(function(){ return Math.random()-0.5; }).slice(0, 12);
+    gemischt.sort(function(a, b){ return a.kap - b.kap; });
+  } else {
+    gemischt = mythFragen.slice().sort(function(){ return Math.random()-0.5; });
+  }
+  mythData = gemischt;
   mythIdx=0; mythScore=0; mythAnswered=false;
   var html='<div class="myth-header">';
-  html+='<h2>🏛️ Mythologie-Quiz</h2>';
-  html+='<p>Multiple Choice und Wahr/Falsch gemischt</p>';
+  html+= art === "odyssee" ? '<h2>⛵ Odyssee-Quiz</h2><p>Κουίζ της Οδύσσειας · Fragen zum Hörbuch</p>'
+                           : '<h2>🏛️ Mythologie-Quiz</h2><p>Multiple Choice und Wahr/Falsch gemischt</p>';
   html+='</div>';
   html+='<div class="myth-prog" id="myth-prog"></div>';
   html+='<div id="myth-content"></div>';
-  document.getElementById("mythos-area").innerHTML=html;
+  area.innerHTML=html;
+  navUnterpunkt(art === "odyssee" ? "Odyssee-Quiz" : "Allgemeines Quiz", function(){ startMythosQuiz(); });
   renderMythQuestion();
+}
+
+// Nach der Antwort: bei Fragen mit Wort-Erklaerung (Odyssee) bleibt die
+// Frage stehen, bis das Kind "Weiter" tippt - sonst ist das griechische
+// Wort weg, bevor es gelesen ist.
+function mythErklaeren(q) {
+  var box = document.getElementById("myth-erkl");
+  if(!box || !q.erkl) return false;
+  box.style.display = "block";
+  box.innerHTML = '💡 ' + q.erkl;
+  if(!q.kap) return false;
+  box.innerHTML += '<div style="text-align:right;margin-top:8px"><button class="hb-btn" '
+                +  'onclick="mythIdx++;renderMythQuestion()">Weiter →</button></div>';
+  return true;
 }
 
 function renderMythQuestion() {
@@ -2373,7 +2681,8 @@ function renderMythQuestion() {
       '<div class="geo-result">'+
       '<div style="font-size:44px;font-weight:bold;color:#1D9E75">'+mythScore+'/'+mythData.length+'</div>'+
       '<div style="font-size:15px;color:#888;margin-top:8px">'+(pct>=75?"Ausgezeichnet! 🎉":pct>=50?"Gut gemacht!":"Weiter üben!")+'</div>'+
-      '<button class="qrbtn" style="margin-top:1rem" onclick="startMythosQuiz()">Nochmal</button>'+
+      '<button class="qrbtn" style="margin-top:1rem" onclick="startMythosQuiz(mythArt)">Nochmal</button> '+
+      '<button class="qrbtn" style="margin-top:1rem;background:white;color:#1D9E75;border:1.5px solid #1D9E75" onclick="startMythosQuiz()">Anderes Quiz</button>'+
       '</div>';
     return;
   }
@@ -2382,7 +2691,7 @@ function renderMythQuestion() {
   var html='<div class="myth-card">';
   html+='<img src="bilder/'+q.img+'.png" class="myth-img" alt="">';
   if(q.typ==="mc"){
-    html+='<div class="myth-type">Multiple Choice</div>';
+    html+='<div class="myth-type">'+(q.kap?'Kapitel '+q.kap+' · ':'')+'Multiple Choice</div>';
     html+='<div class="myth-question">'+q.gr+tonKnopf(q.gr,true)+'</div>';
     html+='<div class="myth-question-de">'+q.de+'</div>';
     var choices=[q.antwort,q.falsch[0],q.falsch[1],q.falsch[2]].sort(function(){ return Math.random()-0.5; });
@@ -2391,8 +2700,9 @@ function renderMythQuestion() {
       html+='<button class="myth-choice" data-val="'+choices[i]+'" data-correct="'+q.antwort+'" onclick="checkMythMC(this)">'+choices[i]+'</button>';
     }
     html+='</div>';
+    html+='<div class="myth-erkl" id="myth-erkl"></div>';
   } else {
-    html+='<div class="myth-type">Wahr oder Falsch · Αλήθεια ή Λάθος</div>';
+    html+='<div class="myth-type">'+(q.kap?'Kapitel '+q.kap+' · ':'')+'Wahr oder Falsch · Αλήθεια ή Λάθος</div>';
     html+='<div class="myth-question">'+q.gr+tonKnopf(q.gr,true)+'</div>';
     html+='<div class="myth-question-de">'+q.de+'</div>';
     html+='<div class="myth-wf">';
@@ -2412,6 +2722,7 @@ function checkMythMC(btn) {
   for(var i=0;i<btns.length;i++) btns[i].disabled=true;
   if(chosen===correct){ btn.classList.add("correct"); mythScore++; }
   else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct) btns[i].classList.add("correct"); } }
+  if(mythErklaeren(mythData[mythIdx])) return;
   setTimeout(function(){ mythIdx++; renderMythQuestion(); }, 1400);
 }
 
@@ -2423,6 +2734,7 @@ function checkMythWF(btn) {
   var isCorrect=(chosen===correct.toString());
   if(isCorrect){ btn.classList.add("correct"); mythScore++; }
   else { btn.classList.add("wrong"); for(var i=0;i<btns.length;i++){ if(btns[i].dataset.val===correct.toString()) btns[i].classList.add("correct"); } }
+  if(mythErklaeren(mythData[mythIdx])) return;
   var erkBox=document.getElementById("myth-erkl");
   if(erkBox){ erkBox.style.display="block"; erkBox.innerHTML='💡 '+erkl; }
   setTimeout(function(){ mythIdx++; renderMythQuestion(); }, 2200);
