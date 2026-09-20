@@ -357,7 +357,7 @@ var stories = [
     title: "Odysseus — Abfahrt aus Troja",
     titleGr: "Οδυσσέας — Αναχώρηση από την Τροία",
     emoji: "⚓",
-    img: "odysseus_01_departure_troy",
+    img: "ody01_3",
     grText: "Μετά τον μακρύ πόλεμο στην Τροία, ο Οδυσσέας και οι άντρες του ξεκινούν το ταξίδι της επιστροφής για την Ιθάκη. Κανείς δεν ξέρει ότι το ταξίδι θα διαρκέσει πολλά χρόνια!",
     text: [
       {de:"Nach dem langen "},{de:"Krieg",gr:"πόλεμος",pr:"po-le-mos",mark:true},
@@ -374,7 +374,7 @@ var stories = [
     title: "Das Land der Lotophagen",
     titleGr: "Η χώρα των Λωτοφάγων",
     emoji: "🌸",
-    img: "odysseus_02_lotus_eaters",
+    img: "ody02_5",
     grText: "Μετά την αναχώρηση από την Τροία ο Οδυσσέας και οι άντρες του φτάνουν στη χώρα των Λωτοφάγων. Οι κάτοικοι τους δίνουν λωτούς να φάνε. Όποιος τρώει αυτά τα μαγικά φρούτα ξεχνά αμέσως την πατρίδα του και δεν θέλει να φύγει ποτέ!",
     text: [
       {de:"Odysseus landet im "},{de:"Land",gr:"χώρα",pr:"cho-ra",mark:true},
@@ -391,7 +391,7 @@ var stories = [
     title: "Die Zyklopen-Höhle",
     titleGr: "Η σπηλιά των Κυκλώπων",
     emoji: "👁️",
-    img: "odysseus_03_cyclops_polyphemus",
+    img: "ody03_4",
     grText: "Ο Οδυσσέας και οι άντρες του φτάνουν σε ένα νησί και ανακαλύπτουν μια τεράστια σπηλιά. Εκεί ζει ο μονόφθαλμος γίγαντας Πολύφημος! Ο γίγαντας είναι τόσο μεγάλος που οι άντρες μοιάζουν πολύ μικροί δίπλα του.",
     text: [
       {de:"Odysseus entdeckt eine riesige "},{de:"Höhle",gr:"σπηλιά",pr:"spi-lia",mark:true},
@@ -407,7 +407,7 @@ var stories = [
     title: "Die Insel der Winde",
     titleGr: "Το νησί των ανέμων",
     emoji: "💨",
-    img: "odysseus_04_island_of_winds",
+    img: "ody04_12",
     grText: "Ο Οδυσσέας επισκέπτεται τον Αίολο, τον βασιλιά των ανέμων. Σαν δώρο παίρνει έναν μεγάλο ασκό δέρματος όπου είναι φυλακισμένοι όλοι οι άνεμοι. Μόνο ο καλός άνεμος της επιστροφής επιτρέπεται να φυσά!",
     text: [
       {de:"Odysseus besucht "},{de:"Äolus",gr:"Αίολος",pr:"E-o-los",mark:true},
@@ -424,7 +424,7 @@ var stories = [
     title: "Die Zauberin Kirke",
     titleGr: "Η μάγισσα Κίρκη",
     emoji: "🪄",
-    img: "odysseus_05_sorceress_circe",
+    img: "ody05_27",
     grText: "Στο νησί Αιαία ζει η μάγισσα Κίρκη. Με το μαγικό της ραβδί μετατρέπει τους άντρες του Οδυσσέα σε γουρούνια! Αλλά ο Οδυσσέας είναι έξυπνος και γενναίος — αντιστέκεται στη μαγεία και σώζει τους άντρες του.",
     text: [
       {de:"Auf der Insel Aiaia lebt die "},{de:"Zauberin",gr:"μάγισσα",pr:"ma-gi-sa",mark:true},
@@ -441,7 +441,7 @@ var stories = [
     title: "Die Reise in die Unterwelt",
     titleGr: "Το ταξίδι στον Άδη",
     emoji: "💀",
-    img: "odysseus_06_underworld",
+    img: "ody06_09",
     grText: "Ο Οδυσσέας τολμά να κατεβεί στον Άδη — τη βασιλεία των νεκρών. Εκεί συναντά τα πνεύματα των νεκρών ανθρώπων. Ο ποταμός Στύγας ρέει ήρεμα μέσα στον σκοτεινό κόσμο.",
     text: [
       {de:"Odysseus wagt sich in die "},{de:"Unterwelt",gr:"Άδης",pr:"A-dhis",mark:true},
@@ -458,7 +458,7 @@ var stories = [
     title: "Die Sirenen",
     titleGr: "Οι Σειρήνες",
     emoji: "🎵",
-    img: "odysseus_07_sirens",
+    img: "ody07_18",
     grText: "Οι Σειρήνες είναι όμορφα πλάσματα που τραγουδούν τόσο γλυκά που όλοι οι ναύτες θέλουν να κολυμπήσουν προς αυτές. Ο Οδυσσέας είναι έξυπνος — αφήνεται δεμένος στο κατάρτι και βουλώνει τα αυτιά των αντρών του με κερί.",
     text: [
       {de:"Die "},{de:"Sirenen",gr:"Σειρήνες",pr:"Si-ri-nes",mark:true},
@@ -475,7 +475,7 @@ var stories = [
     title: "Skylla und Charybdis",
     titleGr: "Σκύλλα και Χάρυβδη",
     emoji: "🌀",
-    img: "odysseus_08_scylla_charybdis",
+    img: "ody08_14",
     grText: "Ο Οδυσσέας πρέπει να περάσει από ένα στενό πέρασμα ανάμεσα σε δύο τρομερούς κινδύνους! Από τη μία πλευρά παραμονεύει η Σκύλλα — ένα τέρας με έξι κεφάλια. Από την άλλη πλευρά στροβιλίζεται η Χάρυβδη — μια τεράστια επικίνδυνη δίνη.",
     text: [
       {de:"Odysseus muss durch eine enge "},{de:"Meerenge",gr:"στενό πέρασμα",pr:"ste-no pe-ras-ma",mark:true},
@@ -491,7 +491,7 @@ var stories = [
     title: "Die Rinder des Helios",
     titleGr: "Τα βόδια του Ήλιου",
     emoji: "🐄",
-    img: "odysseus_09_cattle_helios",
+    img: "ody09_02",
     grText: "Στο νησί του θεού Ήλιου βόσκουν υπέροχα ιερά βόδια. Ο Οδυσσέας προειδοποιεί τους άντρες του — κανείς δεν πρέπει να αγγίξει αυτά τα ζώα! Αλλά οι πεινασμένοι ναύτες δεν τον ακούνε και κάνουν ένα μεγάλο λάθος.",
     text: [
       {de:"Auf der Insel des "},{de:"Sonnengottes",gr:"θεός Ήλιος",pr:"the-os I-li-os",mark:true},
@@ -507,7 +507,7 @@ var stories = [
     title: "Schiffbruch im Sturm",
     titleGr: "Ναυάγιο στην καταιγίδα",
     emoji: "⚡",
-    img: "odysseus_10_shipwreck_storm",
+    img: "ody10_2",
     grText: "Ο Δίας ο βασιλιάς των θεών είναι πολύ θυμωμένος. Στέλνει μια τρομερή καταιγίδα και εκτοξεύει έναν κεραυνό στο πλοίο! Το πλοίο σπάει στα τεράστια κύματα. Μόνο ο Οδυσσέας επιβιώνει.",
     text: [
       {de:"Zeus, der "},{de:"König",gr:"βασιλιάς",pr:"va-si-lias",mark:true},
@@ -524,7 +524,7 @@ var stories = [
     title: "Die Insel der Kalypso",
     titleGr: "Το νησί της Καλυψώς",
     emoji: "🏝️",
-    img: "odysseus_11_island_calypso",
+    img: "ody11_1",
     grText: "Μετά το ναυάγιο ο Οδυσσέας φτάνει στο όμορφο νησί της νύμφης Καλυψώς. Το νησί είναι αληθινός παράδεισος — αλλά ο Οδυσσέας είναι λυπημένος. Του λείπει η πατρίδα του η Ιθάκη και η οικογένειά του.",
     text: [
       {de:"Nach dem Schiffbruch landet Odysseus auf der Insel der "},{de:"Nymphe",gr:"νύμφη",pr:"nim-fi",mark:true},
@@ -541,7 +541,7 @@ var stories = [
     title: "Bei den Phäaken",
     titleGr: "Στους Φαίακες",
     emoji: "👸",
-    img: "odysseus_12_phaeacians",
+    img: "ody12_3",
     grText: "Μετά από επτά χρόνια ο Οδυσσέας επιτέλους μπορεί να συνεχίσει το ταξίδι του. Η φιλική πριγκίπισσα Ναυσικά τον βρίσκει στην παραλία και τον φέρνει στον βασιλιά. Οι Φαίακες ακούνε όλη του την ιστορία και τον βοηθούν να επιστρέψει στο σπίτι!",
     text: [
       {de:"Ein neuer "},{de:"Sturm",gr:"καταιγίδα",pr:"ka-te-gi-dha",mark:true},
@@ -558,7 +558,7 @@ var stories = [
     title: "Athene hilft Odysseus",
     titleGr: "Η Αθηνά βοηθά τον Οδυσσέα",
     emoji: "🦉",
-    img: "odysseus_13_athena",
+    img: "ody13_16",
     grText: "Η θεά Αθηνά είναι η προστάτιδα θεά του έξυπνου Οδυσσέα. Κάθε φορά που βρίσκεται σε μεγάλη ανάγκη του εμφανίζεται και του δίνει σοφές συμβουλές. Με την Αθηνά στο πλευρό του ο Οδυσσέας δεν χάνει ποτέ την ελπίδα!",
     text: [
       {de:"Die "},{de:"Göttin",gr:"θεά",pr:"the-a",mark:true},
@@ -575,7 +575,7 @@ var stories = [
     title: "Heimkehr nach Ithaka",
     titleGr: "Επιστροφή στην Ιθάκη",
     emoji: "🏠",
-    img: "odysseus_14_return_ithaca",
+    img: "ody14_23",
     grText: "Μετά από δέκα μακρά χρόνια στη θάλασσα ο Οδυσσέας επιτέλους φτάνει σπίτι! Ο πιστός σκύλος του ο Άργος τον αναγνωρίζει αμέσως. Η γυναίκα του η Πηνελόπη τον περίμενε όλα αυτά τα χρόνια. Τι χαρά!",
     text: [
       {de:"Nach zehn langen "},{de:"Jahren",gr:"χρόνια",pr:"chro-nia",mark:true},
@@ -592,7 +592,7 @@ var stories = [
     title: "Der Bogen des Odysseus",
     titleGr: "Το τόξο του Οδυσσέα",
     emoji: "🏹",
-    img: "odysseus_15_bow_odysseus",
+    img: "ody15_27",
     grText: "Ο Οδυσσέας επιστρέφει μεταμφιεσμένος ως φτωχός ζητιάνος στο παλάτι του. Η Πηνελόπη έχει ανακοινώσει έναν διαγωνισμό. Όλοι οι μνηστήρες προσπαθούν και αποτυγχάνουν. Τότε ο Οδυσσέας παίρνει το τόξο — και το τεντώνει αβίαστα!",
     text: [
       {de:"Odysseus kehrt "},{de:"verkleidet",gr:"μεταμφιεσμένος",pr:"me-tam-fi-es-me-nos",mark:true},
@@ -609,7 +609,7 @@ var stories = [
     title: "Odysseus auf dem Thron",
     titleGr: "Ο Οδυσσέας στον θρόνο",
     emoji: "👑",
-    img: "odysseus_16_family_throne",
+    img: "ody16_12",
     grText: "Μετά από όλα τα μακρά χρόνια και τις αμέτρητες περιπέτειες ο Οδυσσέας κάθεται επιτέλους πάλι στον θρόνο του στην Ιθάκη! Η οικογένεια είναι ξανά ενωμένη και το βασίλειο της Ιθάκης έχει πάλι τον νόμιμο βασιλιά του.",
     text: [
       {de:"Nach all den langen Jahren sitzt Odysseus wieder auf seinem "},{de:"Thron",gr:"θρόνος",pr:"thro-nos",mark:true},
