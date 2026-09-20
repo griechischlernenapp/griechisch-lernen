@@ -3629,6 +3629,10 @@ var hbAutoWeiter = true, hbMitlesen = true, hbWoerter = true;
 // hbMitlesen: der Textteil unter dem Bild. hbGanz: der ganze Text
 // darunter, wie frueher "Mitlesen" - von Hand einzuschalten.
 var hbGanz = false;
+// Tempo: 1 = normal, 0.75 = langsamer. Gilt fuer diese Sitzung und
+// ueber Kapitelwechsel hinweg; beim naechsten Oeffnen der App wieder
+// normal (Entscheidung Pavlos 20.09.: Standard ist normal).
+var hbTempo = 1;
 var hbTextJetzt = null;        // {bi, ki, t, karte} des offenen Kapitels
 
 // Kapiteltitel stehen als "Deutsch · Ελληνικά" in der Textdatei
@@ -4080,6 +4084,8 @@ function hbOeffne(bi, ki, gleichSpielen) {
        +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
   html += '<button class="hb-tab wahl'+(hbSprache==="gr"?" on":"")+'"'
        +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
+  html += '<button class="hb-tab'+(hbTempo<1?' on':'')+'" id="hb-tempo" onclick="hbTempoWechsel()"'
+       +  ' aria-pressed="'+(hbTempo<1)+'" title="Langsamer vorlesen (0,75-fach)">🐢 Langsamer</button>';
   html += '</div>';
   html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
        +  (!quelle ? 'Für dieses Kapitel gibt es noch keinen Ton.'
@@ -4153,6 +4159,7 @@ function hbOeffne(bi, ki, gleichSpielen) {
   var a = document.getElementById("hb-audio");
   if(a) {
     a.onended = function() { hbPlayZeichen(false); if(hbAutoWeiter) hbWeiter(); };
+    hbTempoSetzen(a);
     // Bildwechsel. timeupdate feuert vier- bis fuenfmal je Sekunde;
     // hbSzenePruefen tut nur dann etwas, wenn sich die Szene wirklich
     // aendert, sonst waere es viermal pro Sekunde ein Neuzeichnen.
@@ -4350,6 +4357,24 @@ function hbPfeileSetzen() {
 
 // ── Eigener Abspielknopf und Zeitleiste ─────────────────────
 var hbZieht = false;
+// Langsamer vorlesen: der Browser dehnt den Ton, die Stimme bleibt
+// gleich hoch. defaultPlaybackRate mitsetzen, weil load() (etwa beim
+// Springen vor dem ersten Abspielen) playbackRate darauf zuruecksetzt.
+function hbTempoSetzen(a) {
+  if(!a) return;
+  try {
+    a.preservesPitch = true; a.mozPreservesPitch = true; a.webkitPreservesPitch = true;
+    a.defaultPlaybackRate = hbTempo;
+    a.playbackRate = hbTempo;
+  } catch(e) {}
+}
+function hbTempoWechsel() {
+  hbTempo = hbTempo < 1 ? 1 : 0.75;
+  hbTempoSetzen(document.getElementById("hb-audio"));
+  var b = document.getElementById("hb-tempo");
+  if(b) { b.className = "hb-tab" + (hbTempo < 1 ? " on" : ""); b.setAttribute("aria-pressed", hbTempo < 1); }
+}
+
 function hbPlay() {
   var a = document.getElementById("hb-audio");
   if(!a) return;
