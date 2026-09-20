@@ -136,7 +136,7 @@
    },
    {
     "nr": 2,
-    "titel": "Das Land der Lotophagen · Η Χώρα των Λωτοφάγων",
+    "titel": "Das Land der Lotophagen · Η χώρα των Λωτοφάγων",
     "bild": "odysseus_02_lotus_eaters",
     "de": "odyssee/kap02_de.mp3",
     "gr": "odyssee/kap02_gr.mp3",
@@ -268,7 +268,7 @@
    },
    {
     "nr": 3,
-    "titel": "Die Höhle des Zyklopen · Η Σπηλιά του Κύκλωπα",
+    "titel": "Die Höhle des Zyklopen · Η σπηλιά του Κύκλωπα",
     "bild": "odysseus_03_cyclops_polyphemus",
     "de": "odyssee/kap03_de.mp3",
     "gr": "odyssee/kap03_gr.mp3",
@@ -400,7 +400,7 @@
    },
    {
     "nr": 4,
-    "titel": "Die Insel der Winde · Το Νησί των Ανέμων",
+    "titel": "Die Insel der Winde · Το νησί των ανέμων",
     "bild": "odysseus_04_island_of_winds",
     "de": "odyssee/kap04_de.mp3",
     "gr": "odyssee/kap04_gr.mp3",
@@ -547,7 +547,7 @@
    },
    {
     "nr": 5,
-    "titel": "Die Zauberin Kirke · Η Μάγισσα Κίρκη",
+    "titel": "Die Zauberin Kirke · Η μάγισσα Κίρκη",
     "bild": "odysseus_05_sorceress_circe",
     "de": "odyssee/kap05_de.mp3",
     "gr": "odyssee/kap05_gr.mp3",
@@ -704,7 +704,7 @@
    },
    {
     "nr": 6,
-    "titel": "Am Rand der Welt · Στην Άκρη του Κόσμου",
+    "titel": "Am Rand der Welt · Στην άκρη του κόσμου",
     "bild": "odysseus_06_underworld",
     "de": "odyssee/kap06_de.mp3",
     "gr": "odyssee/kap06_gr.mp3",
@@ -841,7 +841,7 @@
    },
    {
     "nr": 7,
-    "titel": "Der Gesang der Sirenen · Το Τραγούδι των Σειρήνων",
+    "titel": "Der Gesang der Sirenen · Το τραγούδι των Σειρήνων",
     "bild": "odysseus_07_sirens",
     "de": "odyssee/kap07_de.mp3",
     "gr": "odyssee/kap07_gr.mp3",
@@ -968,7 +968,7 @@
    },
    {
     "nr": 8,
-    "titel": "Die Enge zwischen den Felsen · Το Στενό ανάμεσα στους Βράχους",
+    "titel": "Die Enge zwischen den Felsen · Το στενό ανάμεσα στους βράχους",
     "bild": "odysseus_08_scylla_charybdis",
     "de": "odyssee/kap08_de.mp3",
     "gr": "odyssee/kap08_gr.mp3",
@@ -1100,7 +1100,7 @@
    },
    {
     "nr": 9,
-    "titel": "Die Rinder des Sonnengottes · Τα Βόδια του Ήλιου",
+    "titel": "Die Rinder des Sonnengottes · Τα βόδια του Ήλιου",
     "bild": "odysseus_09_cattle_helios",
     "de": "odyssee/kap09_de.mp3",
     "gr": "odyssee/kap09_gr.mp3",
@@ -1242,7 +1242,7 @@
    },
    {
     "nr": 10,
-    "titel": "Der Zorn des Meeresgottes · Ο Θυμός του Θεού της Θάλασσας",
+    "titel": "Der Zorn des Meeresgottes · Ο θυμός του θεού της θάλασσας",
     "bild": "odysseus_10_shipwreck_storm",
     "de": "odyssee/kap10_de.mp3",
     "gr": "odyssee/kap10_gr.mp3",
@@ -1379,7 +1379,7 @@
    },
    {
     "nr": 11,
-    "titel": "Sieben Jahre bei Kalypso · Εφτά Χρόνια στην Καλυψώ",
+    "titel": "Sieben Jahre bei Kalypso · Εφτά χρόνια στην Καλυψώ",
     "bild": "odysseus_11_island_calypso",
     "de": "odyssee/kap11_de.mp3",
     "gr": "odyssee/kap11_gr.mp3",
@@ -1511,7 +1511,7 @@
    },
    {
     "nr": 12,
-    "titel": "Das Mädchen am Fluss · Το Κορίτσι στο Ποτάμι",
+    "titel": "Das Mädchen am Fluss · Το κορίτσι στο ποτάμι",
     "bild": "odysseus_12_phaeacians",
     "de": "odyssee/kap12_de.mp3",
     "dekb": 2893,
@@ -1643,7 +1643,7 @@
    },
    {
     "nr": 13,
-    "titel": "Athene und der Plan · Η Αθηνά και το Σχέδιο",
+    "titel": "Athene und der Plan · Η Αθηνά και το σχέδιο",
     "bild": "odysseus_13_athena",
     "gr": "odyssee/kap13_gr.mp3",
     "de": "odyssee/kap13_de.mp3",
@@ -1775,7 +1775,7 @@
    },
    {
     "nr": 14,
-    "titel": "Der Hund, der zwanzig Jahre wartete · Ο Σκύλος που Περίμενε Είκοσι Χρόνια",
+    "titel": "Der Hund, der zwanzig Jahre wartete · Ο σκύλος που περίμενε είκοσι χρόνια",
     "bild": "odysseus_14_return_ithaca",
     "de": "odyssee/kap14_de.mp3",
     "dekb": 2819,
@@ -2099,7 +2099,7 @@
    },
    {
     "nr": 16,
-    "titel": "Das Bett aus dem Olivenbaum · Το Κρεβάτι από την Ελιά",
+    "titel": "Das Bett aus dem Olivenbaum · Το κρεβάτι από την ελιά",
     "bild": "odysseus_16_family_throne",
     "de": "odyssee/kap16_de.mp3",
     "dekb": 3435,
