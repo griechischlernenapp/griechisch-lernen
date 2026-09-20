@@ -4060,19 +4060,7 @@ function hbOeffne(bi, ki, gleichSpielen) {
   html += '</div>';
   if(quelle) html += '<audio id="hb-audio" preload="none" src="hoerbuch/'+quelle+'"></audio>';
 
-  html += '<div class="hb-tabs" style="margin-top:10px">';
-  html += '<button class="hb-tab wahl'+(hbSprache==="de"?" on":"")+'"'
-       +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
-  html += '<button class="hb-tab wahl'+(hbSprache==="gr"?" on":"")+'"'
-       +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
-  html += '</div>';
-  html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
-       +  (!quelle ? 'Für dieses Kapitel gibt es noch keinen Ton.'
-           : hbSprache==="gr"
-              ? 'Ganz auf Griechisch — hör einfach zu, du musst nicht alles verstehen.'
-              : 'Auf Deutsch, mit griechischen Wörtern mittendrin.')
-       +  '</div>';
-
+  // Reihenfolge (20.09.): Spieler, darunter die Bilderleiste, dann die Sprachwahl.
   // Die Bilderleiste - ein kleines Bild je Szene statt einer Zahl.
   // Ein Kind erkennt "das Bild mit dem Zyklopen" sofort, die Zahl 14
   // sagt ihm nichts. Die kleinen Bilder liegen in bilder/klein/ und
@@ -4086,6 +4074,19 @@ function hbOeffne(bi, ki, gleichSpielen) {
            +  ' onerror="hbVbErsatz(this,\''+szenen[sz].n+'\')"><span>'+(sz+1)+'</span></button>';
     html += '</div>';
   }
+
+  html += '<div class="hb-tabs" style="margin-top:10px">';
+  html += '<button class="hb-tab wahl'+(hbSprache==="de"?" on":"")+'"'
+       +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
+  html += '<button class="hb-tab wahl'+(hbSprache==="gr"?" on":"")+'"'
+       +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
+  html += '</div>';
+  html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
+       +  (!quelle ? 'Für dieses Kapitel gibt es noch keinen Ton.'
+           : hbSprache==="gr"
+              ? 'Ganz auf Griechisch — hör einfach zu, du musst nicht alles verstehen.'
+              : 'Auf Deutsch, mit griechischen Wörtern mittendrin.')
+       +  '</div>';
 
   html += '<div class="hb-knopfreihe">';
   var knopf = function(was, an, name) {
