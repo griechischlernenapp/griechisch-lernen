@@ -100,8 +100,39 @@ body{font-family:Georgia,serif;background:#f4f1eb;color:#2c2c2a;min-height:100vh
 .kap-kachel .spr{position:absolute;top:6px;right:6px;padding:1px 6px;border-radius:10px;
   background:rgba(0,0,0,.45);color:#fff;font-size:9px;letter-spacing:.3px;line-height:16px}
 .hb-player{background:#F7F6F2;border:1.5px solid #1D9E75;border-radius:16px;padding:14px;margin-bottom:16px;text-align:center}
-.hb-player img{width:100%;max-width:340px;border-radius:12px;display:block;margin:0 auto 10px}
-.hb-player audio{width:100%;max-width:420px;margin-top:10px}
+/* Spieler, Fassung 20.09.2026: grosses Bild mit Pfeilen, eigener
+   Abspielknopf, Bilderleiste statt Zahlen. Alte Fassung: _alt\index_vor_player.html */
+.hb-buehne{position:relative;max-width:640px;margin:0 auto 12px;border-radius:12px;overflow:hidden;background:#e8e6e0}
+.hb-buehne img,.hb-buehne .bild-ersatz{width:100%;aspect-ratio:704/384;object-fit:cover;display:block;cursor:pointer;border-radius:0}
+.hb-pfeil{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;
+  border:none;background:rgba(0,0,0,.45);color:#fff;font-size:26px;line-height:46px;padding:0;cursor:pointer;font-family:Georgia,serif}
+.hb-pfeil:hover{background:rgba(0,0,0,.65)}
+.hb-pfeil.l{left:10px}.hb-pfeil.r{right:10px}
+.hb-zaehler{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;
+  border-radius:12px;padding:2px 10px;pointer-events:none}
+.hb-gross{position:absolute;bottom:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(0,0,0,.45);color:#fff;font-size:17px;line-height:36px;padding:0;cursor:pointer}
+.hb-steuer{display:flex;align-items:center;gap:12px;max-width:640px;margin:12px auto 0;text-align:left}
+.hb-play{flex:none;width:58px;height:58px;border-radius:50%;border:none;background:#1D9E75;color:#fff;
+  font-size:24px;line-height:58px;padding:0;cursor:pointer}
+.hb-play:hover{background:#0F6E56}
+.hb-play:disabled{background:#ccc;cursor:default}
+.hb-lauf{flex:1;min-width:0}
+.hb-lauf input{width:100%;height:28px;margin:0;accent-color:#1D9E75;cursor:pointer}
+.hb-uhr{display:flex;justify-content:space-between;font-size:11px;color:#999;margin-top:-2px}
+.hb-leiste{position:relative;display:flex;gap:8px;overflow-x:auto;padding:6px 2px 10px;margin:12px auto 0;
+  max-width:640px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.hb-vb{flex:none;width:96px;height:52px;border-radius:8px;overflow:hidden;position:relative;padding:0;
+  border:3px solid transparent;background:#e8e6e0;cursor:pointer}
+.hb-vb img{width:100%;height:100%;object-fit:cover;display:block}
+.hb-vb.gesehen img{opacity:.5}
+.hb-vb.on{border-color:#1D9E75}
+.hb-vb span{position:absolute;left:3px;bottom:3px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;
+  border-radius:4px;padding:0 5px;line-height:16px;font-family:Georgia,serif}
+.hb-knopfreihe{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.hb-an{padding:8px 14px;border:1.5px solid #ddd;background:white;color:#888;border-radius:18px;
+  font-size:13px;cursor:pointer;font-family:Georgia,serif}
+.hb-an.on{border-color:#5DCAA5;background:#E1F5EE;color:#0F6E56}
 .hb-kino{position:fixed;top:0;left:0;right:0;bottom:0;z-index:9999;background:#0d0d0d;
   display:flex;align-items:center;justify-content:center}
 .hb-kino img{max-width:100%;max-height:100%;object-fit:contain;display:block}
@@ -3815,8 +3846,12 @@ function hbDateien(b, nurNoetig) {
     if(kap[i].gr) u.push("hoerbuch/" + kap[i].gr);
   }
   if(!nurNoetig)
-    for(i=0;i<kap.length;i++)
+    for(i=0;i<kap.length;i++) {
       if(kap[i].bild) u.push("bilder/" + kap[i].bild + ".png");
+      // die kleinen Bilder der Leiste - zusammen nur wenige MB
+      for(var j=0;j<(kap[i].bilder||[]).length;j++)
+        u.push("bilder/klein/" + kap[i].bilder[j].n + ".jpg");
+    }
   return u;
 }
 function hbGroesse(b) {          // in MB, 0 = unbekannt
@@ -3915,6 +3950,16 @@ function hbSchalter(was, an) {
   hbMerken(true);   // ein Haekchen verschiebt die gemerkte Stelle nicht
 }
 
+function hbSchalterKnopf(el, was) {
+  var an = el.className.indexOf(" on") < 0;
+  if(was === "auto") {            // baut nicht neu auf, also Knopf selbst umstellen
+    el.className = "hb-an" + (an ? " on" : "");
+    el.setAttribute("aria-pressed", an);
+    el.textContent = (an ? "✓ " : "") + "Automatisch weiter";
+  }
+  hbSchalter(was, an);
+}
+
 function hbOeffne(bi, ki, gleichSpielen) {
   hbBuch = bi;
   var b = hbIndex[bi], kap = b.kapitel || [];
@@ -3932,12 +3977,10 @@ function hbOeffne(bi, ki, gleichSpielen) {
   hbKap = ki;
   var k = kap[ki] || {}, kt = hbTitel(k.titel), html = "";
 
-  html += '<div style="text-align:center;margin:10px 0 12px">';
-  html += '<div style="font-size:18px;font-weight:bold;color:#0F6E56">'+(b.titelGr||b.titel)+'</div>';
-  html += '<div style="font-size:13px;color:#888;font-style:italic">'+(b.emoji||"🎧")+' '+b.titel+'</div>';
-  if(b.beschreibung)
-    html += '<div style="font-size:12px;color:#999;margin-top:6px;line-height:1.6">'+b.beschreibung+'</div>';
-  html += '</div>';
+  html += '<div style="text-align:center;margin:8px 0 12px;font-size:18px;font-weight:bold;color:#0F6E56">'
+       +  (b.titelGr||b.titel)
+       +  (b.titelGr ? ' <span style="font-size:14px;font-weight:normal;color:#999;font-style:italic">· '+b.titel+'</span>' : '')
+       +  '</div>';
 
   // Knopf zum Weiterhoeren - nur wenn wirklich schon weiter gehoert
   // wurde und wir gerade am Anfang stehen.
@@ -3958,58 +4001,75 @@ function hbOeffne(bi, ki, gleichSpielen) {
   html += '<div class="hb-player">';
   var szenen = hbSzenenListe(k);
   var erstesBild = szenen.length ? szenen[0].n : k.bild;
+
+  // Titel ueber dem Bild
+  html += '<div style="margin-bottom:10px"><span style="font-size:12px;color:#1D9E75">Kapitel '+(k.nr||ki+1)+' · </span>'
+       +  '<span style="font-size:16px;font-weight:bold;color:#2c2c2a">'+kt.de+'</span>';
+  if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
+  html += '</div>';
+
+  // Die Buehne: grosses Bild, Pfeile links und rechts wie beim
+  // Umblaettern im Bilderbuch. Aufs Bild tippen heisst Grossbild.
+  html += '<div class="hb-buehne">';
   if(erstesBild) html += '<img id="hb-szenenbild" src="bilder/'+erstesBild+'.png" alt=""'
        +  ' data-emoji="🎧" onerror="bildErsatz(this)"'
-       // Aufs Bild tippen heisst Grossbild - das ist die Geste, die ein
-       // Kind von selbst probiert, lange bevor es den Knopf liest.
-       +  (szenen.length > 1 ? ' style="cursor:pointer" onclick="hbKino(true)"' : '') + '>';
-  html += '<div style="font-size:11px;color:#1D9E75;letter-spacing:.5px">KAPITEL '+(k.nr||ki+1)+'</div>';
-  html += '<div style="font-size:16px;font-weight:bold;color:#2c2c2a;margin-top:2px">'+kt.de+'</div>';
-  if(kt.gr) html += '<div style="font-size:13px;color:#0F6E56;font-style:italic">'+kt.gr+'</div>';
+       +  (szenen.length > 1 ? ' onclick="hbKino(true)"' : '') + '>';
+  html += '<button class="hb-pfeil l" id="hb-pfeil-l" onclick="hbBlaettern(-1)" aria-label="Bild davor">‹</button>';
+  html += '<button class="hb-pfeil r" id="hb-pfeil-r" onclick="hbBlaettern(1)" aria-label="Nächstes Bild">›</button>';
+  if(szenen.length > 1) {
+    html += '<span class="hb-zaehler" id="hb-zaehler">1 / '+szenen.length+'</span>';
+    html += '<button class="hb-gross" onclick="hbKino(true)" aria-label="Großbild" title="Großbild">⛶</button>';
+  }
+  html += '</div>';
 
-  html += '<div class="hb-tabs">';
+  var quelle = k[hbSprache] || k.de || k.gr;
+  // Eigener Abspielknopf statt des grauen Browser-Spielers: gross genug
+  // fuer Kinderfinger und in den Farben der App. Das <audio> selbst
+  // bleibt und ist nur unsichtbar (ohne "controls").
+  html += '<div class="hb-steuer">';
+  html += '<button class="hb-play" id="hb-play" onclick="hbPlay()" aria-label="Abspielen"'
+       +  (quelle ? '' : ' disabled') + '>▶︎</button>';
+  html += '<div class="hb-lauf"><input type="range" id="hb-lauf" min="0" max="1000" value="0" step="1"'
+       +  ' aria-label="Stelle im Kapitel" oninput="hbLaufZiehen(this.value)" onchange="hbLaufLos(this.value)"'
+       +  (quelle ? '' : ' disabled') + '>';
+  html += '<div class="hb-uhr"><span id="hb-t0">0:00</span><span id="hb-t1">–:––</span></div></div>';
+  html += '</div>';
+  if(quelle) html += '<audio id="hb-audio" preload="none" src="hoerbuch/'+quelle+'"></audio>';
+
+  html += '<div class="hb-tabs" style="margin-top:10px">';
   html += '<button class="hb-tab wahl'+(hbSprache==="de"?" on":"")+'"'
        +  (k.de?'':' disabled')+' onclick="hbSprich(\'de\')">🇩🇪 Deutsch</button>';
   html += '<button class="hb-tab wahl'+(hbSprache==="gr"?" on":"")+'"'
        +  (k.gr?'':' disabled')+' onclick="hbSprich(\'gr\')">🇬🇷 Ελληνικά</button>';
   html += '</div>';
-
-  var quelle = k[hbSprache] || k.de || k.gr;
-  if(quelle) {
-    html += '<audio id="hb-audio" controls preload="none" src="hoerbuch/'+quelle+'"></audio>';
-    html += '<div style="font-size:11px;color:#aaa;margin-top:8px">'
-         +  (hbSprache==="gr"
+  html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
+       +  (!quelle ? 'Für dieses Kapitel gibt es noch keinen Ton.'
+           : hbSprache==="gr"
               ? 'Ganz auf Griechisch — hör einfach zu, du musst nicht alles verstehen.'
               : 'Auf Deutsch, mit griechischen Wörtern mittendrin.')
-         +  '</div>';
-  } else {
-    html += '<div style="font-size:12px;color:#aaa;margin-top:10px">Für dieses Kapitel gibt es noch keinen Ton.</div>';
-  }
+       +  '</div>';
 
-  // Die Sprungleiste - eine Zahl je Bild
+  // Die Bilderleiste - ein kleines Bild je Szene statt einer Zahl.
+  // Ein Kind erkennt "das Bild mit dem Zyklopen" sofort, die Zahl 14
+  // sagt ihm nichts. Die kleinen Bilder liegen in bilder/klein/ und
+  // entstehen mit vorschaubilder.py; fehlt eins, wird das grosse
+  // genommen.
   if(szenen.length > 1) {
-    html += '<div class="hb-szenen">';
+    html += '<div class="hb-leiste" id="hb-leiste">';
     for(var sz = 0; sz < szenen.length; sz++)
-      html += '<button class="hb-szene'+(sz===0?" on":"")+'" onclick="hbSpringe('+sz+')">'+(sz+1)+'</button>';
+      html += '<button class="hb-vb'+(sz===0?" on":"")+'" onclick="hbSpringe('+sz+')" aria-label="Bild '+(sz+1)+'">'
+           +  '<img loading="lazy" alt="" src="bilder/klein/'+szenen[sz].n+'.jpg"'
+           +  ' onerror="hbVbErsatz(this,\''+szenen[sz].n+'\')"><span>'+(sz+1)+'</span></button>';
     html += '</div>';
-    html += '<div style="margin-top:10px">'
-         +  '<button class="hb-btn leer" onclick="hbKino(true)">⛶ Großbild</button></div>';
-    html += '<div style="font-size:11px;color:#aaa;margin-top:6px">'
-         +  'Die Bilder wechseln von selbst — tippe eine Zahl, um dorthin zu springen.</div>';
   }
 
-  html += '<div class="hb-tabs" style="margin-top:12px">';
-  html += '<button class="hb-tab"'+(ki<=0?' disabled':'')+' onclick="hbOeffne('+bi+','+(ki-1)+')">← Davor</button>';
-  html += '<button class="hb-tab"'+(ki>=kap.length-1?' disabled':'')+' onclick="hbOeffne('+bi+','+(ki+1)+')">Weiter →</button>';
-  html += '</div>';
-
-  html += '<div class="hb-schalter">';
-  html += '<label><input type="checkbox"'+(hbAutoWeiter?' checked':'')
-       +  ' onchange="hbSchalter(\'auto\',this.checked)"> Automatisch weiter</label>';
-  html += '<label><input type="checkbox"'+(hbWoerter?' checked':'')
-       +  ' onchange="hbSchalter(\'woerter\',this.checked)"> W\u00f6rter</label>';
-  html += '<label><input type="checkbox"'+(hbMitlesen?' checked':'')
-       +  ' onchange="hbSchalter(\'lesen\',this.checked)"> Mitlesen</label>';
+  html += '<div class="hb-knopfreihe">';
+  html += '<button class="hb-an'+(hbAutoWeiter?' on':'')+'" aria-pressed="'+hbAutoWeiter+'" onclick="hbSchalterKnopf(this,\'auto\')">'
+       +  (hbAutoWeiter?'✓ ':'')+'Automatisch weiter</button>';
+  html += '<button class="hb-an'+(hbWoerter?' on':'')+'" aria-pressed="'+hbWoerter+'" onclick="hbSchalterKnopf(this,\'woerter\')">'
+       +  (hbWoerter?'✓ ':'')+'Wörter</button>';
+  html += '<button class="hb-an'+(hbMitlesen?' on':'')+'" aria-pressed="'+hbMitlesen+'" onclick="hbSchalterKnopf(this,\'lesen\')">'
+       +  (hbMitlesen?'✓ ':'')+'Mitlesen</button>';
   html += '</div></div>';
 
   // Wörter und Mitlese-Text kommen nach, sobald text.json da ist
@@ -4053,6 +4113,7 @@ function hbOeffne(bi, ki, gleichSpielen) {
   hbTextLaden(b.id, function() { hbInhaltFuellen(bi, ki); });
 
   hbSzene = szenen.length ? 0 : -1;
+  hbPfeileSetzen();
 
   // Laeuft das Kino und wird dabei umgeblaettert - etwa weil das Kapitel
   // zu Ende ist und "Automatisch weiter" greift -, dann muss es mit dem
@@ -4062,15 +4123,18 @@ function hbOeffne(bi, ki, gleichSpielen) {
 
   var a = document.getElementById("hb-audio");
   if(a) {
-    a.onended = function() { if(hbAutoWeiter) hbWeiter(); };
+    a.onended = function() { hbPlayZeichen(false); if(hbAutoWeiter) hbWeiter(); };
     // Bildwechsel. timeupdate feuert vier- bis fuenfmal je Sekunde;
     // hbSzenePruefen tut nur dann etwas, wenn sich die Szene wirklich
     // aendert, sonst waere es viermal pro Sekunde ein Neuzeichnen.
-    a.ontimeupdate = hbSzenePruefen;
-    a.onseeked     = hbSzenePruefen;
+    a.ontimeupdate = function() { hbSzenePruefen(); hbUhr(); };
+    a.onseeked     = function() { hbSzenePruefen(); hbUhr(); };
+    a.onloadedmetadata = hbUhr;
+    a.ondurationchange = hbUhr;
+    a.onpause = function() { hbPlayZeichen(false); };
     // Erst wenn wirklich gehoert wird, ist das hier die Stelle,
     // an der es beim naechsten Mal weitergehen soll.
-    a.onplay  = function() { hbMerken(); };
+    a.onplay  = function() { hbPlayZeichen(true); hbMerken(); };
     if(gleichSpielen) {
       var p = a.play();
       if(p && p.catch) p.catch(function() {});   // manche Browser wollen erst einen Klick
@@ -4160,10 +4224,99 @@ function hbSzeneMalen(i) {
     img.onerror = function() { bildErsatz(this); };
     img.src = "bilder/" + liste[i].n + ".png";
   }
-  // Und zwei Zahlenreihen: die Knoepfe stehen im Spieler UND im Kino.
+  // Die Zahlenreihe im Kino
   knoepfe = document.querySelectorAll(".hb-szene");
   for(j = 0; j < knoepfe.length; j++)
     knoepfe[j].className = "hb-szene" + ((j % liste.length) === i ? " on" : "");
+  // Die Bilderleiste im Spieler: das aktuelle Bild umrahmt, die schon
+  // gezeigten blasser - so sieht das Kind, wie weit es ist.
+  var vb = document.querySelectorAll(".hb-vb");
+  for(j = 0; j < vb.length; j++)
+    vb[j].className = "hb-vb" + (j === i ? " on" : (j < i ? " gesehen" : ""));
+  var leiste = document.getElementById("hb-leiste");
+  if(leiste && vb[i])      // nur waagrecht rollen - scrollIntoView wuerde die ganze Seite verschieben
+    leiste.scrollLeft = vb[i].offsetLeft - leiste.clientWidth / 2 + vb[i].offsetWidth / 2;
+  var z = document.getElementById("hb-zaehler");
+  if(z) z.textContent = (i + 1) + " / " + liste.length;
+  hbPfeileSetzen();
+}
+
+// Fehlt ein kleines Vorschaubild, das grosse nehmen; fehlt auch das,
+// bleibt die graue Flaeche mit der Zahl.
+function hbVbErsatz(img, n) {
+  if(img.getAttribute("data-gross")) { img.style.visibility = "hidden"; img.onerror = null; return; }
+  img.setAttribute("data-gross", "1");
+  img.src = "bilder/" + n + ".png";
+}
+
+// Pfeile auf dem Bild: innerhalb des Kapitels von Bild zu Bild, am
+// Rand ins Nachbarkapitel.
+function hbBlaettern(r) {
+  var liste = hbSzenenJetzt(), kap = (hbIndex[hbBuch] || {}).kapitel || [];
+  var a = document.getElementById("hb-audio"), laeuft = a && !a.paused;
+  var ziel = (hbSzene < 0 ? 0 : hbSzene) + r;
+  if(liste.length && ziel >= 0 && ziel < liste.length) { hbSpringe(ziel); return; }
+  if(r < 0 && hbKap > 0) hbOeffne(hbBuch, hbKap - 1, laeuft);
+  if(r > 0 && hbKap < kap.length - 1) hbOeffne(hbBuch, hbKap + 1, laeuft);
+}
+function hbPfeileSetzen() {
+  var liste = hbSzenenJetzt(), kap = (hbIndex[hbBuch] || {}).kapitel || [];
+  var i = hbSzene < 0 ? 0 : hbSzene, l = document.getElementById("hb-pfeil-l"), r = document.getElementById("hb-pfeil-r");
+  var n = liste.length || 1;
+  if(l) l.style.display = (i > 0 || hbKap > 0) ? "" : "none";
+  if(r) r.style.display = (i < n - 1 || hbKap < kap.length - 1) ? "" : "none";
+  if(l) l.title = i > 0 ? "Bild davor" : "Kapitel davor";
+  if(r) r.title = i < n - 1 ? "Nächstes Bild" : "Nächstes Kapitel";
+}
+
+// ── Eigener Abspielknopf und Zeitleiste ─────────────────────
+var hbZieht = false;
+function hbPlay() {
+  var a = document.getElementById("hb-audio");
+  if(!a) return;
+  if(a.paused) { var p = a.play(); if(p && p.catch) p.catch(function() {}); }
+  else a.pause();
+}
+function hbPlayZeichen(laeuft) {
+  var b = document.getElementById("hb-play");
+  if(!b) return;
+  b.innerHTML = laeuft ? "❚❚" : "▶\ufe0e";
+  b.setAttribute("aria-label", laeuft ? "Anhalten" : "Abspielen");
+}
+function hbMinSek(s) {
+  if(!isFinite(s) || s < 0) return "–:––";
+  s = Math.floor(s);
+  return Math.floor(s / 60) + ":" + (s % 60 < 10 ? "0" : "") + (s % 60);
+}
+function hbUhr() {
+  var a = document.getElementById("hb-audio"), l = document.getElementById("hb-lauf");
+  if(!a) return;
+  var d = a.duration;
+  var t0 = document.getElementById("hb-t0"), t1 = document.getElementById("hb-t1");
+  if(t1) t1.textContent = hbMinSek(d);
+  if(hbZieht) return;               // beim Ziehen nicht dazwischenfunken
+  if(t0) t0.textContent = hbMinSek(a.currentTime);
+  if(l && isFinite(d) && d > 0) l.value = Math.round(a.currentTime / d * 1000);
+}
+function hbLaufZiehen(v) {
+  var a = document.getElementById("hb-audio"), t0 = document.getElementById("hb-t0");
+  hbZieht = true;
+  if(a && isFinite(a.duration) && t0) t0.textContent = hbMinSek(a.duration * v / 1000);
+}
+function hbLaufLos(v) {
+  var a = document.getElementById("hb-audio");
+  hbZieht = false;
+  if(!a) return;
+  var setzen = function() { try { a.currentTime = a.duration * v / 1000; } catch(e) {} };
+  // Wie bei hbSpringe: solange die Datei nicht geladen ist, kennt der
+  // Browser die Laenge nicht - dann erst laden, danach setzen.
+  if(isFinite(a.duration) && a.duration > 0) setzen();
+  else {
+    a.addEventListener("loadedmetadata", function nachholen() {
+      a.removeEventListener("loadedmetadata", nachholen); setzen();
+    });
+    try { a.preload = "metadata"; a.load(); } catch(e) {}
+  }
 }
 
 // Tippen auf eine Zahl setzt Bild UND Tonstelle - ein Kind soll eine
@@ -4188,6 +4341,10 @@ function hbSpringe(i) {
     }
   }
   hbSzeneMalen(i);
+  var t0 = document.getElementById("hb-t0");
+  if(t0 && ziel !== undefined) t0.textContent = hbMinSek(ziel);
+  var l = document.getElementById("hb-lauf");
+  if(l && a && isFinite(a.duration) && a.duration > 0) l.value = Math.round(ziel / a.duration * 1000);
 }
 
 function hbSzenePruefen() {
