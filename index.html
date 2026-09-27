@@ -16,6 +16,7 @@
 <script src="geschichten.js"></script>
 <script src="alphabet.js"></script>
 <script src="comics.js"></script>
+<script src="zahlenkreise.js"></script>
 <style>
 /* Comfortaa, nur die griechischen Zeichen - 6 KB. Liegt im Repo, wird also
    auch ohne Internet geladen. Ersetzt die 24 Buchstabenbilder (4,5 MB). */
@@ -781,6 +782,49 @@ body.in-uebung .stars-bar{display:none}
 @supports not (position:sticky){
   .cat-filters,.gram-tabs,.geo-tabs,.convo-tabs,.wb-cat-filters{position:static}
 }
+
+/* ── Zahlenkreise: das Rechenspiel ─────────────────────────
+   Die Knoepfe sind die Kategorieknoepfe der App (.cat-btn),
+   die Antwortknoepfe folgen .geo-choice. Alles Eigene traegt
+   zk- als Vorsatz - .wahl gibt es hier schon.
+   ──────────────────────────────────────────────────────── */
+.zk-hin{color:#5F5E5A;font-size:14px;line-height:1.5;margin:0 0 1rem}
+.zk-leiste{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:1rem}
+.zk-stufen{display:flex;flex-wrap:wrap;gap:6px}
+.cat-btn.zk-stark{background:#0F6E56;border-color:#0F6E56;color:white;font-weight:bold}
+.zk-brett{background:white;border:1.5px solid #ddd;border-radius:14px;
+  padding:16px 10px;overflow-x:auto;margin-bottom:1rem}
+.zk-gitter{display:grid;justify-content:center;gap:0}
+.zk-zelle{display:grid;place-items:center}
+.zk-op{font-size:19px;font-weight:bold;color:#5F5E5A;min-width:22px;text-align:center}
+.zk-kreis{width:54px;height:54px;border-radius:50%;border:2px solid #ddd;background:white;
+  color:#2c2c2a;display:grid;place-items:center;font-size:19px;font-weight:bold;
+  font-family:Georgia,serif;padding:0}
+.zk-kreis.zk-fest{background:#faf9f6}
+.zk-kreis.zk-luecke{border-style:dashed;border-color:#0F6E56;color:#0F6E56;cursor:pointer}
+.zk-kreis.zk-dran{border-style:solid;background:#E1F5EE;box-shadow:0 0 0 3px #E1F5EE}
+.zk-kreis.zk-voll{border-style:solid;background:#E1F5EE}
+.zk-kreis.zk-falsch{border-color:#D85A30;color:#993C1D;background:#FAECE7;
+  animation:zkwackeln .3s}
+@keyframes zkwackeln{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media (prefers-reduced-motion:reduce){ .zk-kreis.zk-falsch{animation:none} }
+.zk-wahl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-height:52px}
+.zk-antwort{padding:12px 16px;min-height:48px;border-radius:12px;border:1.5px solid #ddd;
+  background:white;font-size:15px;font-weight:bold;color:#0F6E56;font-family:Georgia,serif;
+  cursor:pointer;transition:all .15s}
+.zk-antwort:hover:not(:disabled){border-color:#1D9E75;background:#E1F5EE}
+.zk-antwort.zk-ziffer{font-size:17px}
+.zk-tipp{color:#888;font-size:13px}
+.zk-satz{margin:10px 0 0;font-size:17px;font-weight:bold;color:#0F6E56;min-height:26px}
+.zk-nochmal{border:0;background:transparent;font-size:17px;cursor:pointer;
+  padding:2px 6px;line-height:1;font-family:inherit}
+.zk-fehlt{color:#8A6A28;font-size:12.5px;margin:8px 0 0}
+.zk-fertig{background:#E1F5EE;border:1.5px solid #1D9E75;border-radius:12px;padding:12px 14px}
+.zk-fertig b{color:#0F6E56}
+.zk-fuss{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+  color:#888;font-size:13px;margin-top:12px}
+.zk-fuss b{color:#2c2c2a}
+@media (max-width:560px){ .zk-kreis{width:46px;height:46px;font-size:17px} }
 </style>
 </head>
 <body>
@@ -903,6 +947,10 @@ body.in-uebung .stars-bar{display:none}
 
   <div class="screen" id="quiz">
     <div id="quiz-area"></div>
+  </div>
+
+  <div class="screen" id="zahlenkreise">
+    <div id="zk-area"></div>
   </div>
 
   <div class="screen" id="progress">
@@ -1288,7 +1336,8 @@ var BEREICHE = [
      ["mythos","Mythologie","story-12_greek_gods_with_names_greek_mythology","⚡","Μυθολογία"],
      ["geo","Geographie","story-map_of_greece_01","🗺️","Γεωγραφία"],
      ["buchstaben-quiz","Buchstaben-Quiz","nav-buchstaben-quiz","🎯","Κουίζ γραμμάτων"],
-     ["buchstaben-memory","Buchstaben-Memory","nav-buchstaben-memory","🎴","Μνήμη γραμμάτων"]]}
+     ["buchstaben-memory","Buchstaben-Memory","nav-buchstaben-memory","🎴","Μνήμη γραμμάτων"],
+     ["zahlenkreise","Zahlenkreise","nav-zahlenkreise","🔢","Αριθμοί"]]}
 ];
 var aktBereich = null;
 
@@ -1486,6 +1535,7 @@ function showScreen(id) {
   if(id==="hoerbuch") hbListe();
   if(id==="buchstaben-quiz") startBQuiz();
   if(id==="buchstaben-memory") startBMemory();
+  if(id==="zahlenkreise") startZahlenkreise();
 }
 
 // ── SVG HELPER ────────────────────────────────────────────
