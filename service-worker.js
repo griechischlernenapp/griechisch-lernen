@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v54';
+var CACHE_NAME = 'griechisch-lernen-v55';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
@@ -10,6 +10,7 @@ var STATIC_FILES = [
   '/griechisch-lernen/alphabet.js',
   '/griechisch-lernen/comics.js',
   '/griechisch-lernen/zahlenkreise.js',
+  '/griechisch-lernen/schreiben.js',
   '/griechisch-lernen/impressum.html',
   '/griechisch-lernen/manifest.json',
   // Die Buchstaben des Alphabets werden gesetzt, nicht mehr als Bilder
