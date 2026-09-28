@@ -40,13 +40,14 @@
     {n: "Pink",    f: "#D9558B"}
   ];
 
-  var stelle = 0, grossModus = true, fertigListe = {}, gebaut = false, stift = 0;
+  var stelle = 0, grossModus = true, fertigListe = {}, gebaut = false, stift = 0, tonAn = true;
   try {
     var g = localStorage.getItem("schr_stelle"); if (g !== null) stelle = +g;
     var k = localStorage.getItem("schr_gross"); if (k !== null) grossModus = (k === "1");
     fertigListe = JSON.parse(localStorage.getItem("schr_fertig") || "{}");
     var f = localStorage.getItem("schr_stift");
     if (f !== null && STIFTE[+f]) stift = +f;
+    var s = localStorage.getItem("schr_ton"); if (s !== null) tonAn = (s === "1");
   } catch (e) {}
 
   var el = {}, ctx = null;
@@ -84,6 +85,7 @@
       +  '<button type="button" class="cat-btn" id="schr-gross">Α&nbsp; groß</button>'
       +  '<button type="button" class="cat-btn" id="schr-klein">α&nbsp; klein</button>'
       +  '<button type="button" class="cat-btn" id="schr-hoeren">🔊 Name hören</button>'
+      +  '<button type="button" class="cat-btn" id="schr-ton"></button>'
       +  '<button type="button" class="cat-btn" id="schr-nochmal">Nochmal</button>'
       +  '<button type="button" class="cat-btn schr-stark" id="schr-weiter">Nächster</button>'
       +  '</div>';
@@ -102,12 +104,17 @@
     el.gross = document.getElementById("schr-gross");
     el.klein = document.getElementById("schr-klein");
     el.stifte = document.getElementById("schr-stifte");
+    el.ton = document.getElementById("schr-ton");
     ctx = el.blatt.getContext("2d");
 
     el.gross.addEventListener("click", function () { grossModus = true; merke(); neu(); });
     el.klein.addEventListener("click", function () { grossModus = false; merke(); neu(); });
     document.getElementById("schr-nochmal").addEventListener("click", blattBauen);
-    document.getElementById("schr-hoeren").addEventListener("click", function () { spielName(0); });
+    document.getElementById("schr-hoeren").addEventListener("click", function () { spielName(0, true); });
+    el.ton.addEventListener("click", function () {
+      tonAn = !tonAn; merke(); tonKnopfAn();
+      if (!tonAn) { brummen(false); if (laeuft) { try { laeuft.pause(); } catch (e) {} } }
+    });
     document.getElementById("schr-weiter").addEventListener("click", function () {
       if (grossModus) { grossModus = false; }
       else { grossModus = true; stelle = (stelle + 1) % alphabet.length; }
@@ -129,6 +136,7 @@
     });
 
     gebaut = true;
+    tonKnopfAn();
     return true;
   }
 
@@ -165,6 +173,7 @@
     }
     getroffen = punkte.map(function () { return false; });
     innen = 0; aussen = 0; spur = []; gelobt = false;
+    malt = false; brummen(false);
     malen(); standAn();
   }
 
@@ -233,6 +242,7 @@
     letzter[2] = imBuchstaben(letzter[0], letzter[1]);
     spur.push({p: [letzter]});
     pruefen(letzter);
+    brummen(!letzter[2]);
     malen(); standAn();
   }
 
@@ -249,6 +259,7 @@
       p[2] = imBuchstaben(p[0], p[1]);
       st.p.push(p);
       pruefen(p);
+      brummen(!p[2]);
     }
     letzter = jetzt;
     malen(); standAn();
@@ -257,6 +268,7 @@
   function aufhoeren() {
     if (!malt) return;
     malt = false;
+    brummen(false);       // beim Absetzen ist immer Ruhe
     standAn();
   }
 
@@ -299,6 +311,7 @@
 
   function fertigMelden() {
     gelobt = true;
+    brummen(false);
     var a = buchstabe();
     fertigListe[a.name + (grossModus ? "-gross" : "-klein")] = true;
     merke(); reiheAn(); klang(); spielName(420);
@@ -309,7 +322,41 @@
   // ── Ton ───────────────────────────────────────────────────
   var hall = null, laeuft = null;
 
+  // Der "heiße Draht": solange der Finger neben dem Buchstaben malt,
+  // brummt es leise. Kein Schimpfen, kein Piepsen – ein tiefer, ruhiger
+  // Ton, der aufhört, sobald die Spur wieder im Buchstaben liegt. So
+  // hört das Kind seinen Fehler, während es ihn macht, und muss nicht
+  // auf den Balken schauen.
+  var brummOsz = null, brummGain = null, brummLaeuft = false;
+
+  function brummen(an) {
+    if (!tonAn) an = false;
+    if (an === brummLaeuft) return;
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!hall) hall = new AC();
+      if (hall.state === "suspended") hall.resume();
+      if (!brummOsz) {
+        brummOsz = hall.createOscillator();
+        brummGain = hall.createGain();
+        brummOsz.type = "sine";
+        brummOsz.frequency.value = 196;      // tiefes G, unaufdringlich
+        brummGain.gain.value = 0.0001;
+        brummOsz.connect(brummGain);
+        brummGain.connect(hall.destination);
+        brummOsz.start();
+      }
+      var t = hall.currentTime;
+      brummGain.gain.cancelScheduledValues(t);
+      brummGain.gain.setValueAtTime(Math.max(brummGain.gain.value, 0.0001), t);
+      brummGain.gain.exponentialRampToValueAtTime(an ? 0.045 : 0.0001, t + 0.05);
+      brummLaeuft = an;
+    } catch (e) {}
+  }
+
   function klang() {
+    if (!tonAn) return;
     try {
       var AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return;
@@ -329,7 +376,12 @@
   }
 
   // Der Name kommt aus ton/, über dasselbe tonDatei() wie überall.
-  function spielName(warte) {
+  // "erzwingen" ist der Knopf "Name hören": eine ausdrückliche Handlung
+  // des Kindes. Die darf auch bei Ton aus sprechen, sonst wäre der Knopf
+  // stumm und niemand wüsste warum. Der Schalter gilt für alles, was von
+  // selbst kommt - Brummton, Klang, der Name nach dem Fertigwerden.
+  function spielName(warte, erzwingen) {
+    if (!tonAn && !erzwingen) return;
     var pfadMp3 = null;
     try { if (typeof tonDatei === "function") pfadMp3 = tonDatei(buchstabe().nameGr); } catch (e) {}
     if (!pfadMp3) return;
@@ -358,6 +410,11 @@
     }
     var aktiv = el.reihe.querySelector('[aria-pressed="true"]');
     if (aktiv && aktiv.scrollIntoView) aktiv.scrollIntoView({block: "nearest", inline: "center"});
+  }
+
+  function tonKnopfAn() {
+    el.ton.textContent = tonAn ? "🔊 Ton an" : "🔇 Ton aus";
+    el.ton.setAttribute("aria-pressed", tonAn ? "true" : "false");
   }
 
   function stifteAn() {
@@ -393,6 +450,7 @@
       localStorage.setItem("schr_gross", grossModus ? "1" : "0");
       localStorage.setItem("schr_fertig", JSON.stringify(fertigListe));
     localStorage.setItem("schr_stift", stift);
+    localStorage.setItem("schr_ton", tonAn ? "1" : "0");
     } catch (e) {}
   }
 
