@@ -237,6 +237,7 @@
 
   function anfangen(e) {
     e.preventDefault();
+    tonBereit();            // der Fingerdruck ist die Geste, die der Browser verlangt
     malt = true;
     letzter = ortVon(e);
     letzter[2] = imBuchstaben(letzter[0], letzter[1]);
@@ -329,19 +330,33 @@
   // auf den Balken schauen.
   var brummOsz = null, brummGain = null, brummLaeuft = false;
 
+  // Ein Browser lässt Ton erst zu, nachdem jemand etwas angefasst hat.
+  // Deshalb wird der Tonweg beim Aufsetzen des Fingers geöffnet, nicht
+  // erst, wenn er gebraucht wird.
+  function tonBereit() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!hall) hall = new AC();
+      if (hall.state === "suspended") hall.resume();
+      return hall;
+    } catch (e) { return null; }
+  }
+
   function brummen(an) {
     if (!tonAn) an = false;
     if (an === brummLaeuft) return;
     try {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
-      if (!hall) hall = new AC();
-      if (hall.state === "suspended") hall.resume();
+      if (!tonBereit()) return;
       if (!brummOsz) {
         brummOsz = hall.createOscillator();
         brummGain = hall.createGain();
-        brummOsz.type = "sine";
-        brummOsz.frequency.value = 196;      // tiefes G, unaufdringlich
+        // 196 Hz als reiner Sinus war auf Handy- und Notebooklautsprechern
+        // praktisch nicht zu hören: so tief geben kleine Lautsprecher kaum
+        // etwas her, und ein Sinus hat keine Obertöne, die durchkommen.
+        // Ein Dreieck bei 330 Hz trägt, ohne schrill zu sein.
+        brummOsz.type = "triangle";
+        brummOsz.frequency.value = 330;
         brummGain.gain.value = 0.0001;
         brummOsz.connect(brummGain);
         brummGain.connect(hall.destination);
@@ -350,7 +365,7 @@
       var t = hall.currentTime;
       brummGain.gain.cancelScheduledValues(t);
       brummGain.gain.setValueAtTime(Math.max(brummGain.gain.value, 0.0001), t);
-      brummGain.gain.exponentialRampToValueAtTime(an ? 0.045 : 0.0001, t + 0.05);
+      brummGain.gain.exponentialRampToValueAtTime(an ? 0.10 : 0.0001, t + 0.05);
       brummLaeuft = an;
     } catch (e) {}
   }
