@@ -18,6 +18,7 @@
 <script src="comics.js"></script>
 <script src="zahlenkreise.js"></script>
 <script src="schreiben.js"></script>
+<script src="wortspiele.js"></script>
 <style>
 /* Comfortaa, nur die griechischen Zeichen - 6 KB. Liegt im Repo, wird also
    auch ohne Internet geladen. Ersetzt die 24 Buchstabenbilder (4,5 MB). */
@@ -872,6 +873,52 @@ body.in-uebung .stars-bar{display:none}
 .schr-stand{color:#5F5E5A;font-size:13.5px;min-height:20px;margin:8px 0 0}
 .schr-stand b{color:#0F6E56}
 .schr-stand.warn b{color:#C8891F}
+/* ── Wortspiele: Artikel, Nur Hören, Silben ────────────
+   Drei Spiele, ein Stil. Alles, was gewählt wird, ist ein großer
+   Knopf - Kinderfinger treffen keine kleinen Ziele. Richtig ist
+   grün, falsch bleibt blass stehen, damit das Kind sieht, was es
+   schon ausgeschlossen hat.
+   ─────────────────────────────────────── */
+.ws-hin{color:#5F5E5A;font-size:14px;line-height:1.5;margin:0 0 10px}
+.ws-balken{height:8px;border-radius:5px;background:#e7e3d9;overflow:hidden;margin-bottom:14px}
+.ws-balken div{height:100%;background:#0F6E56;transition:width .25s ease}
+.ws-karte{text-align:center;padding:1rem}
+.ws-bild{width:130px;height:130px;object-fit:contain;display:block;margin:0 auto 8px}
+.ws-wort{display:flex;align-items:center;justify-content:center;gap:7px;margin:0}
+.ws-art{color:#C8891F;font-size:22px;font-weight:bold;min-width:1.4em;text-align:right}
+.ws-gr{font-size:22px;font-weight:bold;color:#0F6E56}
+.ws-de{color:#5F5E5A;font-size:14px;margin:4px 0 0}
+.ws-wahl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:10px}
+.ws-gross{min-width:88px;min-height:58px;font-size:26px;font-family:Georgia,serif;
+  background:white;border:2px solid #E3CFA0;border-radius:16px;color:#0F6E56;cursor:pointer}
+.ws-gross:disabled{cursor:default}
+.ws-silbe{min-height:52px;padding:0 16px;font-size:22px;font-family:Georgia,serif;
+  background:white;border:2px solid #E3CFA0;border-radius:16px;color:#0F6E56;cursor:pointer}
+.ws-richtig{background:#0F6E56!important;border-color:#0F6E56!important;color:white!important}
+.ws-falsch{background:#FAECE7!important;border-color:#D85A30!important;color:#D85A30!important;
+  opacity:.75}
+.ws-gesetzt{opacity:.35}
+.ws-bau{margin-top:10px;font-size:21px;letter-spacing:1px;color:#5F5E5A;min-height:28px}
+.ws-bau.voll{color:#0F6E56;font-weight:bold;letter-spacing:0}
+.ws-hoerzeile{text-align:center;margin-bottom:14px}
+.ws-hoeren{min-height:56px;padding:0 22px;font-size:17px;font-family:Georgia,serif;
+  background:#0F6E56;border:none;border-radius:28px;color:white;cursor:pointer}
+.ws-bilder{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ws-bildwahl{background:white;border:2px solid #ddd;border-radius:14px;padding:8px;
+  cursor:pointer}
+.ws-bildwahl .ws-bild.gross{width:100%;height:112px;object-fit:contain;margin:0}
+.ws-stand{color:#888;font-size:13px;text-align:center;margin:0}
+.ws-aufloesung{text-align:center;margin:0}
+.ws-aufloesung .ws-de{display:block}
+.ws-fertig{background:#E1F5EE;border:1.5px solid #1D9E75;border-radius:12px;
+  padding:14px 16px;text-align:center}
+.ws-fertig b{color:#0F6E56;font-size:18px}
+.cat-btn.ws-stark{background:#0F6E56;border-color:#0F6E56;color:white;font-weight:bold;
+  margin-top:10px}
+@media (max-width:420px){
+  .ws-gross{min-width:76px;min-height:54px;font-size:23px}
+  .ws-bildwahl .ws-bild.gross{height:92px}
+}
 </style>
 </head>
 <body>
@@ -1002,6 +1049,18 @@ body.in-uebung .stars-bar{display:none}
 
   <div class="screen" id="schreiben">
     <div id="schr-area"></div>
+  </div>
+
+  <div class="screen" id="artikel">
+    <div id="artikel-area"></div>
+  </div>
+
+  <div class="screen" id="hoerspiel">
+    <div id="hoeren-area"></div>
+  </div>
+
+  <div class="screen" id="silben">
+    <div id="silben-area"></div>
   </div>
 
   <div class="screen" id="progress">
@@ -1389,7 +1448,10 @@ var BEREICHE = [
      ["geo","Geographie","story-map_of_greece_01","🗺️","Γεωγραφία"],
      ["buchstaben-quiz","Buchstaben-Quiz","nav-buchstaben-quiz","🎯","Κουίζ γραμμάτων"],
      ["buchstaben-memory","Buchstaben-Memory","nav-buchstaben-memory","🎴","Μνήμη γραμμάτων"],
-     ["zahlenkreise","Zahlenkreise","nav-zahlenkreise","🔢","Αριθμοί"]]}
+     ["zahlenkreise","Zahlenkreise","nav-zahlenkreise","🔢","Αριθμοί"],
+     ["artikel","Der Artikel","nav-artikel","🏷️","Το άρθρο"],
+     ["hoerspiel","Nur Hören","nav-hoerspiel","👂","Τι ακούω;"],
+     ["silben","Silben","nav-silben","🧩","Συλλαβές"]]}
 ];
 // ── Was ist neu ───────────────────────────────────────────
 // Eine Uebung bekommt das Datum, an dem sie dazugekommen ist. Das rote
@@ -1402,7 +1464,10 @@ var BEREICHE = [
 var NEU_TAGE = 50;
 var NEU_MARKE = {
   zahlenkreise: "2026-09-27",
-  schreiben:    "2026-09-28"
+  schreiben:    "2026-09-28",
+  artikel:      "2026-09-28",
+  hoerspiel:    "2026-09-28",
+  silben:       "2026-09-28"
 };
 
 function istNeu(id) {
@@ -1620,6 +1685,9 @@ function showScreen(id) {
   if(id==="buchstaben-memory") startBMemory();
   if(id==="zahlenkreise") startZahlenkreise();
   if(id==="schreiben") startSchreiben();
+  if(id==="artikel") startArtikel();
+  if(id==="hoerspiel") startHoeren();
+  if(id==="silben") startSilben();
 }
 
 // ── SVG HELPER ────────────────────────────────────────────
