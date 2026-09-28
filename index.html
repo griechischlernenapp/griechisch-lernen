@@ -626,12 +626,15 @@ body, button, input, select, textarea {
 .kachel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .kachel{background:white;border:2px solid #e3e0d8;border-radius:18px;overflow:hidden;
   cursor:pointer;transition:border-color .15s,transform .1s}
-/* Das rote νέο sitzt unten rechts im Bild der Kachel. Wer es traegt und
-   wie lange, steht bei NEU_MARKE und NEU_TAGE. */
-.k-bild{position:relative}
-.k-bild .neo{position:absolute;right:7px;bottom:7px;background:#C0392B;color:white;
+/* Das rote νέο sitzt unten rechts in der Kachel, auf Hoehe des Titels -
+   nicht im Bild. Wer es traegt und wie lange, steht bei NEU_MARKE und
+   NEU_TAGE. Der Titel bekommt rechts Platz, damit sich beide nie
+   beruehren, und links denselben, damit er mittig bleibt. */
+.kachel{position:relative}
+.kachel .neo{position:absolute;right:8px;bottom:9px;background:#C0392B;color:white;
   font-family:Georgia,serif;font-size:11px;font-weight:bold;letter-spacing:.06em;
-  line-height:1;padding:4px 8px;border-radius:9px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+  line-height:1;padding:4px 8px;border-radius:9px}
+.kachel.hat-neo .k-t{padding-left:46px;padding-right:46px}
 .kachel:hover{border-color:#1D9E75}
 .kachel:active{transform:scale(.97)}
 .kachel img{width:100%;height:132px;object-fit:cover;display:block;background:#f7f6f2}
@@ -1433,12 +1436,10 @@ function zielTitel(id) {
   return "";
 }
 function kachel(ziel, titel, bild, emoji, gr, neu) {
-  return '<div class="kachel" onclick="' + ziel + '">'
-       + '<div class="k-bild">'
+  return '<div class="kachel' + (neu ? ' hat-neo' : '') + '" onclick="' + ziel + '">'
        + '<img src="bilder/' + bild + '.png" alt="" data-emoji="' + (emoji || "🖼️")
        + '" onerror="bildErsatz(this)">'
        + (neu ? '<span class="neo">νέο</span>' : '')
-       + '</div>'
        + '<div class="k-t">'
        + (gr ? '<span class="k-gr' + (gr.length > 12 ? ' lang' : '') + '">' + gr + '</span>' : '')
        + '<span class="k-de">' + titel + '</span></div></div>';
