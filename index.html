@@ -627,15 +627,18 @@ body, button, input, select, textarea {
 .kachel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .kachel{background:white;border:2px solid #e3e0d8;border-radius:18px;overflow:hidden;
   cursor:pointer;transition:border-color .15s,transform .1s}
-/* Das rote νέο sitzt unten rechts in der Kachel, auf Hoehe des Titels -
-   nicht im Bild. Wer es traegt und wie lange, steht bei NEU_MARKE und
-   NEU_TAGE. Der Titel bekommt rechts Platz, damit sich beide nie
-   beruehren, und links denselben, damit er mittig bleibt. */
+/* Das rote νέο steht im weissen Feld hinter dem deutschen Wort, nicht
+   im Bild. Wer es traegt und wie lange, steht bei NEU_MARKE und NEU_TAGE.
+   Es haengt IM Textfluss, nicht frei in der Ecke: eine Kachel ist nur
+   rund 160 px breit, und ein freistehendes Schild hat «Zahlenkreise»
+   das letzte e verdeckt. So kann sich beides nie beruehren, egal wie
+   lang das Wort und wie schmal die Kachel ist. */
 .kachel{position:relative}
-.kachel .neo{position:absolute;right:8px;bottom:9px;background:#C0392B;color:white;
+.kachel .k-de{display:flex;align-items:center;justify-content:center;gap:6px;
+  flex-wrap:wrap}
+.kachel .neo{background:#C0392B;color:white;
   font-family:Georgia,serif;font-size:11px;font-weight:bold;letter-spacing:.06em;
-  line-height:1;padding:4px 8px;border-radius:9px}
-.kachel.hat-neo .k-t{padding-left:46px;padding-right:46px}
+  line-height:1;padding:4px 8px;border-radius:9px;white-space:nowrap}
 .kachel:hover{border-color:#1D9E75}
 .kachel:active{transform:scale(.97)}
 .kachel img{width:100%;height:132px;object-fit:cover;display:block;background:#f7f6f2}
@@ -648,7 +651,7 @@ body, button, input, select, textarea {
 /* Lange Woerter wie "Ακουστικό βιβλίο" etwas kleiner, damit jede Kachel
    einzeilig bleibt und alle Reihen gleich hoch sind. */
 .kachel .k-gr.lang{font-size:13px}
-.kachel .k-de{display:block;font-size:12px;color:#5F5E5A;margin-top:2px}
+.kachel .k-de{font-size:12px;color:#5F5E5A;margin-top:2px}
 
 /* Zurück: ein einziger großer Knopf, sonst nichts */
 .zurueck-leiste{display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -1520,10 +1523,11 @@ function kachel(ziel, titel, bild, emoji, gr, neu) {
   return '<div class="kachel' + (neu ? ' hat-neo' : '') + '" onclick="' + ziel + '">'
        + '<img src="bilder/' + bild + '.png" alt="" data-emoji="' + (emoji || "🖼️")
        + '" onerror="bildErsatz(this)">'
-       + (neu ? '<span class="neo">νέο</span>' : '')
        + '<div class="k-t">'
        + (gr ? '<span class="k-gr' + (gr.length > 12 ? ' lang' : '') + '">' + gr + '</span>' : '')
-       + '<span class="k-de">' + titel + '</span></div></div>';
+       + '<span class="k-de">' + titel
+       + (neu ? ' <span class="neo">νέο</span>' : '')
+       + '</span></div></div>';
 }
 
 function kachelnMalen() {

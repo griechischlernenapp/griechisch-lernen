@@ -242,9 +242,12 @@
 
   // Hier zeigt das Kind auf ein Bild, ohne ein Wort zu lesen. Dafür
   // taugt nur, was man wirklich malen kann. Farben und Gefühle sind zu
-  // abstrakt (ein schwarzes Feld, ein Smiley), und auf den Bildern der
-  // Wochentage steht das griechische Wort - das wäre verraten.
-  var HOER_AUS_KAT = { farben: 1, gefuehle: 1, wochentage: 1 };
+  // abstrakt (ein schwarzes Feld, ein Smiley), auf den Bildern der
+  // Wochentage steht das griechische Wort - das wäre verraten - und die
+  // Zahlen haben ab der Elf gar kein Bild: dort stünde überall dasselbe
+  // 🔢 und die Kacheln wären nicht zu unterscheiden. Zahlen haben mit
+  // den Zahlenkreisen ihr eigenes Spiel.
+  var HOER_AUS_KAT = { farben: 1, gefuehle: 1, wochentage: 1, zahlen: 1 };
   var HOER_AUS_WORT = { "Uhrzeit": 1, "Klasse": 1, "Familie": 1 };
 
   // Gesprochen wird die ganze Wortgruppe - "το κοχύλι", nicht "κοχύλι".
@@ -291,9 +294,15 @@
 
     // Drei andere Bilder dazu - gemischt, damit nicht immer dieselben
     // kommen, und ohne Dublette zum gesuchten Wort.
-    var alle = mischen(hoerWoerter().slice()), andere = [];
+    // Fehlt einmal ein Bild, springt die App auf das Emoji um. Zwei
+    // Kacheln mit demselben Emoji waeren nicht zu unterscheiden -
+    // deshalb kommt jedes Ersatzzeichen hier nur einmal vor.
+    var alle = mischen(hoerWoerter().slice()), andere = [], zeichen = {};
+    zeichen[w.emoji || "?"] = 1;
     for (var i = 0; i < alle.length && andere.length < 3; i++) {
-      if (alle[i].gr !== w.gr && alle[i].de !== w.de) andere.push(alle[i]);
+      var a = alle[i], z = a.emoji || "?";
+      if (a.gr === w.gr || a.de === w.de || zeichen[z]) continue;
+      zeichen[z] = 1; andere.push(a);
     }
     var wahl = mischen(andere.concat([w]));
 
