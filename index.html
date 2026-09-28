@@ -883,7 +883,11 @@ body.in-uebung .stars-bar{display:none}
 .ws-balken{height:8px;border-radius:5px;background:#e7e3d9;overflow:hidden;margin-bottom:14px}
 .ws-balken div{height:100%;background:#0F6E56;transition:width .25s ease}
 .ws-karte{text-align:center;padding:1rem}
-.ws-bild{width:130px;height:130px;object-fit:contain;display:block;margin:0 auto 8px}
+/* Die Bilder der App sind breit (704 x 384). In einem quadratischen
+   Rahmen blieben oben und unten Luft und das Bild wurde winzig -
+   deshalb hat der Rahmen dasselbe Seitenverhaeltnis wie das Bild. */
+.ws-bild{width:100%;max-width:320px;aspect-ratio:11/6;height:auto;
+  object-fit:contain;display:block;margin:0 auto 8px;font-size:64px}
 .ws-wort{display:flex;align-items:center;justify-content:center;gap:7px;margin:0}
 .ws-art{color:#C8891F;font-size:22px;font-weight:bold;min-width:1.4em;text-align:right}
 .ws-gr{font-size:22px;font-weight:bold;color:#0F6E56}
@@ -906,7 +910,19 @@ body.in-uebung .stars-bar{display:none}
 .ws-bilder{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .ws-bildwahl{background:white;border:2px solid #ddd;border-radius:14px;padding:8px;
   cursor:pointer}
-.ws-bildwahl .ws-bild.gross{width:100%;height:112px;object-fit:contain;margin:0}
+.ws-bildwahl .ws-bild.gross{width:100%;max-width:none;height:auto;
+  aspect-ratio:11/6;object-fit:contain;margin:0;font-size:52px}
+/* Der Platz für den Namen ist von Anfang an da, sonst springt die
+   ganze Seite, wenn nach der richtigen Wahl alle vier beschriftet
+   werden. */
+.ws-name{display:block;min-height:38px;margin-top:5px;line-height:1.25}
+.ws-name b{display:block;font-size:15px;color:#0F6E56}
+.ws-name i{display:block;font-size:12px;color:#5F5E5A;font-style:normal}
+/* Bei den Bildern reicht ein grüner Rahmen - ein voll grünes Feld
+   würde das Bild und den Namen darin erschlagen. */
+.ws-bildwahl.ws-richtig{background:#E1F5EE!important;border-color:#0F6E56!important;
+  color:inherit!important}
+.ws-bildwahl.ws-falsch{background:#FAECE7!important;border-color:#D85A30!important;opacity:.55}
 .ws-stand{color:#888;font-size:13px;text-align:center;margin:0}
 .ws-aufloesung{text-align:center;margin:0}
 .ws-aufloesung .ws-de{display:block}
@@ -917,7 +933,7 @@ body.in-uebung .stars-bar{display:none}
   margin-top:10px}
 @media (max-width:420px){
   .ws-gross{min-width:76px;min-height:54px;font-size:23px}
-  .ws-bildwahl .ws-bild.gross{height:92px}
+  .ws-name b{font-size:14px}
 }
 </style>
 </head>

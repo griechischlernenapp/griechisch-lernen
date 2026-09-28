@@ -103,17 +103,27 @@
   // Ein einziges Abspielgeraet fuer alle drei Spiele. Auf dem iPhone
   // wird ein Audio-Element beim ersten Antippen freigeschaltet und
   // bleibt es danach; ein jedes Mal neu erzeugtes bliebe stumm.
+  // "danach" laeuft, wenn die Aufnahme zu Ende ist - so wartet das
+  // Spiel genau so lange, wie gesprochen wird, statt nach einer festen
+  // Zeit weiterzuspringen. Fehlt der Ton, geht es kurz darauf weiter.
   var spieler = null;
-  function sprich(text) {
+  function sprich(text, danach) {
     var pfad = pfadVon(text);
-    if (!pfad) return;
+    if (!pfad) { if (danach) setTimeout(danach, 700); return; }
     try {
       if (!spieler) spieler = new Audio();
       spieler.pause();
+      spieler.onended = null;
       spieler.src = pfad;
+      if (danach) {
+        var ab = false;
+        var weiter = function () { if (ab) return; ab = true; danach(); };
+        spieler.onended = function () { setTimeout(weiter, 450); };
+        setTimeout(weiter, 4000);            // Notbremse
+      }
       var pr = spieler.play();
       if (pr && pr["catch"]) pr["catch"](function () {});
-    } catch (e) {}
+    } catch (e) { if (danach) setTimeout(danach, 700); }
   }
 
   // Bild wie überall in der App: bilder/<deutsches Wort>.png, sonst Emoji.
@@ -129,6 +139,14 @@
   function knopfTon(w) {
     try { return typeof tonKnopf === "function" ? tonKnopf(w.gr, true) : ""; }
     catch (e) { return ""; }
+  }
+
+  // Nach dem Aufloesen spricht derselbe Lautsprecher die ganze
+  // Wortgruppe - vorher waere "ο ιππότης" die Antwort gewesen.
+  function nachlegen(wo, text) {
+    var b = wo.querySelector(".ton-btn"), pfad = pfadVon(text);
+    if (!b || !pfad) return;
+    b.setAttribute("data-ton", pfad.replace(/^ton\//, "").replace(/\.mp3$/, ""));
   }
 
   function balken(steht, ganz) {
@@ -207,8 +225,13 @@
         var feld = document.getElementById("ws-art");
         if (feld) feld.textContent = w.art + " ";
         for (var m = 0; m < kn.length; m++) kn[m].disabled = true;
-        sprich(w.gr);
-        setTimeout(function () { artStelle++; artZeigen(); }, 1000);
+        // "ο ιππότης" ist EINE Aufnahme. Zwei Dateien hintereinander
+        // klaengen zusammengesetzt, und genau darum geht es hier: das
+        // Kind soll die Wortgruppe hoeren, wie sie gesprochen wird.
+        // Solange die Aufnahme fehlt, bleibt es beim blossen Wort.
+        var ganz = pfadVon(w.art + " " + w.gr) ? w.art + " " + w.gr : w.gr;
+        nachlegen(wo, ganz);
+        sprich(ganz, function () { artStelle++; artZeigen(); });
       });
     }
   }
@@ -223,6 +246,15 @@
   // Wochentage steht das griechische Wort - das wäre verraten.
   var HOER_AUS_KAT = { farben: 1, gefuehle: 1, wochentage: 1 };
   var HOER_AUS_WORT = { "Uhrzeit": 1, "Klasse": 1, "Familie": 1 };
+
+  // Gesprochen wird die ganze Wortgruppe - "το κοχύλι", nicht "κοχύλι".
+  // So hört das Kind den Artikel immer mit, wie im echten Satz. Fehlt
+  // die Aufnahme der Wortgruppe noch, bleibt es beim blossen Wort.
+  function mitArtikel(w) {
+    if (!w.art) return w.gr;
+    var ganz = w.art + " " + w.gr;
+    return pfadVon(ganz) ? ganz : w.gr;
+  }
 
   function hoerWoerter() {
     if (hoerVorrat) return hoerVorrat;
@@ -274,20 +306,23 @@
           + '<div class="ws-bilder">';
     for (var j = 0; j < wahl.length; j++) {
       h += '<button type="button" class="ws-bildwahl" data-gr="' + wahl[j].gr + '">'
-         + bild(wahl[j], "ws-bild gross") + '</button>';
+         + bild(wahl[j], "ws-bild gross")
+         + '<span class="ws-name" data-nam="' + (wahl[j].art ? wahl[j].art + " " : "")
+         + wahl[j].gr + '" data-de="' + wahl[j].de + '"></span></button>';
     }
     h += '</div><p class="ws-stand" id="ws-stand">' + (hoerStelle + 1) + ' von '
        + hoerRunde.length + '</p>';
     wo.innerHTML = h;
 
+    var gesagt = mitArtikel(w);
     document.getElementById("ws-hoeren").addEventListener("click", function () {
-      sprich(w.gr);
+      sprich(gesagt);
     });
     // Die erste Runde kommt unmittelbar aus dem Antippen der Kachel -
     // nur dann laesst ein iPhone den Ton von selbst zu. Spaeter ist das
     // Geraet freigeschaltet und eine kleine Pause stoert nicht.
-    if (ersteRunde) sprich(w.gr);
-    else setTimeout(function () { sprich(w.gr); }, 300);
+    if (ersteRunde) sprich(gesagt);
+    else setTimeout(function () { sprich(gesagt); }, 300);
 
     var frisch = true;
     var kn = wo.querySelectorAll(".ws-bildwahl");
@@ -302,13 +337,15 @@
         this.className += " ws-richtig";
         if (frisch) hoerRichtig++;
         for (var m = 0; m < kn.length; m++) kn[m].disabled = true;
-        var stand = document.getElementById("ws-stand");
-        if (stand) {
-          stand.className = "ws-aufloesung";
-          stand.innerHTML = '<span class="ws-gr">' + w.gr + '</span> '
-                          + '<span class="ws-de">' + w.de + '</span>';
+        // Jetzt bekommen ALLE vier Bilder ihren Namen. Das Kind hat
+        // eines gesucht und lernt die anderen drei gleich mit.
+        var nam = wo.querySelectorAll(".ws-name");
+        for (var n = 0; n < nam.length; n++) {
+          nam[n].innerHTML = '<b>' + nam[n].getAttribute("data-nam") + '</b>'
+                           + '<i>' + nam[n].getAttribute("data-de") + '</i>';
         }
-        setTimeout(function () { hoerStelle++; hoerZeigen(false); }, 1200);
+        sprich(gesagt);
+        setTimeout(function () { hoerStelle++; hoerZeigen(false); }, 2600);
       });
     }
   }
@@ -392,8 +429,7 @@
         if (frisch) silRichtig++;
         bau.className = "ws-bau voll";
         bau.textContent = w.gr;
-        sprich(w.gr);
-        setTimeout(function () { silStelle++; silZeigen(); }, 1400);
+        sprich(w.gr, function () { silStelle++; silZeigen(); });
       });
     }
   }
