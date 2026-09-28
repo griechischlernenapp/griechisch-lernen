@@ -115,11 +115,7 @@
       tonAn = !tonAn; merke(); tonKnopfAn();
       if (!tonAn) { brummen(false); if (laeuft) { try { laeuft.pause(); } catch (e) {} } }
     });
-    document.getElementById("schr-weiter").addEventListener("click", function () {
-      if (grossModus) { grossModus = false; }
-      else { grossModus = true; stelle = (stelle + 1) % alphabet.length; }
-      merke(); neu();
-    });
+    document.getElementById("schr-weiter").addEventListener("click", naechster);
 
     el.blatt.addEventListener("mousedown", anfangen);
     el.blatt.addEventListener("mousemove", ziehen);
@@ -142,6 +138,7 @@
 
   // ── Das Blatt ─────────────────────────────────────────────
   function blattBauen() {
+    clearTimeout(weiterUhr);
     var u = ALPHA_UMRISSE[zeichenJetzt()];
     if (!u) return;
 
@@ -309,10 +306,16 @@
     }
   }
 
+  var weiterUhr = null;
+
   function fertigMelden() {
     gelobt = true;
     brummen(false);
     ruettle([45, 70, 45]);
+    // Von selbst weiter: erst das Lob hören lassen, dann der nächste.
+    // Wer in der Zwischenzeit selbst etwas antippt, hält es an.
+    clearTimeout(weiterUhr);
+    weiterUhr = setTimeout(naechster, 1800);
     var a = buchstabe();
     fertigListe[a.name + (grossModus ? "-gross" : "-klein")] = true;
     merke(); reiheAn(); klang(); spielName(420);
@@ -422,7 +425,8 @@
     var kn = el.reihe.getElementsByTagName("button");
     for (i = 0; i < kn.length; i++) {
       kn[i].addEventListener("click", function () {
-        stelle = +this.getAttribute("data-i"); merke(); neu();
+        // Wer selbst einen Buchstaben wählt, fängt beim großen an.
+        stelle = +this.getAttribute("data-i"); grossModus = true; merke(); neu();
       });
     }
     var aktiv = el.reihe.querySelector('[aria-pressed="true"]');
@@ -471,7 +475,14 @@
     } catch (e) {}
   }
 
-  function neu() { reiheAn(); stifteAn(); nameAn(); blattBauen(); }
+  // Erst der Kleinbuchstabe zum selben Zeichen, dann das nächste Zeichen.
+  function naechster() {
+    if (grossModus) { grossModus = false; }
+    else { grossModus = true; stelle = (stelle + 1) % alphabet.length; }
+    merke(); neu();
+  }
+
+  function neu() { clearTimeout(weiterUhr); reiheAn(); stifteAn(); nameAn(); blattBauen(); }
 
   // ── Die Eingänge ──────────────────────────────────────────
   window.startSchreiben = function () {
