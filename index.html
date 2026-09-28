@@ -626,6 +626,12 @@ body, button, input, select, textarea {
 .kachel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .kachel{background:white;border:2px solid #e3e0d8;border-radius:18px;overflow:hidden;
   cursor:pointer;transition:border-color .15s,transform .1s}
+/* Das rote νέο sitzt unten rechts im Bild der Kachel. Wer es traegt und
+   wie lange, steht bei NEU_MARKE und NEU_TAGE. */
+.k-bild{position:relative}
+.k-bild .neo{position:absolute;right:7px;bottom:7px;background:#C0392B;color:white;
+  font-family:Georgia,serif;font-size:11px;font-weight:bold;letter-spacing:.06em;
+  line-height:1;padding:4px 8px;border-radius:9px;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .kachel:hover{border-color:#1D9E75}
 .kachel:active{transform:scale(.97)}
 .kachel img{width:100%;height:132px;object-fit:cover;display:block;background:#f7f6f2}
@@ -1382,6 +1388,36 @@ var BEREICHE = [
      ["buchstaben-memory","Buchstaben-Memory","nav-buchstaben-memory","🎴","Μνήμη γραμμάτων"],
      ["zahlenkreise","Zahlenkreise","nav-zahlenkreise","🔢","Αριθμοί"]]}
 ];
+// ── Was ist neu ───────────────────────────────────────────
+// Eine Uebung bekommt das Datum, an dem sie dazugekommen ist. Das rote
+// νέο steht dann 50 Tage lang unten rechts im Kachelbild und verschwindet
+// danach von selbst - ohne dass etwas hochgeladen werden muss.
+//
+// Beim naechsten Mal also nur eine Zeile hinzufuegen: Kennung des
+// Bildschirms und das Datum. Der BEREICH darueber (Lernen, Spielen)
+// erbt die Marke automatisch, solange eine seiner Uebungen neu ist.
+var NEU_TAGE = 50;
+var NEU_MARKE = {
+  zahlenkreise: "2026-09-27",
+  schreiben:    "2026-09-28"
+};
+
+function istNeu(id) {
+  var wann = NEU_MARKE[id];
+  if (!wann) return false;
+  var tag = new Date(wann + "T00:00:00");
+  if (isNaN(tag.getTime())) return false;
+  var alter = (Date.now() - tag.getTime()) / 86400000;
+  return alter >= 0 && alter < NEU_TAGE;
+}
+
+// Ein Bereich traegt die Marke, wenn eine seiner Uebungen sie traegt.
+function bereichNeu(b) {
+  if (istNeu(b.id)) return true;
+  for (var i = 0; i < b.ziele.length; i++) if (istNeu(b.ziele[i][0])) return true;
+  return false;
+}
+
 var aktBereich = null;
 
 function bereichVon(id) {
@@ -1396,10 +1432,13 @@ function zielTitel(id) {
   if(id === "progress") return "Fortschritt";
   return "";
 }
-function kachel(ziel, titel, bild, emoji, gr) {
+function kachel(ziel, titel, bild, emoji, gr, neu) {
   return '<div class="kachel" onclick="' + ziel + '">'
+       + '<div class="k-bild">'
        + '<img src="bilder/' + bild + '.png" alt="" data-emoji="' + (emoji || "🖼️")
        + '" onerror="bildErsatz(this)">'
+       + (neu ? '<span class="neo">νέο</span>' : '')
+       + '</div>'
        + '<div class="k-t">'
        + (gr ? '<span class="k-gr' + (gr.length > 12 ? ' lang' : '') + '">' + gr + '</span>' : '')
        + '<span class="k-de">' + titel + '</span></div></div>';
@@ -1409,7 +1448,7 @@ function kachelnMalen() {
   var h = "", i;
   for(i=0;i<BEREICHE.length;i++)
     h += kachel("zeigeBereich('" + BEREICHE[i].id + "')", BEREICHE[i].titel,
-                BEREICHE[i].bild, BEREICHE[i].emoji, BEREICHE[i].gr);
+                BEREICHE[i].bild, BEREICHE[i].emoji, BEREICHE[i].gr, bereichNeu(BEREICHE[i]));
   document.getElementById("kachel-grid").innerHTML = h;
 }
 
@@ -1418,7 +1457,7 @@ function zeigeBereich(bid) {
   if(!aktBereich) return;
   var h = "", z = aktBereich.ziele;
   for(var j=0;j<z.length;j++)
-    h += kachel("showScreen('" + z[j][0] + "')", z[j][1], z[j][2], z[j][3], z[j][4]);
+    h += kachel("showScreen('" + z[j][0] + "')", z[j][1], z[j][2], z[j][3], z[j][4], istNeu(z[j][0]));
   document.getElementById("gruppe-grid").innerHTML = h;
   showScreen("gruppe");
 }
