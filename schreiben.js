@@ -429,8 +429,6 @@
         stelle = +this.getAttribute("data-i"); grossModus = true; merke(); neu();
       });
     }
-    var aktiv = el.reihe.querySelector('[aria-pressed="true"]');
-    if (aktiv && aktiv.scrollIntoView) aktiv.scrollIntoView({block: "nearest", inline: "center"});
   }
 
   function tonKnopfAn() {
