@@ -891,6 +891,11 @@ body.in-uebung .stars-bar{display:none}
    deshalb hat der Rahmen dasselbe Seitenverhaeltnis wie das Bild. */
 .ws-bild{width:100%;max-width:320px;aspect-ratio:11/6;height:auto;
   object-fit:contain;display:block;margin:0 auto 8px;font-size:64px}
+/* Zahlen haben kein Bild - sie zeigen ihre Ziffer, im selben Rahmen. */
+.ws-bild.ws-ziffer{display:grid;place-items:center;font-family:Georgia,serif;
+  font-size:52px;font-weight:bold;color:#0F6E56;background:#f7f6f2;
+  border:1.5px solid #e7e3d9;border-radius:12px;line-height:1}
+.ws-bildwahl .ws-bild.gross.ws-ziffer{font-size:40px}
 .ws-wort{display:flex;align-items:center;justify-content:center;gap:7px;margin:0}
 .ws-art{color:#C8891F;font-size:22px;font-weight:bold;min-width:1.4em;text-align:right}
 .ws-gr{font-size:22px;font-weight:bold;color:#0F6E56}
