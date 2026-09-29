@@ -685,6 +685,38 @@
   var szRunde = [], szStelle = 0, szRichtig = 0, szGebaut = [];
   var SZ_PRO_RUNDE = 8;
 
+  // Die Lückensätze sind fürs Lückenspiel gebaut: setzt man das Wort
+  // in seiner Grundform ein, steht da "Das Zug" oder "mit meinen Auge".
+  // Hier soll der Satz aber ganz und richtig dastehen, deshalb stehen
+  // die neun schiefen Fälle hier ausgeschrieben. Geschlüsselt über den
+  // griechischen Satz - der ändert sich nicht.
+  var SATZ_DE = {
+    "\u039f \u03bf\u03c5\u03c1\u03b1\u03bd\u03cc\u03c2 \u03b5\u03af\u03bd\u03b1\u03b9 \u03bc\u03c0\u03bb\u03b5.":
+      "Der Himmel ist blau.",
+    "\u0397 \u03c6\u03c9\u03c4\u03b9\u03ac \u03b5\u03af\u03bd\u03b1\u03b9 \u03ba\u03cc\u03ba\u03ba\u03b9\u03bd\u03b7.":
+      "Das Feuer ist rot.",
+    "\u0388\u03c7\u03c9 \u03c0\u03ad\u03bd\u03c4\u03b5 \u03b4\u03ac\u03c7\u03c4\u03c5\u03bb\u03b1 \u03c3\u03b5 \u03ba\u03ac\u03b8\u03b5 \u03c7\u03ad\u03c1\u03b9.":
+      "Ich habe f\u00fcnf Finger an jeder Hand.",
+    "\u03a0\u03bb\u03ad\u03bd\u03c9 \u03c4\u03b1 \u03c7\u03ad\u03c1\u03b9\u03b1 \u03bc\u03bf\u03c5 \u03c0\u03c1\u03b9\u03bd \u03c4\u03bf \u03c6\u03b1\u03b3\u03b7\u03c4\u03cc.":
+      "Ich wasche meine H\u00e4nde vor dem Essen.",
+    "\u0392\u03bb\u03ad\u03c0\u03c9 \u03bc\u03b5 \u03c4\u03b1 \u03bc\u03ac\u03c4\u03b9\u03b1 \u03bc\u03bf\u03c5.":
+      "Ich sehe mit meinen Augen.",
+    "\u03a4\u03bf \u03c6\u03b8\u03b9\u03bd\u03cc\u03c0\u03c9\u03c1\u03bf \u03c4\u03b1 \u03c6\u03cd\u03bb\u03bb\u03b1 \u03c0\u03ad\u03c6\u03c4\u03bf\u03c5\u03bd \u03b1\u03c0\u03cc \u03c4\u03bf \u03b4\u03ad\u03bd\u03c4\u03c1\u03bf.":
+      "Im Herbst f\u00e4llt das Laub vom Baum.",
+    "\u03a4\u03bf \u03c4\u03c1\u03ad\u03bd\u03bf \u03c0\u03b7\u03b3\u03b1\u03af\u03bd\u03b5\u03b9 \u03c0\u03ac\u03bd\u03c9 \u03c3\u03b5 \u03c1\u03ac\u03b3\u03b5\u03c2.":
+      "Der Zug f\u00e4hrt auf Schienen.",
+    "\u0395\u03af\u03bc\u03b1\u03b9 \u03c0\u03bf\u03bb\u03cd \u03c0\u03b5\u03b9\u03bd\u03b1\u03c3\u03bc\u03ad\u03bd\u03bf\u03c2.":
+      "Ich bin sehr hungrig.",
+    "\u03a4\u03bf\u03bd \u03c7\u03b5\u03b9\u03bc\u03ce\u03bd\u03b1 \u03c0\u03ad\u03c6\u03c4\u03b5\u03b9 \u03ac\u03c3\u03c0\u03c1\u03bf \u03c7\u03b9\u03cc\u03bd\u03b9.":
+      "Im Winter f\u00e4llt wei\u00dfer Schnee."
+  };
+
+  function deutsch(s) {
+    var fertig = SATZ_DE[String(s.grSatz).trim()];
+    if (fertig) return fertig;
+    return String(s.de || "").replace(/_+/, s.answer || "");
+  }
+
   function szVorrat() {
     var aus = [];
     function nimm(gr, de, bildwort) {
@@ -697,11 +729,7 @@
       if (typeof lueckeSentences !== "undefined" && lueckeSentences) {
         for (var i = 0; i < lueckeSentences.length; i++) {
           var s = lueckeSentences[i];
-          // Die Lücke bleibt stehen. Setzt man das Wort in der
-          // Grundform ein, steht da "mit meinen Auge" oder "Das Zug" -
-          // die Sätze sind für das Lückenspiel gebaut, nicht zum
-          // Vorlesen. Das Bild daneben sagt ohnehin, was fehlt.
-          nimm(s.grSatz, s.de, s.answer);
+          nimm(s.grSatz, deutsch(s), s.answer);
         }
       }
     } catch (e) {}
