@@ -717,6 +717,22 @@
     return String(s.de || "").replace(/_+/, s.answer || "");
   }
 
+  // Das laengste Vokabelwort, das im Satz vorkommt - laengstes zuerst,
+  // damit in "\u0391\u03c5\u03c4\u03cc \u03b5\u03af\u03bd\u03b1\u03b9 \u03ad\u03bd\u03b1 \u03bc\u03bf\u03bb\u03cd\u03b2\u03b9" der Bleistift gewinnt und
+  // nicht die Eins. Zu kurze Treffer waeren Zufall und bleiben draussen.
+  function wortImSatz(satz) {
+    var beste = null;
+    try {
+      for (var i = 0; i < vocab.length; i++) {
+        var v = vocab[i];
+        if (!v.gr || v.gr.length < 4) continue;
+        if (satz.indexOf(v.gr) < 0) continue;
+        if (!beste || v.gr.length > beste.gr.length) beste = v;
+      }
+    } catch (e) {}
+    return beste ? beste.de : null;
+  }
+
   function szVorrat() {
     var aus = [];
     function nimm(gr, de, bildwort) {
@@ -739,7 +755,11 @@
           var m = convos[c].messages || [];
           for (var j = 0; j < m.length; j++) {
             if ((String(m[j].gr).match(/[.!;]/g) || []).length > 1) continue;
-            nimm(m[j].gr, m[j].de, null);
+            // Die Gespraechszeilen haben kein eigenes Schluesselwort.
+            // Steckt eine Vokabel im Satz, nehmen wir deren Bild - sonst
+            // das Bild des Gespraechs, das ohnehin dazu gehoert. So
+            // braucht keine Zeile ein neu gezeichnetes Bild.
+            nimm(m[j].gr, m[j].de, wortImSatz(m[j].gr) || convos[c].img || null);
           }
         }
       }
