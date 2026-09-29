@@ -1,16 +1,20 @@
 // ============================================================
-//  wortspiele.js  –  drei Spiele aus dem vorhandenen Wortschatz
+//  wortspiele.js  –  sieben Spiele aus dem vorhandenen Wortschatz
 //
 //    Το άρθρο    ο, η oder το?        (Artikel)
 //    Τι ακούω;   hören und zeigen     (nur Ohr, keine Schrift)
 //    Συλλαβές    Silben ordnen        (Lesen in Häppchen)
+//    Ο τόνος      wo liegt die Betonung?
+//    Ένα ή πολλά; einer oder viele?
+//    Στη σειρά    den Satz in Ordnung bringen
+//    Πού πάει;    wohin gehört das Wort?
 //
 //  Alles Material ist schon da: vocab[] aus vokabeln.js mit Artikel,
 //  Lautschrift, Emoji und Bild, dazu die Aufnahmen in ton/ über
 //  tonDatei(). Es wird nichts erzeugt und nichts nachgeladen.
 //
-//  Nach außen gehen nur startArtikel(), startHoeren() und startSilben(),
-//  die showScreen() ruft.
+//  Nach außen gehen nur die sieben start...()-Aufrufe, die
+//  showScreen() macht.
 // ============================================================
 
 (function () {
@@ -182,7 +186,7 @@
     var lob = richtig === ganz ? "Όλα σωστά!" : "Μπράβο!";
     return '<div class="ws-fertig"><b>' + lob + '</b> ' + richtig + ' von ' + ganz
          + ' auf Anhieb richtig.<br>'
-         + '<button type="button" class="cat-btn ws-stark" id="ws-nochmal">'
+         + '<button type="button" class="cat-btn ws-stark ws-nochmal">'
          + 'Noch eine Runde</button></div>';
   }
 
@@ -215,7 +219,7 @@
     }
     if (artStelle >= artRunde.length) {
       wo.innerHTML = fertigKarte(artRichtig, artRunde.length);
-      document.getElementById("ws-nochmal").addEventListener("click", window.startArtikel);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startArtikel);
       return;
     }
     var w = artRunde[artStelle];
@@ -223,7 +227,7 @@
           + '<b>ο</b> männlich, <b>η</b> weiblich, <b>το</b> sächlich.</p>'
           + balken(artStelle, artRunde.length)
           + '<div class="card ws-karte">' + bild(w)
-          + '<p class="ws-wort"><span class="ws-art" id="ws-art">&nbsp;</span>'
+          + '<p class="ws-wort"><span class="ws-art">&nbsp;</span>'
           + '<span class="ws-gr">' + w.gr + '</span>' + knopfTon(w) + '</p>'
           + '<p class="ws-de">' + w.de + '</p></div>'
           + '<div class="ws-wahl">';
@@ -246,7 +250,7 @@
         }
         this.className += " ws-richtig";
         if (frisch) artRichtig++;
-        var feld = document.getElementById("ws-art");
+        var feld = wo.querySelector(".ws-art");
         if (feld) feld.textContent = w.art + " ";
         for (var m = 0; m < kn.length; m++) kn[m].disabled = true;
         // "ο ιππότης" ist EINE Aufnahme. Zwei Dateien hintereinander
@@ -309,7 +313,7 @@
     }
     if (hoerStelle >= hoerRunde.length) {
       wo.innerHTML = fertigKarte(hoerRichtig, hoerRunde.length);
-      document.getElementById("ws-nochmal").addEventListener("click", window.startHoeren);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startHoeren);
       return;
     }
     var w = hoerRunde[hoerStelle];
@@ -338,7 +342,7 @@
           + 'Das Wort steht nirgends - nur im Ohr.</p>'
           + balken(hoerStelle, hoerRunde.length)
           + '<div class="ws-hoerzeile">'
-          + '<button type="button" class="ws-hoeren" id="ws-hoeren">'
+          + '<button type="button" class="ws-hoeren">'
           + '🔊 Nochmal hören</button></div>'
           + '<div class="ws-bilder">';
     for (var j = 0; j < wahl.length; j++) {
@@ -347,12 +351,12 @@
          + '<span class="ws-name" data-nam="' + (wahl[j].art ? wahl[j].art + " " : "")
          + wahl[j].gr + '" data-de="' + wahl[j].de + '"></span></button>';
     }
-    h += '</div><p class="ws-stand" id="ws-stand">' + (hoerStelle + 1) + ' von '
+    h += '</div><p class="ws-stand">' + (hoerStelle + 1) + ' von '
        + hoerRunde.length + '</p>';
     wo.innerHTML = h;
 
     var gesagt = mitArtikel(w);
-    document.getElementById("ws-hoeren").addEventListener("click", function () {
+    wo.querySelector(".ws-hoeren").addEventListener("click", function () {
       sprich(gesagt);
     });
     // Die erste Runde kommt unmittelbar aus dem Antippen der Kachel -
@@ -419,7 +423,7 @@
     }
     if (silStelle >= silRunde.length) {
       wo.innerHTML = fertigKarte(silRichtig, silRunde.length);
-      document.getElementById("ws-nochmal").addEventListener("click", window.startSilben);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startSilben);
       return;
     }
     var w = silRunde[silStelle];
@@ -437,8 +441,8 @@
           + '<div class="card ws-karte">' + bild(w)
           + '<p class="ws-wort"><span class="ws-de">' + w.de + '</span>'
           + knopfTon(w) + '</p>'
-          + '<div class="ws-bau" id="ws-bau">&nbsp;</div></div>'
-          + '<div class="ws-wahl" id="ws-silben">';
+          + '<div class="ws-bau">&nbsp;</div></div>'
+          + '<div class="ws-wahl">';
     for (var i = 0; i < gemischt.length; i++) {
       h += '<button type="button" class="ws-silbe">' + gemischt[i] + '</button>';
     }
@@ -449,7 +453,7 @@
     var kn = wo.querySelectorAll(".ws-silbe");
     for (var k = 0; k < kn.length; k++) {
       kn[k].addEventListener("click", function () {
-        var knopf = this, silbe = knopf.textContent, bau = document.getElementById("ws-bau");
+        var knopf = this, silbe = knopf.textContent, bau = wo.querySelector(".ws-bau");
         if (silbe !== teile[silGebaut.length]) {
           frisch = false;
           knopf.className += " ws-falsch";
@@ -467,6 +471,422 @@
         bau.className = "ws-bau voll";
         bau.textContent = w.gr;
         sprich(w.gr, function () { silStelle++; silZeigen(); });
+      });
+    }
+  }
+
+  // ══ Ο τόνος - wo liegt die Betonung? ══════════════════════
+  // Die Betonung ist das Einzige, was ein deutsches Kind im
+  // Griechischen zuverlässig falsch macht. Deshalb stehen die Silben
+  // hier OHNE ihr Akzentzeichen da - sonst könnte man die Lösung
+  // ablesen, statt sie zu hören. Erst wenn es sitzt, erscheint das
+  // Wort so, wie es geschrieben wird.
+  var GROSS_OHNE = {"Ά":"Α","Έ":"Ε","Ή":"Η",
+    "Ί":"Ι","Ό":"Ο","Ύ":"Υ","Ώ":"Ω"};
+
+  function ohneAkzent(text) {
+    var aus = "", i, z;
+    for (i = 0; i < text.length; i++) {
+      z = text.charAt(i);
+      aus += OHNE[z] || GROSS_OHNE[z] || z;
+    }
+    return aus;
+  }
+
+  function hatAkzent(text) {
+    for (var i = 0; i < text.length; i++) {
+      var z = text.charAt(i);
+      if (BETONT.indexOf(z) >= 0 || GROSS_OHNE[z]) return true;
+    }
+    return false;
+  }
+
+  var tonRunde = [], tonStelle = 0, tonRichtig = 0;
+  var TON_PRO_RUNDE = 10;
+
+  function tonWoerter() {
+    var aus = [];
+    var vorrat = silWoerter();              // Regel und Lautschrift einig
+    for (var i = 0; i < vorrat.length; i++) {
+      var teile = silben(vorrat[i].gr), wieviele = 0;
+      for (var j = 0; j < teile.length; j++) if (hatAkzent(teile[j])) wieviele++;
+      if (teile.length >= 2 && wieviele === 1) aus.push(vorrat[i]);
+    }
+    return aus;
+  }
+
+  window.startTonos = function () {
+    tonRunde = mischen(tonWoerter()).slice(0, TON_PRO_RUNDE);
+    tonStelle = 0; tonRichtig = 0;
+    tonZeigen(true);
+  };
+
+  function tonZeigen(ersteRunde) {
+    var wo = document.getElementById("tonos-area");
+    if (!wo) return;
+    if (!tonRunde.length) {
+      wo.innerHTML = '<p class="ws-hin">Hier fehlen noch die Wörter.</p>';
+      return;
+    }
+    if (tonStelle >= tonRunde.length) {
+      wo.innerHTML = fertigKarte(tonRichtig, tonRunde.length);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startTonos);
+      return;
+    }
+    var w = tonRunde[tonStelle];
+    var teile = silben(w.gr), richtig = -1;
+    for (var t = 0; t < teile.length; t++) if (hatAkzent(teile[t])) richtig = t;
+
+    var h = '<p class="ws-hin">Hör zu: welche Silbe wird <b>lauter und länger</b> '
+          + 'gesprochen? Tippe sie an.</p>'
+          + balken(tonStelle, tonRunde.length)
+          + '<div class="card ws-karte">' + bild(w)
+          + '<p class="ws-de">' + w.de + '</p>'
+          + '<div class="ws-bau">&nbsp;</div></div>'
+          + '<div class="ws-hoerzeile">'
+          + '<button type="button" class="ws-hoeren">'
+          + '🔊 Nochmal hören</button></div>'
+          + '<div class="ws-wahl">';
+    for (var i = 0; i < teile.length; i++) {
+      h += '<button type="button" class="ws-silbe" data-i="' + i + '">'
+         + ohneAkzent(teile[i]) + '</button>';
+    }
+    h += '</div><p class="ws-stand">' + (tonStelle + 1) + ' von ' + tonRunde.length + '</p>';
+    wo.innerHTML = h;
+
+    wo.querySelector(".ws-hoeren").addEventListener("click", function () {
+      sprich(w.gr);
+    });
+    if (ersteRunde) sprich(w.gr);
+    else setTimeout(function () { sprich(w.gr); }, 300);
+
+    var frisch = true;
+    var kn = wo.querySelectorAll(".ws-silbe");
+    for (var k = 0; k < kn.length; k++) {
+      kn[k].addEventListener("click", function () {
+        if (+this.getAttribute("data-i") !== richtig) {
+          frisch = false;
+          this.className += " ws-falsch";
+          this.disabled = true;
+          return;
+        }
+        this.className += " ws-richtig";
+        if (frisch) tonRichtig++;
+        for (var m = 0; m < kn.length; m++) {
+          kn[m].disabled = true;
+          kn[m].textContent = teile[m];        // jetzt mit Akzent
+        }
+        var bau = wo.querySelector(".ws-bau");
+        if (bau) { bau.className = "ws-bau voll"; bau.textContent = w.gr; }
+        sprich(w.gr, function () { tonStelle++; tonZeigen(false); });
+      });
+    }
+  }
+
+  // ══ Ένα ή πολλά; - einer oder viele? ═══════════════
+  // Die Tafel dafür steht schon in index.html: nomen[] mit Artikel,
+  // Mehrzahl und Lautschrift, bisher nur für die Grammatikseite.
+  // Das Bild für "viele" ist dasselbe Bild, dreimal klein - so braucht
+  // kein einziges neues gezeichnet zu werden.
+  var mzRunde = [], mzStelle = 0, mzRichtig = 0;
+  var MZ_PRO_RUNDE = 10;
+
+  function mzWoerter() {
+    var aus = [];
+    try {
+      if (typeof nomen === "undefined" || !nomen) return aus;
+      for (var i = 0; i < nomen.length; i++) {
+        var n = nomen[i];
+        if (!n || !n.gr || !n.grPl || !n.artGr || !n.artGrPl) continue;
+        // Die Farben stehen ohne Artikel in der Tafel, und μπλε heisst
+        // in der Mehrzahl genauso - da gäbe es nichts zu entscheiden.
+        if (n.gr === n.grPl) continue;
+        if (pfadVon(n.gr) && pfadVon(n.grPl)) aus.push(n);
+      }
+    } catch (e) {}
+    return aus;
+  }
+
+  function mzSatz(n, viele) {
+    var kurz = viele ? n.grPl : n.gr;
+    var ganz = (viele ? n.artGrPl : n.artGr) + " " + kurz;
+    return pfadVon(ganz) ? ganz : kurz;
+  }
+
+  window.startMehrzahl = function () {
+    mzRunde = mischen(mzWoerter()).slice(0, MZ_PRO_RUNDE);
+    mzStelle = 0; mzRichtig = 0;
+    mzZeigen(true);
+  };
+
+  function mzZeigen(ersteRunde) {
+    var wo = document.getElementById("mehrzahl-area");
+    if (!wo) return;
+    if (!mzRunde.length) {
+      wo.innerHTML = '<p class="ws-hin">Für dieses Spiel fehlen noch die Aufnahmen.</p>';
+      return;
+    }
+    if (mzStelle >= mzRunde.length) {
+      wo.innerHTML = fertigKarte(mzRichtig, mzRunde.length);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startMehrzahl);
+      return;
+    }
+    var n = mzRunde[mzStelle];
+    var viele = Math.random() < 0.5;
+    var gesagt = mzSatz(n, viele);
+    var eins = bild(n, "ws-bild gross");
+
+    var h = '<p class="ws-hin">Hör zu: ist es <b>eines</b> oder sind es <b>viele</b>?</p>'
+          + balken(mzStelle, mzRunde.length)
+          + '<div class="ws-hoerzeile">'
+          + '<button type="button" class="ws-hoeren">'
+          + '🔊 Nochmal hören</button></div>'
+          + '<div class="ws-bilder">'
+          + '<button type="button" class="ws-bildwahl" data-v="0">' + eins
+          + '<span class="ws-name"></span></button>'
+          + '<button type="button" class="ws-bildwahl" data-v="1">'
+          + '<span class="ws-menge">' + eins + eins + eins + '</span>'
+          + '<span class="ws-name"></span></button>'
+          + '</div><p class="ws-stand">' + (mzStelle + 1) + ' von ' + mzRunde.length + '</p>';
+    wo.innerHTML = h;
+
+    wo.querySelector(".ws-hoeren").addEventListener("click", function () {
+      sprich(gesagt);
+    });
+    if (ersteRunde) sprich(gesagt);
+    else setTimeout(function () { sprich(gesagt); }, 300);
+
+    var frisch = true;
+    var kn = wo.querySelectorAll(".ws-bildwahl");
+    for (var k = 0; k < kn.length; k++) {
+      kn[k].addEventListener("click", function () {
+        if ((this.getAttribute("data-v") === "1") !== viele) {
+          frisch = false;
+          this.className += " ws-falsch";
+          this.disabled = true;
+          return;
+        }
+        this.className += " ws-richtig";
+        if (frisch) mzRichtig++;
+        for (var m = 0; m < kn.length; m++) kn[m].disabled = true;
+        // Beide Formen nebeneinander - da sieht man die Endung
+        var fe = wo.querySelectorAll(".ws-name"), f0 = fe[0], f1 = fe[1];
+        if (f0) f0.innerHTML = '<b>' + n.artGr + " " + n.gr + '</b><i>' + n.de + '</i>';
+        if (f1) f1.innerHTML = '<b>' + n.artGrPl + " " + n.grPl + '</b><i>' + n.dePl + '</i>';
+        sprich(gesagt, function () { mzStelle++; mzZeigen(false); });
+      });
+    }
+  }
+
+  // ══ Στη σειρά - der Satz in Ordnung ═══════════════════
+  // Eine Stufe über den Silben: jetzt sind es ganze Wörter. Die Sätze
+  // und ihre Aufnahmen liegen schon in der App - die Lückensätze aus
+  // geschichten.js und die Zeilen der Gespräche.
+  var szRunde = [], szStelle = 0, szRichtig = 0, szGebaut = [];
+  var SZ_PRO_RUNDE = 8;
+
+  function szVorrat() {
+    var aus = [];
+    function nimm(gr, de, bildwort) {
+      if (!gr || !pfadVon(gr)) return;
+      var n = String(gr).trim().split(/\s+/).length;
+      if (n < 3 || n > 7) return;
+      aus.push({ gr: String(gr).trim(), de: de || "", bildwort: bildwort || null });
+    }
+    try {
+      if (typeof lueckeSentences !== "undefined" && lueckeSentences) {
+        for (var i = 0; i < lueckeSentences.length; i++) {
+          var s = lueckeSentences[i];
+          // Die Lücke bleibt stehen. Setzt man das Wort in der
+          // Grundform ein, steht da "mit meinen Auge" oder "Das Zug" -
+          // die Sätze sind für das Lückenspiel gebaut, nicht zum
+          // Vorlesen. Das Bild daneben sagt ohnehin, was fehlt.
+          nimm(s.grSatz, s.de, s.answer);
+        }
+      }
+    } catch (e) {}
+    try {
+      if (typeof convos !== "undefined" && convos) {
+        for (var c = 0; c < convos.length; c++) {
+          var m = convos[c].messages || [];
+          for (var j = 0; j < m.length; j++) {
+            if ((String(m[j].gr).match(/[.!;]/g) || []).length > 1) continue;
+            nimm(m[j].gr, m[j].de, null);
+          }
+        }
+      }
+    } catch (e) {}
+    return aus;
+  }
+
+  window.startSatzbau = function () {
+    szRunde = mischen(szVorrat()).slice(0, SZ_PRO_RUNDE);
+    szStelle = 0; szRichtig = 0;
+    szZeigen();
+  };
+
+  function szZeigen() {
+    var wo = document.getElementById("satzbau-area");
+    if (!wo) return;
+    if (!szRunde.length) {
+      wo.innerHTML = '<p class="ws-hin">Für dieses Spiel fehlen noch die Aufnahmen.</p>';
+      return;
+    }
+    if (szStelle >= szRunde.length) {
+      wo.innerHTML = fertigKarte(szRichtig, szRunde.length);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startSatzbau);
+      return;
+    }
+    var s = szRunde[szStelle];
+    var woerter = s.gr.split(/\s+/);
+    // Das Satzzeichen am Ende bleibt liegen, bis der Satz steht -
+    // sonst waere am Punkt zu sehen, welches Wort das letzte ist.
+    var letzte = woerter[woerter.length - 1], schluss = "";
+    var tr = letzte.match(/[.!;·]+$/);
+    if (tr) { schluss = tr[0]; woerter[woerter.length - 1] = letzte.slice(0, -schluss.length); }
+
+    szGebaut = [];
+    var gemischt = mischen(woerter.map(function (x, i) { return { w: x, i: i }; }));
+    if (gemischt[0].i === 0 && woerter.length > 1) {
+      var t = gemischt[0]; gemischt[0] = gemischt[1]; gemischt[1] = t;
+    }
+
+    var h = '<p class="ws-hin">Hör den Satz und leg ihn Wort für Wort zusammen.</p>'
+          + balken(szStelle, szRunde.length)
+          + '<div class="card ws-karte">'
+          + (s.bildwort ? bild({ de: s.bildwort, emoji: "📖" }) : "")
+          + '<p class="ws-de">' + s.de + '</p>'
+          + '<div class="ws-bau ws-satz">&nbsp;</div></div>'
+          + '<div class="ws-hoerzeile">'
+          + '<button type="button" class="ws-hoeren">'
+          + '🔊 Nochmal hören</button></div>'
+          + '<div class="ws-wahl">';
+    for (var i = 0; i < gemischt.length; i++) {
+      h += '<button type="button" class="ws-wort-knopf" data-i="' + gemischt[i].i + '">'
+         + gemischt[i].w + '</button>';
+    }
+    h += '</div><p class="ws-stand">' + (szStelle + 1) + ' von ' + szRunde.length + '</p>';
+    wo.innerHTML = h;
+
+    wo.querySelector(".ws-hoeren").addEventListener("click", function () {
+      sprich(s.gr);
+    });
+    setTimeout(function () { sprich(s.gr); }, 250);
+
+    var frisch = true;
+    var kn = wo.querySelectorAll(".ws-wort-knopf");
+    for (var k = 0; k < kn.length; k++) {
+      kn[k].addEventListener("click", function () {
+        var knopf = this, bau = wo.querySelector(".ws-bau");
+        if (+knopf.getAttribute("data-i") !== szGebaut.length) {
+          frisch = false;
+          knopf.className += " ws-falsch";
+          setTimeout(function () {
+            knopf.className = knopf.className.replace(" ws-falsch", "");
+          }, 350);
+          return;
+        }
+        szGebaut.push(woerter[szGebaut.length]);
+        knopf.disabled = true;
+        knopf.className += " ws-gesetzt";
+        bau.textContent = szGebaut.join(" ");
+        if (szGebaut.length !== woerter.length) return;
+        if (frisch) szRichtig++;
+        bau.className = "ws-bau ws-satz voll";
+        bau.textContent = s.gr;
+        sprich(s.gr, function () { szStelle++; szZeigen(); });
+      });
+    }
+  }
+
+  // ══ Πού πάει; - wohin gehört das? ═════════════════════
+  // Sortieren ist das, was Wortschatz wirklich festigt: es setzt die
+  // Wörter zueinander in Beziehung, statt sie einzeln abzufragen. Die
+  // Körbe sind die Kategorien aus vokabeln.js, dieselben wie auf der
+  // Wörterseite. "Alltag" bleibt draussen - das ist eine Sammelkiste,
+  // da gehört vieles genauso gut woanders hin.
+  var soRunde = [], soStelle = 0, soRichtig = 0, soKoerbe = null;
+  var SO_PRO_RUNDE = 10;
+  var SO_AUS = { alltag: 1 };
+
+  function koerbe() {
+    if (soKoerbe) return soKoerbe;
+    soKoerbe = [];
+    try {
+      for (var i = 0; i < categories.length; i++) {
+        if (!SO_AUS[categories[i].id]) soKoerbe.push(categories[i]);
+      }
+    } catch (e) {}
+    return soKoerbe;
+  }
+
+  function korbName(id) {
+    var k = koerbe();
+    for (var i = 0; i < k.length; i++) if (k[i].id === id) return k[i].label;
+    return id;
+  }
+
+  function soWoerter() {
+    var aus = [], erlaubt = {}, k = koerbe();
+    for (var i = 0; i < k.length; i++) erlaubt[k[i].id] = 1;
+    for (var j = 0; j < vocab.length; j++) if (erlaubt[vocab[j].cat]) aus.push(vocab[j]);
+    return aus;
+  }
+
+  window.startSortieren = function () {
+    soKoerbe = null;
+    soRunde = mischen(soWoerter()).slice(0, SO_PRO_RUNDE);
+    soStelle = 0; soRichtig = 0;
+    soZeigen();
+  };
+
+  function soZeigen() {
+    var wo = document.getElementById("sortieren-area");
+    if (!wo) return;
+    if (!soRunde.length) {
+      wo.innerHTML = '<p class="ws-hin">Hier fehlen noch die Wörter.</p>';
+      return;
+    }
+    if (soStelle >= soRunde.length) {
+      wo.innerHTML = fertigKarte(soRichtig, soRunde.length);
+      wo.querySelector(".ws-nochmal").addEventListener("click", window.startSortieren);
+      return;
+    }
+    var w = soRunde[soStelle];
+    var andere = mischen(koerbe().slice()), wahl = [w.cat];
+    for (var i = 0; i < andere.length && wahl.length < 4; i++) {
+      if (andere[i].id !== w.cat) wahl.push(andere[i].id);
+    }
+    wahl = mischen(wahl);
+
+    var h = '<p class="ws-hin">In welchen Korb gehört das Wort?</p>'
+          + balken(soStelle, soRunde.length)
+          + '<div class="card ws-karte">' + bild(w)
+          + '<p class="ws-wort"><span class="ws-gr">' + w.gr + '</span>' + knopfTon(w) + '</p>'
+          + '<p class="ws-de">' + w.de + '</p></div>'
+          + '<div class="ws-koerbe">';
+    for (var j = 0; j < wahl.length; j++) {
+      h += '<button type="button" class="ws-korb" data-k="' + wahl[j] + '">'
+         + korbName(wahl[j]) + '</button>';
+    }
+    h += '</div><p class="ws-stand">' + (soStelle + 1) + ' von ' + soRunde.length + '</p>';
+    wo.innerHTML = h;
+
+    var frisch = true;
+    var kn = wo.querySelectorAll(".ws-korb");
+    for (var k = 0; k < kn.length; k++) {
+      kn[k].addEventListener("click", function () {
+        if (this.getAttribute("data-k") !== w.cat) {
+          frisch = false;
+          this.className += " ws-falsch";
+          this.disabled = true;
+          return;
+        }
+        this.className += " ws-richtig";
+        if (frisch) soRichtig++;
+        for (var m = 0; m < kn.length; m++) kn[m].disabled = true;
+        sprich(w.art ? (pfadVon(w.art + " " + w.gr) ? w.art + " " + w.gr : w.gr) : w.gr,
+               function () { soStelle++; soZeigen(); });
       });
     }
   }

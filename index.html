@@ -943,6 +943,23 @@ body.in-uebung .stars-bar{display:none}
   .ws-gross{min-width:76px;min-height:54px;font-size:23px}
   .ws-name b{font-size:14px}
 }
+/* Sieben Spiele, ein Stil: die vier neuen nutzen dieselben Knoepfe
+   und Karten wie die drei ersten. Eigenes brauchen nur die Mengen-
+   bilder, die Satzwoerter und die Koerbe. */
+.ws-menge{display:flex;gap:4px;align-items:center;justify-content:center;
+  aspect-ratio:11/6}
+.ws-menge .ws-bild.gross{width:32%;margin:0}
+.ws-wort-knopf{min-height:46px;padding:0 13px;font-size:18px;font-family:Georgia,serif;
+  background:white;border:2px solid #E3CFA0;border-radius:14px;color:#0F6E56;cursor:pointer}
+.ws-bau.ws-satz{font-size:18px;letter-spacing:0;line-height:1.4}
+.ws-koerbe{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.ws-korb{min-height:56px;padding:8px 10px;font-size:15px;font-family:Georgia,serif;
+  background:white;border:2px solid #E3CFA0;border-radius:16px;color:#5F5E5A;cursor:pointer;
+  text-align:center}
+@media (max-width:420px){
+  .ws-korb{font-size:13.5px;min-height:52px}
+  .ws-wort-knopf{font-size:16px;min-height:44px;padding:0 10px}
+}
 </style>
 </head>
 <body>
@@ -1085,6 +1102,22 @@ body.in-uebung .stars-bar{display:none}
 
   <div class="screen" id="silben">
     <div id="silben-area"></div>
+  </div>
+
+  <div class="screen" id="tonos">
+    <div id="tonos-area"></div>
+  </div>
+
+  <div class="screen" id="mehrzahl">
+    <div id="mehrzahl-area"></div>
+  </div>
+
+  <div class="screen" id="satzbau">
+    <div id="satzbau-area"></div>
+  </div>
+
+  <div class="screen" id="sortieren">
+    <div id="sortieren-area"></div>
   </div>
 
   <div class="screen" id="progress">
@@ -1475,7 +1508,11 @@ var BEREICHE = [
      ["zahlenkreise","Zahlenkreise","nav-zahlenkreise","🔢","Αριθμοί"],
      ["artikel","Der Artikel","nav-artikel","🏷️","Το άρθρο"],
      ["hoerspiel","Nur Hören","nav-hoerspiel","👂","Τι ακούω;"],
-     ["silben","Silben","nav-silben","🧩","Συλλαβές"]]}
+     ["silben","Silben","nav-silben","🧩","Συλλαβές"],
+     ["tonos","Die Betonung","nav-tonos","🎵","Ο τόνος"],
+     ["mehrzahl","Einer oder viele","nav-mehrzahl","👫","Ένα ή πολλά;"],
+     ["satzbau","Sätze ordnen","nav-satzbau","📝","Στη σειρά"],
+     ["sortieren","Wohin gehört das?","nav-sortieren","🧺","Πού πάει;"]]}
 ];
 // ── Was ist neu ───────────────────────────────────────────
 // Eine Uebung bekommt das Datum, an dem sie dazugekommen ist. Das rote
@@ -1491,7 +1528,11 @@ var NEU_MARKE = {
   schreiben:    "2026-09-28",
   artikel:      "2026-09-28",
   hoerspiel:    "2026-09-28",
-  silben:       "2026-09-28"
+  silben:       "2026-09-28",
+  tonos:        "2026-09-29",
+  mehrzahl:     "2026-09-29",
+  satzbau:      "2026-09-29",
+  sortieren:    "2026-09-29"
 };
 
 function istNeu(id) {
@@ -1713,6 +1754,10 @@ function showScreen(id) {
   if(id==="artikel") startArtikel();
   if(id==="hoerspiel") startHoeren();
   if(id==="silben") startSilben();
+  if(id==="tonos") startTonos();
+  if(id==="mehrzahl") startMehrzahl();
+  if(id==="satzbau") startSatzbau();
+  if(id==="sortieren") startSortieren();
 }
 
 // ── SVG HELPER ────────────────────────────────────────────
