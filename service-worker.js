@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v77';
+var CACHE_NAME = 'griechisch-lernen-v78';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
