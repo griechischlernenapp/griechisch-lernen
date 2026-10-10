@@ -1,10 +1,10 @@
 [
  {
   "id": "herakles",
-  "titel": "Herakles",
-  "titelGr": "",
-  "emoji": "📖",
-  "beschreibung": "",
+  "titel": "Die Aufgaben des Herakles",
+  "titelGr": "Οι άθλοι του Ηρακλή",
+  "emoji": "🦁",
+  "beschreibung": "Zwölf Aufgaben für den stärksten Helden Griechenlands — in vierzehn Kapiteln.",
   "bild": "her01_10",
   "kapitel": [
    {
