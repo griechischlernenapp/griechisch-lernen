@@ -35,6 +35,13 @@
   "quer": true
  },
  {
+  "n": "phaiakenschiff",
+  "de": "Das Schiff der Phaiaken",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "demeter",
   "de": "Demeter",
   "gr": "Η Δήμητρα",
@@ -52,6 +59,20 @@
   "n": "hydra",
   "de": "Die Hydra",
   "gr": "Η Ύδρα",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "erato",
+  "de": "Erato",
+  "gr": "Η Ερατώ",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "euterpe",
+  "de": "Euterpe",
+  "gr": "Η Ευτέρπη",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
@@ -98,6 +119,13 @@
   "quer": true
  },
  {
+  "n": "kalliope",
+  "de": "Kalliope",
+  "gr": "Η Καλλιόπη",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "kalypso",
   "de": "Kalypso",
   "gr": "Η Καλυψώ",
@@ -112,6 +140,41 @@
   "quer": true
  },
  {
+  "n": "klio",
+  "de": "Klio",
+  "gr": "Η Κλειώ",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "melpomene",
+  "de": "Melpomene",
+  "gr": "Η Μελπομένη",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "odysseus",
+  "de": "Odysseus",
+  "gr": "Ο Οδυσσέας",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "polymnia",
+  "de": "Polymnia",
+  "gr": "Η Πολύμνια",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "polyphem",
+  "de": "Polyphem",
+  "gr": "Ο Πολύφημος",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "poseidon",
   "de": "Poseidon",
   "gr": "Ο Ποσειδώνας",
@@ -119,9 +182,37 @@
   "quer": true
  },
  {
+  "n": "skylla",
+  "de": "Skylla",
+  "gr": "Η Σκύλλα",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "terpsichore",
+  "de": "Terpsichore",
+  "gr": "Η Τερψιχόρη",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "thalia",
+  "de": "Thalia",
+  "gr": "Η Θάλεια",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "theben",
   "de": "Theben von außen",
   "gr": "Η Θήβα",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "urania",
+  "de": "Urania",
+  "gr": "Η Ουρανία",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
