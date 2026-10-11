@@ -2478,34 +2478,65 @@ function openColorPrint(idx) {
 // Das Blatt druckt dadurch etwas kleiner als das Papier. Das ist der
 // Preis dafuer, dass es immer passt - egal, wie das Druckfenster
 // eingestellt ist.
-// Die Obergrenzen je Papierlage. A4 quer ist 210 mm hoch, A4
-// hochkant 297 - und der Rand, den Chrome fuer Kopf- und Fusszeile
-// freihaelt, ist in beiden Faellen derselbe.
+// Die Obergrenzen auf A4 HOCHKANT - und nur auf hochkant, siehe
+// gleich darunter.
 //
-//   quer:   210 - 25 Rand - 6 Fusszeile (- 13 Titel) = 176 / 163
-//   hoch:   297 - 25 Rand - 6 Fusszeile (- 13 Titel) = 266 / 253
-var AUSMAL_HOEHE = { quer: [176, 163], hoch: [266, 253] };
+//   297 - 25 Rand - 6 Fusszeile (- 13 Titel) = 266 / 253
+var AUSMAL_HOEHE = [266, 253];
 
-// quer: liegt das BLATT quer? Das steht im Verzeichnis und kommt aus
-// der Datei selbst. Pavlos am 11.10.: "bevor die generiert werden
-// stelle ich ein ob quer oder hochkant ... wird dann beim ausdruck
-// diese eigenschaft einbehalten?"
+// Die Seite ist IMMER hochkant. Ein querliegendes Blatt wird darauf
+// um 90 Grad gedreht - gedreht wird das Papier, nicht der
+// Druckdialog.
 //
-// Bis dahin nicht: die Druckseite stand fest auf A4 quer, und ein
-// hochkantes Blatt wurde darauf klein gedruckt. Jetzt zieht die
-// Seite das Papier so auf, wie das Blatt gezeichnet wurde.
+// Warum nicht "@page size: A4 landscape"? Weil Chrome auf Android
+// das nicht liest. Dort entsteht der Druck ueber den Druckdienst von
+// Android, und der nimmt die Ausrichtung aus seinem eigenen Fenster -
+// voreingestellt hochkant. Pavlos am 11.10.: "die ausrichtung zum
+// druck von den ausmalbildern ist hochkant ueberall", und auf die
+// Frage woher: "android und google chrome". Auf dem Rechner hat die
+// Zeile gestimmt und war nachgemessen; auf dem Handy konnte sie nie
+// stimmen.
+//
+// Hochkant ist ueberall die Voreinstellung. Darum ist es die eine
+// Lage, bei der im Druckfenster nichts umzustellen ist - und genau
+// das war die Vorgabe: "wenn ich ein blatt ausdrucke, dann soll alles
+// auf einer seite passen ohne was umstellen zu muessen."
+//
+// Gekostet hat die Drehung nichts, sie bringt sogar:
+//   quer auf A4 quer gedruckt:    249 x 176 mm
+//   quer gedreht auf A4 hochkant: 188 x 266 mm
+// Das Hochformat hat die laengere Seite, und der Rand, den der
+// Browser oben und unten freihaelt, faellt darauf weniger ins
+// Gewicht.
+//
+// overflow:hidden am Rahmen ist kein Schoenheitsmittel: ohne das
+// ragt das ungedrehte Kaestchen des Bildes seitlich ueber die Seite
+// hinaus, und Chrome haengt dafuer eine zweite, leere Seite an.
+// Nachgemessen: mit der Zeile eine Seite, ohne sie zwei.
 function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
-  var lage = (quer === false) ? "hoch" : "quer";
-  var hoch = AUSMAL_HOEHE[lage][nameImBild ? 0 : 1];
+  var hoch   = AUSMAL_HOEHE[nameImBild ? 0 : 1];
+  // Ein querliegendes Blatt hat A4-Verhaeltnis 1,414. Gedreht passt
+  // es in ein Kaestchen, das genauso hoch ist und 1,414-mal
+  // schmaler.
+  var breit   = Math.round(hoch / 1.4142);
+  var gedreht = (quer !== false);
   var css = [
-    '@page { size: A4 ' + (lage === "quer" ? "landscape" : "portrait")
-      + '; margin: 0; }',
+    '@page { size: A4 portrait; margin: 0; }',
     'html, body { margin:0; padding:0; }',
     'body { font-family:Arial,sans-serif; text-align:center; }',
     // Breite in Prozent, nicht in mm: so wird nichts breiter als die
     // Seite, auch wenn jemand auf Letter statt A4 druckt.
-    '.color-img { display:block; margin:0 auto; width:auto; height:auto;'
-      + ' max-width:97%; max-height:' + hoch + 'mm; }',
+    gedreht
+      ? '.color-rahmen { position:relative; overflow:hidden; margin:0 auto;'
+          + ' width:' + breit + 'mm; max-width:97%; height:' + hoch + 'mm; }'
+      : '',
+    gedreht
+      ? '.color-img { position:absolute; top:50%; left:50%;'
+          + ' width:' + hoch + 'mm; height:' + breit + 'mm;'
+          + ' object-fit:contain;'
+          + ' transform: translate(-50%,-50%) rotate(90deg); }'
+      : '.color-img { display:block; margin:0 auto; width:auto; height:auto;'
+          + ' max-width:97%; max-height:' + hoch + 'mm; }',
     '.color-title { padding: 4mm 0 2mm; }',
     '.color-title .gr { font-size: 16px; font-weight: bold; color: #2c2c2a; }',
     '.color-title .de { font-size: 13px; color: #1D9E75; }',
@@ -2519,7 +2550,9 @@ function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
     body += '<div class="de">' + titelDe + '</div>';
     body += '</div>';
   }
-  body += '<img src="' + imgSrc + '" class="color-img" alt="' + titelDe + '">';
+  var bild = '<img src="' + imgSrc + '" class="color-img" alt="'
+           + titelDe + '">';
+  body += gedreht ? '<div class="color-rahmen">' + bild + '</div>' : bild;
   // Kein Tipp mehr zum Druckdialog: es gibt nichts mehr umzustellen.
   body += '<div class="color-footer">griechischlernenapp.github.io/griechisch-lernen</div>';
 
