@@ -1050,6 +1050,7 @@ body.in-uebung .stars-bar{display:none}
     <p class="section-title">Das griechische Alphabet — Buchstabe anklicken für Beispielwörter!</p>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:0.8rem;flex-wrap:wrap">
       <button id="ab-btn" class="ab-print-btn" disabled onclick="abBauen(currentAlpha)">📝 Arbeitsblatt drucken</button>
+      <button onclick="printAlphabetColoring()" style="padding:7px 14px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif">🎨 Alphabet ausmalen</button>
     </div>
     <div id="alpha-grid"></div>
     <div id="alpha-detail" style="display:none"></div>
@@ -2438,27 +2439,72 @@ function printAlphabetColoring() {
 function openColorPrint(idx) {
   var s = stories[idx];
   var baseUrl = window.location.href.replace(/[^/]*$/, '');
+  // Die Blaetter der Geschichten entstehen gerechnet in
+  // bilder_werkstatt.py - da ist keine Schrift beteiligt. Der Name
+  // muss also hier auf die Seite.
   ausmalSeite(baseUrl + 'bilder/' + s.img + '_coloring.jpg',
-              s.titleGr || s.title, s.title);
+              s.titleGr || s.title, s.title, false);
 }
 
-function ausmalSeite(imgSrc, titelGr, titelDe) {
+// nameImBild: steht der Name schon IM Blatt? Bei jedem Blatt des
+// Ausmalhefts ist das so - beschriften() in ausmalbilder.py setzt ihn
+// oben als Umrissschrift darauf, damit das Kind ihn mitausmalen kann.
+//
+// Pavlos am 11.10.: "beim ausdrucken sieht man den titel doppelt."
+// Stimmte: einmal im Bild, einmal darueber. Der Name kommt jetzt von
+// dort, wo er ohnehin schon steht.
+// EIN Blatt, ohne dass im Druckfenster etwas umgestellt werden muss.
+// Pavlos am 11.10.: "wenn ich ein blatt ausdrucke, dann soll alles auf
+// einer seite passen ohne was umstellen zu muessen."
+//
+// Warum es vorher zwei Blatt wurden: die Seite war auf 297 x 210 mm
+// festgenagelt, also genau auf das ganze Papier. Sind im Druckfenster
+// "Kopf- und Fusszeilen" eingeschaltet - und das ist die Voreinstellung
+// von Chrome -, haelt der Browser oben und unten rund einen halben Zoll
+// frei. Dann passen 210 mm nicht mehr auf 210 mm, und der Rest rutscht
+// auf ein zweites Blatt.
+//
+// Dagegen hilft keine feste Hoehe und auch kein overflow:hidden (das
+// wuerde nur abschneiden), sondern eine Seite, die von vornherein in
+// den ENGSTEN Fall passt: Hoehe nicht gesetzt, und das Bild bekommt
+// eine Obergrenze, die den freigehaltenen Rand schon einrechnet.
+//
+//   210 mm Papier
+//  -  25 mm Rand, den Chrome fuer Kopf- und Fusszeile nimmt
+//  -   6 mm eigene Fusszeile
+//  -  13 mm Titelzeile, falls der Name nicht schon im Bild steht
+//  = 176 mm ohne Titel, 163 mm mit Titel
+//
+// Das Blatt druckt dadurch etwas kleiner als das Papier. Das ist der
+// Preis dafuer, dass es immer passt - egal, wie das Druckfenster
+// eingestellt ist.
+var AUSMAL_HOCH_OHNE = 176, AUSMAL_HOCH_MIT = 163;   // mm
+
+function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild) {
+  var hoch = nameImBild ? AUSMAL_HOCH_OHNE : AUSMAL_HOCH_MIT;
   var css = [
     '@page { size: A4 landscape; margin: 0; }',
-    'body { margin: 0; padding: 0; width: 297mm; height: 210mm; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:Arial,sans-serif; }',
-    '.color-img { width: 100%; height: 185mm; object-fit: contain; display: block; }',
-    '.color-title { text-align:center; padding: 4mm 0 2mm; }',
+    'html, body { margin:0; padding:0; }',
+    'body { font-family:Arial,sans-serif; text-align:center; }',
+    // Breite in Prozent, nicht in mm: so wird nichts breiter als die
+    // Seite, auch wenn jemand auf Letter statt A4 druckt.
+    '.color-img { display:block; margin:0 auto; width:auto; height:auto;'
+      + ' max-width:97%; max-height:' + hoch + 'mm; }',
+    '.color-title { padding: 4mm 0 2mm; }',
     '.color-title .gr { font-size: 16px; font-weight: bold; color: #2c2c2a; }',
     '.color-title .de { font-size: 13px; color: #1D9E75; }',
-    '.color-footer { font-size: 9px; color: #bbb; text-align:center; }'
+    '.color-footer { font-size: 8px; color: #bbb; padding: 2mm 0 2.5mm; }'
   ].join('');
 
-  var body = '<div style="font-size:11px;color:#aaa;text-align:center;padding:3mm 0 1mm">💡 Tipp: Im Druckdialog → Kopf- und Fußzeilen deaktivieren</div>';
-  body += '<div class="color-title">';
-  body += '<div class="gr">' + (titelGr || titelDe) + '</div>';
-  body += '<div class="de">' + titelDe + '</div>';
-  body += '</div>';
+  var body = '';
+  if (!nameImBild) {
+    body += '<div class="color-title">';
+    body += '<div class="gr">' + (titelGr || titelDe) + '</div>';
+    body += '<div class="de">' + titelDe + '</div>';
+    body += '</div>';
+  }
   body += '<img src="' + imgSrc + '" class="color-img" alt="' + titelDe + '">';
+  // Kein Tipp mehr zum Druckdialog: es gibt nichts mehr umzustellen.
   body += '<div class="color-footer">griechischlernenapp.github.io/griechisch-lernen</div>';
 
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
@@ -2523,27 +2569,29 @@ function ausmalKarte(klein, gross, gr, de, klick) {
 }
 
 function renderAusmalen() {
-  var h = '<p class="section-title">Ein Bild antippen - es geht als Druckseite auf. '
-        + 'Tipp: im Druckfenster "Kopf- und Fußzeilen" ausschalten.</p>';
+  var h = '<p class="section-title">Ein Bild antippen - es geht als Druckseite auf.</p>';
 
   // Das Ausmalheft kommt nachgeladen - der Platz dafuer steht oben.
   h += '<div id="ausmal-heft"></div>';
 
-  var karten = "", i;
-
-  for (i = 0; i < stories.length; i++) {
-    var s = stories[i];
-    karten += ausmalKarte("bilder/klein/ausmal_" + s.img + "_coloring.jpg",
-                          "bilder/" + s.img + "_coloring.jpg",
-                          s.titleGr || "", s.title,
-                          "openColorPrint(" + i + ")");
-  }
-  h += '<p class="section-title">Geschichten</p>'
-     + '<div class="story-grid">' + karten + '</div>';
+  // Die 34 gerechneten Blaetter der Geschichten stehen hier NICHT mehr.
+  // Pavlos am 11.10.: "die alten ausmalbilder sind qualitativ nicht so
+  // gut wie die neuesten ... ich wuerde die alten ausmalbilder
+  // rausnehmen." Sie entstehen in bilder_werkstatt.py aus einem
+  // Sobel-Kantenfilter - lose Sprenkel, ueberall gleich duenne
+  // Haarlinien, Gesichter als schwarze Klumpen, offene Flaechen, aus
+  // denen der Stift laeuft. Siehe claude/ausmalbilder.md.
+  //
+  // Wird eine Geschichte spaeter von ausmalbilder.py neu GEZEICHNET,
+  // landet ihr Blatt in bilder/ausmalheft/ und erscheint von selbst
+  // oben im Heft - hier ist dafuer nichts nachzutragen.
+  // openColorPrint() bleibt deshalb stehen, auch wenn es gerade
+  // niemand aufruft.
 
   // Eine Bildgeschichte wird als Ganzes gedruckt, mit den Luecken in
-  // den Sprechblasen - darum eine Karte je Heft, nicht je Bild.
-  karten = "";
+  // den Sprechblasen - das ist ein Luecken-Arbeitsblatt, kein reines
+  // Ausmalblatt, und darum bleibt es. Eine Karte je Heft.
+  var karten = "", i;
   for (i = 0; i < comics.length; i++) {
     var c = comics[i], erstes = c.szenen[0].img;
     karten += ausmalKarte("bilder/klein/ausmal_" + erstes + "_coloring.jpg",
@@ -2554,19 +2602,6 @@ function renderAusmalen() {
   }
   h += '<p class="section-title">Bildgeschichten</p>'
      + '<div class="story-grid">' + karten + '</div>';
-
-  // Das Alphabet wird gezeichnet, nicht geladen - es gibt dafuer
-  // keine Bilddatei, also auch kein Vorschaubild.
-  h += '<p class="section-title">Buchstaben</p><div class="story-grid">'
-     + '<div class="story-card" onclick="printAlphabetColoring()">'
-     + '<div style="height:120px;display:flex;align-items:center;justify-content:center;'
-     + 'background:#fff;border-bottom:1px solid #eee;font-size:52px;letter-spacing:8px;'
-     + 'font-family:Georgia,serif;color:transparent;-webkit-text-stroke:2px #2c2c2a">'
-     + 'Αα</div>'
-     + '<div style="padding:7px 8px;text-align:center">'
-     + '<div style="font-size:13px;font-weight:bold;color:#2c2c2a">Το αλφάβητο</div>'
-     + '<div style="font-size:11px;color:#1D9E75">Alle 24 Buchstaben zum Nachfahren</div>'
-     + '</div></div></div>';
 
   document.getElementById("ausmalen-area").innerHTML = h;
   heftZeigen();
@@ -2620,7 +2655,9 @@ function heftDrucken(n) {
   }
   if (!e) return;
   var basis = window.location.href.replace(/[^/]*$/, "");
-  ausmalSeite(basis + "bilder/ausmalheft/" + n + ".png", e.gr || "", e.de || n);
+  // true: der Name steht schon im Blatt, siehe ausmalSeite().
+  ausmalSeite(basis + "bilder/ausmalheft/" + n + ".png",
+              e.gr || "", e.de || n, true);
 }
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
@@ -5419,20 +5456,35 @@ function comicDrucken(ci) {
   function fertig() { if(--noch === 0) comicDruckSeite(ci, bilder); }
   for(var si=0;si<c.szenen.length;si++) {
     (function(s) {
-      // 1. Wahl: das fertige Ausmalbild, das es zu den Szenen schon gibt
-      var mal = new Image();
-      mal.onload  = function() { bilder[s.img] = basis+"bilder/"+s.img+"_coloring.jpg"; fertig(); };
-      mal.onerror = function() {
-        // 2. Wahl: das Farbbild selbst umrechnen. Klappt bei einfachen Motiven;
-        // bei sehr detailreichen Szenen gibt abLineArt() null zurück, dann
-        // wird das Farbbild gedruckt (besser als eine schwarze Fläche).
-        var im = new Image();
-        im.onload  = function() { var d = abLineArt(im); bilder[s.img] = d || im.src; fertig(); };
-        im.onerror = function() { bilder[s.img] = ""; fertig(); };
-        im.src = basis + "bilder/" + s.img + ".png";
-      };
-      mal.src = basis + "bilder/" + s.img + "_coloring.jpg";
+      // 1. Wahl: das GEZEICHNETE Blatt aus dem Ausmalheft. Pavlos am
+      // 11.10.: "alle bilder zum ausmalen sollen hier abgelegt und von
+      // hier entnommen werden fuer die haupt app." Zu den Comicszenen
+      // gibt es heute noch keins - sobald ausmalbilder.py eins zeichnet,
+      // nimmt der Druck es von selbst.
+      var heft = new Image();
+      heft.onload  = function() { bilder[s.img] = basis+"bilder/ausmalheft/"+s.img+".png"; fertig(); };
+      heft.onerror = function() { alteWahl(s); };
+      heft.src = basis + "bilder/ausmalheft/" + s.img + ".png";
     })(c.szenen[si]);
+  }
+
+  // 2. und 3. Wahl, solange es zu dieser Szene noch kein gezeichnetes
+  // Blatt gibt. s kommt von oben herein - KEIN si mehr, die Schleife
+  // ist laengst durchgelaufen, wenn das hier aufgerufen wird.
+  function alteWahl(s) {
+    // 2. Wahl: das alte gerechnete Ausmalbild neben dem Farbbild.
+    var mal = new Image();
+    mal.onload  = function() { bilder[s.img] = basis+"bilder/"+s.img+"_coloring.jpg"; fertig(); };
+    mal.onerror = function() {
+      // 3. Wahl: das Farbbild selbst umrechnen. Klappt bei einfachen Motiven;
+      // bei sehr detailreichen Szenen gibt abLineArt() null zurück, dann
+      // wird das Farbbild gedruckt (besser als eine schwarze Fläche).
+      var im = new Image();
+      im.onload  = function() { var d = abLineArt(im); bilder[s.img] = d || im.src; fertig(); };
+      im.onerror = function() { bilder[s.img] = ""; fertig(); };
+      im.src = basis + "bilder/" + s.img + ".png";
+    };
+    mal.src = basis + "bilder/" + s.img + "_coloring.jpg";
   }
 }
 

@@ -1,8 +1,38 @@
 [
  {
+  "n": "aphrodite",
+  "de": "aphrodite",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "apollon",
+  "de": "Apollon",
+  "gr": "Ο Απόλλωνας",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "ares",
+  "de": "ares",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "artemis",
+  "de": "Artemis",
+  "gr": "Η Άρτεμη",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
   "n": "athene",
   "de": "Athene",
   "gr": "Η Αθηνά",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "demeter",
+  "de": "demeter",
+  "gr": "",
   "gruppe": "Helden, Orte und Dinge"
  },
  {
@@ -18,15 +48,69 @@
   "gruppe": "Helden, Orte und Dinge"
  },
  {
+  "n": "hephaistos",
+  "de": "hephaistos",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "hera",
+  "de": "Hera",
+  "gr": "Η Ήρα",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "herakles",
+  "de": "Herakles mit Löwenfell",
+  "gr": "Ο Ηρακλής",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "hermes",
+  "de": "Hermes",
+  "gr": "Ο Ερμής",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "hestia",
+  "de": "hestia",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
   "n": "hippolyte",
   "de": "Hippolyte",
   "gr": "Η Ιππολύτη",
   "gruppe": "Helden, Orte und Dinge"
  },
  {
+  "n": "kalypso",
+  "de": "kalypso",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "kirke",
+  "de": "kirke",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "poseidon",
+  "de": "poseidon",
+  "gr": "",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
   "n": "theben",
   "de": "Theben von außen",
   "gr": "Η Θήβα",
+  "gruppe": "Helden, Orte und Dinge"
+ },
+ {
+  "n": "zeus",
+  "de": "Zeus",
+  "gr": "Ο Δίας",
   "gruppe": "Helden, Orte und Dinge"
  }
 ]
