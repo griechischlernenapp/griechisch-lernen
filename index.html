@@ -1050,7 +1050,6 @@ body.in-uebung .stars-bar{display:none}
     <p class="section-title">Das griechische Alphabet — Buchstabe anklicken für Beispielwörter!</p>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:0.8rem;flex-wrap:wrap">
       <button id="ab-btn" class="ab-print-btn" disabled onclick="abBauen(currentAlpha)">📝 Arbeitsblatt drucken</button>
-      <button onclick="printAlphabetColoring()" style="padding:7px 14px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:12px;cursor:pointer;font-family:Georgia,serif">🎨 Alphabet ausmalen</button>
     </div>
     <div id="alpha-grid"></div>
     <div id="alpha-detail" style="display:none"></div>
@@ -1118,6 +1117,10 @@ body.in-uebung .stars-bar{display:none}
 
   <div class="screen" id="sortieren">
     <div id="sortieren-area"></div>
+  </div>
+
+  <div class="screen" id="ausmalen">
+    <div id="ausmalen-area"></div>
   </div>
 
   <div class="screen" id="progress">
@@ -1512,7 +1515,8 @@ var BEREICHE = [
      ["tonos","Die Betonung","nav-tonos","🎵","Ο τόνος"],
      ["mehrzahl","Einer oder viele","nav-mehrzahl","👫","Ένα ή πολλά;"],
      ["satzbau","Sätze ordnen","nav-satzbau","📝","Στη σειρά"],
-     ["sortieren","Sortieren","nav-sortieren","🧺","Πού πάει;"]]}
+     ["sortieren","Sortieren","nav-sortieren","🧺","Πού πάει;"],
+     ["ausmalen","Ausmalen","nav-ausmalen","🎨","Ζωγραφίζω"]]}
 ];
 // ── Was ist neu ───────────────────────────────────────────
 // Eine Uebung bekommt das Datum, an dem sie dazugekommen ist. Das rote
@@ -1524,6 +1528,7 @@ var BEREICHE = [
 // erbt die Marke automatisch, solange eine seiner Uebungen neu ist.
 var NEU_TAGE = 50;
 var NEU_MARKE = {
+  ausmalen:     "2026-10-11",
   hoerbuch:     "2026-10-10",
   zahlenkreise: "2026-09-27",
   schreiben:    "2026-09-28",
@@ -1759,6 +1764,7 @@ function showScreen(id) {
   if(id==="mehrzahl") startMehrzahl();
   if(id==="satzbau") startSatzbau();
   if(id==="sortieren") startSortieren();
+  if(id==="ausmalen") renderAusmalen();
 }
 
 // ── SVG HELPER ────────────────────────────────────────────
@@ -1903,7 +1909,6 @@ function openStory(idx) {
   html+='<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">';
   html+='<button onclick="openPrint('+idx+',\'de\')" style="padding:7px 12px;background:#1D9E75;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Deutsch</button>';
   html+='<button onclick="openPrint('+idx+',\'gr\')" style="padding:7px 12px;background:#0F6E56;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">📄 Griechisch</button>';
-  html+='<button onclick="openColorPrint('+idx+')" style="padding:7px 12px;background:#E8584A;color:white;border:none;border-radius:12px;font-size:11px;cursor:pointer;font-family:Georgia,serif">🎨 Ausmalen</button>';
   html+='</div>';
   html+='</div>';
   html+='<div class="card">';
@@ -2427,11 +2432,17 @@ function printAlphabetColoring() {
 }
 
 // ── AUSMALBILD DRUCKEN ───────────────────────────────────
+// Eine Geschichte: openColorPrint(i). Ein Blatt aus dem Ausmalheft:
+// heftDrucken(name). Beide legen dieselbe Druckseite an - darum
+// steht sie nur einmal da, in ausmalSeite().
 function openColorPrint(idx) {
   var s = stories[idx];
   var baseUrl = window.location.href.replace(/[^/]*$/, '');
-  var imgSrc = baseUrl + 'bilder/' + s.img + '_coloring.jpg';
+  ausmalSeite(baseUrl + 'bilder/' + s.img + '_coloring.jpg',
+              s.titleGr || s.title, s.title);
+}
 
+function ausmalSeite(imgSrc, titelGr, titelDe) {
   var css = [
     '@page { size: A4 landscape; margin: 0; }',
     'body { margin: 0; padding: 0; width: 297mm; height: 210mm; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:Arial,sans-serif; }',
@@ -2444,14 +2455,14 @@ function openColorPrint(idx) {
 
   var body = '<div style="font-size:11px;color:#aaa;text-align:center;padding:3mm 0 1mm">💡 Tipp: Im Druckdialog → Kopf- und Fußzeilen deaktivieren</div>';
   body += '<div class="color-title">';
-  body += '<div class="gr">' + (s.titleGr||s.title) + '</div>';
-  body += '<div class="de">' + s.title + '</div>';
+  body += '<div class="gr">' + (titelGr || titelDe) + '</div>';
+  body += '<div class="de">' + titelDe + '</div>';
   body += '</div>';
-  body += '<img src="' + imgSrc + '" class="color-img" alt="' + s.title + '">';
+  body += '<img src="' + imgSrc + '" class="color-img" alt="' + titelDe + '">';
   body += '<div class="color-footer">griechischlernenapp.github.io/griechisch-lernen</div>';
 
   var fullHtml = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
-  fullHtml += '<title>Ausmalbild - ' + s.title + '</title>';
+  fullHtml += '<title>Ausmalbild - ' + titelDe + '</title>';
   fullHtml += '<style>' + css + '</style></head><body>';
   fullHtml += body + '</body></html>';
 
@@ -2461,6 +2472,155 @@ function openColorPrint(idx) {
   pw.document.write(fullHtml);
   pw.document.close();
   pw.onload = function(){ pw.focus(); pw.print(); };
+}
+
+// ── AUSMALEN - alle Blaetter an einer Stelle ──────────────
+//
+// Pavlos am 9.10.: "ich will alle ausmalbilder unter eine kachel
+// anbieten und dort wo die aktuell vorhanden sind rausnehmen."
+// Darum stehen die drei alten Knoepfe nicht mehr in ihren
+// Bildschirmen - im Alphabet, in der Geschichte, in der
+// Bildgeschichte. Die Druckfunktionen dahinter sind unveraendert
+// geblieben; sie werden jetzt von hier aufgerufen.
+//
+// Was es gibt, wird nicht aufgezaehlt, sondern gezeigt: das
+// Ausmalblatt selbst ist das Vorschaubild seiner Karte. Fehlt die
+// Datei, nimmt die Karte sich heraus. So muss hier nichts
+// nachgetragen werden, wenn eine Geschichte dazukommt.
+//
+// Geladen wird das KLEINE Bild aus bilder/klein/ - die 51 grossen
+// Ausmalbilder zusammen sind 17 MB, das waere auf dem Handy kein
+// Bildschirm mehr. Fehlt ein kleines, kommt das grosse.
+// Beide macht werkzeug\ausmalheft.py beim Hochladen.
+//
+// Die Blaetter des Ausmalhefts kann die App nicht selbst finden -
+// ein Browser kann keinen Ordner auflisten. Darum liest sie
+// bilder/ausmalheft/index.json. Fehlt die Datei, bleibt der
+// Abschnitt einfach weg und der Rest steht trotzdem da.
+
+var heftIndex = null;
+
+function ausmalErsatz(img, gross) {
+  if (img.getAttribute("data-gross")) {        // auch das grosse fehlt
+    if (img.parentNode) img.parentNode.style.display = "none";
+    return;
+  }
+  img.setAttribute("data-gross", "1");
+  img.src = gross;
+}
+
+function ausmalKarte(klein, gross, gr, de, klick) {
+  return '<div class="story-card" onclick="' + klick + '">'
+       + '<img src="' + klein + '" alt="" loading="lazy" '
+       + 'style="width:100%;height:120px;object-fit:contain;background:#fff;'
+       + 'display:block;border-bottom:1px solid #eee" '
+       + 'onerror="ausmalErsatz(this,\'' + gross + '\')">'
+       + '<div style="padding:7px 8px;text-align:center;flex:1;display:flex;'
+       + 'flex-direction:column;align-items:center;justify-content:center">'
+       + (gr ? '<div style="font-size:13px;font-weight:bold;color:#2c2c2a">' + gr + '</div>' : '')
+       + '<div style="font-size:11px;color:#1D9E75">' + de + '</div>'
+       + '</div></div>';
+}
+
+function renderAusmalen() {
+  var h = '<p class="section-title">Ein Bild antippen - es geht als Druckseite auf. '
+        + 'Tipp: im Druckfenster "Kopf- und Fußzeilen" ausschalten.</p>';
+
+  // Das Ausmalheft kommt nachgeladen - der Platz dafuer steht oben.
+  h += '<div id="ausmal-heft"></div>';
+
+  var karten = "", i;
+
+  for (i = 0; i < stories.length; i++) {
+    var s = stories[i];
+    karten += ausmalKarte("bilder/klein/ausmal_" + s.img + "_coloring.jpg",
+                          "bilder/" + s.img + "_coloring.jpg",
+                          s.titleGr || "", s.title,
+                          "openColorPrint(" + i + ")");
+  }
+  h += '<p class="section-title">Geschichten</p>'
+     + '<div class="story-grid">' + karten + '</div>';
+
+  // Eine Bildgeschichte wird als Ganzes gedruckt, mit den Luecken in
+  // den Sprechblasen - darum eine Karte je Heft, nicht je Bild.
+  karten = "";
+  for (i = 0; i < comics.length; i++) {
+    var c = comics[i], erstes = c.szenen[0].img;
+    karten += ausmalKarte("bilder/klein/ausmal_" + erstes + "_coloring.jpg",
+                          "bilder/" + erstes + "_coloring.jpg",
+                          c.titelGr || "",
+                          c.titel + " · " + c.szenen.length + " Bilder",
+                          "comicDrucken(" + i + ")");
+  }
+  h += '<p class="section-title">Bildgeschichten</p>'
+     + '<div class="story-grid">' + karten + '</div>';
+
+  // Das Alphabet wird gezeichnet, nicht geladen - es gibt dafuer
+  // keine Bilddatei, also auch kein Vorschaubild.
+  h += '<p class="section-title">Buchstaben</p><div class="story-grid">'
+     + '<div class="story-card" onclick="printAlphabetColoring()">'
+     + '<div style="height:120px;display:flex;align-items:center;justify-content:center;'
+     + 'background:#fff;border-bottom:1px solid #eee;font-size:52px;letter-spacing:8px;'
+     + 'font-family:Georgia,serif;color:transparent;-webkit-text-stroke:2px #2c2c2a">'
+     + 'Αα</div>'
+     + '<div style="padding:7px 8px;text-align:center">'
+     + '<div style="font-size:13px;font-weight:bold;color:#2c2c2a">Το αλφάβητο</div>'
+     + '<div style="font-size:11px;color:#1D9E75">Alle 24 Buchstaben zum Nachfahren</div>'
+     + '</div></div></div>';
+
+  document.getElementById("ausmalen-area").innerHTML = h;
+  heftZeigen();
+}
+
+function heftZeigen() {
+  if (heftIndex) { heftMalen(); return; }
+  var r = new XMLHttpRequest();
+  r.open("GET", "bilder/ausmalheft/index.json", true);
+  r.onreadystatechange = function () {
+    if (r.readyState !== 4) return;
+    try { heftIndex = JSON.parse(r.responseText); } catch (e) { heftIndex = []; }
+    if (Object.prototype.toString.call(heftIndex) !== "[object Array]") heftIndex = [];
+    heftMalen();
+  };
+  try { r.send(); } catch (e) { heftIndex = []; heftMalen(); }
+}
+
+function heftMalen() {
+  var ziel = document.getElementById("ausmal-heft");
+  if (!ziel) return;
+  var reihen = [], nach = {}, i, j, e, g;
+  for (i = 0; i < heftIndex.length; i++) {
+    e = heftIndex[i];
+    if (!e || !e.n) continue;
+    g = e.gruppe || "Zum Ausmalen";
+    if (!nach[g]) { nach[g] = []; reihen.push(g); }
+    nach[g].push(e);
+  }
+  var h = "";
+  for (i = 0; i < reihen.length; i++) {
+    g = reihen[i];
+    var karten = "";
+    for (j = 0; j < nach[g].length; j++) {
+      e = nach[g][j];
+      karten += ausmalKarte("bilder/klein/ausmal_" + e.n + ".jpg",
+                            "bilder/ausmalheft/" + e.n + ".png",
+                            e.gr || "", e.de || e.n,
+                            "heftDrucken('" + e.n + "')");
+    }
+    h += '<p class="section-title">' + g + '</p>'
+       + '<div class="story-grid">' + karten + '</div>';
+  }
+  ziel.innerHTML = h;
+}
+
+function heftDrucken(n) {
+  var e = null, i;
+  for (i = 0; heftIndex && i < heftIndex.length; i++) {
+    if (heftIndex[i].n === n) e = heftIndex[i];
+  }
+  if (!e) return;
+  var basis = window.location.href.replace(/[^/]*$/, "");
+  ausmalSeite(basis + "bilder/ausmalheft/" + n + ".png", e.gr || "", e.de || n);
 }
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
@@ -5177,9 +5337,6 @@ function openComic(ci) {
   comicIdx = ci;
   var c = comics[ci], html = "";
 
-  html += '<div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:10px">';
-  html += '<button class="print-btn green" style="padding:7px 14px;font-size:12px" onclick="comicDrucken('+ci+')">📝 Zum Ausmalen drucken</button>';
-  html += '</div>';
   html += '<div style="text-align:center;margin-bottom:12px">';
   html += '<div style="font-size:18px;font-weight:bold;color:#0F6E56">'+c.titelGr+'</div>';
   html += '<div style="font-size:13px;color:#888;font-style:italic">'+c.emoji+' '+c.titel+'</div></div>';

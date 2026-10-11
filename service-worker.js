@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v81';
+var CACHE_NAME = 'griechisch-lernen-v82';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
@@ -114,11 +114,18 @@ self.addEventListener('fetch', function(event) {
   // Liegen sie fest im Speicher, erfaehrt die App von neuen Toenen,
   // neuen Hoerbuechern und neuen Kapiteln nie.
   //
-  // ton/index.json       ordnet jedem Text seine MP3 zu
-  // hoerbuch/index.json  welche Buecher und Kapitel es gibt
-  // hoerbuch/*/text.json die Mitlese-Texte eines Buches
+  // ton/index.json               ordnet jedem Text seine MP3 zu
+  // hoerbuch/index.json          welche Buecher und Kapitel es gibt
+  // hoerbuch/*/text.json         die Mitlese-Texte eines Buches
+  // bilder/ausmalheft/index.json welche Ausmalblaetter es gibt
+  //
+  // Das Ausmalheft liegt unter /bilder/ - ohne die eigene Zeile fiele
+  // sein Verzeichnis unter die Bilderregel gleich darunter und bliebe
+  // fuer immer im Speicher. Ein neues Blatt waere dann hochgeladen,
+  // aber in der App unsichtbar.
   var istVerzeichnis = url.indexOf('/ton/index.json') >= 0
                     || url.indexOf('/hoerbuch/index.json') >= 0
+                    || url.indexOf('/bilder/ausmalheft/index.json') >= 0
                     || /\/hoerbuch\/[^\/]+\/text\.json/.test(url);
 
   if(!istVerzeichnis &&
