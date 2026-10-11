@@ -4,286 +4,573 @@
   "de": "Aphrodite",
   "gr": "Η Αφροδίτη",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.097,
+   0.974,
+   0.903
+  ],
+  "r": 1.415
  },
  {
   "n": "apollon",
   "de": "Apollon",
   "gr": "Ο Απόλλωνας",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.974,
+   0.903
+  ],
+  "r": 1.415
  },
  {
   "n": "ares",
   "de": "Ares",
   "gr": "Ο Άρης",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.974,
+   0.895
+  ],
+  "r": 1.415
  },
  {
   "n": "artemis",
   "de": "Artemis",
   "gr": "Η Άρτεμη",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.023,
+   0.093,
+   0.974,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "athene",
   "de": "Athene",
   "gr": "Η Αθηνά",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.023,
+   0.093,
+   0.974,
+   0.911
+  ],
+  "r": 1.415
  },
  {
   "n": "demeter",
   "de": "Demeter",
   "gr": "Η Δήμητρα",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.974,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "hephaistos",
   "de": "Hephaistos",
   "gr": "Ο Ήφαιστος",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.899
+  ],
+  "r": 1.415
  },
  {
   "n": "hera",
   "de": "Hera",
   "gr": "Η Ήρα",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.974,
+   0.891
+  ],
+  "r": 1.415
  },
  {
   "n": "hermes",
   "de": "Hermes",
   "gr": "Ο Ερμής",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.977,
+   0.915
+  ],
+  "r": 1.415
  },
  {
   "n": "hestia",
   "de": "Hestia",
   "gr": "Η Εστία",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "ino",
   "de": "Ino",
   "gr": "Η Ινώ",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.94
+  ],
+  "r": 1.415
  },
  {
   "n": "kalypso",
   "de": "Kalypso",
   "gr": "Η Καλυψώ",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.94
+  ],
+  "r": 1.415
  },
  {
   "n": "kirke",
   "de": "Kirke",
   "gr": "Η Κίρκη",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "poseidon",
   "de": "Poseidon",
   "gr": "Ο Ποσειδώνας",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.911
+  ],
+  "r": 1.415
  },
  {
   "n": "zeus",
   "de": "Zeus",
   "gr": "Ο Δίας",
   "gruppe": "Götter",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.974,
+   0.899
+  ],
+  "r": 1.415
  },
  {
   "n": "erato",
   "de": "Erato",
   "gr": "Η Ερατώ",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.935
+  ],
+  "r": 1.415
  },
  {
   "n": "euterpe",
   "de": "Euterpe",
   "gr": "Η Ευτέρπη",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "kalliope",
   "de": "Kalliope",
   "gr": "Η Καλλιόπη",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "klio",
   "de": "Klio",
   "gr": "Η Κλειώ",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.923
+  ],
+  "r": 1.415
  },
  {
   "n": "melpomene",
   "de": "Melpomene",
   "gr": "Η Μελπομένη",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "polymnia",
   "de": "Polymnia",
   "gr": "Η Πολύμνια",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.911
+  ],
+  "r": 1.415
  },
  {
   "n": "terpsichore",
   "de": "Terpsichore",
   "gr": "Η Τερψιχόρη",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.94
+  ],
+  "r": 1.415
  },
  {
   "n": "thalia",
   "de": "Thalia",
   "gr": "Η Θάλεια",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.915
+  ],
+  "r": 1.415
  },
  {
   "n": "urania",
   "de": "Urania",
   "gr": "Η Ουρανία",
   "gruppe": "Musen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "amazonen",
   "de": "Die Amazonen",
   "gr": "Οι Αμαζόνες",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.948
+  ],
+  "r": 1.415
  },
  {
   "n": "hesperiden",
   "de": "Die Hesperiden",
   "gr": "Οι Εσπερίδες",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.935
+  ],
+  "r": 1.415
  },
  {
   "n": "mannschaft",
   "de": "Die Mannschaft",
   "gr": "Οι ναύτες",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "herakles",
   "de": "Herakles mit Löwenfell",
   "gr": "Ο Ηρακλής",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
+  ],
+  "r": 1.415
  },
  {
   "n": "hippolyte",
   "de": "Hippolyte",
   "gr": "Η Ιππολύτη",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.097,
+   0.974,
+   0.895
+  ],
+  "r": 1.415
  },
  {
   "n": "nafsika",
   "de": "Nausikaa",
   "gr": "Η Ναυσικά",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.923
+  ],
+  "r": 1.415
  },
  {
   "n": "odysseus",
   "de": "Odysseus",
   "gr": "Ο Οδυσσέας",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.935
+  ],
+  "r": 1.415
  },
  {
   "n": "perseus",
   "de": "Perseus",
   "gr": "Ο Περσέας",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.935
+  ],
+  "r": 1.415
  },
  {
   "n": "theseus",
   "de": "Theseus",
   "gr": "Ο Θησέας",
   "gruppe": "Helden und Menschen",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.931
+  ],
+  "r": 1.415
  },
  {
   "n": "nemeischerloewe",
   "de": "Der Löwe von Nemea",
   "gr": "Το λιοντάρι",
   "gruppe": "Tiere und Ungeheuer",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.026,
+   0.093,
+   0.977,
+   0.899
+  ],
+  "r": 1.415
  },
  {
   "n": "hydra",
   "de": "Die Hydra",
   "gr": "Η Ύδρα",
   "gruppe": "Tiere und Ungeheuer",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.023,
+   0.093,
+   0.974,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "kerberos",
   "de": "Kerberos",
   "gr": "Ο Κέρβερος",
   "gruppe": "Tiere und Ungeheuer",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.903
+  ],
+  "r": 1.415
  },
  {
   "n": "polyphem",
   "de": "Polyphem",
   "gr": "Ο Πολύφημος",
   "gruppe": "Tiere und Ungeheuer",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.968
+  ],
+  "r": 1.415
  },
  {
   "n": "skylla",
   "de": "Skylla",
   "gr": "Η Σκύλλα",
   "gruppe": "Tiere und Ungeheuer",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.931
+  ],
+  "r": 1.415
  },
  {
   "n": "delphi",
   "de": "Das Orakel von Delphi",
   "gr": "Οι Δελφοί",
   "gruppe": "Orte",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.968
+  ],
+  "r": 1.415
  },
  {
   "n": "theben",
   "de": "Theben von außen",
   "gr": "Η Θήβα",
   "gruppe": "Orte",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.023,
+   0.093,
+   0.977,
+   0.919
+  ],
+  "r": 1.415
  },
  {
   "n": "phaiakenschiff",
   "de": "Das Schiff der Phaiaken",
   "gr": "Το καράβι των Φαιάκων",
   "gruppe": "Dinge",
-  "quer": true
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.923
+  ],
+  "r": 1.415
  }
 ]

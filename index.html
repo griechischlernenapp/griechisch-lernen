@@ -2513,17 +2513,65 @@ var AUSMAL_HOEHE = [266, 253];
 // ragt das ungedrehte Kaestchen des Bildes seitlich ueber die Seite
 // hinaus, und Chrome haengt dafuer eine zweite, leere Seite an.
 // Nachgemessen: mit der Zeile eine Seite, ohne sie zwei.
-function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
-  var hoch   = AUSMAL_HOEHE[nameImBild ? 0 : 1];
-  // Ein querliegendes Blatt hat A4-Verhaeltnis 1,414. Gedreht passt
-  // es in ein Kaestchen, das genauso hoch ist und 1,414-mal
-  // schmaler.
-  var breit   = Math.round(hoch / 1.4142);
+//
+// tinte: [x0, y0, x1, y1], wo auf dem Blatt ueberhaupt Striche sind,
+// gemessen von ausmalheft.py und im Verzeichnis mitgeliefert.
+//
+// Pavlos am 11.10., mit einem gelben Kasten um den unteren Streifen
+// im Druckbild: "nimmt dieser bereich nicht zu viel platz weg?"
+// Nachgemessen an kalypso.png: die Zeichnung steht nur von 9,4 % bis
+// 90,6 % der Breite - links und rechts je 9,4 % reines Weiss, und
+// gedreht wird daraus Weiss oben und unten. Dieselben 9,4 % bei
+// demeter, kirke, poseidon, phaiakenschiff; bei hippolyte sind es
+// 23 %.
+//
+// Die Seite zoomt darum auf die TINTE, nicht auf die Dateikante.
+// Geschnitten wird dabei nichts - ausserhalb des Kastens ist kein
+// einziger Strich, und 0,97 laesst noch einen Hauch Luft.
+function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer, tinte, rv) {
+  var hoch    = AUSMAL_HOEHE[nameImBild ? 0 : 1];
+  // Zur Verfuegung steht die ganze Papierbreite minus Rand. Das
+  // Kaestchen hat ABSICHTLICH nicht mehr die A4-Form: es ist nur das
+  // Fenster, durch das man auf die Zeichnung sieht. Haette es
+  // A4-Form, blieben links und rechts 11 mm Papier ungenutzt, und
+  // die Zeichnung muesste dafuer kleiner werden.
+  var breit   = 203;
   var gedreht = (quer !== false);
+  var r       = (rv && rv > 0.2) ? rv : 1.4145;   // Breite/Hoehe der Datei
+
+  // Wie breit die Datei gezeichnet wird (vor der Drehung, in mm).
+  // Nach der Drehung liegt diese Breite SENKRECHT auf dem Papier.
+  //
+  //   senkrecht:  (x1-x0) * W   darf hoch   nicht ueberschreiten
+  //   waagerecht: (y1-y0) * W/r darf breit  nicht ueberschreiten
+  //
+  // Ohne Tintenkasten ist der Kasten das ganze Blatt - dann kommt
+  // genau das heraus, was vorher fest eingetragen war.
+  var fb = 1, fh = 1, cx = 0.5, cy = 0.5;
+  if (tinte && tinte.length === 4
+      && tinte[2] - tinte[0] > 0.2 && tinte[3] - tinte[1] > 0.2) {
+    fb = tinte[2] - tinte[0];
+    fh = tinte[3] - tinte[1];
+    cx = (tinte[0] + tinte[2]) / 2;
+    cy = (tinte[1] + tinte[3]) / 2;
+  }
+  var w = Math.min(hoch / fb, breit * r / fh) * 0.985;   // ein Hauch Luft
+  if (w > hoch * 1.35) w = hoch * 1.35;   // Notbremse: fast leeres Blatt
+  if (w < hoch) w = hoch;
+
+  var dreh = 'translate(-50%,-50%) rotate(90deg) translate('
+           + ((0.5 - cx) * 100).toFixed(2) + '%,'
+           + ((0.5 - cy) * 100).toFixed(2) + '%)';
+
   var css = [
     '@page { size: A4 portrait; margin: 0; }',
-    'html, body { margin:0; padding:0; }',
-    'body { font-family:Arial,sans-serif; text-align:center; }',
+    'html, body { margin:0; padding:0; height:100%; }',
+    // Mittig statt oben. Vorher sammelte sich der ganze Rand unten -
+    // und sobald die Seite auf die Tinte zoomt, faellt oben gar
+    // nichts mehr weg. Dann stuende alles oben und der Rest waere
+    // ein leerer Streifen.
+    'body { font-family:Arial,sans-serif; text-align:center;'
+      + ' display:flex; flex-direction:column; justify-content:center; }',
     // Breite in Prozent, nicht in mm: so wird nichts breiter als die
     // Seite, auch wenn jemand auf Letter statt A4 druckt.
     gedreht
@@ -2532,9 +2580,8 @@ function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
       : '',
     gedreht
       ? '.color-img { position:absolute; top:50%; left:50%;'
-          + ' width:' + hoch + 'mm; height:' + breit + 'mm;'
-          + ' object-fit:contain;'
-          + ' transform: translate(-50%,-50%) rotate(90deg); }'
+          + ' width:' + w.toFixed(1) + 'mm; height:auto;'
+          + ' transform: ' + dreh + '; }'
       : '.color-img { display:block; margin:0 auto; width:auto; height:auto;'
           + ' max-width:97%; max-height:' + hoch + 'mm; }',
     '.color-title { padding: 4mm 0 2mm; }',
@@ -2770,7 +2817,7 @@ function heftDrucken(n) {
   var basis = window.location.href.replace(/[^/]*$/, "");
   // true: der Name steht schon im Blatt, siehe ausmalSeite().
   ausmalSeite(basis + "bilder/ausmalheft/" + n + ".png",
-              e.gr || "", e.de || n, true, e.quer !== false);
+              e.gr || "", e.de || n, true, e.quer !== false, e.t, e.r);
 }
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
