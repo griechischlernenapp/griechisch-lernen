@@ -2443,7 +2443,7 @@ function openColorPrint(idx) {
   // bilder_werkstatt.py - da ist keine Schrift beteiligt. Der Name
   // muss also hier auf die Seite.
   ausmalSeite(baseUrl + 'bilder/' + s.img + '_coloring.jpg',
-              s.titleGr || s.title, s.title, false);
+              s.titleGr || s.title, s.title, false, true);
 }
 
 // nameImBild: steht der Name schon IM Blatt? Bei jedem Blatt des
@@ -2478,12 +2478,28 @@ function openColorPrint(idx) {
 // Das Blatt druckt dadurch etwas kleiner als das Papier. Das ist der
 // Preis dafuer, dass es immer passt - egal, wie das Druckfenster
 // eingestellt ist.
-var AUSMAL_HOCH_OHNE = 176, AUSMAL_HOCH_MIT = 163;   // mm
+// Die Obergrenzen je Papierlage. A4 quer ist 210 mm hoch, A4
+// hochkant 297 - und der Rand, den Chrome fuer Kopf- und Fusszeile
+// freihaelt, ist in beiden Faellen derselbe.
+//
+//   quer:   210 - 25 Rand - 6 Fusszeile (- 13 Titel) = 176 / 163
+//   hoch:   297 - 25 Rand - 6 Fusszeile (- 13 Titel) = 266 / 253
+var AUSMAL_HOEHE = { quer: [176, 163], hoch: [266, 253] };
 
-function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild) {
-  var hoch = nameImBild ? AUSMAL_HOCH_OHNE : AUSMAL_HOCH_MIT;
+// quer: liegt das BLATT quer? Das steht im Verzeichnis und kommt aus
+// der Datei selbst. Pavlos am 11.10.: "bevor die generiert werden
+// stelle ich ein ob quer oder hochkant ... wird dann beim ausdruck
+// diese eigenschaft einbehalten?"
+//
+// Bis dahin nicht: die Druckseite stand fest auf A4 quer, und ein
+// hochkantes Blatt wurde darauf klein gedruckt. Jetzt zieht die
+// Seite das Papier so auf, wie das Blatt gezeichnet wurde.
+function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
+  var lage = (quer === false) ? "hoch" : "quer";
+  var hoch = AUSMAL_HOEHE[lage][nameImBild ? 0 : 1];
   var css = [
-    '@page { size: A4 landscape; margin: 0; }',
+    '@page { size: A4 ' + (lage === "quer" ? "landscape" : "portrait")
+      + '; margin: 0; }',
     'html, body { margin:0; padding:0; }',
     'body { font-family:Arial,sans-serif; text-align:center; }',
     // Breite in Prozent, nicht in mm: so wird nichts breiter als die
@@ -2657,7 +2673,7 @@ function heftDrucken(n) {
   var basis = window.location.href.replace(/[^/]*$/, "");
   // true: der Name steht schon im Blatt, siehe ausmalSeite().
   ausmalSeite(basis + "bilder/ausmalheft/" + n + ".png",
-              e.gr || "", e.de || n, true);
+              e.gr || "", e.de || n, true, e.quer !== false);
 }
 
 // ── DRUCKEN / PDF ────────────────────────────────────────
