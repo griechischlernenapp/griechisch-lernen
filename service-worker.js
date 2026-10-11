@@ -1,6 +1,6 @@
 // Griechisch Lernen — Service Worker
 // Version hochzählen bei jedem Update auf GitHub!
-var CACHE_NAME = 'griechisch-lernen-v79';
+var CACHE_NAME = 'griechisch-lernen-v80';
 
 var STATIC_FILES = [
   '/griechisch-lernen/',
@@ -110,9 +110,18 @@ self.addEventListener('fetch', function(event) {
   // Lautsprecherknopf bleibt aus. Genau das ist mit den Zahlen
   // passiert. Das Verzeichnis geht deshalb den Netz-zuerst-Weg,
   // mit dem Speicher als Rueckfall, wenn kein Netz da ist.
-  var istTonVerzeichnis = url.indexOf('/ton/index.json') >= 0;
+  // Verzeichnisse sind keine Aufnahmen: sie sagen, WAS es gibt.
+  // Liegen sie fest im Speicher, erfaehrt die App von neuen Toenen,
+  // neuen Hoerbuechern und neuen Kapiteln nie.
+  //
+  // ton/index.json       ordnet jedem Text seine MP3 zu
+  // hoerbuch/index.json  welche Buecher und Kapitel es gibt
+  // hoerbuch/*/text.json die Mitlese-Texte eines Buches
+  var istVerzeichnis = url.indexOf('/ton/index.json') >= 0
+                    || url.indexOf('/hoerbuch/index.json') >= 0
+                    || /\/hoerbuch\/[^\/]+\/text\.json/.test(url);
 
-  if(!istTonVerzeichnis &&
+  if(!istVerzeichnis &&
      (url.indexOf('/bilder/') >= 0 || url.indexOf('/ton/') >= 0)) {
     event.respondWith(
       caches.match(event.request).then(function(cached) {
@@ -134,8 +143,26 @@ self.addEventListener('fetch', function(event) {
   }
 
   // HTML & JS: Network first, Cache als Fallback
+  //
+  // "Netz zuerst" allein reicht bei den Verzeichnissen NICHT. GitHub
+  // Pages liefert statische Dateien mit Cache-Control: max-age=600
+  // aus - zehn Minuten lang beantwortet der Browser das fetch() aus
+  // seinem eigenen HTTP-Speicher, ohne den Server zu fragen, und der
+  // Service Worker merkt davon nichts. Am 10.10.2026 sah es deshalb
+  // aus, als waere ein Hochladen nicht angekommen: die Dateien lagen
+  // laengst auf dem Server.
+  //
+  // cache: "no-cache" heisst nicht "nicht speichern", sondern "immer
+  // nachfragen": der Browser schickt die Anfrage mit If-None-Match
+  // los und bekommt meist ein leeres 304 zurueck. Kostet ein paar
+  // Byte, spart das Raetselraten.
+  //
+  // Nur fuer die Verzeichnisse, und nur fuer echte Abfragen - eine
+  // Navigationsanfrage darf man nicht mit eigenem init neu bauen.
+  var frisch = (istVerzeichnis && event.request.mode !== 'navigate')
+             ? { cache: 'no-cache' } : undefined;
   event.respondWith(
-    fetch(event.request).then(function(response) {
+    fetch(event.request, frisch).then(function(response) {
       // Nur erfolgreiche Antworten ablegen. Sonst wandert ein 404 in den
       // Cache und wird spaeter ausgeliefert, obwohl die Datei laengst da ist.
       if(response && response.ok && event.request.method === 'GET') {
