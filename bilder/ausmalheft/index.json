@@ -35,9 +35,16 @@
   "quer": true
  },
  {
+  "n": "delphi",
+  "de": "Das Orakel von Delphi",
+  "gr": "Οι Δελφοί",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "phaiakenschiff",
   "de": "Das Schiff der Phaiaken",
-  "gr": "",
+  "gr": "Το καράβι των Φαιάκων",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
@@ -56,9 +63,30 @@
   "quer": true
  },
  {
+  "n": "amazonen",
+  "de": "Die Amazonen",
+  "gr": "Οι Αμαζόνες",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "hesperiden",
+  "de": "Die Hesperiden",
+  "gr": "Οι Εσπερίδες",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "hydra",
   "de": "Die Hydra",
   "gr": "Η Ύδρα",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "mannschaft",
+  "de": "Die Mannschaft",
+  "gr": "Οι ναύτες",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
@@ -119,6 +147,13 @@
   "quer": true
  },
  {
+  "n": "ino",
+  "de": "Ino",
+  "gr": "Η Ινώ",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "kalliope",
   "de": "Kalliope",
   "gr": "Η Καλλιόπη",
@@ -129,6 +164,13 @@
   "n": "kalypso",
   "de": "Kalypso",
   "gr": "Η Καλυψώ",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "kerberos",
+  "de": "Kerberos",
+  "gr": "Ο Κέρβερος",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
@@ -154,9 +196,23 @@
   "quer": true
  },
  {
+  "n": "nafsika",
+  "de": "Nausikaa",
+  "gr": "Η Ναυσικά",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
   "n": "odysseus",
   "de": "Odysseus",
   "gr": "Ο Οδυσσέας",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "perseus",
+  "de": "Perseus",
+  "gr": "Ο Περσέας",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
@@ -206,6 +262,13 @@
   "n": "theben",
   "de": "Theben von außen",
   "gr": "Η Θήβα",
+  "gruppe": "Helden, Orte und Dinge",
+  "quer": true
+ },
+ {
+  "n": "theseus",
+  "de": "Theseus",
+  "gr": "Ο Θησέας",
   "gruppe": "Helden, Orte und Dinge",
   "quer": true
  },
