@@ -2595,6 +2595,14 @@ function ausmalSeite(imgSrc, titelGr, titelDe, nameImBild, quer) {
 
 var heftIndex = null;
 
+// Welche Gruppe gerade gezeigt wird: "alle", ein Gruppenname aus dem
+// Verzeichnis, oder "@comics" fuer die Bildgeschichten.
+//
+// Pavlos am 11.10., mit 41 Karten in einem einzigen Block im Bild:
+// "wie kann man es hier besser steuern, denn die bilderkacheln sind
+// sehr viele geworden."
+var ausmalGruppe = "alle";
+
 function ausmalErsatz(img, gross) {
   if (img.getAttribute("data-gross")) {        // auch das grosse fehlt
     if (img.parentNode) img.parentNode.style.display = "none";
@@ -2619,6 +2627,11 @@ function ausmalKarte(klein, gross, gr, de, klick) {
 
 function renderAusmalen() {
   var h = '<p class="section-title">Ein Bild antippen - es geht als Druckseite auf.</p>';
+
+  // Die Filterleiste. Was darin steht, wird aus dem Verzeichnis
+  // GEZAEHLT - darum ist sie hier leer und wird in heftMalen()
+  // gefuellt, sobald das Verzeichnis da ist.
+  h += '<div class="cat-filters" id="ausmal-filter"></div>';
 
   // Das Ausmalheft kommt nachgeladen - der Platz dafuer steht oben.
   h += '<div id="ausmal-heft"></div>';
@@ -2649,8 +2662,8 @@ function renderAusmalen() {
                           c.titel + " · " + c.szenen.length + " Bilder",
                           "comicDrucken(" + i + ")");
   }
-  h += '<p class="section-title">Bildgeschichten</p>'
-     + '<div class="story-grid">' + karten + '</div>';
+  h += '<div id="ausmal-comics"><p class="section-title">Bildgeschichten</p>'
+     + '<div class="story-grid">' + karten + '</div></div>';
 
   document.getElementById("ausmalen-area").innerHTML = h;
   heftZeigen();
@@ -2680,9 +2693,23 @@ function heftMalen() {
     if (!nach[g]) { nach[g] = []; reihen.push(g); }
     nach[g].push(e);
   }
+
+  // Die Leiste wird gezaehlt, nicht aufgeschrieben: welche Gruppen es
+  // gibt und wie viele Blaetter darin liegen, steht im Verzeichnis.
+  // Kommt eine Gruppe dazu, kommt ihr Knopf von selbst.
+  ausmalLeiste(reihen, nach);
+
+  var nurComics = (ausmalGruppe === "@comics");
+  var unten = document.getElementById("ausmal-comics");
+  if (unten) {
+    unten.style.display =
+      (ausmalGruppe === "alle" || nurComics) ? "" : "none";
+  }
+
   var h = "";
-  for (i = 0; i < reihen.length; i++) {
+  for (i = 0; !nurComics && i < reihen.length; i++) {
     g = reihen[i];
+    if (ausmalGruppe !== "alle" && g !== ausmalGruppe) continue;
     var karten = "";
     for (j = 0; j < nach[g].length; j++) {
       e = nach[g][j];
@@ -2695,6 +2722,43 @@ function heftMalen() {
        + '<div class="story-grid">' + karten + '</div>';
   }
   ziel.innerHTML = h;
+}
+
+// Die Knoepfe sind dieselben wie im Wortschatz (.cat-filters,
+// .cat-btn) - ein Kind soll nicht zwei Bedienarten lernen muessen.
+function ausmalLeiste(reihen, nach) {
+  var ziel = document.getElementById("ausmal-filter");
+  if (!ziel) return;
+
+  function knopf(wert, text, zahl) {
+    return '<button class="cat-btn' + (ausmalGruppe === wert ? " active" : "")
+         + '" onclick="ausmalWahl(\'' + wert.replace(/'/g, "\\'") + '\')">'
+         + text + ' <small style="opacity:.6">' + zahl + '</small></button>';
+  }
+
+  var ganz = 0, i;
+  for (i = 0; i < reihen.length; i++) ganz += nach[reihen[i]].length;
+  var h = knopf("alle", "Alle", ganz);
+  for (i = 0; i < reihen.length; i++) {
+    h += knopf(reihen[i], reihen[i], nach[reihen[i]].length);
+  }
+  if (typeof comics !== "undefined" && comics && comics.length) {
+    h += knopf("@comics", "Bildgeschichten", comics.length);
+  }
+  ziel.innerHTML = h;
+}
+
+function ausmalWahl(g) {
+  ausmalGruppe = g;
+  heftMalen();
+  // Nach dem Umschalten wieder nach oben - sonst steht man mitten in
+  // einer Liste, die es nicht mehr gibt.
+  //
+  // Nicht scrollIntoView auf die Leiste: die KLEBT oben, und dann
+  // schiebt sie sich genau ueber die erste Ueberschrift. Nachgemessen
+  // am 11.10.: Leiste unten bei 202 px, Ueberschrift "Goetter" bei
+  // 148 px - verdeckt. Ganz nach oben kann das nicht passieren.
+  try { window.scrollTo(0, 0); } catch (e) {}
 }
 
 function heftDrucken(n) {

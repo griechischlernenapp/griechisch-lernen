@@ -3,287 +3,287 @@
   "n": "aphrodite",
   "de": "Aphrodite",
   "gr": "Η Αφροδίτη",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "apollon",
   "de": "Apollon",
   "gr": "Ο Απόλλωνας",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "ares",
   "de": "Ares",
   "gr": "Ο Άρης",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "artemis",
   "de": "Artemis",
   "gr": "Η Άρτεμη",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "athene",
   "de": "Athene",
   "gr": "Η Αθηνά",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "delphi",
-  "de": "Das Orakel von Delphi",
-  "gr": "Οι Δελφοί",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "phaiakenschiff",
-  "de": "Das Schiff der Phaiaken",
-  "gr": "Το καράβι των Φαιάκων",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "demeter",
   "de": "Demeter",
   "gr": "Η Δήμητρα",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "nemeischerloewe",
-  "de": "Der Löwe von Nemea",
-  "gr": "Το λιοντάρι",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "amazonen",
-  "de": "Die Amazonen",
-  "gr": "Οι Αμαζόνες",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "hesperiden",
-  "de": "Die Hesperiden",
-  "gr": "Οι Εσπερίδες",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "hydra",
-  "de": "Die Hydra",
-  "gr": "Η Ύδρα",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "mannschaft",
-  "de": "Die Mannschaft",
-  "gr": "Οι ναύτες",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "erato",
-  "de": "Erato",
-  "gr": "Η Ερατώ",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "euterpe",
-  "de": "Euterpe",
-  "gr": "Η Ευτέρπη",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "hephaistos",
   "de": "Hephaistos",
   "gr": "Ο Ήφαιστος",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "hera",
   "de": "Hera",
   "gr": "Η Ήρα",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "herakles",
-  "de": "Herakles mit Löwenfell",
-  "gr": "Ο Ηρακλής",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "hermes",
   "de": "Hermes",
   "gr": "Ο Ερμής",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "hestia",
   "de": "Hestia",
   "gr": "Η Εστία",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "hippolyte",
-  "de": "Hippolyte",
-  "gr": "Η Ιππολύτη",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "ino",
   "de": "Ino",
   "gr": "Η Ινώ",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "kalliope",
-  "de": "Kalliope",
-  "gr": "Η Καλλιόπη",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "kalypso",
   "de": "Kalypso",
   "gr": "Η Καλυψώ",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "kerberos",
-  "de": "Kerberos",
-  "gr": "Ο Κέρβερος",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "kirke",
   "de": "Kirke",
   "gr": "Η Κίρκη",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "klio",
-  "de": "Klio",
-  "gr": "Η Κλειώ",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "melpomene",
-  "de": "Melpomene",
-  "gr": "Η Μελπομένη",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "nafsika",
-  "de": "Nausikaa",
-  "gr": "Η Ναυσικά",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "odysseus",
-  "de": "Odysseus",
-  "gr": "Ο Οδυσσέας",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "perseus",
-  "de": "Perseus",
-  "gr": "Ο Περσέας",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "polymnia",
-  "de": "Polymnia",
-  "gr": "Η Πολύμνια",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "polyphem",
-  "de": "Polyphem",
-  "gr": "Ο Πολύφημος",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "poseidon",
   "de": "Poseidon",
   "gr": "Ο Ποσειδώνας",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "skylla",
-  "de": "Skylla",
-  "gr": "Η Σκύλλα",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "terpsichore",
-  "de": "Terpsichore",
-  "gr": "Η Τερψιχόρη",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "thalia",
-  "de": "Thalia",
-  "gr": "Η Θάλεια",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "theben",
-  "de": "Theben von außen",
-  "gr": "Η Θήβα",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "theseus",
-  "de": "Theseus",
-  "gr": "Ο Θησέας",
-  "gruppe": "Helden, Orte und Dinge",
-  "quer": true
- },
- {
-  "n": "urania",
-  "de": "Urania",
-  "gr": "Η Ουρανία",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
   "quer": true
  },
  {
   "n": "zeus",
   "de": "Zeus",
   "gr": "Ο Δίας",
-  "gruppe": "Helden, Orte und Dinge",
+  "gruppe": "Götter",
+  "quer": true
+ },
+ {
+  "n": "erato",
+  "de": "Erato",
+  "gr": "Η Ερατώ",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "euterpe",
+  "de": "Euterpe",
+  "gr": "Η Ευτέρπη",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "kalliope",
+  "de": "Kalliope",
+  "gr": "Η Καλλιόπη",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "klio",
+  "de": "Klio",
+  "gr": "Η Κλειώ",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "melpomene",
+  "de": "Melpomene",
+  "gr": "Η Μελπομένη",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "polymnia",
+  "de": "Polymnia",
+  "gr": "Η Πολύμνια",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "terpsichore",
+  "de": "Terpsichore",
+  "gr": "Η Τερψιχόρη",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "thalia",
+  "de": "Thalia",
+  "gr": "Η Θάλεια",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "urania",
+  "de": "Urania",
+  "gr": "Η Ουρανία",
+  "gruppe": "Musen",
+  "quer": true
+ },
+ {
+  "n": "amazonen",
+  "de": "Die Amazonen",
+  "gr": "Οι Αμαζόνες",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "hesperiden",
+  "de": "Die Hesperiden",
+  "gr": "Οι Εσπερίδες",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "mannschaft",
+  "de": "Die Mannschaft",
+  "gr": "Οι ναύτες",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "herakles",
+  "de": "Herakles mit Löwenfell",
+  "gr": "Ο Ηρακλής",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "hippolyte",
+  "de": "Hippolyte",
+  "gr": "Η Ιππολύτη",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "nafsika",
+  "de": "Nausikaa",
+  "gr": "Η Ναυσικά",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "odysseus",
+  "de": "Odysseus",
+  "gr": "Ο Οδυσσέας",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "perseus",
+  "de": "Perseus",
+  "gr": "Ο Περσέας",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "theseus",
+  "de": "Theseus",
+  "gr": "Ο Θησέας",
+  "gruppe": "Helden und Menschen",
+  "quer": true
+ },
+ {
+  "n": "nemeischerloewe",
+  "de": "Der Löwe von Nemea",
+  "gr": "Το λιοντάρι",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true
+ },
+ {
+  "n": "hydra",
+  "de": "Die Hydra",
+  "gr": "Η Ύδρα",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true
+ },
+ {
+  "n": "kerberos",
+  "de": "Kerberos",
+  "gr": "Ο Κέρβερος",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true
+ },
+ {
+  "n": "polyphem",
+  "de": "Polyphem",
+  "gr": "Ο Πολύφημος",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true
+ },
+ {
+  "n": "skylla",
+  "de": "Skylla",
+  "gr": "Η Σκύλλα",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true
+ },
+ {
+  "n": "delphi",
+  "de": "Das Orakel von Delphi",
+  "gr": "Οι Δελφοί",
+  "gruppe": "Orte",
+  "quer": true
+ },
+ {
+  "n": "theben",
+  "de": "Theben von außen",
+  "gr": "Η Θήβα",
+  "gruppe": "Orte",
+  "quer": true
+ },
+ {
+  "n": "phaiakenschiff",
+  "de": "Das Schiff der Phaiaken",
+  "gr": "Το καράβι των Φαιάκων",
+  "gruppe": "Dinge",
   "quer": true
  }
 ]
