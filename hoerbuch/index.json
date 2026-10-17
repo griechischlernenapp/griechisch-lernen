@@ -12,9 +12,9 @@
     "titel": "Das Kind, das keine Angst hatte · Το παιδί που δεν φοβόταν",
     "bild": "her01_12",
     "de": "herakles/kap01_de.mp3",
-    "dekb": 2803,
+    "dekb": 2932,
     "gr": "herakles/kap01_gr.mp3",
-    "grkb": 2253,
+    "grkb": 2303,
     "bilder": [
      {
       "n": "her01_1",
@@ -559,6 +559,12 @@
       "gr": 346.0
      }
     ]
+   },
+   {
+    "nr": 5,
+    "titel": "Der Eber vom Erymanthos · Ο κάπρος του Ερύμανθου",
+    "bild": "her05_19",
+    "kachel": "her05_19"
    }
   ]
  },
