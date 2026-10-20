@@ -5,7 +5,7 @@
   "titelGr": "Οι άθλοι του Ηρακλή",
   "emoji": "🦁",
   "beschreibung": "Zwölf Aufgaben für den stärksten Helden Griechenlands — in vierzehn Kapiteln.",
-  "bild": "her01_10",
+  "bild": "her02_22",
   "kapitel": [
    {
     "nr": 1,
@@ -984,8 +984,8 @@
    {
     "nr": 8,
     "titel": "Der Stier von Kreta · Ο ταύρος της Κρήτης",
-    "bild": "her08_20",
-    "kachel": "her08_20",
+    "bild": "her08_13",
+    "kachel": "her08_13",
     "de": "herakles/kap08_de.mp3",
     "dekb": 2785,
     "gr": "herakles/kap08_gr.mp3",
