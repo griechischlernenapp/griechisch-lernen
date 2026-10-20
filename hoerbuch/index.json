@@ -10,7 +10,7 @@
    {
     "nr": 1,
     "titel": "Das Kind, das keine Angst hatte · Το παιδί που δεν φοβόταν",
-    "bild": "her01_12",
+    "bild": "her01_10",
     "de": "herakles/kap01_de.mp3",
     "dekb": 2932,
     "gr": "herakles/kap01_gr.mp3",
@@ -147,13 +147,13 @@
       "gr": 280.5
      }
     ],
-    "kachel": "her01_12"
+    "kachel": "her01_10"
    },
    {
     "nr": 2,
     "titel": "Der Löwe von Nemea · Το λιοντάρι της Νεμέας",
-    "bild": "her02_22",
-    "kachel": "her02_22",
+    "bild": "her02_9",
+    "kachel": "her02_9",
     "de": "herakles/kap02_de.mp3",
     "dekb": 2438,
     "gr": "herakles/kap02_gr.mp3",
@@ -563,8 +563,8 @@
    {
     "nr": 5,
     "titel": "Der Eber vom Erymanthos · Ο κάπρος του Ερύμανθου",
-    "bild": "her05_12",
-    "kachel": "her05_12",
+    "bild": "her05_14",
+    "kachel": "her05_14",
     "de": "herakles/kap05_de.mp3",
     "dekb": 2996,
     "gr": "herakles/kap05_gr.mp3",
@@ -700,8 +700,8 @@
    {
     "nr": 6,
     "titel": "Die Ställe des Augias · Οι στάβλοι του Αυγεία",
-    "bild": "her06_5",
-    "kachel": "her06_5",
+    "bild": "her06_9",
+    "kachel": "her06_9",
     "de": "herakles/kap06_de.mp3",
     "dekb": 3556,
     "gr": "herakles/kap06_gr.mp3",
@@ -842,8 +842,8 @@
    {
     "nr": 7,
     "titel": "Die Vögel vom See · Τα πουλιά της λίμνης",
-    "bild": "her07_17",
-    "kachel": "her07_17",
+    "bild": "her07_4",
+    "kachel": "her07_4",
     "de": "herakles/kap07_de.mp3",
     "dekb": 2996,
     "gr": "herakles/kap07_gr.mp3",
@@ -984,8 +984,8 @@
    {
     "nr": 8,
     "titel": "Der Stier von Kreta · Ο ταύρος της Κρήτης",
-    "bild": "her08_13",
-    "kachel": "her08_13",
+    "bild": "her08_19",
+    "kachel": "her08_19",
     "de": "herakles/kap08_de.mp3",
     "dekb": 2785,
     "gr": "herakles/kap08_gr.mp3",
