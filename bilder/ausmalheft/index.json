@@ -336,6 +336,34 @@
   "r": 1.415
  },
  {
+  "n": "andromeda",
+  "de": "Andromeda",
+  "gr": "Η Ανδρομέδα",
+  "gruppe": "Helden und Menschen",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.907
+  ],
+  "r": 1.415
+ },
+ {
+  "n": "danae",
+  "de": "Danae",
+  "gr": "Η Δανάη",
+  "gruppe": "Helden und Menschen",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.944
+  ],
+  "r": 1.415
+ },
+ {
   "n": "amazonen",
   "de": "Die Amazonen",
   "gr": "Οι Αμαζόνες",
@@ -346,6 +374,20 @@
    0.044,
    0.906,
    0.948
+  ],
+  "r": 1.415
+ },
+ {
+  "n": "nymphen",
+  "de": "Die drei Nymphen",
+  "gr": "Οι νύμφες",
+  "gruppe": "Helden und Menschen",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
   ],
   "r": 1.415
  },
@@ -462,6 +504,20 @@
   "r": 1.415
  },
  {
+  "n": "ketos",
+  "de": "Das Tier aus dem Wasser",
+  "gr": "Το κήτος",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.964
+  ],
+  "r": 1.415
+ },
+ {
   "n": "nemeischerloewe",
   "de": "Der Löwe von Nemea",
   "gr": "Το λιοντάρι",
@@ -500,6 +556,34 @@
    0.044,
    0.906,
    0.903
+  ],
+  "r": 1.415
+ },
+ {
+  "n": "medusa",
+  "de": "Medusa",
+  "gr": "Η Μέδουσα",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.964
+  ],
+  "r": 1.415
+ },
+ {
+  "n": "pegasus",
+  "de": "Pegasus",
+  "gr": "Ο Πήγασος",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
   ],
   "r": 1.415
  },
