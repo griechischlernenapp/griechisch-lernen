@@ -8,6 +8,7 @@ athene
 danae
 delphi
 demeter
+eber
 erato
 euterpe
 hephaistos
@@ -17,6 +18,7 @@ hermes
 hesperiden
 hestia
 hippolyte
+hirschkuh
 hydra
 ino
 kalliope
@@ -39,6 +41,7 @@ polymnia
 polyphem
 poseidon
 skylla
+stymphalvoegel
 terpsichore
 thalia
 theben

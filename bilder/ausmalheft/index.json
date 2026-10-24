@@ -518,6 +518,20 @@
   "r": 1.415
  },
  {
+  "n": "eber",
+  "de": "Der Eber",
+  "gr": "Ο κάπρος",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.944
+  ],
+  "r": 1.415
+ },
+ {
   "n": "nemeischerloewe",
   "de": "Der Löwe von Nemea",
   "gr": "Το λιοντάρι",
@@ -532,6 +546,20 @@
   "r": 1.415
  },
  {
+  "n": "hirschkuh",
+  "de": "Die Hirschkuh",
+  "gr": "Το ελάφι",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.891
+  ],
+  "r": 1.415
+ },
+ {
   "n": "hydra",
   "de": "Die Hydra",
   "gr": "Η Ύδρα",
@@ -542,6 +570,20 @@
    0.093,
    0.974,
    0.919
+  ],
+  "r": 1.415
+ },
+ {
+  "n": "stymphalvoegel",
+  "de": "Die Vögel vom See",
+  "gr": "Τα πουλιά",
+  "gruppe": "Tiere und Ungeheuer",
+  "quer": true,
+  "t": [
+   0.094,
+   0.044,
+   0.906,
+   0.927
   ],
   "r": 1.415
  },
